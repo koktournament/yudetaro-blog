@@ -1,0 +1,75 @@
+.layout-with-sidebar {
+    display: flex;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    align-items: flex-start;
+}
+
+.layout-with-sidebar > .main {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.site-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-section {
+    margin-bottom: 30px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--entry);
+}
+
+.sidebar-heading {
+    font-size: 16px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.sidebar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-list li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.sidebar-list a {
+    color: var(--content);
+    text-decoration: none;
+}
+
+.sidebar-list a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.sidebar-count {
+    color: var(--secondary);
+    font-size: 12px;
+}
+
+/* 画面が狭い場合はサイドバーを下に回す(スマホ対応) */
+@media (max-width: 900px) {
+    .layout-with-sidebar {
+        flex-direction: column;
+    }
+    .site-sidebar {
+        width: 100%;
+        position: static;
+    }
+}

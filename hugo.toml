@@ -1,0 +1,10 @@
+baseURL = 'https://yudetaro.com/'
+locale = 'ja'
+title = 'yudetaro.com'
+theme = 'PaperMod'
+[params]
+  disableSpecial1stPost = true
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

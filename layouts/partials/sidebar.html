@@ -1,0 +1,26 @@
+<aside class="site-sidebar">
+
+  <div class="sidebar-section">
+    <h3 class="sidebar-heading">最新記事</h3>
+    <ul class="sidebar-list">
+      {{- range first 8 (where site.RegularPages "Type" "entry") }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+
+  {{- with site.Taxonomies.categories }}
+  <div class="sidebar-section">
+    <h3 class="sidebar-heading">カテゴリー</h3>
+    <ul class="sidebar-list">
+      {{- range $name, $weightedPages := . }}
+      <li>
+        <a href="/categories/{{ $name | urlize }}/">{{ $name }}</a>
+        <span class="sidebar-count">({{ len $weightedPages }})</span>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+
+</aside>
