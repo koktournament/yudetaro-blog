@@ -1,0 +1,64 @@
+'use strict';
+const {Battle,curve,W,H}=BoomerangBattle,game=new Battle(),canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const ui=id=>document.getElementById(id),keys=new Set(),effects=[];let last=performance.now(),audio=null,notice='',noticeUntil=0,adMuted=false;
+const music=new SceneMusic(ui('bgm'));music.setScene('title');
+const touch=BattleTouch.installTouch(ui('arena'),ui('stick-zone'),ui('attack'),()=>{unlock();game.throw();});
+function clearInputs(){keys.clear();touch.reset();}
+ui('pause-game').onclick=()=>pause();
+function sound(type){if(adMuted||!ui('sound').checked||!audio)return;const metallic=type==='shield';const notes=metallic?[920,1570,2360]:type==='hit'?[180,330,660]:type==='damage'?[90,65]:type==='pickup'||type==='catch'?[600,880]:type==='clear'?[440,550,660,880]:type==='throw'?[340,210]:type==='shoot'?[150]:[];notes.forEach((f,i)=>{const osc=audio.createOscillator(),gain=audio.createGain(),t=audio.currentTime+i*(metallic?.008:.035);osc.type=metallic?'triangle':type==='hit'?'sine':'triangle';osc.frequency.setValueAtTime(f,t);osc.frequency.exponentialRampToValueAtTime(f*(metallic?.8:.65),t+.18);gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(metallic?.13:.1,t+.005);gain.gain.exponentialRampToValueAtTime(.0001,t+.23);osc.connect(gain);gain.connect(audio.destination);osc.start(t);osc.stop(t+.25);});}
+function unlock(){music.unlock();try{audio??=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();}catch{}}
+function overlay(label,title,copy,button){ui('revive').hidden=game.state!=='over';ui('ad-notice').hidden=game.state!=='over';ui('revive').disabled=!AD_SETTINGS.enabled||game.reviveUsed;ui('revive').textContent=game.reviveUsed?'このバトルの復活は使用済み':AD_SETTINGS.enabled?'復活広告を確認':'復活広告は準備中';ui('ad-notice').textContent=game.reviveUsed?'':AD_SETTINGS.enabled?'最後まで視聴するとHP50で復活（1回のみ）':'広告を使わず、そのまま再挑戦できます。';ui('overlay').hidden=false;ui('overlay-label').textContent=label;ui('overlay-title').textContent=title;ui('overlay-copy').textContent=copy;ui('start').textContent=button;}
+function pause(){if(game.state==='playing'){game.state='paused';clearInputs();overlay('PAUSED','ひと休み。','続けると同じ位置から再開します。','バトルに戻る');}else if(game.state==='paused'){game.state='playing';ui('overlay').hidden=true;canvas.focus({preventScroll:true});}}
+function beginBattle(){music.setScene('battle');game.start();walkPhase=throwUntil=deathTime=0;moving=false;effects.length=0;notice='';clearInputs();ui('arena').dataset.mode='battle';ui('overlay').hidden=true;canvas.focus({preventScroll:true});}
+ui('start').onclick=()=>{unlock();if(game.state==='paused')pause();else beginBattle();};
+ui('pause').onclick=pause;window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)&&e.target===canvas)e.preventDefault();if(intro.active&&(e.code==='Space'||e.code==='Enter')&&e.target===canvas){e.preventDefault();if(!e.repeat)intro.advance();return;}if(e.code==='Escape'){e.preventDefault();pause();}if(e.target===canvas)keys.add(e.code);});window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{clearInputs();if(game.state==='playing')pause();});document.addEventListener('visibilitychange',()=>{music.suspend(document.hidden||adMuted||game.state==='paused');if(document.hidden&&game.state==='playing')pause();});canvas.addEventListener('blur',()=>keys.clear());canvas.addEventListener('pointerdown',e=>{if(e.button!==0||e.pointerType!=='mouse')return;unlock();canvas.focus({preventScroll:true});game.throw();});
+function circle(x,y,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
+function line(points,color,width=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
+function label(text,x,y,color,size=14){ctx.textAlign='center';ctx.font=`600 ${size}px "Yu Gothic UI",sans-serif`;ctx.fillStyle=color;ctx.fillText(text,x,y);}
+let walkPhase=0,throwUntil=0,deathTime=0,moving=false;
+function boomer(x,y,angle,alpha=1){ShuSprites.boomer(ctx,x,y,angle,alpha);}
+function paintBoss(x,y,shieldFlash=0,b={x,y,shieldFlash,flash:0,phase:'idle'}){circle(x,y+28,39,'#0004');ShuSprites.drawGuard(ctx,x,y,Math.max(shieldFlash,b.flash));if(b.phase==='windup'){ctx.strokeStyle='#efad81';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,58,0,Math.PI*2);ctx.stroke();label('発射準備',x,y-68,'#ffc08a',14);}if(shieldFlash>0){ctx.fillStyle='#fff5';ctx.fillRect(x-25,y+4,50,42);}}
+function render(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#111d2c';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#203044';ctx.lineWidth=1;for(let x=30;x<W;x+=50){ctx.beginPath();ctx.moveTo(x,24);ctx.lineTo(x,H-24);ctx.stroke();}for(let y=24;y<H;y+=50){ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(W-30,y);ctx.stroke();}ctx.strokeStyle='#41516a';ctx.strokeRect(30,24,W-60,H-48);label('SHIELD / FRONT',W/2,48,'#526980',12);
+ if(intro.active){intro.render(ctx);return;}
+ const p=game.player,b=game.boss,w=game.weapon;
+ if(ui('guide').checked&&w.state==='held'){const origin={x:p.x,y:p.y-21},points=[];for(let i=0;i<=50;i++)points.push(curve(origin,i/50));ctx.setLineDash([4,9]);line(points,'#b79b5d77',1.5);line([points.at(-1),{x:p.x,y:p.y}],'#b79b5d33',1.5);ctx.setLineDash([]);const tip=curve(origin,.53);label('右へ回り込む',tip.x,tip.y-13,'#b4a16f',12);}
+ if(w.state==='ground'){const blocked=game.blocked();circle(w.x,w.y,25+Math.sin(game.time*5)*3,blocked?'#e2916b18':'#ffd17b18');ctx.setLineDash([4,4]);ctx.strokeStyle=blocked?'#a46c53':'#eac275';ctx.beginPath();ctx.arc(w.x,w.y,24,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);boomer(w.x,w.y,w.angle??-.4);label(blocked?'ボスが離れるまで待とう':'触れて回収',w.x,w.y+43,blocked?'#efaa88':'#f5d185',13);}
+ paintBoss(b.x,b.y,b.shieldFlash,b);
+ circle(p.x,p.y+15,21,'#0004');
+ let pose='idle',poseFrame=Math.floor(game.time*2)%2;
+ if(game.state==='over'){pose='down';poseFrame=Math.min(3,Math.floor(deathTime*9));}
+ else if(p.inv>.78){pose='hurt';poseFrame=Math.floor(game.time*12)%2;}
+ else if(game.time<throwUntil){pose='throw';poseFrame=0;}
+ else if(moving){pose='run';poseFrame=Math.floor(walkPhase)%6;}
+ const spriteAlpha=p.inv>0&&Math.floor(game.time*18)%2===0?.35:1;
+ ShuSprites.draw(ctx,pose,poseFrame,p.x,p.y,spriteAlpha);
+ if(w.state==='held'&&pose!=='down')ShuSprites.boomer(ctx,p.x+3,p.y-7,-.15,spriteAlpha,34);
+ if(['out','returning','falling'].includes(w.state)){if(ui('guide').checked&&w.trail.length>1)line(w.trail,'#f6c87766',3);if(w.state==='falling')circle(w.x,w.y,Math.max(5,12-(w.z||0)*.08),'#0005');boomer(w.x,w.y-(w.z||0),w.state==='falling'?w.angle:game.time*22);}
+ for(const q of game.bullets){circle(q.x,q.y,12,'#f09b7222');circle(q.x,q.y,7,'#ed927b');circle(q.x-1,q.y-2,3,'#ffe3be');}
+ for(const e of effects){const age=performance.now()/1000-e.at;ctx.save();ctx.globalAlpha=Math.max(0,1-age/.85);label(e.text,e.x,e.y-age*34,e.color,19);ctx.restore();}while(effects.length&&performance.now()/1000-effects[0].at>.85)effects.shift();
+}
+function updateUI(){music.suspend(document.hidden||adMuted||['paused','over','clear'].includes(game.state));const available=game.state==='playing'&&game.weapon.state==='held';ui('attack').setAttribute('aria-disabled',String(!available));ui('attack').textContent=available?'投げる':game.weapon.state==='ground'?'回収待ち':'待機';ui('player-hp').textContent=`${game.player.hp} / 100`;ui('boss-hp').textContent=`${game.boss.hp} / 100`;ui('player-meter').value=game.player.hp;ui('boss-meter').value=game.boss.hp;ui('weapon').textContent={held:'◆ ブーメラン所持',out:'◌ 投てき中',returning:'↩ 戻ってくる',falling:'◇ 弾かれて飛行中',ground:'◇ ブーメラン回収待ち'}[game.weapon.state];ui('pause').textContent=game.state==='paused'?'再開':'一時停止';ui('message').textContent=performance.now()<noticeUntil?notice:game.weapon.state==='ground'?(game.blocked()?'ボスが重なっています。離れるのを待って回収。':'落ちたブーメランに触れて回収しよう。'):game.weapon.state==='held'?'少し左に位置を取ると、右へ回り込みやすい。':'移動しながら、軌道とボスの位置を見よう。';}
+function events(){for(const e of game.events){sound(e.type);if(e.type==='throw')throwUntil=game.time+.2;if(e.type==='over')deathTime=0;const map={shield:['カキン！','#c7eaff','正面の盾に防がれた！ ダメージ 0。'],hit:['HIT −10','#ffd58a','本体に命中！ 落ちたブーメランを回収しよう。'],pickup:['回収！','#8de4c9','ブーメランを回収。再び投げられます。'],catch:['CATCH','#8de4c9','外したブーメランが戻ってきました。'],damage:['−20','#f5a08e','被弾！ 弾の進路から横へ移動しよう。']};if(map[e.type]){const [text,color,msg]=map[e.type];effects.push({...e,text,color,at:performance.now()/1000});notice=msg;noticeUntil=performance.now()+1800;}if(e.type==='clear')overlay('STAGE COMPLETE','CLEAR','10回の本体命中！ 盾を越え、ブーメランを使いこなした。','もう一度遊ぶ');if(e.type==='over')overlay('TRY AGAIN','GAME OVER','弾を横に避けて、回収のタイミングを見つけよう。','再挑戦');}game.events.length=0;}
+function frame(now){const dt=(now-last)/1000;last=now;const kx=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),ky=Number(keys.has('KeyS')||keys.has('ArrowDown'))-Number(keys.has('KeyW')||keys.has('ArrowUp'));const previous={x:game.player.x,y:game.player.y};if(intro.active)intro.tick(dt);else game.update(dt,{x:kx||touch.state.x,y:ky||touch.state.y});const travelled=Math.hypot(game.player.x-previous.x,game.player.y-previous.y);moving=game.state==='playing'&&travelled>.01;if(moving)walkPhase+=travelled/26;if(game.state==='over')deathTime+=Math.min(dt,.1);events();render();updateUI();requestAnimationFrame(frame);}requestAnimationFrame(frame);
+if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'read_battle_state',description:'現在のHP、武器状態、命中回数とバトル状態を確認する。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute(input){if(input&&Object.keys(input).length)throw new Error('引数は不要です。');return game.snapshot();}})).catch(()=>{});}catch{}}
+
+
+function orientationGuard(){clearInputs();if(matchMedia('(any-pointer: coarse) and (orientation: portrait)').matches&&game.state==='playing')pause();}
+window.addEventListener('resize',orientationGuard);
+
+
+const intro=StageIntro.create({sound,finish:beginBattle,paintBoss});
+ui('menu-options').appendChild(document.querySelector('.options'));
+function showTitle(){music.setScene('title');clearInputs();game.reset();ui('arena').dataset.mode='title';ui('title-screen').hidden=false;ui('stage-screen').hidden=true;ui('overlay').hidden=true;ui('title-start').focus({preventScroll:true});}
+ui('title-start').onclick=()=>{unlock();ui('title-screen').hidden=true;ui('stage-screen').hidden=false;ui('arena').dataset.mode='select';ui('stage-one').focus({preventScroll:true});};
+ui('back-title').onclick=showTitle;ui('return-title').onclick=showTitle;
+ui('stage-one').onclick=()=>{unlock();clearInputs();game.reset();game.state='intro';music.setScene('story');ui('stage-screen').hidden=true;ui('arena').dataset.mode='intro';intro.start();canvas.focus({preventScroll:true});};
+Promise.all([ShuSprites.ready,StoryArt.ready,ui('title-art').decode()]).then(()=>{ui('title-start').disabled=false;ui('loading').hidden=true;}).catch(()=>{ui('loading').textContent='画像を読み込めませんでした。再読み込みしてください。';});
+
+const adProvider=RewardAds.install(AD_SETTINGS);
+function adControls(lock){ui('start').disabled=lock;ui('return-title').disabled=lock;}
+const rewardSession=new RewardAds.RewardSession({request:o=>adProvider.request(o),onReady(){ui('revive').disabled=false;ui('revive').textContent='広告を見てHP50で復活';ui('ad-notice').textContent='視聴完了で1回だけ復活します。';},onPlaying(){adMuted=true;music.suspend(true);clearInputs();ui('revive').disabled=true;ui('ad-notice').textContent='広告の終了を待っています…';},onDone(viewed,status){adMuted=false;adControls(false);ui('revive').disabled=false;if(viewed&&game.revive()){clearInputs();deathTime=0;overlay('REVIVED','HP50で復活！','ボスへのダメージはそのまま。準備ができたら再開。','バトルに戻る');}else{ui('revive').textContent='復活広告を確認';ui('ad-notice').textContent=status==='dismissed'?'視聴が完了していないため、復活しませんでした。':'現在、広告を利用できません。再挑戦は可能です。';}}});
+ui('revive').onclick=()=>{if(game.state!=='over'||game.reviveUsed||!AD_SETTINGS.enabled)return;if(rewardSession.show){rewardSession.play();return;}if(rewardSession.active)return;adControls(true);ui('revive').disabled=true;ui('ad-notice').textContent='広告を確認中…';rewardSession.begin();};
+
+ui('music-enabled').onchange=()=>{music.enable(ui('music-enabled').checked);if(music.enabled)music.unlock();ui('title-music').textContent=music.enabled?'♫ BGMを止める':'♫ BGMを再生';};
+ui('title-music').onclick=()=>{if(!music.unlocked||!music.enabled){music.enable(true);music.unlock();}else music.enable(false);ui('music-enabled').checked=music.enabled;ui('title-music').textContent=music.enabled?'♫ BGMを止める':'♫ BGMを再生';};
