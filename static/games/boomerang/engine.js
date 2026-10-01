@@ -5,10 +5,10 @@ const W=1280,H=720,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 function curve(origin,t){const u=1-t;return {x:clamp(origin.x+3*u*t*t*280+t*t*t*300,14,W-14),y:clamp(origin.y-3*u*u*t*280-3*u*t*t*400-t*t*t*150,14,H-14)};}
 class Battle{
- constructor(){this.reset();}
- reset(){this.player={x:515,y:555,hp:100,inv:0};this.boss={x:640,y:222,hp:100,dir:1,phase:'move',timer:2.4,flash:0,shieldFlash:0};this.weapon={state:'held',x:515,y:555,t:0,trail:[]};this.bullets=[];this.events=[];this.time=0;this.state='ready';this.reviveUsed=false;this.stats={throws:0,hits:0,blocks:0};}
+ constructor(stage=1){this.reset(stage);}
+ reset(stage=this.stage||1){this.stage=stage===2?2:1;this.maxBossHP=this.stage===2?80:100;this.player={x:515,y:555,hp:100,inv:0};this.boss={x:640,y:222,hp:this.maxBossHP,dir:1,phase:'move',timer:2.4,flash:0,shieldFlash:0};this.weapon={state:'held',x:515,y:555,t:0,trail:[]};this.bullets=[];this.events=[];this.time=0;this.state='ready';this.reviveUsed=false;this.stats={throws:0,hits:0,blocks:0};}
  emit(type,x,y){this.events.push({type,x,y});}
- start(){this.reset();this.state='playing';}
+ start(stage=this.stage){this.reset(stage);this.state='playing';}
  revive(){if(this.state!=='over'||this.reviveUsed)return false;this.reviveUsed=true;this.player.hp=50;this.player.inv=2;this.bullets=[];this.events=[];this.state='paused';return true;}
  throw(){if(this.state!=='playing'||this.weapon.state!=='held')return false;const p=this.player;this.weapon={state:'out',x:p.x,y:p.y-21,origin:{x:p.x,y:p.y-21},t:0,trail:[]};this.stats.throws++;this.emit('throw',p.x,p.y);return true;}
  blocked(){return distance(this.weapon,this.boss)<55;}
@@ -23,12 +23,12 @@ class Battle{
  update(dt,input={}){if(this.state==='clear'){this.rebound(Math.min(dt,.1));return;}if(this.state!=='playing')return;for(let remain=Math.min(dt,.1);remain>0;){const step=Math.min(remain,1/120);this.step(step,input);remain-=step;if(this.state!=='playing')break;}}
  step(dt,input){this.time+=dt;const p=this.player,b=this.boss,w=this.weapon;p.inv=Math.max(0,p.inv-dt);b.flash=Math.max(0,b.flash-dt);b.shieldFlash=Math.max(0,b.shieldFlash-dt);
  let mx=input.x??((input.right?1:0)-(input.left?1:0)),my=input.y??((input.down?1:0)-(input.up?1:0)),n=Math.max(1,Math.hypot(mx,my));p.x=clamp(p.x+mx/n*235*dt,20,W-20);p.y=clamp(p.y+my/n*235*dt,22,H-25);
- b.timer-=dt;if(b.phase==='move'){b.x+=b.dir*73*dt;if(b.x>930){b.x=930;b.dir=-1;}if(b.x<350){b.x=350;b.dir=1;}if(b.timer<=0){b.phase='windup';b.timer=.8;this.emit('windup',b.x,b.y);}}else if(b.phase==='windup'&&b.timer<=0){const angle=Math.atan2(p.y-(b.y+41),p.x-b.x);for(const offset of [-.17,0,.17]){this.bullets.push({x:b.x,y:b.y+41,vx:Math.cos(angle+offset)*155,vy:Math.sin(angle+offset)*155});}b.phase='recover';b.timer=.42;this.emit('shoot',b.x,b.y+41);}else if(b.phase==='recover'&&b.timer<=0){b.phase='move';b.timer=2.4;}
+ b.timer-=dt;if(b.phase==='move'||this.stage===2){b.x+=b.dir*(this.stage===2?102:73)*dt;if(b.x>930){b.x=930;b.dir=-1;}if(b.x<350){b.x=350;b.dir=1;}}if(b.phase==='move'){if(b.timer<=0){b.phase='windup';b.timer=.8;this.emit('windup',b.x,b.y);}}else if(b.phase==='windup'&&b.timer<=0){const angle=this.stage===2?Math.PI/2:Math.atan2(p.y-(b.y+41),p.x-b.x);for(const offset of (this.stage===2?[-.30,0,.30]:[-.17,0,.17])){this.bullets.push({x:b.x,y:b.y+41,vx:Math.cos(angle+offset)*155,vy:Math.sin(angle+offset)*155});}b.phase='recover';b.timer=.42;this.emit('shoot',b.x,b.y+41);}else if(b.phase==='recover'&&b.timer<=0){b.phase='move';b.timer=this.stage===2?1.85:2.4;}
  const sep=distance(p,b);if(sep<60){const nx=sep>0?(p.x-b.x)/sep:0,ny=sep>0?(p.y-b.y)/sep:1;p.x=b.x+nx*60;p.y=b.y+ny*60;}
  if(w.state==='held'){w.x=p.x;w.y=p.y-21;}else if(w.state==='out'||w.state==='returning'){w.t+=dt;if(w.state==='out'){Object.assign(w,curve(w.origin,Math.min(w.t/1.2,1)));if(w.t>=1.2){w.state='returning';w.t=0;}}else{const d=distance(w,p),speed=540;if(d<speed*dt+17){w.state='held';w.trail=[];this.emit('catch',p.x,p.y);}else{w.x+=(p.x-w.x)/d*speed*dt;w.y+=(p.y-w.y)/d*speed*dt;}}if(w.state!=='held'){w.trail.push({x:w.x,y:w.y});if(w.trail.length>32)w.trail.shift();if(distance(w,b)<49)this.hitBoss();}}else if(w.state==='falling'){this.rebound(dt);}else if(w.state==='ground'&&!this.blocked()&&distance(w,p)<30){w.state='held';this.emit('pickup',p.x,p.y);}
  this.bullets=this.bullets.filter(q=>{q.x+=q.vx*dt;q.y+=q.vy*dt;if(distance(q,p)<21){if(p.inv<=0){p.hp=Math.max(0,p.hp-20);p.inv=1.1;this.emit('damage',p.x,p.y);if(p.hp===0){this.state='over';this.emit('over',p.x,p.y);}}return false;}return q.x>-20&&q.x<W+20&&q.y>-20&&q.y<H+20;});
  }
- snapshot(){return {state:this.state,playerHP:this.player.hp,bossHP:this.boss.hp,weapon:this.weapon.state,blocked:this.weapon.state==='ground'&&this.blocked(),...this.stats};}
+ snapshot(){return {stage:this.stage,bossMaxHP:this.maxBossHP,state:this.state,playerHP:this.player.hp,bossHP:this.boss.hp,weapon:this.weapon.state,blocked:this.weapon.state==='ground'&&this.blocked(),...this.stats};}
 }
 root.BoomerangBattle={Battle,curve,W,H};if(typeof module!=='undefined')module.exports=root.BoomerangBattle;
 })(typeof window!=='undefined'?window:globalThis);
