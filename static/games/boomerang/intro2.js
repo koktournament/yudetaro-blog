@@ -12,7 +12,7 @@ const script=[
  {action:'kick',duration:1.25},
  {speaker:B,text:'防御さえ強くあれば――'},
  {speaker:B,text:'誰にも負けぬのだ！！',face:'smug'},
- {speaker:S,text:'（……でも、やっぱり後ろの防御は甘いな）',face:'idea'},
+ {speaker:S,text:'（……でも、やっぱり後ろの防御は甘いな）',face:'idea',cut:'back'},
  {speaker:S,text:'おいらのブーメランなら、お前にも負けないよ！',face:'grin'},
  {speaker:B,text:'奇怪な武器を使いおって……！',face:'angry'},
  {speaker:B,text:'そのようなもの――'},
@@ -38,6 +38,7 @@ function create({sound,finish}){
   const j=c.action==='slam'&&t<.3?Math.sin(t*55)*7:0;
   StoryArt.drawBuckler(ctx,bx+j,by,'idle');
   ShuSprites.draw(ctx,c.action==='battle'?'idle':'front',0,470,398);
+  if(c.cut==='back')StoryArt.showBucklerBack(ctx);
   if(c.action==='battle'){ctx.fillStyle='#07111bdd';ctx.fillRect(0,265,1280,140);text(ctx,'BATTLE START!',640,355,60);}
  }};
 }
