@@ -58,3 +58,11 @@ Final prompt: Create a game-ready transparent PNG sprite sheet from the supplied
 - warden-sprites.png: built-in imagegen transparent five-cell sheet. Source: `C:/Users/user/.codex/generated_images/01a0e830-1bbe-78a2-92ea-766484a39d42/exec-70d88811-07ba-4c6f-9c0a-ab3dca49eb95.png`. Cells are Warden idle, cast, hit, staff, and a floating shield panel.
 
 Final prompt: Use the supplied Warden court magician reference only to preserve character and prop identity. Create one wide transparent PNG with exactly 5 equal square cells in a single horizontal row. Cell 1: Warden, a hooded blue-and-gold imperial mage, full body, top-down action-game view, neutral floating pose. Cell 2: the same Warden casting, hands raised. Cell 3: the same Warden hit reaction. Cell 4: one tall blue glowing magical staff planted in the ground, full prop. Cell 5: one blue-and-gold floating shield panel, full prop. 16-bit pixel art with crisp readable outlines, consistent scale, all objects centered within their own cell, ample transparent padding, no floor, no characters besides Warden, no text, panels, effects, shadows, watermark, or background. Preserve actual alpha transparency.
+
+## Dialogue cut-outs · 2026-10-02
+- targe-front-cutout.png: built-in imagegen transparent extraction from targe-reference.png. Used only for Targe's full-body front cut-in during the Stage 3 weakness line.
+- warden-portrait.png: built-in imagegen transparent extraction from warden-reference.png. Used for Warden's Stage 4 dialogue portrait.
+
+Targe prompt: Extract only the large full-body front-view Targe captain from the supplied reference. Preserve the entire dark-armoured captain, horned helmet, red scarf, and L-shaped shield. Remove all labels, panels, background, other views, and floor. Genuine transparent PNG.
+
+Warden prompt: Extract only the front-view Warden court magician from the supplied reference. Make a clean head-and-upper-body dialogue portrait with the hood, glowing eyes, blue-and-gold robe, and visible hands. Remove all labels, panels, background, other views, shields, diagrams, and floor. Genuine transparent PNG.
