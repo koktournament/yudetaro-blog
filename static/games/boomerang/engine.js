@@ -27,8 +27,8 @@ class Battle{
  damagePlayer(type,x,y,amount=20){const p=this.player;if(p.inv>0)return;p.hp=Math.max(0,p.hp-amount);p.inv=1.1;this.emit(type,x,y);if(p.hp===0){this.state='over';this.emit('over',x,y);}}
  updateRampart(dt){const b=this.boss,p=this.player;b.timer-=dt;if(b.phase==='move'){b.x+=b.dir*122*dt;if(b.x>930){b.x=930;b.dir=-1;}if(b.x<350){b.x=350;b.dir=1;}if(b.timer<=0){this.fireRampart();b.shots++;if(b.shots>=3){b.phase='transform';b.timer=.84;b.home={x:b.x,y:b.y};const len=Math.hypot(p.x-b.x,p.y-b.y)||1;b.dashX=(p.x-b.x)/len;b.dashY=(p.y-b.y)/len;this.emit('transform',b.x,b.y);}else b.timer=1.22;}}
  else if(b.phase==='transform'){if(b.timer<=0){b.phase='charge';b.timer=.46;}}
- else if(b.phase==='charge'){if(b.timer<=0){b.phase='dash';b.timer=.72;this.emit('dash',b.x,b.y);}}
- else if(b.phase==='dash'){b.x=clamp(b.x+b.dashX*515*dt,42,W-42);b.y=clamp(b.y+b.dashY*515*dt,70,H-42);if(b.timer<=0){b.phase='return';b.timer=0;}}
+ else if(b.phase==='charge'){if(b.timer<=0){b.phase='dash';b.timer=.68;this.emit('dash',b.x,b.y);}}
+ else if(b.phase==='dash'){b.x=clamp(b.x+b.dashX*760*dt,42,W-42);b.y=clamp(b.y+b.dashY*760*dt,70,H-42);if(b.timer<=0){b.phase='return';b.timer=0;}}
  else if(b.phase==='return'){const dx=b.home.x-b.x,dy=b.home.y-b.y,d=Math.hypot(dx,dy);if(d<12){b.x=b.home.x;b.y=b.home.y;b.phase='restore';b.timer=.84;this.emit('transform',b.x,b.y,{restore:true});}else{b.x+=dx/d*345*dt;b.y+=dy/d*345*dt;}}
  else if(b.phase==='restore'){if(b.timer<=0){b.phase='move';b.shots=0;b.timer=1.35;}}}
  update(dt,input={}){if(this.state==='clear'){this.rebound(Math.min(dt,.1));return;}if(this.state!=='playing')return;for(let remain=Math.min(dt,.1);remain>0;){const step=Math.min(remain,1/120);this.step(step,input);remain-=step;if(this.state!=='playing')break;}}

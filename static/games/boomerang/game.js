@@ -23,7 +23,6 @@ function paintBoss(x,y,shieldFlash=0,b={x,y,shieldFlash,flash:0,phase:'idle'}){c
 function render(){ctx.clearRect(0,0,W,H);if(artReady)StoryArt.background(ctx);else{ctx.fillStyle="#17231a";ctx.fillRect(0,0,W,H);}
  if(intro.active){intro.render(ctx);return;}
  const p=game.player,b=game.boss,w=game.weapon;
- if(ui('guide').checked&&w.state==='held'){const origin={x:p.x,y:p.y-21},points=[];for(let i=0;i<=50;i++)points.push(curve(origin,i/50));ctx.setLineDash([4,9]);line(points,'#b79b5d77',1.5);line([points.at(-1),{x:p.x,y:p.y}],'#b79b5d33',1.5);ctx.setLineDash([]);const tip=curve(origin,.53);label('右へ回り込む',tip.x,tip.y-13,'#b4a16f',12);}
  if(w.state==='ground'){const blocked=game.blocked();circle(w.x,w.y,25+Math.sin(game.time*5)*3,blocked?'#e2916b18':'#ffd17b18');ctx.setLineDash([4,4]);ctx.strokeStyle=blocked?'#a46c53':'#eac275';ctx.beginPath();ctx.arc(w.x,w.y,24,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);boomer(w.x,w.y,w.angle??-.4);label(blocked?'ボスが離れるまで待とう':'触れて回収',w.x,w.y+43,blocked?'#efaa88':'#f5d185',13);}
  if(selectedStage===4){for(const s of game.staffs)if(s.hp>0){circle(s.x,s.y+34,33,'#0004');StoryArt.drawStaff(ctx,s.x,s.y,s.flash);label('杖 '+s.hp+'/30',s.x,s.y+71,'#bfeaff',12);}for(const panel of game.shieldCenters())StoryArt.drawBarrier(ctx,panel.x,panel.y,panel.angle,b.shieldFlash);}
  paintBoss(b.x,b.y,b.shieldFlash,b);
@@ -36,7 +35,7 @@ function render(){ctx.clearRect(0,0,W,H);if(artReady)StoryArt.background(ctx);el
  const spriteAlpha=p.inv>0&&Math.floor(game.time*18)%2===0?.35:1;
  ShuSprites.draw(ctx,pose,poseFrame,p.x,p.y,spriteAlpha);
  if(w.state==='held'&&pose!=='down')ShuSprites.boomer(ctx,p.x+4,p.y-9,-.15,spriteAlpha,40);
- if(['out','returning','falling'].includes(w.state)){if(ui('guide').checked&&w.trail.length>1)line(w.trail,'#f6c87766',3);if(w.state==='falling')circle(w.x,w.y,Math.max(5,12-(w.z||0)*.08),'#0005');boomer(w.x,w.y-(w.z||0),w.state==='falling'?w.angle:game.time*22);}
+ if(['out','returning','falling'].includes(w.state)){if(w.state==='falling')circle(w.x,w.y,Math.max(5,12-(w.z||0)*.08),'#0005');boomer(w.x,w.y-(w.z||0),w.state==='falling'?w.angle:game.time*22);}
  for(const q of game.bullets){const blue=selectedStage>=2;circle(q.x,q.y,12,blue?'#75caff44':'#f09b7222');circle(q.x,q.y,7,blue?'#64bfff':'#ed927b');circle(q.x-1,q.y-2,3,blue?'#e7faff':'#ffe3be');}
  for(const e of effects){const age=performance.now()/1000-e.at;ctx.save();ctx.globalAlpha=Math.max(0,1-age/.85);label(e.text,e.x,e.y-age*34,e.color,19);ctx.restore();}while(effects.length&&performance.now()/1000-effects[0].at>.85)effects.shift();
 }
