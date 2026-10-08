@@ -16,8 +16,9 @@ function createMembers(){const names=new Set();const bandMode=Math.random()<WORL
 function average(b,k){return b.members.reduce((s,m)=>s+m[k],0)/4}
 function strengths(b){return ['skill','looks','charisma'].map(key=>({key,value:average(b,key)})).sort((a,b)=>b.value-a.value)}
 function bandType(b){const s=strengths(b);if(s[0].value<55)return '地道なライブを重ねた4人';if(s[1].value>=70&&s[0].value-s[1].value<10)return '実力と華が重なったバンド';return {skill:'音で成り上がった実力派',looks:'顔から火がついたバンド',charisma:'観客を飲み込んだ4人'}[s[0].key]}
-function createBand(members,name){const b={id:globalThis.crypto?.randomUUID?.()||String(Date.now())+Math.random(),name,members,initialMembers:JSON.parse(JSON.stringify(members)),tick:0,life:members.reduce((s,m)=>s+m.cooperation,0),fans:0,maxFans:0,pro:false,proTick:null,history:[{tick:0,title:'18歳、バンド結成',text:'音楽雑誌の募集欄で集まった4人。'+name+'の人生が始まった。'}],milestones:[],ended:false,afters:[]};ensureLife(b);ensureWorld(b);ensureChronicle(b);ensureContinuity(b);const formation=formationEvent(b);b.history[0].text=formation.text;if(b.formationTitle)b.history[0].title=formation.title;return b}
+function createBand(members,name){const b={id:globalThis.crypto?.randomUUID?.()||String(Date.now())+Math.random(),name,members,initialMembers:JSON.parse(JSON.stringify(members)),tick:0,life:members.reduce((s,m)=>s+m.cooperation,0),fans:0,maxFans:0,pro:false,proTick:null,history:[{tick:0,title:'18歳、バンド結成',text:'音楽雑誌の募集欄で集まった4人。'+name+'の人生が始まった。'}],milestones:[],ended:false,afters:[]};ensureLife(b);ensureWorld(b);ensureChronicle(b);ensureContinuity(b);const formation=formationEvent(b);b.history[0].text=formation.text;if(b.formationTitle)b.history[0].title=formation.title;return initializeEnsemble(b)}
 function fanGain(b){
+if(!b.pro)return amateurFanGain(b);
 // 全12能力値が小さな値から貢献。突出した能力には連続的な追加効果。
 const routes=['skill','looks','charisma'].map(k=>average(b,k));
 const total=b.members.reduce((sum,m)=>sum+m.skill+m.looks+m.charisma,0);
@@ -28,38 +29,47 @@ return Math.max(1,Math.round((total*scale/4)*(1+standout*TUNING.standoutScale)*(
 function regularEvent(b,gain){const e=worldNarrative(b,gain);if(average(b,'cooperation')<35&&Math.random()<.25){const line=freshEvent(b,poolEntries('tension',TENSION_LINES.map(text=>({title:'',text}))));e.text+='\n'+line.text}return e}
 function abilityAftermath(m){const sorted=['skill','looks','charisma'].sort((a,b)=>m[b]-m[a]);const top=sorted[0];if(m[top]>=80){if(top==='skill')return m.role==='Vo'?pick([{job:'ソロシンガー',text:'解散後も歌い続けた。小さなライブから再出発し、やがて自分の声で新たなファンをつかんだ。'},{job:'歌唱指導者',text:'その歌声を今度は誰かのために。歌唱指導者として、次の世代のデビューを支えている。'}]):pick([{job:'サポートミュージシャン',text:'演奏の腕を買われ、有名アーティストのツアーで活躍。ステージで生きる人生は続いている。'},{job:'音楽講師',text:'音楽教室を開いた。かつてステージで磨いた腕を、今度は若い生徒たちへ伝えている。'}]);if(top==='looks')return pick([{job:'俳優',text:'芸能界へ転身。初めは小さな役だったが、いつしかドラマで見かける顔になった。'},{job:'モデル',text:'モデルとして新たな道へ。雑誌で見かけた昔のファンが、思わずその名前を確かめた。'},{job:'アイドル',text:'アイドルとして再デビュー。別のステージでも、その姿に歓声が上がった。'}]);return pick([{job:'政治家',text:'その求心力を別の世界で発揮。地元の声を集め、やがて政治家として活動を始めた。'},{job:'宗教家',text:'独自の思想を語り始めた。その言葉に人が集まり、やがて宗教団体を率いるようになった。'},{job:'新バンドの中心人物',text:'また新しい仲間を集めた。一度終わったはずのバンド人生が、違う名前で動き始めた。'}])}if(m.skill>=60)return pick([{job:'地元の音楽家',text:'地元で働きながら、週末にはライブへ。売れることより、音を出すことを選んだ。'},{job:'楽器店スタッフ',text:'楽器店で働くようになった。初めて楽器を買う若者に、自分の18歳を重ねている。'}]);return pick([{job:'会社員',text:'音楽を辞め、会社員になった。飲み会でバンド時代の話をすると、ちょっとだけ盛り上がる。'},{job:'家業を継ぐ',text:'地元へ戻り、家業を継いだ。店の奥には今も、4人で写った一枚の写真が飾ってある。'},{job:'ライブハウス店主',text:'小さなライブハウスを開いた。今度は、ステージに立つ若者たちを見守る側になった。'},{job:'普通の暮らし',text:'音楽から離れ、穏やかな毎日を送っている。あの頃の曲が流れると、少しだけ手を止める。'}])}
 function stepBand(b){
-if(b.ended)return null;ensureLife(b);ensureWorld(b);ensureChronicle(b);ensureContinuity(b);b.tick++;b.life-=TUNING.lifeCost;
-const rebuilding=b.tick<b.reputationUntil||b.viceStates.some(s=>s?.type==='drug');const normal=rebuilding?Math.max(1,Math.round(fanGain(b)*.08)):fanGain(b),notes=[];let e=rebuilding?{title:'音楽へ戻るための日々',text:'予定を絞り、4人は生活と音楽を立て直している。新しい客は少ないが、静かに応援を続けてくれる人もいる。',label:'REBUILDING DAYS'}:regularEvent(b,normal);let gained=normal;
+if(b.ended)return null;ensureLife(b);ensureWorld(b);ensureChronicle(b);ensureContinuity(b);ensureEnsemble(b);ensureV10(b);b.tick++;b.life-=TUNING.lifeCost;
+const injured=hasInjury(b);const rebuilding=b.tick<b.reputationUntil||b.viceStates.some(s=>s?.type==='drug');let normal=injured?Math.max(1,Math.round(fanGain(b)*.12)):rebuilding?Math.max(1,Math.round(fanGain(b)*.08)):fanGain(b),notes=[];let e=rebuilding?{title:'音楽へ戻るための日々',text:'予定を絞り、4人は生活と音楽を立て直している。新しい客は少ないが、静かに応援を続けてくれる人もいる。',label:'REBUILDING DAYS'}:regularEvent(b,normal);if(injured)e=injuryRestEvent(b);let gained=normal;
 if(b.tick===1){e=firstLiveEvent(b);addSong(b,null,300);}
-const albumDue=b.pro&&b.debutTick!=null&&b.tick>b.debutTick&&(b.tick-b.debutTick)%LIFE_RULES.albumInterval===0;
+if(b.pro&&b.debutTick!=null)b.nextAlbumTick??=(b.albums.at(-1)?.tick??b.debutTick)+LIFE_RULES.albumInterval;
+const albumDue=!injured&&b.pro&&b.debutTick!=null&&b.tick>=b.nextAlbumTick;
+
 const catastrophe=b.tick>1&&Math.random()<LIFE_RULES.suddenEndChance;
 if(catastrophe){e={title:'突然の活動終了',text:pick(['重大な契約トラブルが発覚した。話し合いを重ねても解決せず、4人は突然の解散を発表した。','取り返しのつかない不祥事が発覚した。予定していた活動はすべて中止。バンドは、その日をもって解散した。']),label:'SUDDEN END',kind:'sudden'};b.endReason=e.text;b.life=0;gained=0;}
 else if(b.tick>1){
 let world=null;
 if(b.life<=6&&Math.random()<WORLD_RULES.bondChance)world=bondEvent(b);
 else if(Math.random()<WORLD_RULES.legendChance)world=legendaryEvent(b);
-else world=recoveryDue(b)||careerTransition(b);
-if(!world&&!albumDue){if(Math.random()<WORLD_RULES.bondChance)world=bondEvent(b);else if(Math.random()<WORLD_RULES.familyChance)world=familyEvent(b);else if(Math.random()<WORLD_RULES.viceChance)world=viceEvent(b);else if(!b.pro&&!rebuilding&&Math.random()<WORLD_RULES.openingChance)world=openingEvent(b);else if(!rebuilding&&Math.random()<WORLD_RULES.richEventChance)world=wealthyEvent(b);else if(!b.viceStates.some(s=>s?.type==='drug')&&Math.random()<.14)world=continuationEvent(b);else if(Math.random()<WORLD_RULES.instrumentChance)world=instrumentEvent(b);}
-if(world){e=world;gained=world.gain<0?world.gain:normal+world.gain;if(albumDue){const a=releaseAlbum(b);notes.push(a);gained+=a.gain;}}
+else world=injuryRecoveryDue(b)||recoveryDue(b)||(!injured?careerTransition(b):null);
+if(!world&&!albumDue&&!rebuilding&&!injured)world=v10SpecialEvent(b);
+if(!world&&!albumDue&&!rebuilding&&!injured)world=ensembleEvent(b);
+if(!world&&!albumDue&&!injured){if(b.life>6&&Math.random()<WORLD_RULES.bondChance)world=bondEvent(b);else if(Math.random()<WORLD_RULES.familyChance)world=familyEvent(b);else if(Math.random()<WORLD_RULES.viceChance)world=viceEvent(b);else if(!b.pro&&!rebuilding&&Math.random()<WORLD_RULES.openingChance)world=openingEvent(b);else if(!rebuilding&&Math.random()<WORLD_RULES.richEventChance)world=wealthyEvent(b);else if(!b.viceStates.some(s=>s?.type==='drug')&&Math.random()<.14)world=continuationEvent(b);else if(Math.random()<WORLD_RULES.instrumentChance)world=instrumentEvent(b);}
+if(world){e=world;if(e.kind==='injuryRecovery')normal=fanGain(b);gained=world.gain<0?world.gain:normal+world.gain;if(albumDue){const a=releaseAlbum(b);notes.push(a);gained+=a.gain;}}
 else if(albumDue){e=releaseAlbum(b);gained=normal+e.gain;}
-else if(Math.random()<LIFE_RULES.rareAbilityChance){e=rareAbilityEvent(b);gained=normal;}
-else if(b.tick-b.lastNegativeTick>=6&&Math.random()<LIFE_RULES.negativeChance){e=scaledNegative(b);gained=e.gain;}
-else if(!b.pro&&!rebuilding&&b.tick-(b.lastContestTick??-100)>=6&&Math.random()<LIFE_RULES.contestChance){e=contestantEvent(b);gained=normal+e.gain;b.awards.push({name:e.title,tick:b.tick});}
+else if(!injured&&Math.random()<LIFE_RULES.rareAbilityChance){e=rareAbilityEvent(b);gained=normal;}
+else if(!injured&&b.tick-b.lastNegativeTick>=6&&Math.random()<LIFE_RULES.negativeChance){e=scaledNegative(b);gained=e.gain;}
+else if(!injured&&!b.pro&&!rebuilding&&b.tick-(b.lastContestTick??-100)>=6&&Math.random()<LIFE_RULES.contestChance){e=contestantEvent(b);gained=normal+e.gain;b.awards.push({name:e.title,tick:b.tick});}
 else if(bigJobsAllowed(b)&&Math.random()<LIFE_RULES.breakoutChance){e=gatedFeatureEvent(b);gained=normal+e.gain;}
 else if(bigJobsAllowed(b)){
 const stage=careerEvent(b,normal);const repeat=!stage&&Math.random()<.12?repeatVenueEvent(b):null;if(repeat){e=repeat;gained=normal+repeat.gain;}else if(stage){e=stage;gained=normal+Math.round(b.fans*(stage.careerKey==='tv'||stage.careerKey==='primeTV'?.2:.1));}
 else if(!b.exposures.includes('kohaku')&&b.fans>=200000&&b.tick%6===5&&Math.random()<.24){b.exposures.push('kohaku');e={title:'紅白歌合戦に出場！',text:'大晦日、4人が紅白のステージへ。家族のそろうテレビの前で、自分たちの曲が流れる。翌日から、これまで届かなかった世代にも反響が広がった。',label:'KOUHAKU',kind:'exposure',careerKey:'kohaku'};gained=normal+Math.round(b.fans*(.4+Math.random()*.35));}
-else if(!b.exposures.includes('overseas')&&b.fans>=80000&&Math.random()<.09){b.exposures.push('overseas');const country=pick(['台湾','韓国','イギリス','アメリカ','ドイツ']);e={title:'初めての海外公演・'+country,text:country+'の客席から、自分たちの曲を歌う声が聞こえた。言葉は違っても、4人の音を待っている人がいる。',label:'OVERSEAS LIVE',kind:'exposure',careerKey:'overseas'};gained=normal+Math.round(b.fans*.3);}
+else if(!b.exposures.includes('overseas')&&b.fans>=80000&&Math.random()<.09){b.exposures.push('overseas');e=overseasVenueEvent(b,true);gained=normal+e.gain;}
 else if(b.tick-b.debutTick<=18&&!b.awards.some(a=>a.key==='新人賞'||a.name==='新人賞'||a.name==='日本レコード大賞・新人賞')&&b.fans>=20000&&Math.random()<.1){e=awardEvent(b,'新人賞');gained=normal+e.gain;}
 else if(b.albums.some(a=>a.sales>=300000)&&!b.awards.some(a=>a.name==='日本レコード大賞')&&Math.random()<.06){e=awardEvent(b,'日本レコード大賞');gained=normal+e.gain;}
 else if(b.albums.length&&Math.random()<.035&&!b.awards.some(a=>a.key==='ベストアルバム賞'||a.name==='ベストアルバム賞')){e=awardEvent(b,'ベストアルバム賞');gained=normal+e.gain;}
 }}
+if(e.gain<0)gained+=protectFanLoss(b,e);
 if(b.tick===90&&!catastrophe){const v=veteranEvent(b);notes.push(v);gained+=v.gain;}
+if(!catastrophe){const friendship=annualEnsembleRecovery(b);if(friendship)notes.push(friendship);}
 if(b.tick%6===0){b.members.forEach(m=>m.skill+=TUNING.growthPerYear);e.growth=true;}
 const limits=catastrophe?[]:limitEvents(b);for(const l of limits){notes.push(l);gained+=l.gain;}
-b.fans=Math.max(0,b.fans+gained);b.maxFans=Math.max(b.maxFans,b.fans);e.gain=gained;
+if(!catastrophe&&!hasInjury(b)&&b.life>0){const live=prepareLiveReport(b,e,normal,gained);if(live){gained=live.gain;e.live=live;}}
+b.fans=Math.max(0,b.fans+gained);b.maxFans=Math.max(b.maxFans,b.fans);e.gain=gained;if(e.live){e.live.gain=gained;e.live.afterFans=b.fans;}
 applySetback(b,e);rememberRecognition(b,e);rememberDisplayedEvent(b,e);if(e.kind||e.careerKey||e.news)recordLife(b,e);for(const n of notes)recordLife(b,n);
 if(!b.pro&&b.proStage==='amateur'&&b.fans>TUNING.proThreshold&&b.life>0){e=scoutedEvent(b,e);recordLife(b,e);}
+if(e.live)e.live.finalTitle=e.title;
+e.text=eraSafeText(b,e.text);
 if(notes.length)e.text+='\n\n'+notes.map(n=>n.title+'。'+n.text).join('\n');
 if(b.tick%18===0&&!e.kind&&!e.careerKey)b.history.push({tick:b.tick,title:'活動'+b.tick/6+'年。4人の音が育つ',text:e.text});
 if(b.life<=0){b.ended=true;const low=average(b,'cooperation')<35;const closing=closingLife(b,catastrophe,low);b.afters=b.members.map((m,i)=>aftermath(m,b,i));const reason=b.endReason||(low?'音楽の方向性も、交わす言葉も、少しずつすれ違っていった。':'一緒に走った4人。いつしか、それぞれが思い描く次の人生は違っていた。');const callback=b.endStyle==='farewell'?closingCallback(b):'';const end={title:catastrophe?'突然の解散':closing.title,text:reason+'\n'+closing.reaction+(callback?'\n'+callback:'')+'\n'+closing.ending+'\n'+b.name+'、解散。',gain:gained,label:closing.label,kind:'end',growth:e.growth};if(e.kind==='album')end.text='最後のアルバム『'+e.album.title+'』を発売した。\n'+end.text;if(e.kind==='contract')end.text='プロ契約を結んだ矢先のことだった。\n'+end.text;if(e.kind==='debut')end.text='デビュー公演から、ほどなくして。\n'+end.text;recordLife(b,end);updateTitles(b);return end;}
