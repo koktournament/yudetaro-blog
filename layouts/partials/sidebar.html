@@ -1,6 +1,15 @@
 <aside class="site-sidebar">
 
   <div class="sidebar-section">
+    <h3 class="sidebar-heading">自作ゲーム</h3>
+    <ul class="sidebar-list">
+      <li><a href="/games/">ゲーム一覧を見る →</a></li>
+      <li><a href="/games/band-yaro-ze/">バンド野郎！ゼ</a></li>
+      <li><a href="/games/boomerang/">ブーメラン野郎！</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
     <h3 class="sidebar-heading">最新記事</h3>
     <ul class="sidebar-list">
       {{- range first 8 (where site.RegularPages "Type" "entry") }}

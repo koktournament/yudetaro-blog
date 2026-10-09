@@ -8,3 +8,15 @@ theme = 'PaperMod'
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+[[menu.main]]
+  identifier = "blog"
+  name = "ブログ"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "games"
+  name = "自作ゲーム"
+  url = "/games/"
+  weight = 20
