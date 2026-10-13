@@ -32,3 +32,7 @@
 .achievement-progress{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.achievement-progress>div{display:grid;gap:5px;padding:13px;border:2px solid #333;background:#f8f2de;text-align:center}.achievement-progress small{font-size:12px}.achievement-progress b{font-size:24px}
 .postcard-gold,.postcard-miracle{background:linear-gradient(120deg,#fff3b5,#e5bd59,#fff7cf);border-color:#92702b;box-shadow:0 0 22px #d7b14370;color:#392b12}.postcard-gold .stamp,.postcard-miracle .stamp{color:#684c10;border-color:#88631e}.postcard-black,.postcard-lowest{background:linear-gradient(120deg,#22232d,#3c3949);border-color:#777080;color:#f2e8d8;box-shadow:0 0 18px #29203455}.postcard-black .sub,.postcard-lowest .sub{color:#d1cbd8}.postcard-black .stamp,.postcard-lowest .stamp{color:#e3c6d2;border-color:#c5a5b4}.recruitment-note{font-weight:bold;font-size:13px;padding:12px;background:#eee6ce;border-left:3px solid #9b7c3d;line-height:1.8}
 .postcard-gold,.postcard-miracle{animation:postcard-shine 2s ease-in-out 2}@keyframes postcard-shine{50%{box-shadow:0 0 32px #d8b747aa;filter:brightness(1.12)}}@media(prefers-reduced-motion:reduce){.postcard-gold,.postcard-miracle{animation:none}}
+
+.training-frame{width:100%;border:0;display:block;min-height:560px}.game-layout.training-layout{max-width:1120px}.mode-badge{display:inline-block;padding:4px 8px;margin:5px 0;background:#e9e2cf;color:#655638;font-size:11px;border:1px solid #c8bfa7}
+
+.achievement-tabs{display:flex;gap:10px;margin:14px 0}.achievement-tabs button{flex:1}
