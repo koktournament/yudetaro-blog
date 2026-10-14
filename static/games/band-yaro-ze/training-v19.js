@@ -1,0 +1,52 @@
+/* All rolls live in g, so loading a save never draws a new event. */
+const GROWTH_TYPES=[{name:'偏屈な職人',good:'skill',bad:'cooperation',text:'音のことなら、いくらでも考えられる。人付き合いは、まだ少し苦手だ。'},{name:'生まれつきの華',good:'looks',bad:'skill',text:'鏡の前なら、自然に様になる。音の練習には、人より時間がかかる。'},{name:'天性のフロントマン',good:'charisma',bad:'cooperation',text:'前へ出ると、言葉が出てくる。でも、仲間の声を聞きそびれることもある。'},{name:'世話焼きまとめ役',good:'cooperation',bad:'charisma',text:'誰かの話を聞くのは得意だ。自分が主役になる時は、少し照れる。'}];
+const oldTrainingStart=start;
+start=function(){oldTrainingStart();if(!g||screen==='setup')return;g.growthType=Math.random()<.02?{...pick(GROWTH_TYPES)}:null;g.growthRollDone=true;if(g.growthType){screen='rareStart';addLog('成長タイプ：'+g.growthType.name);}render();};
+const oldTrainingAmount=amount;
+// Adjust practice only, never calendar, daily events, or starting stats.
+function trainingGrowth(n,k){const t=g.growthType;return t?Math.max(1,n+(k===t.good?1:k===t.bad?-1:0)):n;}
+const TRAIN_CHOICES={
+skill:[['ロックって、上手いだけでいいのかな？',['人を惹きつける何かも必要だ','charisma'],['そんなもん、上手くなってから考えろ','skill']],['練習の録音を聴いた。音は合っている。何かが足りない。',['立ち姿から、曲の景色を変えてみよう','looks'],['仲間の音を、もう一度聴いてみよう','cooperation']],['難しい一節が決まった。次はどうしよう。',['何度でも出せるよう、繰り返そう','skill'],['この音を、客席に届ける自分を想像しよう','charisma']]],
+looks:[['鏡の中は、少しバンドマンらしくなった。',['この姿に負けない音を出したい','skill'],['もっと、自分に似合う形を探そう','looks']],['借りたジャケットを着ると、仲間が笑った。',['みんなの服も、一緒に考えてみよう','cooperation'],['照れずに、胸を張って着てみよう','charisma']],['写真の中の自分は、まだ少し固い。',['自然に見える角度を試そう','looks'],['自分が何を伝えたいのか考えよう','charisma']]],
+charisma:[['客席を惹きつけるって、どういうことだろう。',['まず、一人の話をちゃんと聞こう','cooperation'],['俺が信じることを、言い切ろう','charisma']],['大きな言葉を口にした。今の自分に釣り合うか？',['言葉に追いつくまで、音を磨こう','skill'],['言ったからには、堂々と立とう','charisma']],['ステージの真ん中に立つ自分を想像した。',['遠くから見ても伝わる姿にしよう','looks'],['仲間の見せ場も、ちゃんと作ろう','cooperation']]],
+cooperation:[['全員の意見を聞いた。答えは、まだ出ない。',['もう少し、互いの理由を聞こう','cooperation'],['最後は俺が、腹をくくって言おう','charisma']],['仲間が、練習について悩んでいる。',['一緒に音を出して、確かめよう','skill'],['今日は練習を止めて、話を聞こう','cooperation']],['4人並んだ写真を見た。ちぐはぐだけど、俺達だ。',['それぞれに似合う格好を探そう','looks'],['違うままで、一緒にやれたらいい','cooperation']]]};
+const RISK_STORIES=[{title:'伝説のローディー',text:'名も告げないローディーが、機材を下ろしながら声をかけた。「一晩、俺の現場についてこい。お前の全部が変わるかもしれない」',keys:K,n:15},{title:'謎の美容師',text:'路地裏の店で、美容師が鏡越しに言った。「今のお前を、いったん壊していいか。似合えば、誰もが振り向く」',keys:['looks'],n:30},{title:'山奥音楽合宿',text:'人里離れた練習小屋へ誘われた。先輩は真剣だった。「自分の音と向き合え。帰る時、同じお前ではいられないぞ」',keys:['skill','charisma'],n:20},{title:'怪しい自己啓発',text:'古びた会場の入口で、男が語った。「お前は、まだ自分の言葉を信じていない。人と向き合う覚悟はあるか」',keys:['charisma','cooperation'],n:20}];
+const TRAINING_STORIES=[
+{id:'idol',ok:()=>true,title:'憧れの人が、目の前に',text:()=> '楽器店を出たところで、雑誌で見たバンドマンとすれ違った。\n思わず声をかけると、「お前もやってるのか。続けろよ」と笑った。\n短い一言が、帰ってからも何度も聞こえた。'},
+{id:'first-song',ok:()=>!g.firstSong,title:'俺達の、最初の曲',text:()=>{g.firstSong=pick(['帰り道のノイズ','名前のない合図','明日もここで','放課後の残響','錆びた星','四人分の夜','まだ終わらない']);return '誰かが出した短いフレーズに、別の音が重なった。\n借り物ではない。俺達の曲だ。\nテープのラベルに『'+g.firstSong+'』と書いた。';}},
+{id:'family-no',ok:()=>true,title:'そんなことで、食っていけるのか',text:()=> '家で、バンドの話になった。「先のことも考えなさい」と言われた。\nうまく答えられず、部屋へ戻った。\n明日の練習だけは、休むつもりがなかった。'},
+{id:'family-yes',ok:()=>g.storySeen?.includes('family-no'),title:'弁当の横の、小さなメモ',text:()=> '「練習、遅くなるなら連絡しなさい」\nバンドをやめろとは、書いていなかった。\n返事の代わりに、食器を洗ってから家を出た。'},
+{id:'former-letter',ok:()=>g.departed?.length>0,title:'抜けた仲間からの手紙',text:()=>{g.letterFrom=pick(g.departed);return g.letterFrom.name+'から手紙が来た。\n「今どうだ。俺は俺でやってる。お前らも、いい音を出せよ」\n住所の下に、昔と同じ雑な字があった。';}},
+{id:'letter-reply',ok:()=>!!g.letterFrom,title:'録音を一本、封筒へ',text:()=> '今の練習をテープに録って、'+g.letterFrom.name+'へ送った。\n長い手紙は書けなかった。「今は、こんな感じだ」\n音なら、伝わる気がした。'},
+{id:'friend-truth',ok:()=>Object.values(g.team).some(m=>m.friend),title:'いつものダチの、本音',text:()=>{const m=Object.values(g.team).find(m=>m.friend);return m.name+'が、片づけながら言った。\n「最初は、お前が楽しそうだから来ただけなんだ。今は俺も、次の練習が楽しみだ」\n何も言えず、ケースの留め具を閉じ直した。';}},
+{id:'rain',ok:()=>true,title:'雨宿りの、長い話',text:()=> '練習帰り、4人で軒下に並んだ。\n売れたら何を買うか。どんな街へ行くか。\n雨がやんでも、誰もすぐには歩き出さなかった。'},
+{id:'empty-room',ok:()=>g.used>=25,title:'最初のテープを、聴き直した',text:()=> '始めた頃の録音が出てきた。全員が笑った。\nあの時は、あれでも本気だった。\n今の録音を隣に置くと、一年はまだ途中なのに、ずいぶん遠くへ来た気がした。'},
+{id:'flyer',ok:()=>true,title:'手書きの、未来のチラシ',text:()=> 'まだ決まっていないライブのチラシを描いた。\n日付も会場も空欄。それでも4人の名前だけは、大きく書いた。\n仲間が「これ、捨てるなよ」と言った。'},
+{id:'shop',ok:()=>true,title:'楽器店の閉店間際',text:()=> '店主に「また来たのか」と言われた。買う金はない。\nそれでも音の話を聞いてくれて、閉店の札を裏返した後も少し話した。\nいつか、この店でちゃんと買いたい。'},
+{id:'night',ok:()=>true,title:'眠れない夜の、四小節',text:()=> '布団へ入っても、昼のフレーズが頭から離れない。\n小さな音でテープへ残した。\n明日、3人に聴かせよう。誰より先に。'},
+{id:'friend-home',ok:()=>Object.values(g.team).every(m=>m.friend),title:'昔の遊び場で',text:()=> '4人で、子どもの頃によく来た場所へ寄った。\n「昔も、何するか決まらずにここにいたな」\n今は楽器のケースが4つある。それだけで、ずいぶん違った。'},
+{id:'crowd',ok:()=>g.used>=11,title:'あの日、聴いていた人',text:()=> '友人のイベントにいた人が、声をかけてきた。\n「バンド、続けてるんだ。また聴かせてよ」\n自分達以外にも、覚えている人がいる。返事が少し大きくなった。'}];
+function dailyAbilityStory(){const k=pick(K),high=g.p[k]>=60,mid=g.p[k]>=30;const texts={skill:[g.p.role==='Vo'?'カラオケで一曲頼まれた。歌い終えると、隣の部屋からまで拍手が来た。':'楽器店で試奏した。店主が作業の手を止め、「もう一曲」と言った。','人前で音を出すと、練習したところだけは確かに届いた。','思うような音が出ない。帰ったら、あそこをもう一度練習しよう。'],looks:['知らない人に、ミニコミ誌の写真を頼まれた。「バンドやってるでしょう？」と言い当てられた。','友人に「その格好、似合うようになったな」と言われた。','気合を入れた服も、まだ着られている感じがする。窓の前で襟を直した。'],charisma:['街で喧嘩を売られた。目をそらさず一言返すと、相手は気まずそうに去った。','先輩の輪で音楽の話をした。途中から、何人かがちゃんとこちらを見た。','街で喧嘩を売られた。言い返せず、笑われた。「ちくしょう」。帰り道で拳をほどいた。'],cooperation:['言い争っていた友人の間に入った。両方の理由を聞くと、少しずつ声が静かになった。','意見の違う仲間に理由を聞いた。全部は分からなくても、話は続けられた。','仲裁のつもりが、自分まで言い合いになった。先に聞くべきだった。']};return {title:'【'+L[k]+'が影響】日常に出た、今の自分',text:texts[k][high?0:mid?1:2],effect:'数値変動なし'};}
+const oldTrainingEvent=eventDraw;
+eventDraw=function(){const e=oldTrainingEvent();g.storySeen??=[];const draw=Math.random();let extra=null;if(draw<.25){const pool=TRAINING_STORIES.filter(x=>!g.storySeen.includes(x.id)&&x.ok());if(pool.length){const s=pick(pool);g.storySeen.push(s.id);extra={title:s.title,text:s.text()};}}else if(draw<.45)extra=dailyAbilityStory();if(extra){e.text+='\n\n'+extra.title+'\n'+extra.text;}return e;};
+const oldTrainingJoin=join;
+join=function(id,ticket=false){const m=g.pool.find(m=>m.id===id),old=m?g.team[m.role]:null;oldTrainingJoin(id,ticket);if(m&&old&&old.id!==m.id&&g.team[m.role].id===m.id){g.departed??=[];if(!g.departed.some(x=>x.id===old.id))g.departed.push({id:old.id,name:old.name,friend:old.friend});}};
+// Keep the v18 lesson/graduation flow, adding only the type's actual growth.
+const oldPractice=practice;
+practice=function(){if(g.used>=60||screen!=='teacher')return;oldPractice();if(g.growthType)g.last.text+='\n\n'+g.growthType.name+'の気質が、練習にも表れた。';g.last.choice=Math.random()<.05?JSON.parse(JSON.stringify(pick(TRAIN_CHOICES[key]))):null;g.last.choiceDone=false;g.last.risk=!g.riskSeen&&Math.random()<.008?JSON.parse(JSON.stringify(pick(RISK_STORIES))):null;if(g.last.risk)g.riskSeen=true;render();};
+const oldTrainingRender=render;
+render=function(){if(g&&screen==='rareStart'&&g.growthType){const t=g.growthType;readingScene('17歳の気質',t.name,t.text+'\n\n得意：'+L[t.good]+'の練習成長＋1\n苦手：'+L[t.bad]+'の練習成長−1（最低＋1）'+(g.genius?'\n\nさらに、全能力35の天才として始まる。':'')+(g.giftedFriends?'\n\n地元の3人も、それぞれの得意能力60。':''),'この俺で、始めよう','rareNext');return;}
+if(g&&screen==='afterPractice'&&g.last){if(g.last.risk&&!g.last.riskDone){renderTrainingRisk();return;}if(g.last.choice&&!g.last.choiceDone){renderTrainingChoice();return;}}
+if(screen==='style'){renderRockStyle();return;}oldTrainingRender();};
+function renderTrainingChoice(){const c=g.last.choice;shell('<div class="reading"><div class="sub">練習の、その先で</div><article class="story"><h1>'+esc(c[0])+'</h1><p>今日の練習を終えて、少し考えた。</p></article>'+c.slice(1).map((x,i)=>'<button class="full '+(i?'':'primary')+'" data-a="trainAnswer" data-id="'+i+'">'+esc(x[0])+'<br><small>'+L[x[1]]+'＋2</small></button>').join('')+'</div>');}
+function renderTrainingRisk(){const r=g.last.risk;shell('<div class="reading"><div class="sub">一度きりの誘い</div><article class="story"><h1>'+esc(r.title)+'</h1><p>'+esc(r.text)+'</p><p>成功50％／失敗50％。<br>'+r.keys.map(k=>L[k]).join('・')+'が、成功で＋'+r.n+'、失敗で−'+r.n+'。<br>能力は1〜100の範囲。断っても、この種の誘いはもう来ない。</p></article><button class="primary full" data-a="riskAnswer" data-id="yes">挑む</button><button class="full" data-a="riskAnswer" data-id="no">断る</button></div>');}
+const oldScheduledNext=scheduledNext;
+scheduledNext=function(){if(g.scheduleScene?.kind==='video'&&!g.styleDone){g.styleIndex??=0;g.styleAnswers??=[];screen='style';render();window.scrollTo(0,0);return;}oldScheduledNext();};
+function renderRockStyle(){const k=K[g.styleIndex||0];shell('<div class="reading"><div class="sub">17歳だけの、最後の問い · '+((g.styleIndex||0)+1)+'／4</div><article class="story"><h1>ロックとは？</h1><p>ロックに、'+L[k]+'は必要か。<br>映像の中の自分を見て、俺は考えた。<br>今なら、自分のスタイルを決められる。</p>'+roster()+'</article><button class="primary full" data-a="styleAnswer" data-id="keep">'+L[k]+'は、そのまま</button>'+K.filter(x=>x!==k).map(x=>'<button class="full" data-a="styleAnswer" data-id="'+x+'" '+(g.p[k]<11||g.p[x]>90?'disabled':'')+'>'+L[k]+'10を、'+L[x]+'へ</button>').join('')+'<button class="full" data-a="styleAnswer" data-id="discard" '+(g.p[k]<11?'disabled':'')+'>'+L[k]+'10を、捨てる</button><p class="sub">10減らせない能力や、10入りきらない移動先は選べません。追加行動は使いません。</p></div>');}
+root.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.disabled||!g)return;const a=b.dataset.a,id=b.dataset.id;
+if(a==='trainAnswer'&&screen==='afterPractice'&&g.last.choice&&!g.last.choiceDone){const x=g.last.choice[Number(id)+1];if(!x)return;g.last.choiceDone=true;const d=change(g.p,x[1],2);g.last.event.text='「'+x[0]+'」\n'+delta(x[1],d)+'\n\n'+g.last.event.text;addLog('練習後の選択：'+x[0]+' '+delta(x[1],d));render();}
+else if(a==='riskAnswer'&&screen==='afterPractice'&&g.last.risk&&!g.last.riskDone){if(!['yes','no'].includes(id))return;g.last.riskDone=true;const r=g.last.risk,success=id==='yes'&&Math.random()<.5,effects=id==='yes'?r.keys.map(k=>delta(k,change(g.p,k,success?r.n:-r.n))).join(' ／ '):'能力の変化なし';g.last.event.text=r.title+'：'+(id==='no'?'誘いを断った。自分の足で進もうと思った。':success?'思い切って飛び込んだ経験が、自分を変えた。':'求めていたものは、つかめなかった。自信を取り戻すには時間がかかりそうだ。')+'\n'+effects+'\n\n'+g.last.event.text;addLog(r.title+' '+effects);render();}
+else if(a==='styleAnswer'&&screen==='style'){const k=K[g.styleIndex||0];if(!k)return;if(id!=='keep'){if(g.p[k]<11||id!=='discard'&&(!K.includes(id)||id===k||g.p[id]>90))return;change(g.p,k,-10);if(id!=='discard')change(g.p,id,10);}g.styleAnswers.push({from:k,to:id});addLog('ロックとは：'+L[k]+(id==='keep'?'を貫く':id==='discard'?'10を捨てる':'10を'+L[id]+'へ'));g.styleIndex++;if(g.styleIndex===4){g.styleDone=true;oldScheduledNext();}else render();}
+queueMicrotask(saveTraining);
+});
+render();

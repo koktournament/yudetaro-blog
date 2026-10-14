@@ -36,3 +36,5 @@
 .training-frame{width:100%;border:0;display:block;min-height:560px}.game-layout.training-layout{max-width:1120px}.mode-badge{display:inline-block;padding:4px 8px;margin:5px 0;background:#e9e2cf;color:#655638;font-size:11px;border:1px solid #c8bfa7}
 
 .achievement-tabs{display:flex;gap:10px;margin:14px 0}.achievement-tabs button{flex:1}
+.song-field{display:block;width:100%;max-width:100%;padding:12px;margin:8px 0 12px;background:#fffdf5;color:#29292d;border:1px solid #b8ac96;font:14px/1.7 system-ui,sans-serif;resize:vertical}.footer-actions button{white-space:normal;line-height:1.5}
+.song-background{padding:15px;border-left:4px solid #b84c34;background:#eae1cf;margin:18px 0;line-height:1.7}.song-background p{margin:5px 0}.song-help{border:1px solid #b8ac96;background:#faf6eb;padding:14px;margin:18px 0;line-height:1.8}.song-help summary{cursor:pointer;font-weight:700;min-height:36px}.song-help a:not(.downloadlink){color:#8b3528;text-decoration:underline}.song-help li{margin-bottom:8px}
