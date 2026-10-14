@@ -47,7 +47,6 @@ function composeModularSong(seed,theme,mode,context={facts:[],traits:{}}){
  const chorus=section('chorus',true),structures=D.structures.map((value,index)=>({value,index}));
  const arrangement=context.answers?.[1],picked=weighted(structures,x=>arrangement==null?1:arrangement===0?(x.value.split(' ').length<=7?2.5:1):(x.value.includes('S')||x.value.includes('P')?2:1)),structure=picked.index,cache={},labels={I:'Intro',V1:'Verse 1',V2:'Verse 2',V3:'Verse 3',P:'Pre-Chorus',C:'Chorus',B:'Bridge',S:'Instrumental Break',F:'Final Chorus',O:'Outro'};
  const lyrics=picked.value.split(' ').map(key=>{if(key==='S')return '[Instrumental Break]';let part;if(key==='C'||key==='F')part=chorus;else{if(!cache[key])cache[key]=section(key==='B'?'bridge':key==='I'?'intro':key==='O'?'outro':'verse',false,['I','O'].includes(key)?2:4);part=cache[key];}return '['+labels[key]+']\n'+part.lines.join('\n');}).join('\n\n');
- // Title words obey the same historical conditions; no IDs appear in lyrics or titles.
- const titleLang=mode==='english'?'english':'jp',title=word(titleLang,'subjects')+' / '+word(titleLang,'targets');
- return {title,lyrics,theme,secondary,language:mode,chorus:chorus.lines.join('\n'),chorusCore:chorus.core,structure,patterns,selectionAudit:audit};
+ const named=composeSongTitle(seed,lyrics,theme,mode,context),title=named.title;
+ return {title,titleType:named.type,lyrics,theme,secondary,language:mode,chorus:chorus.lines.join('\n'),chorusCore:chorus.core,structure,patterns,selectionAudit:audit};
 }
