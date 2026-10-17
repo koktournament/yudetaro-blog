@@ -1,6 +1,6 @@
 // Illustrated reference. Examples show the named pattern, not necessarily a full hand.
 function tiles(s){let out=[];for(const m of s.matchAll(/([1-9]+)([mpsz])/g))for(const n of m[1])out.push({m:0,p:9,s:18,z:27}[m[2]]+Number(n)-1);return out;}
-export function roleGuide(tile,cfg){
+export function roleGuide(tile,cfg,normalOnly=false){
  const card=(name,points,pattern,desc)=>`<article class="rolecard"><div class="roleheading"><h4>${name}</h4><b>${points}</b></div><div class="roletiles">${tiles(pattern).map(t=>tile(t,'mini')).join('')}</div><p>${desc}</p></article>`;
  const standard=[
  ['リーチ','1翻・門前','123m456p23s55p','門前でテンパイし、1000点を供託して宣言。以後はツモ切り。'],
@@ -60,5 +60,5 @@ export function roleGuide(tile,cfg){
  ['天地一巡','特別役満','123456789m1234z5p','門前14枚に同じ種類の1〜9と東南西北。余り1枚は何でもOK。'],
  ['零点無双','特別役満','147m147p147s12356z','門前14枚で、形・シャンテン・表ドラを全て数えて0点。例も、含まれる牌がドラなら不成立。']
  ];
- return `<section class="roleGuide"><h3>牌の絵で見る役一覧</h3><p>牌例は形の見本です。手牌全体を示していない例もあります。通常の役は、和了形が完成して初めて有効です。</p><details open><summary>この麻雀の揃い・特別役満 <span>${customs.length}項目</span></summary><p>未完成手は同じ牌を二重に使わず、一番高い分け方を採用。通常和了の役・点数とは別の採点です。</p><div class="rolegrid">${customs.map(x=>card(...x)).join('')}</div><div class="notice">シャンテン加点：テンパイ＋${cfg.bonus[0]}点／イーシャンテン＋${cfg.bonus[1]}点／リャンシャンテン＋${cfg.bonus[2]}点。3シャンテン以上は加点なし。未完成手の上限${cfg.cap}点。特別役満はこの上限を超えます。</div></details><details><summary>通常の麻雀役 <span>${standard.length}項目</span></summary><p>基本は4面子＋1雀頭。七対子・国士無双は別形。門前限定の役は鳴くと成立せず、食い下がりの役は翻数が下がります。</p><div class="rolegrid">${standard.map(x=>card(...x)).join('')}</div><div class="notice">ドラは役ではありません。通常和了は別に役が必要です。役があれば表ドラ・槓ドラ、リーチ時は裏ドラも加算。ダブル役満は採用せず、複数の役満の複合は加算します。</div></details></section>`;
+ return `<section class="roleGuide"><h3>牌の絵で見る役一覧</h3><p>牌例は形の見本です。手牌全体を示していない例もあります。通常の役は、和了形が完成して初めて有効です。</p>${normalOnly?'':`<details open><summary>この麻雀の揃い・特別役満 <span>${customs.length}項目</span></summary><p>未完成手は同じ牌を二重に使わず、一番高い分け方を採用。通常和了の役・点数とは別の採点です。</p><div class="rolegrid">${customs.map(x=>card(...x)).join('')}</div><div class="notice">シャンテン加点：テンパイ＋${cfg.bonus[0]}点／イーシャンテン＋${cfg.bonus[1]}点／リャンシャンテン＋${cfg.bonus[2]}点。3シャンテン以上は加点なし。未完成手の上限${cfg.cap}点。特別役満はこの上限を超えます。</div></details>`}<details ${normalOnly?'open':''}><summary>通常の麻雀役 <span>${standard.length}項目</span></summary><p>基本は4面子＋1雀頭。七対子・国士無双は別形。門前限定の役は鳴くと成立せず、食い下がりの役は翻数が下がります。</p><div class="rolegrid">${standard.map(x=>card(...x)).join('')}</div><div class="notice">ドラは役ではありません。通常和了は別に役が必要です。役があれば表ドラ・槓ドラ、リーチ時は裏ドラも加算。ダブル役満は採用せず、複数の役満の複合は加算します。</div></details></section>`;
 }
