@@ -20,3 +20,9 @@ theme = 'PaperMod'
   name = "自作ゲーム"
   url = "/games/"
   weight = 20
+
+[[menu.main]]
+  identifier = "tools"
+  name = "ツール"
+  url = "/tools/"
+  weight = 30
