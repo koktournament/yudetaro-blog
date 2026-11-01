@@ -6,19 +6,14 @@
 <meta name="color-scheme" content="light dark"/>
 <link rel="icon" href="data:,"/>
 <title>スマホ性能チェッカー | yudetaro.com</title>
-<meta name="description" content="スマホの性能が一目でわかるチェッカー。SoC・メモリ・性能指数と、原神など人気ゲームの動作判定を表示。同じSoCの機種、同性能帯のSoCとその搭載機もまとめて確認できます。">
-<link rel="canonical" href="https://www.yudetaro.com/tools/sumaho-seinou/">
-<meta property="og:title" content="スマホ性能チェッカー | yudetaro.com">
-<meta property="og:description" content="スマホの性能が一目でわかる。SoC・メモリ・ゲーム動作判定、同じSoCと同性能帯の機種も表示。">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.yudetaro.com/tools/sumaho-seinou/">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LK203PMLXD');
+<meta name="description" content="iPhone 17／Galaxy S25／Pixel 10 Pro XL／Xperia 10 VII／AQUOS sense10／Redmi Note 15 Pro／POCO F7 Pro・F7 Ultra・X8 Pro／OPPO Reno14・Reno13 A／Xiaomi 15T Pro／arrows Alpha／Nothing Phone (3)など最新スマホのSoC・メモリ・AnTuTuスコアと、原神・崩壊スターレイルなど人気ゲームが快適に動くかを機種ごとに判定。機種名・SoC名・カタカナ読みでも検索できます。"/>
+<meta name="keywords" content="スマホ 性能 比較,AnTuTu スコア,原神 動く スマホ,Pixel 10 Pro XL 性能,Redmi Note 15 Pro 性能,Reno14 性能,Reno13 A 性能,POCO F7 性能,POCO F7 Pro 性能,POCO F7 Ultra 性能,POCO X8 Pro 性能,Xiaomi 15T Pro 性能,Xperia 10 VII 性能,arrows Alpha 性能,Nothing Phone 3 性能,AQUOS sense10 性能"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="スマホ性能チェッカー｜最新モデルの性能・ゲーム対応を比較"/>
+<meta property="og:description" content="最新スマホのSoC・AnTuTuスコア・ゲーム快適さを機種ごとに判定。Redmi Note 15系、POCO F7系・X8 Pro、OPPO Reno14・Reno13 A、Xiaomi 15T系、Pixel 10 Pro XL、Xperia 10 VII、arrows Alpha、Nothing Phone (3)など2025〜2026年モデルに対応。"/>
+<meta name="twitter:card" content="summary"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"スマホ性能チェッカー","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"最新スマホのSoC・メモリ・AnTuTuスコアとゲーム対応を比較できるチェッカー。Pixel 10 Pro XL、Redmi Note 15 Pro、OPPO Reno14・Reno13 A、POCO F7・F7 Pro・F7 Ultra・X8 Pro、Xiaomi 15T Pro、Galaxy A57、arrows Alpha、moto g66j 5G、Nothing Phone (3)、Xperia 10 VIIなどに対応。"}
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
 <style>
@@ -121,15 +116,48 @@ a{color:inherit}
 .compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
 .rank{font-size:11px;color:var(--sub)}
 .empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.latest-strip{max-width:1180px;margin:0 auto;padding:2px 16px 0}
+.latest-strip .ls-head{font-size:12px;font-weight:900;color:var(--sub);margin-bottom:7px}
+.latest-strip .ls-head b{color:var(--accent)}
+.ls-chips{display:flex;gap:6px;flex-wrap:wrap}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
 </style>
+<link rel="canonical" href="https://www.yudetaro.com/tools/sumaho-seinou/">
+<meta property="og:title" content="スマホ性能チェッカー | yudetaro.com">
+<meta property="og:description" content="スマホの性能が一目でわかるチェッカー。SoC・メモリ・性能指数と、原神など人気ゲームの動作判定を表示。同じSoCの機種、同性能帯のSoCとその搭載機もまとめて確認できます。">
+<meta property="og:url" content="https://www.yudetaro.com/tools/sumaho-seinou/">
+<meta property="og:type" content="website">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LK203PMLXD');
+</script>
 </head>
 <body>
 <div class="top">
-  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。</p>
+  <h1 class="page-title">スマホ性能チェッカー</h1>
+  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2025〜2026年の最新モデル</b>（Pixel 10 Pro XL、Redmi Note 15 Pro、POCO F7／F7 Pro／F7 Ultra、POCO X8 Pro、OPPO Reno14／Reno13 A、Xiaomi 15T Pro、arrows Alpha、Nothing Phone (3)、Xperia 10 VII、AQUOS sense10 など）まで収録。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録しています。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
   <div class="controls">
-    <label class="search">🔍 <input id="q" type="search" placeholder="機種名・SoC・メーカーで検索（例：アクオス、ピクセル、8Gen3）"></label>
+    <label class="search">🔍 <input id="q" type="search" placeholder="機種名・SoC・メーカーで検索（例：POCO F7、レノ14、Redmi Note 15、ピクセル10、8Gen3）"></label>
     <div class="pills" id="filters">
       <button class="pill active" data-f="all">すべて</button>
+      <button class="pill" data-f="latest">🆕 最新モデル</button>
       <button class="pill" data-f="S">ハイエンド</button>
       <button class="pill" data-f="A">ミドルハイ</button>
       <button class="pill" data-f="B">ミドル</button>
@@ -143,10 +171,71 @@ a{color:inherit}
   </div>
 </div>
 
+<div class="latest-strip" aria-label="最新モデルへのショートカット">
+  <div class="ls-head">🆕 <b>今回追加した最新モデル</b> ― タップで性能とゲーム対応をすぐ確認できます</div>
+  <div class="ls-chips" id="latestChips"></div>
+</div>
+
 <div class="layout" id="layout">
   <div class="list" id="list"></div>
 
   <article class="detail" id="detail"></article>
+</div>
+
+<div class="seo-wrap">
+  <section class="seo-card" aria-labelledby="latest-guide">
+    <h2 id="latest-guide">2025〜2026年 最新モデルの性能ガイド</h2>
+    <p>今回追加した最新モデルは、SoC（スマホの頭脳チップ）で見ると性格がはっきり分かれます。ゲームを快適に遊びたいかどうかで、選ぶラインが変わります。</p>
+    <h3>ハイエンド ― 原神の最高画質でも余裕があるライン</h3>
+    <ul>
+      <li><b>POCO F7 Ultra</b>（Snapdragon 8 Elite）／ <b>POCO F7 Pro</b>（Snapdragon 8 Gen 3）／ <b>POCO F7</b>（Snapdragon 8s Gen 4）／ <b>POCO X8 Pro</b>（Dimensity 8500 Ultra）／ <b>Xiaomi 15T Pro</b>（Dimensity 9400+）／ <b>Nothing Phone (3)</b>（Snapdragon 8s Gen 4）／ <b>Galaxy Z Fold7</b>（Snapdragon 8 Elite）／ <b>Pixel 10 Pro XL・Pixel 10 Pro Fold</b>（Google Tensor G5）／ <b>OPPO Reno14 5G</b>・<b>arrows Alpha F-51F</b>・<b>motorola edge 60 pro</b>（いずれも Dimensity 8350）</li>
+      <li>この帯は原神・崩壊：スターレイルの最高画質でも快適な水準です。とくにPOCO F7系は「価格に対してどこまで速いか」を比べる人が多いラインで、同じSoCの他メーカー機と並べて見るのがおすすめです。Pixel 10 Pro XL はAI処理とカメラが強みで、純粋なゲーム性能では Snapdragon 8 Elite 搭載機が一歩リードします。</li>
+    </ul>
+    <h3>ミドルハイ〜ミドル ― 価格と性能のバランスがいいライン</h3>
+    <ul>
+      <li><b>Xiaomi 15T</b>（Dimensity 8400 Ultra）／ <b>Redmi Note 15 Pro 5G</b>（Dimensity 7400 Ultra、AnTuTu約90万クラス）／ <b>Galaxy A57 5G</b>（Exynos 1680、約139万クラス）・<b>A56 5G</b>（Exynos 1580）／ <b>Xperia 10 VII</b>・<b>Redmi Note 15 5G（日本版）</b>（Snapdragon 6 Gen 3）</li>
+      <li>原神は画質設定を調整すれば快適に遊べる帯です。プロセカやウマ娘、モンスト程度なら余裕があります。A57は従来のAシリーズより大きく性能が上がっているので、前モデルとの差に注意してください。</li>
+    </ul>
+    <h3>エントリー〜ミドル ― 日常使いが快適なライン</h3>
+    <ul>
+      <li><b>OPPO Reno13 A</b>（Snapdragon 6 Gen 1）／ <b>moto g66j 5G</b>（Dimensity 7060）</li>
+      <li>LINE・SNS・動画・軽いゲームが中心なら十分な性能です。重い3Dゲームは画質を下げる前提で考えてください。Reno13 A はおサイフケータイや防水など国内向け機能のバランスで選ばれる機種で、性能重視なら上位の Reno14 5G との差を必ず比べてください。</li>
+    </ul>
+    <h3>POCO・Renoを買うときの見方</h3>
+    <p>POCOとRenoは、同じ価格帯でもSoCが1〜2ランク違うことがあるため、<b>型番の新しさよりSoCとAnTuTuスコアで比べる</b>のが確実です。POCOは性能寄り、Renoは国内向け機能とデザイン寄りになりやすいので、このチェッカーでゲーム判定まで並べて確認してください。iPhoneは性能を気にして買う人は少ないものの、乗り換えや価格比較の基準として全モデルを収録しています。</p>
+  </section>
+
+  <section class="seo-card" aria-labelledby="faq-h">
+    <h2 id="faq-h">よくある検索・質問</h2>
+    <details>
+      <summary>Redmi Note 15 Pro で原神は動きますか？</summary>
+      <p>Redmi Note 15 Pro 5G（Dimensity 7400 Ultra、AnTuTu約90万クラス）は中画質なら快適、高画質は設定調整次第です。最高画質で遊びたいなら POCO F7 シリーズや Xiaomi 15T シリーズが上です。上のチェッカーで機種を選ぶと、詳細パネルでゲームごとの判定を確認できます。なお無印の Redmi Note 15 5G（日本版）は Dimensity ではなく Snapdragon 6 Gen 3 搭載で、性能帯が一段下がります。</p>
+    </details>
+    <details>
+      <summary>Pixel 10 Pro XL と Pixel 10 の性能差は？</summary>
+      <p>SoCはどちらも Google Tensor G5 で、処理性能はほぼ同じです。違いは画面サイズやカメラ構成が中心なので、ゲーム性能で選ぶならどちらでも体感は近いです。</p>
+    </details>
+    <details>
+      <summary>OPPO Reno13 A はゲーム向きですか？</summary>
+      <p>Reno13 A（Snapdragon 6 Gen 1）は日常使いと軽いゲーム向けです。モンストやプロセカは快適ですが、原神のような重い3Dゲームは低〜中画質が前提になります。ゲームも重視するなら、Dimensity 8350 搭載の Reno14 5G が大きく上です。</p>
+    </details>
+    <details>
+      <summary>POCO F7／F7 Pro／F7 Ultra はどう違いますか？</summary>
+      <p>SoCが違います。F7 Ultra は Snapdragon 8 Elite、F7 Pro は Snapdragon 8 Gen 3、F7（無印）は Snapdragon 8s Gen 4 で、いずれも原神の最高画質が狙える帯です。価格とスコアのバランスで比べるなら、この3機種と POCO X8 Pro（Dimensity 8500 Ultra）を並べて見るのがおすすめです。</p>
+    </details>
+    <details>
+      <summary>OPPO Reno14 5G と Reno13 A の性能差は？</summary>
+      <p>大きく違います。Reno14 5G は Dimensity 8350 で AnTuTu 約145万クラス、Reno13 A は Snapdragon 6 Gen 1 で約57万クラスです。日常使いはどちらも快適ですが、重いゲームでは別物と考えてください。</p>
+    </details>
+    <details>
+      <summary>Xperia 10 VII・arrows Alpha・moto g66j 5G の位置づけは？</summary>
+      <p>Xperia 10 VII（Snapdragon 6 Gen 3）は軽さと電池持ち寄りのミドル機、arrows Alpha F-51F（Dimensity 8350）は国産機では珍しい高性能ライン、moto g66j 5G（Dimensity 7060）は価格を抑えた日常使いラインです。</p>
+    </details>
+    <details>
+      <summary>Nothing Phone (3) と Phone (3a) は何が違いますか？</summary>
+      <p>Phone (3) は Snapdragon 8s Gen 4 搭載の上位モデルで、ゲーム性能は (3a) の Snapdragon 7s Gen 3 から大きく上がります。原神の最高画質を狙うなら Phone (3) です。</p>
+    </details>
+  </section>
 </div>
 
 <p style="max-width:1180px;margin:0 auto;padding:0 16px 28px;font-size:11.5px;color:var(--sub);line-height:1.7">※ 性能スコアは公開ベンチマーク（AnTuTu v10中心）の目安です。実際の体感は冷却性能・ストレージ・画面解像度でも変わります。ゲーム判定は最高画質を基準にした目安で、設定を下げれば判定より快適に遊べる場合があります。Amazonリンクは該当機種の検索結果へ移動します。価格・在庫はAmazon側でご確認ください。</p>
@@ -212,6 +301,15 @@ const SOCS = {
   sd480:{name:"Snapdragon 480 5G",maker:"Qualcomm",antutu:335000,cpu:38,gpu:24,process:"8nm"},
   sd680:{name:"Snapdragon 680",maker:"Qualcomm",antutu:305000,cpu:35,gpu:19,process:"6nm"},
   helioG85:{name:"Helio G85",maker:"MediaTek",antutu:265000,cpu:31,gpu:18,process:"12nm"},
+  d9400p:{name:"Dimensity 9400+",maker:"MediaTek",antutu:2840000,cpu:99,gpu:99,process:"3nm"},
+  ex2500:{name:"Exynos 2500",maker:"Samsung",antutu:1860000,cpu:90,gpu:91,process:"3nm"},
+  d8350:{name:"Dimensity 8350",maker:"MediaTek",antutu:1450000,cpu:83,gpu:84,process:"4nm"},
+  ex1680:{name:"Exynos 1680",maker:"Samsung",antutu:1390000,cpu:82,gpu:80,process:"4nm"},
+  ex1580:{name:"Exynos 1580",maker:"Samsung",antutu:890000,cpu:68,gpu:64,process:"4nm"},
+  sd7s4:{name:"Snapdragon 7s Gen 4",maker:"Qualcomm",antutu:880000,cpu:69,gpu:62,process:"4nm"},
+  d7400:{name:"Dimensity 7400 Ultra",maker:"MediaTek",antutu:900000,cpu:69,gpu:63,process:"4nm"},
+  d8500:{name:"Dimensity 8500 Ultra",maker:"MediaTek",antutu:1840000,cpu:88,gpu:88,process:"4nm"},
+  d7060:{name:"Dimensity 7060",maker:"MediaTek",antutu:550000,cpu:54,gpu:44,process:"6nm"},
 };
 const MAX_ANTUTU = Math.max(...Object.values(SOCS).map(s=>s.antutu));
 
@@ -343,6 +441,27 @@ const PHONES = [
  {id:"sense10",name:"AQUOS sense10",maker:"SHARP",soc:"sd7s3",ram:8,storage:128, year:2025, emoji:"💧"},
  {id:"x10viii",name:"Xperia 10 VIII",maker:"Sony",soc:"sd6g3",ram:8,storage:128, year:2026, emoji:"🎧"},
  {id:"wish6",name:"AQUOS wish6",maker:"SHARP",soc:"d6300",ram:4,storage:128, year:2026, emoji:"💧"},
+ {id:"p10pxl",name:"Pixel 10 Pro XL",maker:"Google",soc:"tg5",ram:16,storage:256, year:2025, emoji:"🔍", aka:"ピクセル10プロXL ぐーぐるぴくせる"},
+ {id:"p10pf",name:"Pixel 10 Pro Fold",maker:"Google",soc:"tg5",ram:16,storage:256, year:2025, emoji:"📖", aka:"ピクセル10プロフォールド 折りたたみ"},
+ {id:"np3",name:"Nothing Phone (3)",maker:"Nothing",soc:"sd8s4",ram:12,storage:256, year:2025, emoji:"💡", aka:"ナッシングフォン3 ナッシングフォーン3"},
+ {id:"x10vii",name:"Xperia 10 VII",maker:"Sony",soc:"sd6g3",ram:8,storage:128, year:2025, emoji:"🎧", aka:"エクスペリア10 マーク7 エクスペリアテン"},
+ {id:"reno13a",name:"OPPO Reno13 A",maker:"OPPO",soc:"sd6g1",ram:8,storage:128, year:2025, emoji:"🌿", aka:"オッポ レノ13 レノ13A reno13"},
+ {id:"mi15tp",name:"Xiaomi 15T Pro",maker:"Xiaomi",soc:"d9400p",ram:12,storage:256, year:2025, emoji:"⚡", aka:"シャオミ15Tプロ シャオミー"},
+ {id:"mi15t",name:"Xiaomi 15T",maker:"Xiaomi",soc:"d8400",ram:12,storage:256, year:2025, emoji:"📱", aka:"シャオミ15T シャオミー"},
+ {id:"a57",name:"Galaxy A57 5G",maker:"Samsung",soc:"ex1680",ram:8,storage:128, year:2026, emoji:"🌌", aka:"ギャラクシーA57"},
+ {id:"a56",name:"Galaxy A56 5G",maker:"Samsung",soc:"ex1580",ram:8,storage:128, year:2025, emoji:"🌌", aka:"ギャラクシーA56"},
+ {id:"arrowsAlpha",name:"arrows Alpha F-51F",maker:"FCNT",soc:"d8350",ram:12,storage:512, year:2025, emoji:"➡️", aka:"アローズアルファ あろーずあるふぁ"},
+ {id:"g66",name:"moto g66j 5G",maker:"Motorola",soc:"d7060",ram:8,storage:128, year:2025, emoji:"🏍️", aka:"モトg66 モトローラ g66j"},
+ {id:"rn15p",name:"Redmi Note 15 Pro 5G",maker:"Xiaomi",soc:"d7400",ram:8,storage:256, year:2026, emoji:"📝", aka:"レッドミノート15プロ レッドミーノート15"},
+ {id:"rn15",name:"Redmi Note 15 5G",maker:"Xiaomi",soc:"sd6g3",ram:8,storage:128, year:2026, emoji:"📝", aka:"レッドミノート15 レッドミーノート15"},
+ {id:"pocoF7u",name:"POCO F7 Ultra",maker:"Xiaomi",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7ウルトラ ポコエフセブンウルトラ poco"},
+ {id:"pocoF7p",name:"POCO F7 Pro",maker:"Xiaomi",soc:"sd8g3",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7プロ ポコエフセブンプロ poco"},
+ {id:"pocoF7",name:"POCO F7",maker:"Xiaomi",soc:"sd8s4",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7 ポコエフセブン poco"},
+ {id:"pocoX8p",name:"POCO X8 Pro",maker:"Xiaomi",soc:"d8500",ram:12,storage:256, year:2026, emoji:"🏎️", aka:"ポコX8プロ ポコエックスエイトプロ poco"},
+ {id:"reno14",name:"OPPO Reno14 5G",maker:"OPPO",soc:"d8350",ram:12,storage:256, year:2025, emoji:"🌿", aka:"オッポ レノ14 レノ14 reno14 リノ14"},
+ {id:"zfold7",name:"Galaxy Z Fold7",maker:"Samsung",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"📖", aka:"ギャラクシーZフォールド7 折りたたみ"},
+ {id:"zflip7",name:"Galaxy Z Flip7",maker:"Samsung",soc:"ex2500",ram:12,storage:256, year:2025, emoji:"🪞", aka:"ギャラクシーZフリップ7 折りたたみ"},
+ {id:"edge60p",name:"motorola edge 60 pro",maker:"Motorola",soc:"d8350",ram:12,storage:256, year:2025, emoji:"🏍️", aka:"モトローラエッジ60プロ モトエッジ"},
 ];
 
 const GAMES = [
@@ -384,8 +503,13 @@ const KANA_TO_EN = [
   ["モトローラ","motorola"],["エッジ","edge"],["ウィッシュ","wish"],
   ["センス","sense"],["ノート","note"],["ウルトラ","ultra"],
   ["フォールド","fold"],["フリップ","flip"],["ファインド","find"],
-  ["マックス","max"],["プロ","pro"],["プラス","plus"]
+  ["マックス","max"],["プロ","pro"],["プラス","plus"],
+  ["レッドミーノート","redminote"],["レッドミノート","redminote"],
+  ["レノ","reno"],["ポコ","poco"],["アルファ","alpha"],["フォン","phone"],["フォーン","phone"]
 ].sort((a,b)=>b[0].length-a[0].length);
+
+const NEW_IDS = new Set(["p10pxl","p10pf","np3","x10vii","reno13a","reno14","mi15tp","mi15t","a57","a56","arrowsAlpha","g66","rn15p","rn15","zfold7","zflip7","edge60p","pocoF7u","pocoF7p","pocoF7","pocoX8p"]);
+function isLatest(p){ return NEW_IDS.has(p.id) || p.year>=2026; }
 
 function normalizeSearch(s){
   if(!s) return "";
@@ -403,7 +527,7 @@ function queryTokens(){
   return query.split(/[\s\u3000]+/).map(normalizeSearch).filter(Boolean);
 }
 function haystackOf(p){
-  return normalizeSearch(p.name+" "+p.maker+" "+p.socObj.name+" "+p.socObj.maker+" "+tierLabel(p.tier)+" "+p.year);
+  return normalizeSearch(p.name+" "+p.maker+" "+p.socObj.name+" "+p.socObj.maker+" "+tierLabel(p.tier)+" "+p.year+" "+(p.aka||"")+" "+(isLatest(p)?"最新 最新モデル 新モデル new latest 2025 2026":""));
 }
 
 function renderList(){
@@ -412,7 +536,8 @@ function renderList(){
   const searching = tokens.length>0 || filterTier!=="all";
   document.getElementById('layout').classList.toggle('searching', searching);
   const filtered=PH.filter(p=>{
-    if(filterTier!=="all" && p.tier!==filterTier) return false;
+    if(filterTier==="latest"){ if(!isLatest(p)) return false; }
+    else if(filterTier!=="all" && p.tier!==filterTier) return false;
     if(!tokens.length) return true;
     const hay=haystackOf(p);
     return tokens.every(tok=>hay.includes(tok));
@@ -423,7 +548,7 @@ function renderList(){
     <div class="phone-card ${p.id===selectedId?'selected':''}" role="button" tabindex="0" data-select="${p.id}" aria-label="${p.name} の詳細を表示">
       <div class="thumb">${p.emoji}</div>
       <div class="pc-main">
-        <div style="display:flex;gap:6px;align-items:center"><span class="tier">${p.tier} ・ ${tierLabel(p.tier)}</span><span style="font-size:11px;color:var(--sub)">${p.year}年</span></div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="tier">${p.tier} ・ ${tierLabel(p.tier)}</span><span style="font-size:11px;color:var(--sub)">${p.year}年</span>${NEW_IDS.has(p.id)?'<span class="new-badge">NEW 最新</span>':''}</div>
         <div class="pc-name" style="margin-top:4px">${p.name}</div>
         <div class="pc-meta">${p.socObj.name} ・ ${p.ram}GB RAM</div>
         <div class="mini-bar"><i style="width:${p.index}%"></i></div>
@@ -448,7 +573,7 @@ function renderDetail(){
   document.getElementById('detail').innerHTML = `
     <div class="detail-head">
       <div class="d-title">
-        <div class="d-maker">${p.maker} ・ ${p.year}年モデル ・ ${tierLabel(p.tier)}</div>
+        <div class="d-maker">${p.maker} ・ ${p.year}年モデル ・ ${tierLabel(p.tier)} ${NEW_IDS.has(p.id)?'・ 🆕 最新モデル':''}</div>
         <div class="d-name">${p.emoji} ${p.name}</div>
         <div class="d-sub">この1台の速さがすぐわかるまとめ。ゲーム目当てで買うかどうかの判断材料に。</div>
         <div class="specs">
@@ -587,17 +712,23 @@ document.getElementById('filters').addEventListener('click',e=>{
   const b=e.target.closest('.pill'); if(!b) return;
   document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterTier=b.dataset.f; renderList();
 });
+(function renderLatestChips(){
+  const wrap=document.getElementById('latestChips'); if(!wrap) return;
+  const items=PH.filter(p=>NEW_IDS.has(p.id));
+  wrap.innerHTML=items.map(p=>`<button class="chipbtn" data-select="${p.id}">${p.emoji} ${p.name}</button>`).join('');
+  wrap.addEventListener('click', activateFromEvent);
+  wrap.addEventListener('keydown', keyActivate);
+})();
 renderList(); renderDetail();
 </script>
 
-<section style="max-width:1180px;margin:0 auto;padding:6px 16px 34px">
-  <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;font-size:13.5px;line-height:1.9;color:var(--sub)">
-    <h2 style="margin:0 0 10px;font-size:16px;color:var(--text)">このツールについて</h2>
-    <p style="margin:0 0 10px">機種を選ぶと、搭載SoC・メモリ・性能の目安と、人気ゲームがどの程度快適に動くかの判定が一目でわかります。同じSoCを積んだ機種、同性能帯のSoCとその搭載機もあわせて表示するので、「このゲームが動くスマホはどれか」「今の機種と比べてどれくらい速いか」を調べるときに使えます。</p>
-    <p style="margin:0 0 10px">性能指数は、公開されているベンチマーク結果をもとに算出した目安です。実際の動作は、ゲームのバージョンや端末の状態によって変わります。判定は購入・買い替えの参考としてご利用ください。</p>
-    <p style="margin:0">各機種のAmazonリンクはアフィリエイトリンク（Amazonアソシエイト）です。リンク先の価格や在庫は変動します。</p>
-  </div>
-  <p style="margin:16px 2px 0;font-size:13px"><a href="/tools/">← 道具・ツール一覧へ</a>　<a href="/">ブログへ</a>　<a href="/games/">自作ゲームへ</a></p>
+<section style="max-width:860px;margin:24px auto;padding:20px;line-height:1.9;font-size:14px;color:#444;">
+<h2 style="font-size:18px;">このツールについて</h2>
+<p>スマホ性能チェッカーは、機種を選ぶだけで搭載SoC・メモリ・性能の目安と、人気ゲームの動作判定が一目でわかるツールです。同じSoCを積んだ機種や、同性能帯のSoCとその搭載機もあわせて表示するので、買い替えや機種選びの比較に使えます。</p>
+<p>性能指数は公開ベンチマーク（AnTuTu v10）をもとにした概算で、実機の動作を保証するものではありません。ゲームの動作判定もSoCの性能帯からの目安です。</p>
+<p><a href="/tools/sumaho-seinou/models/">機種別ページ一覧</a>では、収録機種ごとの性能・ゲーム動作を1機種1ページでまとめています。「機種名＋ゲーム名」で探したい方はこちらからどうぞ。</p>
+<p>各機種のAmazonリンクはアフィリエイトリンクです（Amazonアソシエイト・プログラムを利用しています）。</p>
+<p><a href="/tools/">ツール一覧へ戻る</a> ／ <a href="/games/">自作ゲーム</a> ／ <a href="/">ブログ</a></p>
 </section>
 </body>
 </html>
