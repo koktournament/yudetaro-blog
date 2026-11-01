@@ -1,0 +1,74 @@
+'use strict';
+/* AIラーメン Muse支店 - Cloudflare Worker（本番用）
+   ルーティング: /api/ramen/* は部屋ごとの Durable Object（倉庫）へ、それ以外は静的アセットへ。
+   wrangler.jsonc への追加設定は README.md を参照。 */
+import coreModule from './ramen-core.js';
+const core = coreModule.default || coreModule;
+
+const WORDS = ['neko', 'inu', 'tora', 'sora', 'umi', 'yama', 'kawa', 'hoshi'];
+function seedFromCode(code) { let h = 2166136261; for (const c of code) { h ^= c.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+function json(obj, status) { return new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json; charset=utf-8' } }); }
+
+export class RamenRoom {
+  constructor(state, env) { this.storage = state.storage; }
+  async load() { return (await this.storage.get('room')) || null; }
+  async save(st) { await this.storage.put('room', st); }
+  async fetch(req) {
+    const u = new URL(req.url);
+    const code = u.searchParams.get('code') || (await req.clone().json().catch(() => ({}))).code;
+    if (u.pathname.endsWith('/init')) {
+      if (!(await this.load())) await this.save(core.newRoom(seedFromCode(code)));
+      return json({ ok: true });
+    }
+    const st = await this.load();
+    if (!st) return json({ error: '部屋が見つかりません' }, 404);
+    if (u.pathname.endsWith('/state')) {
+      const role = u.searchParams.get('role');
+      if (role !== 'human' && role !== 'robot') return json({ error: 'role は human か robot' }, 400);
+      return json(core.viewFor(st, role));
+    }
+    if (u.pathname.endsWith('/message')) {
+      const body = await req.json();
+      const r = core.submitMessage(st, body.role, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, phase: st.phase });
+    }
+    if (u.pathname.endsWith('/submit')) {
+      const body = await req.json();
+      const r = core.submit(st, body.role, body.decision || {});
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, phase: st.phase });
+    }
+    if (u.pathname.endsWith('/ack')) {
+      const body = await req.json();
+      const r = core.ack(st, body.role);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, phase: st.phase, day: st.day });
+    }
+    return json({ error: 'not found' }, 404);
+  }
+}
+
+export default {
+  async fetch(req, env) {
+    const u = new URL(req.url);
+    if (u.pathname.startsWith('/api/ramen/')) {
+      if (u.pathname === '/api/ramen/create') {
+        const code = WORDS[Math.floor(Math.random() * WORDS.length)] + Math.floor(100 + Math.random() * 900);
+        const stub = env.RAMEN_ROOM.get(env.RAMEN_ROOM.idFromName(code));
+        await stub.fetch('https://do/init?code=' + code);
+        return json({ code });
+      }
+      const body = req.method === 'POST' ? await req.clone().json().catch(() => ({})) : {};
+      const code = u.searchParams.get('code') || body.code;
+      if (!code) return json({ error: 'code が必要です' }, 400);
+      const stub = env.RAMEN_ROOM.get(env.RAMEN_ROOM.idFromName(code));
+      const path = u.pathname.replace('/api/ramen', '');
+      return stub.fetch('https://do' + path + '?code=' + encodeURIComponent(code) + (u.searchParams.get('role') ? '&role=' + u.searchParams.get('role') : ''), req);
+    }
+    return env.ASSETS.fetch(req);
+  },
+};

@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>スマホ性能チェッカー | yudetaro.com</title>
+<meta name="description" content="iPhone 17／Galaxy S25／Pixel 10 Pro XL／Xperia 10 VII／AQUOS sense10／Redmi Note 15 Pro／POCO F7 Pro・F7 Ultra・X8 Pro／OPPO Reno14・Reno13 A／Xiaomi 15T Pro／arrows Alpha／Nothing Phone (3)など最新スマホのSoC・メモリ・AnTuTuスコアと、原神・崩壊スターレイルなど人気ゲームが快適に動くかを機種ごとに判定。機種名・SoC名・カタカナ読みでも検索できます。"/>
+<meta name="keywords" content="スマホ 性能 比較,AnTuTu スコア,原神 動く スマホ,Pixel 10 Pro XL 性能,Redmi Note 15 Pro 性能,Reno14 性能,Reno13 A 性能,POCO F7 性能,POCO F7 Pro 性能,POCO F7 Ultra 性能,POCO X8 Pro 性能,Xiaomi 15T Pro 性能,Xperia 10 VII 性能,arrows Alpha 性能,Nothing Phone 3 性能,AQUOS sense10 性能"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="スマホ性能チェッカー｜最新モデルの性能・ゲーム対応を比較"/>
+<meta property="og:description" content="最新スマホのSoC・AnTuTuスコア・ゲーム快適さを機種ごとに判定。Redmi Note 15系、POCO F7系・X8 Pro、OPPO Reno14・Reno13 A、Xiaomi 15T系、Pixel 10 Pro XL、Xperia 10 VII、arrows Alpha、Nothing Phone (3)など2025〜2026年モデルに対応。"/>
+<meta name="twitter:card" content="summary"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"スマホ性能チェッカー","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"最新スマホのSoC・メモリ・AnTuTuスコアとゲーム対応を比較できるチェッカー。Pixel 10 Pro XL、Redmi Note 15 Pro、OPPO Reno14・Reno13 A、POCO F7・F7 Pro・F7 Ultra・X8 Pro、Xiaomi 15T Pro、Galaxy A57、arrows Alpha、moto g66j 5G、Nothing Phone (3)、Xperia 10 VIIなどに対応。"}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --text:#121826; --sub:#5b6474; --line:#e2e6ec;
+  --accent:#ff6a00; --accent2:#00917c; --good:#00917c; --ok:#eab308; --bad:#ef4444;
+  --chip:#eef1f4;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1219; --card:#171d29; --card2:#1e2636; --text:#eef2f7; --sub:#9aa4b5; --line:#263041; --chip:#222b3d; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP",system-ui,sans-serif}
+a{color:inherit}
+.top{max-width:1180px;margin:0 auto;padding:18px 16px 8px}
+.lead{font-size:14px;line-height:1.7;color:var(--sub);max-width:720px}
+.lead b{color:var(--text)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px}
+.search input{flex:1;border:0;outline:0;background:transparent;font-size:15px;color:var(--text)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.layout{max-width:1180px;margin:0 auto;padding:12px 16px 28px;display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr} .detail{order:-1} .layout.searching .list{order:-1} .layout.searching .detail{order:0}}
+.list{display:grid;gap:8px}
+.phone-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 10px;display:flex;gap:12px;cursor:pointer;text-align:left;width:100%}
+.phone-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 22%,transparent)}
+.phone-card:hover{border-color:#cbd2dc}
+.thumb{width:48px;height:64px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.pc-main{flex:1;min-width:0}
+.pc-name{font-weight:900;font-size:14.5px;line-height:1.3}
+.pc-meta{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar{height:6px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:8px}
+.mini-bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.pc-score{font-family:Inter,sans-serif;font-weight:800;font-size:13px;text-align:right;line-height:1}
+.pc-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px;margin-top:3px}
+.tier{font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;background:#fff1e6;color:#9a3d00;border:1px solid #ffd9bd}
+@media(prefers-color-scheme:dark){.tier{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;scroll-margin-top:12px}
+/* PC幅では詳細パネルを画面に固定し、スクロールの成否に依存せず常に見えるようにする。
+   パネルが画面より高い場合はパネル内スクロールで全体を読める。 */
+@media(min-width:861px){.detail{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}}
+.detail.flash{animation:detailFlash .45s ease}
+@keyframes detailFlash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion: reduce){.detail.flash{animation:none}}
+.detail-head{padding:18px 18px 0;display:flex;gap:16px;flex-wrap:wrap}
+.d-title{flex:1;min-width:220px}
+.d-maker{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.d-name{font-size:26px;font-weight:900;line-height:1.15;margin:4px 0 6px}
+.d-sub{font-size:13px;color:var(--sub);line-height:1.6}
+.specs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.spec{background:var(--card2);border-radius:10px;padding:8px 10px;min-width:104px}
+.spec label{display:block;font-size:10px;letter-spacing:.06em;color:var(--sub);font-weight:700}
+.spec b{font-size:13.5px}
+.score-box{text-align:center;background:var(--card2);border-radius:14px;padding:12px 16px;min-width:132px}
+.score-num{font-family:Inter,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.score-num span{font-size:13px;color:var(--sub)}
+.score-label{font-size:11px;color:var(--sub);margin-top:4px}
+.progress{height:10px;background:var(--chip);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff6a00,#ffb020)}
+.bars{padding:14px 18px 4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.bars{grid-template-columns:1fr}}
+.bar-row label{font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar-track i{display:block;height:100%;background:var(--text)}
+.bar-track i.gpu{background:var(--accent2)} .bar-track i.game{background:var(--accent)}
+.section{padding:16px 18px 18px;border-top:1px solid var(--line);margin-top:14px}
+.section h3{margin:0 0 4px;font-size:15px;font-weight:900}
+.section p.desc{margin:0 0 12px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.games{grid-template-columns:1fr}}
+.game{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px}
+.game-emoji{font-size:20px;width:36px;height:36px;background:var(--card);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
+.game b{font-size:13.5px;display:block}
+.game span{font-size:11.5px;color:var(--sub)}
+.badge{margin-left:auto;font-size:20px;font-weight:900;width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex-shrink:0}
+.badge.ex{background:#dcf5e9;color:#006b4f}.badge.gd{background:#e0f2fe;color:#075985}.badge.pl{background:#fef9c3;color:#854d0e}.badge.ng{background:#fee2e2;color:#991b1b}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.chipbtn:hover{border-color:var(--accent)}
+.soc-block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.soc-block-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.soc-block-head b{font-size:13.5px}
+.soc-block-head span{font-size:12px;color:var(--sub)}
+.rel-list{display:grid;gap:8px}
+.rel-item{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:10px 12px;cursor:pointer;border:1px solid transparent}
+.rel-item:hover{border-color:var(--line)}
+.rel-item b{font-size:13.5px} .rel-item span{font-size:12px;color:var(--sub);display:block}
+.rel-score{margin-left:auto;text-align:right;font-family:Inter,sans-serif;font-weight:800;font-size:13px}
+.rel-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px}
+.amazon{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-amazon{background:#ff9900;color:#111;text-decoration:none;font-weight:900;font-size:14px;padding:12px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{border:1px solid var(--line);background:var(--card);padding:12px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.note{font-size:11.5px;color:var(--sub);line-height:1.7;padding:0 18px 16px}
+.compare{padding:0 18px 6px}
+.compare-row{display:grid;grid-template-columns:118px 1fr 62px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}
+.compare-row .track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden}
+.compare-row .track i{display:block;height:100%;background:#cbd5e1}
+.compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
+.rank{font-size:11px;color:var(--sub)}
+.empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
+</style>
+<link rel="canonical" href="https://www.yudetaro.com/tools/sumaho-seinou/">
+<meta property="og:title" content="スマホ性能チェッカー | yudetaro.com">
+<meta property="og:description" content="スマホの性能が一目でわかるチェッカー。SoC・メモリ・性能指数と、原神など人気ゲームの動作判定を表示。同じSoCの機種、同性能帯のSoCとその搭載機もまとめて確認できます。">
+<meta property="og:url" content="https://www.yudetaro.com/tools/sumaho-seinou/">
+<meta property="og:type" content="website">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LK203PMLXD');
+</script>
+</head>
+<body>
+<div class="top">
+  <h1 class="page-title">スマホ性能チェッカー</h1>
+  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2026年発売モデルまで、全148機種を収録</b>しています。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
+  <div class="controls">
+    <label class="search">🔍 <input id="q" type="search" placeholder="機種名・SoC・メーカーで検索（例：POCO F7、レノ14、Redmi Note 15、ピクセル10、8Gen3）"></label>
+    <div class="pills" id="filters">
+      <button class="pill active" data-f="all">すべて</button>
+      <button class="pill" data-f="latest">🆕 最新モデル</button>
+      <button class="pill" data-f="S">ハイエンド</button>
+      <button class="pill" data-f="A">ミドルハイ</button>
+      <button class="pill" data-f="B">ミドル</button>
+      <button class="pill" data-f="C">エントリー</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--sub)">
+    <span>📱 <b id="count" style="color:var(--text)"></b> 機種収録</span>
+    <span>⚡ スコア順に並んでいます</span>
+    <span>🛒 各機種に Amazon 検索リンク付き</span>
+  </div>
+</div>
+
+<div class="layout" id="layout">
+  <div class="list" id="list"></div>
+
+  <article class="detail" id="detail"></article>
+</div>
+
+<div class="seo-wrap">
+  <section class="seo-card" aria-labelledby="latest-guide">
+    <h2 id="latest-guide">性能ランクの見方ガイド</h2>
+    <p>収録機種は、SoC（スマホの頭脳チップ）で見ると性格がはっきり分かれます。ゲームを快適に遊びたいかどうかで、選ぶラインが変わります。</p>
+    <h3>ハイエンド ― 原神の最高画質でも余裕があるライン</h3>
+    <p>原神・崩壊：スターレイルの最高画質でも快適な水準です。とくに「価格に対してどこまで速いか」を比べる人が多いラインで、同じSoCの他メーカー機と並べて見るのがおすすめです。AI処理やカメラが強みの機種は、純粋なゲーム性能では最速クラスのSoC搭載機が一歩リードします。</p>
+    <h3>ミドルハイ〜ミドル ― 価格と性能のバランスがいいライン</h3>
+    <p>原神は画質設定を調整すれば快適に遊べる帯です。プロセカやウマ娘、モンスト程度なら余裕があります。同じシリーズでも世代が変わると性能が大きく上がることがあるので、前モデルとの差に注意してください。</p>
+    <h3>エントリー〜ミドル ― 日常使いが快適なライン</h3>
+    <p>LINE・SNS・動画・軽いゲームが中心なら十分な性能です。重い3Dゲームは画質を下げる前提で考えてください。おサイフケータイや防水など国内向け機能のバランスで選ばれる機種も多く、性能重視なら上位モデルとの差を必ず比べてください。</p>
+    <h3>POCO・Renoを買うときの見方</h3>
+    <p>POCOとRenoは、同じ価格帯でもSoCが1〜2ランク違うことがあるため、<b>型番の新しさよりSoCとAnTuTuスコアで比べる</b>のが確実です。POCOは性能寄り、Renoは国内向け機能とデザイン寄りになりやすいので、このチェッカーでゲーム判定まで並べて確認してください。iPhoneは性能を気にして買う人は少ないものの、乗り換えや価格比較の基準として全モデルを収録しています。</p>
+  </section>
+
+  <section class="seo-card" aria-labelledby="faq-h">
+    <h2 id="faq-h">よくある検索・質問</h2>
+    <details>
+      <summary>Redmi Note 15 Pro で原神は動きますか？</summary>
+      <p>Redmi Note 15 Pro 5G（Dimensity 7400 Ultra、AnTuTu約90万クラス）は中画質なら快適、高画質は設定調整次第です。最高画質で遊びたいなら POCO F7 シリーズや Xiaomi 15T シリーズが上です。上のチェッカーで機種を選ぶと、詳細パネルでゲームごとの判定を確認できます。なお無印の Redmi Note 15 5G（日本版）は Dimensity ではなく Snapdragon 6 Gen 3 搭載で、性能帯が一段下がります。</p>
+    </details>
+    <details>
+      <summary>Pixel 10 Pro XL と Pixel 10 の性能差は？</summary>
+      <p>SoCはどちらも Google Tensor G5 で、処理性能はほぼ同じです。違いは画面サイズやカメラ構成が中心なので、ゲーム性能で選ぶならどちらでも体感は近いです。</p>
+    </details>
+    <details>
+      <summary>OPPO Reno13 A はゲーム向きですか？</summary>
+      <p>Reno13 A（Snapdragon 6 Gen 1）は日常使いと軽いゲーム向けです。モンストやプロセカは快適ですが、原神のような重い3Dゲームは低〜中画質が前提になります。ゲームも重視するなら、Dimensity 8350 搭載の Reno14 5G が大きく上です。</p>
+    </details>
+    <details>
+      <summary>POCO F7／F7 Pro／F7 Ultra はどう違いますか？</summary>
+      <p>SoCが違います。F7 Ultra は Snapdragon 8 Elite、F7 Pro は Snapdragon 8 Gen 3、F7（無印）は Snapdragon 8s Gen 4 で、いずれも原神の最高画質が狙える帯です。価格とスコアのバランスで比べるなら、この3機種と POCO X8 Pro（Dimensity 8500 Ultra）を並べて見るのがおすすめです。</p>
+    </details>
+    <details>
+      <summary>OPPO Reno14 5G と Reno13 A の性能差は？</summary>
+      <p>大きく違います。Reno14 5G は Dimensity 8350 で AnTuTu 約145万クラス、Reno13 A は Snapdragon 6 Gen 1 で約57万クラスです。日常使いはどちらも快適ですが、重いゲームでは別物と考えてください。</p>
+    </details>
+    <details>
+      <summary>Xperia 10 VII・arrows Alpha・moto g66j 5G の位置づけは？</summary>
+      <p>Xperia 10 VII（Snapdragon 6 Gen 3）は軽さと電池持ち寄りのミドル機、arrows Alpha F-51F（Dimensity 8350）は国産機では珍しい高性能ライン、moto g66j 5G（Dimensity 7060）は価格を抑えた日常使いラインです。</p>
+    </details>
+    <details>
+      <summary>Nothing Phone (3) と Phone (3a) は何が違いますか？</summary>
+      <p>Phone (3) は Snapdragon 8s Gen 4 搭載の上位モデルで、ゲーム性能は (3a) の Snapdragon 7s Gen 3 から大きく上がります。原神の最高画質を狙うなら Phone (3) です。</p>
+    </details>
+  </section>
+</div>
+
+<p style="max-width:1180px;margin:0 auto;padding:0 16px 28px;font-size:11.5px;color:var(--sub);line-height:1.7">※ 性能スコアは公開ベンチマーク（AnTuTu v10中心）の目安です。実際の体感は冷却性能・ストレージ・画面解像度でも変わります。ゲーム判定は最高画質を基準にした目安で、設定を下げれば判定より快適に遊べる場合があります。Amazonリンクは該当機種の検索結果へ移動します。価格・在庫はAmazon側でご確認ください。</p>
+
+<script>
+const SOCS = {
+  sd8e5:{name:"Snapdragon 8 Elite Gen 5",maker:"Qualcomm",antutu:3760000,cpu:100,gpu:100,process:"3nm"},
+  a20pro:{name:"Apple A20 Pro",maker:"Apple",antutu:3300000,cpu:100,gpu:98,process:"2nm"},
+  sd8e:{name:"Snapdragon 8 Elite",maker:"Qualcomm",antutu:2750000,cpu:99,gpu:99,process:"3nm"},
+  d9400:{name:"Dimensity 9400",maker:"MediaTek",antutu:2680000,cpu:98,gpu:99,process:"3nm"},
+  sd8g3:{name:"Snapdragon 8 Gen 3",maker:"Qualcomm",antutu:2160000,cpu:95,gpu:98,process:"4nm"},
+  sd8s4:{name:"Snapdragon 8s Gen 4",maker:"Qualcomm",antutu:2050000,cpu:90,gpu:92,process:"4nm"},
+  d9300:{name:"Dimensity 9300+",maker:"MediaTek",antutu:2080000,cpu:94,gpu:99,process:"4nm"},
+  ex2400:{name:"Exynos 2400",maker:"Samsung",antutu:1740000,cpu:88,gpu:90,process:"4nm"},
+  a19pro:{name:"Apple A19 Pro",maker:"Apple",antutu:2400000,cpu:99,gpu:95,process:"3nm"},
+  a19:{name:"Apple A19",maker:"Apple",antutu:1920000,cpu:98,gpu:92,process:"3nm"},
+  a18pro:{name:"Apple A18 Pro",maker:"Apple",antutu:1720000,cpu:99,gpu:92,process:"3nm"},
+  d8400:{name:"Dimensity 8400 Ultra",maker:"MediaTek",antutu:1650000,cpu:84,gpu:86,process:"4nm"},
+  a18:{name:"Apple A18",maker:"Apple",antutu:1580000,cpu:97,gpu:87,process:"3nm"},
+  sd8g2:{name:"Snapdragon 8 Gen 2",maker:"Qualcomm",antutu:1600000,cpu:86,gpu:88,process:"4nm"},
+  a17:{name:"Apple A17 Pro",maker:"Apple",antutu:1550000,cpu:98,gpu:90,process:"3nm"},
+  sd8sg3:{name:"Snapdragon 8s Gen 3",maker:"Qualcomm",antutu:1520000,cpu:84,gpu:84,process:"4nm"},
+  d9200:{name:"Dimensity 9200+",maker:"MediaTek",antutu:1500000,cpu:86,gpu:88,process:"4nm"},
+  a16:{name:"Apple A16 Bionic",maker:"Apple",antutu:1440000,cpu:94,gpu:84,process:"4nm"},
+  sd7pg3:{name:"Snapdragon 7+ Gen 3",maker:"Qualcomm",antutu:1420000,cpu:82,gpu:80,process:"4nm"},
+  d8300:{name:"Dimensity 8300-Ultra",maker:"MediaTek",antutu:1420000,cpu:80,gpu:82,process:"4nm"},
+  a15:{name:"Apple A15 Bionic",maker:"Apple",antutu:1300000,cpu:90,gpu:78,process:"5nm"},
+  tg6:{name:"Google Tensor G6",maker:"Google",antutu:1490000,cpu:82,gpu:76,process:"3nm"},
+  tg5:{name:"Google Tensor G5",maker:"Google",antutu:1180000,cpu:78,gpu:72,process:"3nm"},
+  tg4:{name:"Google Tensor G4",maker:"Google",antutu:1180000,cpu:78,gpu:72,process:"4nm"},
+  sd8pg1:{name:"Snapdragon 8+ Gen 1",maker:"Qualcomm",antutu:1180000,cpu:81,gpu:84,process:"4nm"},
+  tg3:{name:"Google Tensor G3",maker:"Google",antutu:1150000,cpu:76,gpu:70,process:"4nm"},
+  sd7pg2:{name:"Snapdragon 7+ Gen 2",maker:"Qualcomm",antutu:1140000,cpu:76,gpu:74,process:"4nm"},
+  a14:{name:"Apple A14 Bionic",maker:"Apple",antutu:1050000,cpu:85,gpu:70,process:"5nm"},
+  sd8g1:{name:"Snapdragon 8 Gen 1",maker:"Qualcomm",antutu:1030000,cpu:76,gpu:76,process:"4nm"},
+  d8200:{name:"Dimensity 8200 Ultra",maker:"MediaTek",antutu:920000,cpu:72,gpu:68,process:"4nm"},
+  sd888:{name:"Snapdragon 888",maker:"Qualcomm",antutu:860000,cpu:70,gpu:66,process:"5nm"},
+  sd7g3:{name:"Snapdragon 7 Gen 3",maker:"Qualcomm",antutu:860000,cpu:68,gpu:62,process:"4nm"},
+  a13:{name:"Apple A13 Bionic",maker:"Apple",antutu:820000,cpu:78,gpu:58,process:"7nm"},
+  tg2:{name:"Google Tensor G2",maker:"Google",antutu:820000,cpu:66,gpu:58,process:"5nm"},
+  sd7s3:{name:"Snapdragon 7s Gen 3",maker:"Qualcomm",antutu:810000,cpu:66,gpu:60,process:"4nm"},
+  d8020:{name:"Dimensity 8020",maker:"MediaTek",antutu:750000,cpu:64,gpu:58,process:"6nm"},
+  tg1:{name:"Google Tensor",maker:"Google",antutu:730000,cpu:62,gpu:56,process:"5nm"},
+  ex1480:{name:"Exynos 1480",maker:"Samsung",antutu:730000,cpu:62,gpu:60,process:"4nm"},
+  d7200:{name:"Dimensity 7200 Pro",maker:"MediaTek",antutu:715000,cpu:64,gpu:58,process:"4nm"},
+  d7300:{name:"Dimensity 7300",maker:"MediaTek",antutu:690000,cpu:60,gpu:54,process:"4nm"},
+  sd6g3:{name:"Snapdragon 6 Gen 3",maker:"Qualcomm",antutu:660000,cpu:58,gpu:50,process:"4nm"},
+  sd7s2:{name:"Snapdragon 7s Gen 2",maker:"Qualcomm",antutu:605000,cpu:56,gpu:48,process:"4nm"},
+  ex1380:{name:"Exynos 1380",maker:"Samsung",antutu:600000,cpu:56,gpu:48,process:"5nm"},
+  sd6g1:{name:"Snapdragon 6 Gen 1",maker:"Qualcomm",antutu:565000,cpu:54,gpu:44,process:"4nm"},
+  sd778:{name:"Snapdragon 778G",maker:"Qualcomm",antutu:560000,cpu:54,gpu:46,process:"6nm"},
+  d7050:{name:"Dimensity 7050",maker:"MediaTek",antutu:560000,cpu:55,gpu:44,process:"6nm"},
+  d1080:{name:"Dimensity 1080",maker:"MediaTek",antutu:535000,cpu:52,gpu:42,process:"6nm"},
+  ex1280:{name:"Exynos 1280",maker:"Samsung",antutu:480000,cpu:48,gpu:38,process:"5nm"},
+  d7025:{name:"Dimensity 7025",maker:"MediaTek",antutu:480000,cpu:48,gpu:36,process:"6nm"},
+  d6300:{name:"Dimensity 6300",maker:"MediaTek",antutu:465000,cpu:47,gpu:33,process:"6nm"},
+  sd4g2:{name:"Snapdragon 4 Gen 2",maker:"Qualcomm",antutu:450000,cpu:46,gpu:32,process:"4nm"},
+  sd695:{name:"Snapdragon 695 5G",maker:"Qualcomm",antutu:440000,cpu:44,gpu:32,process:"6nm"},
+  d6100:{name:"Dimensity 6100+",maker:"MediaTek",antutu:430000,cpu:44,gpu:30,process:"6nm"},
+  sd690:{name:"Snapdragon 690 5G",maker:"Qualcomm",antutu:395000,cpu:42,gpu:28,process:"8nm"},
+  d6020:{name:"Dimensity 6020",maker:"MediaTek",antutu:385000,cpu:40,gpu:27,process:"7nm"},
+  d700:{name:"Dimensity 700",maker:"MediaTek",antutu:375000,cpu:40,gpu:26,process:"7nm"},
+  sd480:{name:"Snapdragon 480 5G",maker:"Qualcomm",antutu:335000,cpu:38,gpu:24,process:"8nm"},
+  sd680:{name:"Snapdragon 680",maker:"Qualcomm",antutu:305000,cpu:35,gpu:19,process:"6nm"},
+  helioG85:{name:"Helio G85",maker:"MediaTek",antutu:265000,cpu:31,gpu:18,process:"12nm"},
+  d9400p:{name:"Dimensity 9400+",maker:"MediaTek",antutu:2840000,cpu:99,gpu:99,process:"3nm"},
+  ex2500:{name:"Exynos 2500",maker:"Samsung",antutu:1860000,cpu:90,gpu:91,process:"3nm"},
+  d8350:{name:"Dimensity 8350",maker:"MediaTek",antutu:1450000,cpu:83,gpu:84,process:"4nm"},
+  ex1680:{name:"Exynos 1680",maker:"Samsung",antutu:1390000,cpu:82,gpu:80,process:"4nm"},
+  ex1580:{name:"Exynos 1580",maker:"Samsung",antutu:890000,cpu:68,gpu:64,process:"4nm"},
+  sd7s4:{name:"Snapdragon 7s Gen 4",maker:"Qualcomm",antutu:880000,cpu:69,gpu:62,process:"4nm"},
+  d7400:{name:"Dimensity 7400 Ultra",maker:"MediaTek",antutu:900000,cpu:69,gpu:63,process:"4nm"},
+  d8500:{name:"Dimensity 8500 Ultra",maker:"MediaTek",antutu:1840000,cpu:88,gpu:88,process:"4nm"},
+  d7060:{name:"Dimensity 7060",maker:"MediaTek",antutu:550000,cpu:54,gpu:44,process:"6nm"},
+};
+const MAX_ANTUTU = Math.max(...Object.values(SOCS).map(s=>s.antutu));
+
+const PHONES = [
+ {id:"s24u",name:"Galaxy S24 Ultra",maker:"Samsung",soc:"sd8g3",ram:12,storage:256, year:2024, emoji:"🌌"},
+ {id:"x1vi",name:"Xperia 1 VI",maker:"Sony",soc:"sd8g3",ram:12,storage:256, year:2024, emoji:"📸"},
+ {id:"s24",name:"Galaxy S24",maker:"Samsung",soc:"sd8g3",ram:8,storage:256, year:2024, emoji:"✨"},
+ {id:"x14tp",name:"Xiaomi 14T Pro",maker:"Xiaomi",soc:"d9300",ram:12,storage:256, year:2024, emoji:"⚡"},
+ {id:"15pm",name:"iPhone 15 Pro Max",maker:"Apple",soc:"a17",ram:8,storage:256, year:2023, emoji:"🍎"},
+ {id:"s23",name:"Galaxy S23",maker:"Samsung",soc:"sd8g2",ram:8,storage:256, year:2023, emoji:"🌌"},
+ {id:"x1v",name:"Xperia 1 V",maker:"Sony",soc:"sd8g2",ram:12,storage:256, year:2023, emoji:"🎬"},
+ {id:"r8pro",name:"AQUOS R8 pro",maker:"SHARP",soc:"sd8g2",ram:12,storage:256, year:2023, emoji:"💧"},
+ {id:"pocoF6",name:"POCO F6 Pro",maker:"Xiaomi",soc:"sd8g2",ram:12,storage:256, year:2024, emoji:"🏎️"},
+ {id:"15",name:"iPhone 15",maker:"Apple",soc:"a16",ram:6,storage:128, year:2023, emoji:"🍏"},
+ {id:"r9",name:"AQUOS R9",maker:"SHARP",soc:"sd7pg3",ram:12,storage:256, year:2024, emoji:"💧"},
+ {id:"14t",name:"Xiaomi 14T",maker:"Xiaomi",soc:"d8300",ram:12,storage:256, year:2024, emoji:"📱"},
+ {id:"14",name:"iPhone 14",maker:"Apple",soc:"a15",ram:6,storage:128, year:2022, emoji:"🍏"},
+ {id:"se3",name:"iPhone SE (第3世代)",maker:"Apple",soc:"a15",ram:4,storage:64, year:2022, emoji:"🏠"},
+ {id:"p9pro",name:"Pixel 9 Pro",maker:"Google",soc:"tg4",ram:16,storage:256, year:2024, emoji:"🔍"},
+ {id:"p8pro",name:"Pixel 8 Pro",maker:"Google",soc:"tg3",ram:12,storage:256, year:2023, emoji:"🔍"},
+ {id:"p8a",name:"Pixel 8a",maker:"Google",soc:"tg3",ram:8,storage:128, year:2024, emoji:"🎨"},
+ {id:"p8",name:"Pixel 8",maker:"Google",soc:"tg3",ram:8,storage:128, year:2023, emoji:"📷"},
+ {id:"p7a",name:"Pixel 7a",maker:"Google",soc:"tg2",ram:8,storage:128, year:2023, emoji:"📷"},
+ {id:"a55",name:"Galaxy A55 5G",maker:"Samsung",soc:"ex1480",ram:8,storage:128, year:2024, emoji:"🌌"},
+ {id:"np2a",name:"Nothing Phone (2a)",maker:"Nothing",soc:"d7200",ram:12,storage:256, year:2024, emoji:"💡"},
+ {id:"sense9",name:"AQUOS sense9",maker:"SHARP",soc:"sd7s2",ram:6,storage:128, year:2024, emoji:"💧"},
+ {id:"rn13p",name:"Redmi Note 13 Pro 5G",maker:"Xiaomi",soc:"sd7s2",ram:8,storage:256, year:2024, emoji:"📝"},
+ {id:"x10vi",name:"Xperia 10 VI",maker:"Sony",soc:"sd6g1",ram:6,storage:128, year:2024, emoji:"🎧"},
+ {id:"sense8",name:"AQUOS sense8",maker:"SHARP",soc:"sd6g1",ram:6,storage:128, year:2023, emoji:"💧"},
+ {id:"reno11a",name:"OPPO Reno11 A",maker:"OPPO",soc:"d7050",ram:8,storage:128, year:2024, emoji:"🌿"},
+ {id:"g64",name:"moto g64 5G",maker:"Motorola",soc:"d7025",ram:8,storage:128, year:2024, emoji:"🏍️"},
+ {id:"a25",name:"Galaxy A25 5G",maker:"Samsung",soc:"d6100",ram:4,storage:64, year:2024, emoji:"🌌"},
+ {id:"s25u",name:"Galaxy S25 Ultra",maker:"Samsung",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"🌌"},
+ {id:"s25",name:"Galaxy S25",maker:"Samsung",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"🌌"},
+ {id:"x1vii",name:"Xperia 1 VII",maker:"Sony",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"📸"},
+ {id:"mi15",name:"Xiaomi 15",maker:"Xiaomi",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"⚡"},
+ {id:"findx8",name:"OPPO Find X8",maker:"OPPO",soc:"d9400",ram:12,storage:256, year:2024, emoji:"🌿"},
+ {id:"zfold6",name:"Galaxy Z Fold6",maker:"Samsung",soc:"sd8g3",ram:12,storage:256, year:2024, emoji:"📖"},
+ {id:"zflip6",name:"Galaxy Z Flip6",maker:"Samsung",soc:"sd8g3",ram:12,storage:256, year:2024, emoji:"🪞"},
+ {id:"ip16pm",name:"iPhone 16 Pro Max",maker:"Apple",soc:"a18pro",ram:8,storage:256, year:2024, emoji:"🍎"},
+ {id:"ip16p",name:"iPhone 16 Pro",maker:"Apple",soc:"a18pro",ram:8,storage:128, year:2024, emoji:"🍎"},
+ {id:"ip16",name:"iPhone 16",maker:"Apple",soc:"a18",ram:8,storage:128, year:2024, emoji:"🍏"},
+ {id:"ip16e",name:"iPhone 16e",maker:"Apple",soc:"a18",ram:8,storage:128, year:2025, emoji:"🍏"},
+ {id:"s24fe",name:"Galaxy S24 FE",maker:"Samsung",soc:"ex2400",ram:8,storage:128, year:2024, emoji:"🌌"},
+ {id:"p10pro",name:"Pixel 10 Pro",maker:"Google",soc:"tg5",ram:16,storage:256, year:2025, emoji:"🔍"},
+ {id:"p10",name:"Pixel 10",maker:"Google",soc:"tg5",ram:12,storage:128, year:2025, emoji:"🔍"},
+ {id:"p9",name:"Pixel 9",maker:"Google",soc:"tg4",ram:12,storage:128, year:2024, emoji:"🔍"},
+ {id:"p9a",name:"Pixel 9a",maker:"Google",soc:"tg4",ram:8,storage:128, year:2025, emoji:"🎨"},
+ {id:"r10",name:"AQUOS R10",maker:"SHARP",soc:"sd7pg3",ram:12,storage:256, year:2025, emoji:"💧"},
+ {id:"ip15p",name:"iPhone 15 Pro",maker:"Apple",soc:"a17",ram:8,storage:128, year:2023, emoji:"🍎"},
+ {id:"ip14p",name:"iPhone 14 Pro",maker:"Apple",soc:"a16",ram:6,storage:128, year:2022, emoji:"🍎"},
+ {id:"ip13",name:"iPhone 13",maker:"Apple",soc:"a15",ram:4,storage:128, year:2021, emoji:"🍏"},
+ {id:"ip12",name:"iPhone 12",maker:"Apple",soc:"a14",ram:4,storage:64, year:2020, emoji:"🍏"},
+ {id:"ipse2",name:"iPhone SE (第2世代)",maker:"Apple",soc:"a13",ram:3,storage:64, year:2020, emoji:"🏠"},
+ {id:"s23u",name:"Galaxy S23 Ultra",maker:"Samsung",soc:"sd8g2",ram:12,storage:256, year:2023, emoji:"🌌"},
+ {id:"x5v",name:"Xperia 5 V",maker:"Sony",soc:"sd8g2",ram:8,storage:128, year:2023, emoji:"🎬"},
+ {id:"r8",name:"AQUOS R8",maker:"SHARP",soc:"sd8g2",ram:8,storage:256, year:2023, emoji:"💧"},
+ {id:"mi13",name:"Xiaomi 13",maker:"Xiaomi",soc:"sd8g2",ram:8,storage:256, year:2023, emoji:"📱"},
+ {id:"p7pro",name:"Pixel 7 Pro",maker:"Google",soc:"tg2",ram:12,storage:128, year:2022, emoji:"🔍"},
+ {id:"p7",name:"Pixel 7",maker:"Google",soc:"tg2",ram:8,storage:128, year:2022, emoji:"📷"},
+ {id:"p6pro",name:"Pixel 6 Pro",maker:"Google",soc:"tg1",ram:12,storage:128, year:2021, emoji:"🔍"},
+ {id:"p6",name:"Pixel 6",maker:"Google",soc:"tg1",ram:8,storage:128, year:2021, emoji:"📷"},
+ {id:"p6a",name:"Pixel 6a",maker:"Google",soc:"tg1",ram:6,storage:128, year:2022, emoji:"🎨"},
+ {id:"s22",name:"Galaxy S22",maker:"Samsung",soc:"sd8g1",ram:8,storage:256, year:2022, emoji:"🌌"},
+ {id:"x1iv",name:"Xperia 1 IV",maker:"Sony",soc:"sd8g1",ram:12,storage:256, year:2022, emoji:"🎬"},
+ {id:"r7",name:"AQUOS R7",maker:"SHARP",soc:"sd8g1",ram:12,storage:256, year:2022, emoji:"💧"},
+ {id:"s21",name:"Galaxy S21 5G",maker:"Samsung",soc:"sd888",ram:8,storage:128, year:2021, emoji:"🌌"},
+ {id:"x1iii",name:"Xperia 1 III",maker:"Sony",soc:"sd888",ram:12,storage:256, year:2021, emoji:"🎬"},
+ {id:"np2",name:"Nothing Phone (2)",maker:"Nothing",soc:"sd8pg1",ram:12,storage:256, year:2023, emoji:"💡"},
+ {id:"mi12tp",name:"Xiaomi 12T Pro",maker:"Xiaomi",soc:"sd8pg1",ram:8,storage:128, year:2022, emoji:"📱"},
+ {id:"pocoF6n",name:"POCO F6",maker:"Xiaomi",soc:"sd8sg3",ram:8,storage:256, year:2024, emoji:"🏎️"},
+ {id:"mi13t",name:"Xiaomi 13T",maker:"Xiaomi",soc:"d8200",ram:8,storage:256, year:2023, emoji:"📱"},
+ {id:"mi13tp",name:"Xiaomi 13T Pro",maker:"Xiaomi",soc:"d9200",ram:12,storage:256, year:2023, emoji:"⚡"},
+ {id:"pocoX6p",name:"POCO X6 Pro",maker:"Xiaomi",soc:"d8300",ram:8,storage:256, year:2024, emoji:"🏎️"},
+ {id:"pocoX7p",name:"POCO X7 Pro",maker:"Xiaomi",soc:"d8400",ram:8,storage:256, year:2025, emoji:"🏎️"},
+ {id:"edge50p",name:"motorola edge 50 pro",maker:"Motorola",soc:"sd7g3",ram:12,storage:256, year:2024, emoji:"🏍️"},
+ {id:"np3a",name:"Nothing Phone (3a)",maker:"Nothing",soc:"sd7s3",ram:8,storage:128, year:2025, emoji:"💡"},
+ {id:"a54",name:"Galaxy A54 5G",maker:"Samsung",soc:"ex1380",ram:6,storage:128, year:2023, emoji:"🌌"},
+ {id:"a35",name:"Galaxy A35 5G",maker:"Samsung",soc:"ex1380",ram:6,storage:128, year:2024, emoji:"🌌"},
+ {id:"a53",name:"Galaxy A53 5G",maker:"Samsung",soc:"ex1280",ram:6,storage:128, year:2022, emoji:"🌌"},
+ {id:"rn14p",name:"Redmi Note 14 Pro 5G",maker:"Xiaomi",soc:"d7300",ram:8,storage:256, year:2025, emoji:"📝"},
+ {id:"edge40",name:"motorola edge 40",maker:"Motorola",soc:"d8020",ram:8,storage:256, year:2023, emoji:"🏍️"},
+ {id:"reno10p",name:"OPPO Reno10 Pro 5G",maker:"OPPO",soc:"sd778",ram:8,storage:256, year:2023, emoji:"🌿"},
+ {id:"np1",name:"Nothing Phone (1)",maker:"Nothing",soc:"sd778",ram:8,storage:128, year:2022, emoji:"💡"},
+ {id:"sense7",name:"AQUOS sense7",maker:"SHARP",soc:"sd695",ram:6,storage:128, year:2022, emoji:"💧"},
+ {id:"x10v",name:"Xperia 10 V",maker:"Sony",soc:"sd695",ram:6,storage:128, year:2023, emoji:"🎧"},
+ {id:"x10iv",name:"Xperia 10 IV",maker:"Sony",soc:"sd695",ram:6,storage:128, year:2022, emoji:"🎧"},
+ {id:"reno9a",name:"OPPO Reno9 A",maker:"OPPO",soc:"sd695",ram:8,storage:128, year:2023, emoji:"🌿"},
+ {id:"reno7a",name:"OPPO Reno7 A",maker:"OPPO",soc:"sd695",ram:6,storage:128, year:2022, emoji:"🌿"},
+ {id:"arrowsN",name:"arrows N F-51C",maker:"FCNT",soc:"sd695",ram:8,storage:128, year:2023, emoji:"➡️"},
+ {id:"redmi12",name:"Redmi 12 5G",maker:"Xiaomi",soc:"sd4g2",ram:4,storage:128, year:2023, emoji:"📝"},
+ {id:"oppoA3",name:"OPPO A3 5G",maker:"OPPO",soc:"d6300",ram:6,storage:128, year:2024, emoji:"🌿"},
+ {id:"oppoA79",name:"OPPO A79 5G",maker:"OPPO",soc:"d6020",ram:4,storage:128, year:2023, emoji:"🌿"},
+ {id:"liberoIV",name:"Libero 5G IV",maker:"ZTE",soc:"d700",ram:4,storage:128, year:2023, emoji:"📱"},
+ {id:"a23",name:"Galaxy A23 5G",maker:"Samsung",soc:"d700",ram:4,storage:64, year:2022, emoji:"🌌"},
+ {id:"wish3",name:"AQUOS wish3",maker:"SHARP",soc:"d700",ram:4,storage:64, year:2023, emoji:"💧"},
+ {id:"wish4",name:"AQUOS wish4",maker:"SHARP",soc:"d7025",ram:4,storage:128, year:2024, emoji:"💧"},
+ {id:"arrowsWe2",name:"arrows We2 F-52E",maker:"FCNT",soc:"d7025",ram:4,storage:64, year:2024, emoji:"➡️"},
+ {id:"arrowsWe2p",name:"arrows We2 Plus F-51E",maker:"FCNT",soc:"sd7s2",ram:12,storage:256, year:2024, emoji:"➡️"},
+ {id:"xAce3",name:"Xperia Ace III",maker:"Sony",soc:"sd480",ram:4,storage:64, year:2022, emoji:"🎧"},
+ {id:"arrowsWe",name:"arrows We F-51B",maker:"FCNT",soc:"sd480",ram:4,storage:64, year:2021, emoji:"➡️"},
+ {id:"g53",name:"moto g53y 5G",maker:"Motorola",soc:"sd480",ram:8,storage:128, year:2023, emoji:"🏍️"},
+ {id:"rn11",name:"Redmi Note 11",maker:"Xiaomi",soc:"sd680",ram:4,storage:64, year:2022, emoji:"📝"},
+ {id:"g24",name:"moto g24",maker:"Motorola",soc:"helioG85",ram:8,storage:128, year:2024, emoji:"🏍️"},
+ {id:"redmi14c",name:"Redmi 14C",maker:"Xiaomi",soc:"helioG85",ram:4,storage:128, year:2024, emoji:"📝"},
+ {id:"edge50f",name:"motorola edge 50 fusion",maker:"Motorola",soc:"sd7s2",ram:8,storage:256, year:2024, emoji:"🏍️"},
+ {id:"rn13pp",name:"Redmi Note 13 Pro+ 5G",maker:"Xiaomi",soc:"d7200",ram:8,storage:256, year:2024, emoji:"📝"},
+ {id:"rn12p",name:"Redmi Note 12 Pro 5G",maker:"Xiaomi",soc:"d1080",ram:6,storage:128, year:2023, emoji:"📝"},
+ {id:"sense6",name:"AQUOS sense6",maker:"SHARP",soc:"sd690",ram:4,storage:64, year:2021, emoji:"💧"},
+ {id:"ip18pm",name:"iPhone 18 Pro Max",maker:"Apple",soc:"a20pro",ram:12,storage:256, year:2026, emoji:"🍎"},
+ {id:"ip18p",name:"iPhone 18 Pro",maker:"Apple",soc:"a20pro",ram:12,storage:256, year:2026, emoji:"🍎"},
+ {id:"ip17pm",name:"iPhone 17 Pro Max",maker:"Apple",soc:"a19pro",ram:12,storage:256, year:2025, emoji:"🍎"},
+ {id:"ip17p",name:"iPhone 17 Pro",maker:"Apple",soc:"a19pro",ram:12,storage:256, year:2025, emoji:"🍎"},
+ {id:"ipair",name:"iPhone Air",maker:"Apple",soc:"a19pro",ram:12,storage:256, year:2025, emoji:"🍏"},
+ {id:"ip17",name:"iPhone 17",maker:"Apple",soc:"a19",ram:8,storage:256, year:2025, emoji:"🍏"},
+ {id:"ip17e",name:"iPhone 17e",maker:"Apple",soc:"a19",ram:8,storage:256, year:2026, emoji:"🍏"},
+ {id:"s26u",name:"Galaxy S26 Ultra",maker:"Samsung",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"🌌"},
+ {id:"s26p",name:"Galaxy S26+",maker:"Samsung",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"🌌"},
+ {id:"s26",name:"Galaxy S26",maker:"Samsung",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"✨"},
+ {id:"x1viii",name:"Xperia 1 VIII",maker:"Sony",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"📸"},
+ {id:"mi17",name:"Xiaomi 17",maker:"Xiaomi",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"⚡"},
+ {id:"mi17u",name:"Xiaomi 17 Ultra",maker:"Xiaomi",soc:"sd8e5",ram:16,storage:512, year:2026, emoji:"⚡"},
+ {id:"findx9u",name:"OPPO Find X9 Ultra",maker:"OPPO",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"🌿"},
+ {id:"r11",name:"AQUOS R11",maker:"SHARP",soc:"sd8s4",ram:12,storage:256, year:2026, emoji:"💧"},
+ {id:"p11pxl",name:"Pixel 11 Pro XL",maker:"Google",soc:"tg6",ram:16,storage:256, year:2026, emoji:"🔍"},
+ {id:"p11pro",name:"Pixel 11 Pro",maker:"Google",soc:"tg6",ram:16,storage:256, year:2026, emoji:"🔍"},
+ {id:"p11",name:"Pixel 11",maker:"Google",soc:"tg6",ram:12,storage:256, year:2026, emoji:"🔍"},
+ {id:"p10a",name:"Pixel 10a",maker:"Google",soc:"tg4",ram:8,storage:128, year:2026, emoji:"🎨"},
+ {id:"sense10",name:"AQUOS sense10",maker:"SHARP",soc:"sd7s3",ram:8,storage:128, year:2025, emoji:"💧"},
+ {id:"x10viii",name:"Xperia 10 VIII",maker:"Sony",soc:"sd6g3",ram:8,storage:128, year:2026, emoji:"🎧"},
+ {id:"wish6",name:"AQUOS wish6",maker:"SHARP",soc:"d6300",ram:4,storage:128, year:2026, emoji:"💧"},
+ {id:"p10pxl",name:"Pixel 10 Pro XL",maker:"Google",soc:"tg5",ram:16,storage:256, year:2025, emoji:"🔍", aka:"ピクセル10プロXL ぐーぐるぴくせる"},
+ {id:"p10pf",name:"Pixel 10 Pro Fold",maker:"Google",soc:"tg5",ram:16,storage:256, year:2025, emoji:"📖", aka:"ピクセル10プロフォールド 折りたたみ"},
+ {id:"np3",name:"Nothing Phone (3)",maker:"Nothing",soc:"sd8s4",ram:12,storage:256, year:2025, emoji:"💡", aka:"ナッシングフォン3 ナッシングフォーン3"},
+ {id:"x10vii",name:"Xperia 10 VII",maker:"Sony",soc:"sd6g3",ram:8,storage:128, year:2025, emoji:"🎧", aka:"エクスペリア10 マーク7 エクスペリアテン"},
+ {id:"reno13a",name:"OPPO Reno13 A",maker:"OPPO",soc:"sd6g1",ram:8,storage:128, year:2025, emoji:"🌿", aka:"オッポ レノ13 レノ13A reno13"},
+ {id:"mi15tp",name:"Xiaomi 15T Pro",maker:"Xiaomi",soc:"d9400p",ram:12,storage:256, year:2025, emoji:"⚡", aka:"シャオミ15Tプロ シャオミー"},
+ {id:"mi15t",name:"Xiaomi 15T",maker:"Xiaomi",soc:"d8400",ram:12,storage:256, year:2025, emoji:"📱", aka:"シャオミ15T シャオミー"},
+ {id:"a57",name:"Galaxy A57 5G",maker:"Samsung",soc:"ex1680",ram:8,storage:128, year:2026, emoji:"🌌", aka:"ギャラクシーA57"},
+ {id:"a56",name:"Galaxy A56 5G",maker:"Samsung",soc:"ex1580",ram:8,storage:128, year:2025, emoji:"🌌", aka:"ギャラクシーA56"},
+ {id:"arrowsAlpha",name:"arrows Alpha F-51F",maker:"FCNT",soc:"d8350",ram:12,storage:512, year:2025, emoji:"➡️", aka:"アローズアルファ あろーずあるふぁ"},
+ {id:"g66",name:"moto g66j 5G",maker:"Motorola",soc:"d7060",ram:8,storage:128, year:2025, emoji:"🏍️", aka:"モトg66 モトローラ g66j"},
+ {id:"rn15p",name:"Redmi Note 15 Pro 5G",maker:"Xiaomi",soc:"d7400",ram:8,storage:256, year:2026, emoji:"📝", aka:"レッドミノート15プロ レッドミーノート15"},
+ {id:"rn15",name:"Redmi Note 15 5G",maker:"Xiaomi",soc:"sd6g3",ram:8,storage:128, year:2026, emoji:"📝", aka:"レッドミノート15 レッドミーノート15"},
+ {id:"pocoF7u",name:"POCO F7 Ultra",maker:"Xiaomi",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7ウルトラ ポコエフセブンウルトラ poco"},
+ {id:"pocoF7p",name:"POCO F7 Pro",maker:"Xiaomi",soc:"sd8g3",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7プロ ポコエフセブンプロ poco"},
+ {id:"pocoF7",name:"POCO F7",maker:"Xiaomi",soc:"sd8s4",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7 ポコエフセブン poco"},
+ {id:"pocoX8p",name:"POCO X8 Pro",maker:"Xiaomi",soc:"d8500",ram:12,storage:256, year:2026, emoji:"🏎️", aka:"ポコX8プロ ポコエックスエイトプロ poco"},
+ {id:"reno14",name:"OPPO Reno14 5G",maker:"OPPO",soc:"d8350",ram:12,storage:256, year:2025, emoji:"🌿", aka:"オッポ レノ14 レノ14 reno14 リノ14"},
+ {id:"zfold7",name:"Galaxy Z Fold7",maker:"Samsung",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"📖", aka:"ギャラクシーZフォールド7 折りたたみ"},
+ {id:"zflip7",name:"Galaxy Z Flip7",maker:"Samsung",soc:"ex2500",ram:12,storage:256, year:2025, emoji:"🪞", aka:"ギャラクシーZフリップ7 折りたたみ"},
+ {id:"edge60p",name:"motorola edge 60 pro",maker:"Motorola",soc:"d8350",ram:12,storage:256, year:2025, emoji:"🏍️", aka:"モトローラエッジ60プロ モトエッジ"},
+];
+
+const GAMES = [
+ {name:"原神", emoji:"🌿", ex:1400000, gd:900000, pl:550000, noteEx:"最高画質 60fps級", noteGd:"高画質で快適", notePl:"中〜低画質で playable", noteNg:"重くて厳しい"},
+ {name:"崩壊：スターレイル", emoji:"🚀", ex:1500000, gd:1000000, pl:600000, noteEx:"最高画質 サクサク", noteGd:"高画質で快適", notePl:"中画質ならOK", noteNg:"発熱・カクつき注意"},
+ {name:"Call of Duty: Mobile", emoji:"🎯", ex:900000, gd:600000, pl:350000, noteEx:"最高設定 90fps級も狙える", noteGd:"高設定で快適", notePl:"中設定で対戦可", noteNg:"設定を下げる必要大"},
+ {name:"プロジェクトセカイ", emoji:"🎵", ex:700000, gd:450000, pl:280000, noteEx:"3DMVもヌルヌル", noteGd:"通常プレイ快適", notePl:"3DMVは軽量推奨", noteNg:"譜面でカクつく場合あり"},
+ {name:"ウマ娘", emoji:"🐴", ex:800000, gd:500000, pl:320000, noteEx:"最高画質で快適", noteGd:"標準で快適", notePl:"軽量設定でOK", noteNg:"レースで重い"},
+ {name:"モンスターストライク", emoji:"👾", ex:280000, gd:180000, pl:110000, noteEx:"完全サクサク", noteGd:"サクサク", notePl:"ほぼ問題なし", noteNg:"ほぼ問題なし"},
+];
+
+function tierOf(score){ if(score>=1550000) return "S"; if(score>=1000000) return "A"; if(score>=580000) return "B"; return "C"; }
+function tierLabel(t){ return {S:"ハイエンド",A:"ミドルハイ",B:"ミドル",C:"エントリー"}[t]; }
+function fmt(n){ return n.toLocaleString('ja-JP'); }
+function amazonUrl(p){ return "https://www.amazon.co.jp/s?k=" + encodeURIComponent(p.name + " SIMフリー") + "&tag=udonyudetaro-22"; }
+function gameJudge(score,g){
+  if(score>=g.ex) return {mark:"◎",cls:"ex",label:"サクサク",note:g.noteEx};
+  if(score>=g.gd) return {mark:"○",cls:"gd",label:"快適",note:g.noteGd};
+  if(score>=g.pl) return {mark:"△",cls:"pl",label:"設定次第",note:g.notePl};
+  return {mark:"×",cls:"ng",label:"厳しい",note:g.noteNg};
+}
+function enriched(p){ const s=SOCS[p.soc]; return {...p, socObj:s, score:s.antutu, tier:tierOf(s.antutu), index:Math.round(s.antutu/MAX_ANTUTU*100)}; }
+let PH = PHONES.map(enriched).sort((a,b)=>b.score-a.score);
+let selectedId = PH[0].id;
+let filterTier="all"; let query="";
+
+// カナ→英語の対応表（長いものから置換する）
+const KANA_TO_EN = [
+  ["スナップドラゴン","snapdragon"],["ディメンシティ","dimensity"],
+  ["アイフォーン","iphone"],["アイフォン","iphone"],
+  ["エリート","elite"],["エアー","air"],["エア","air"],
+  ["ギャラクシー","galaxy"],["エクスペリア","xperia"],["アクオス","aquos"],
+  ["ピクセル","pixel"],["シャオミ","xiaomi"],["レッドミ","redmi"],
+  ["ナッシング","nothing"],["モトローラ","motorola"],["オッポ","oppo"],
+  ["テンソル","tensor"],["テンサー","tensor"],["エクシノス","exynos"],
+  ["バイオニック","bionic"],["シャープ","sharp"],["サムスン","samsung"],
+  ["ソニー","sony"],["グーグル","google"],["アップル","apple"],
+  ["アローズ","arrows"],["リベロ","libero"],["ヘリオ","helio"],
+  ["モトローラ","motorola"],["エッジ","edge"],["ウィッシュ","wish"],
+  ["センス","sense"],["ノート","note"],["ウルトラ","ultra"],
+  ["フォールド","fold"],["フリップ","flip"],["ファインド","find"],
+  ["マックス","max"],["プロ","pro"],["プラス","plus"],
+  ["レッドミーノート","redminote"],["レッドミノート","redminote"],
+  ["レノ","reno"],["ポコ","poco"],["アルファ","alpha"],["フォン","phone"],["フォーン","phone"]
+].sort((a,b)=>b[0].length-a[0].length);
+
+const NEW_IDS = new Set(["p10pxl","p10pf","np3","x10vii","reno13a","reno14","mi15tp","mi15t","a57","a56","arrowsAlpha","g66","rn15p","rn15","zfold7","zflip7","edge60p","pocoF7u","pocoF7p","pocoF7","pocoX8p"]);
+function isLatest(p){ return NEW_IDS.has(p.id) || p.year>=2026; }
+
+function normalizeSearch(s){
+  if(!s) return "";
+  let t = String(s).normalize('NFKC');
+  // ひらがな→カタカナに統一（「あくおす」等でも引けるように）
+  t = t.replace(/[\u3041-\u3096]/g, ch=>String.fromCharCode(ch.charCodeAt(0)+0x60));
+  for(const [kana,en] of KANA_TO_EN){ t = t.split(kana).join(en); }
+  t = t.toLowerCase();
+  // スペース・記号を全部落とす（「8Gen3」「8 Gen 3」を同一視）
+  t = t.replace(/[^a-z0-9\u30a0-\u30ff\u4e00-\u9faf]/g,"");
+  return t;
+}
+function queryTokens(){
+  if(!query) return [];
+  return query.split(/[\s\u3000]+/).map(normalizeSearch).filter(Boolean);
+}
+function haystackOf(p){
+  return normalizeSearch(p.name+" "+p.maker+" "+p.socObj.name+" "+p.socObj.maker+" "+tierLabel(p.tier)+" "+p.year+" "+(p.aka||"")+" "+(isLatest(p)?"最新 最新モデル 新モデル new latest 2025 2026":""));
+}
+
+function renderList(){
+  const list=document.getElementById('list');
+  const tokens=queryTokens();
+  const searching = tokens.length>0 || filterTier!=="all";
+  document.getElementById('layout').classList.toggle('searching', searching);
+  const filtered=PH.filter(p=>{
+    if(filterTier==="latest"){ if(!isLatest(p)) return false; }
+    else if(filterTier!=="all" && p.tier!==filterTier) return false;
+    if(!tokens.length) return true;
+    const hay=haystackOf(p);
+    return tokens.every(tok=>hay.includes(tok));
+  });
+  document.getElementById('count').textContent = filtered.length + " / " + PH.length;
+  if(!filtered.length){ list.innerHTML='<div class="empty">該当する機種がありません。<br>検索ワードを変えてみてください。</div>'; return; }
+  list.innerHTML = filtered.map(p=>`
+    <div class="phone-card ${p.id===selectedId?'selected':''}" role="button" tabindex="0" data-select="${p.id}" aria-label="${p.name} の詳細を表示">
+      <div class="thumb">${p.emoji}</div>
+      <div class="pc-main">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="tier">${p.tier} ・ ${tierLabel(p.tier)}</span><span style="font-size:11px;color:var(--sub)">${p.year}年</span>${NEW_IDS.has(p.id)?'<span class="new-badge">NEW 最新</span>':''}</div>
+        <div class="pc-name" style="margin-top:4px">${p.name}</div>
+        <div class="pc-meta">${p.socObj.name} ・ ${p.ram}GB RAM</div>
+        <div class="mini-bar"><i style="width:${p.index}%"></i></div>
+      </div>
+      <div class="pc-score">${fmt(p.score)}<small>AnTuTu目安</small><small style="margin-top:6px"><a href="${amazonUrl(p)}" target="_blank" rel="noopener" style="text-decoration:none;background:#ff9900;color:#111;padding:4px 7px;border-radius:999px;font-weight:800;font-size:11px">Amazon ↗</a></small></div>
+    </div>`).join('');
+}
+
+function renderDetail(){
+  const p = PH.find(x=>x.id===selectedId) || PH[0];
+  const s=p.socObj;
+  const sameSoc = PH.filter(x=>x.soc===p.soc && x.id!==p.id);
+  // near performance phones: within 22%
+  const near = PH.filter(x=>x.id!==p.id).map(x=>({...x,diff:Math.abs(x.score-p.score)/p.score})).filter(x=>x.diff<=0.22).sort((a,b)=>a.diff-b.diff).slice(0,6);
+  // same band SOCs
+  const bandSocs = Object.entries(SOCS).filter(([k,v])=>k!==p.soc && Math.abs(v.antutu-p.score)/p.score<=0.28).map(([k,v])=>({key:k,...v, phones:PH.filter(x=>x.soc===k)})).filter(x=>x.phones.length).sort((a,b)=>Math.abs(a.antutu-p.score)-Math.abs(b.antutu-p.score)).slice(0,4);
+  const topCompare = [...PH].sort((a,b)=>b.score-a.score).slice(0,7);
+  // ensure selected in compare if not top7, add it
+  const compareSet = topCompare.some(x=>x.id===p.id) ? topCompare : [...topCompare.slice(0,6), p].sort((a,b)=>b.score-a.score);
+  const gameScore = Math.round((s.gpu*0.6 + s.cpu*0.4));
+
+  document.getElementById('detail').innerHTML = `
+    <div class="detail-head">
+      <div class="d-title">
+        <div class="d-maker">${p.maker} ・ ${p.year}年モデル ・ ${tierLabel(p.tier)} ${NEW_IDS.has(p.id)?'・ 🆕 最新モデル':''}</div>
+        <div class="d-name">${p.emoji} ${p.name}</div>
+        <div class="d-sub">この1台の速さがすぐわかるまとめ。ゲーム目当てで買うかどうかの判断材料に。</div>
+        <div class="specs">
+          <div class="spec"><label>SoC / チップ</label><b>${s.name}</b></div>
+          <div class="spec"><label>メモリ (RAM)</label><b>${p.ram} GB</b></div>
+          <div class="spec"><label>ストレージ</label><b>${p.storage} GB〜</b></div>
+          <div class="spec"><label>プロセス</label><b>${s.process}</b></div>
+        </div>
+        <div class="amazon">
+          <a class="btn-amazon" href="${amazonUrl(p)}" target="_blank" rel="noopener">🛒 Amazonで ${p.name} を探す ↗</a>
+          <button class="btn-ghost" data-samesoc="${s.name}">同じSoCで絞り込む</button>
+        </div>
+      </div>
+      <div class="score-box">
+        <div class="score-num">${p.index}<span> / 100</span></div>
+        <div class="score-label">性能指数（最上位を100）</div>
+        <div style="font-family:Inter,sans-serif;font-weight:800;font-size:18px;margin-top:10px">${fmt(p.score)}</div>
+        <div class="score-label">AnTuTu v10 目安</div>
+        <div style="margin-top:8px"><span class="tier" style="font-size:12px;padding:5px 9px">性能ランク ${p.tier}</span></div>
+      </div>
+    </div>
+    <div class="progress"><i style="width:${p.index}%"></i></div>
+
+    <div class="bars">
+      <div class="bar-row"><label><span>CPU性能</span><span>${s.cpu}</span></label><div class="bar-track"><i style="width:${s.cpu}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">アプリ起動・処理の速さ</div></div>
+      <div class="bar-row"><label><span>GPU性能</span><span>${s.gpu}</span></label><div class="bar-track"><i class="gpu" style="width:${s.gpu}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">ゲーム・描画の強さ</div></div>
+      <div class="bar-row"><label><span>ゲーム適性</span><span>${gameScore}</span></label><div class="bar-track"><i class="game" style="width:${gameScore}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">重いゲームの余裕</div></div>
+    </div>
+
+    <div class="section" style="border-top:0;margin-top:6px;padding-top:8px">
+      <h3>🏆 性能ランキングの中での位置</h3>
+      <p class="desc">収録機種の上位と比べると、どこにいるか一目でわかります。</p>
+      <div class="compare">
+        ${compareSet.map((x,i)=>`<div class="compare-row ${x.id===p.id?'active':''}"><span><span class="rank">${i+1}.</span> ${x.name}</span><span class="track"><i style="width:${x.index}%"></i></span><span style="text-align:right;font-family:Inter,sans-serif">${fmt(x.score)}</span></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🎮 どのゲームがサクサク動く？</h3>
+      <p class="desc">◎ サクサク最高設定 ／ ○ 快適 ／ △ 設定を下げればOK ／ × 厳しい ― 最高画質基準の目安です。</p>
+      <div class="games">
+        ${GAMES.map(g=>{const j=gameJudge(p.score,g);return `<div class="game"><div class="game-emoji">${g.emoji}</div><div><b>${g.name}</b><span>${j.label} ・ ${j.note}</span></div><div class="badge ${j.cls}">${j.mark}</div></div>`}).join('')}
+      </div>
+      ${p.ram<6?'<p class="desc" style="margin-top:10px">⚠️ RAMが少なめなので、重いゲームは裏でアプリを閉じてから起動すると安定します。</p>':''}
+      ${p.ram>=12?'<p class="desc" style="margin-top:10px">✅ RAMに余裕があるので、ゲームを切り替えても再読み込みしにくいタイプです。</p>':''}
+    </div>
+
+    <div class="section">
+      <h3>🔗 同じSoC「${s.name}」を積んだスマホ</h3>
+      <p class="desc">中身の速さはほぼ同じ。カメラ・画面・価格で選んでOKなグループです。</p>
+      ${sameSoc.length?`<div class="rel-list">${sameSoc.map(x=>relItem(x)).join('')}</div>`:`<p class="desc">この収録範囲では他に同SoC機種はありません。${p.name} が代表機です。</p>`}
+    </div>
+
+    <div class="section">
+      <h3>🧭 同性能帯のSoC と、その搭載スマホ</h3>
+      <p class="desc">性能差 ±28% 以内を「同性能帯」としています。メーカーを跨いでも体感は近いです。</p>
+      ${bandSocs.length? bandSocs.map(bs=>`
+        <div class="soc-block">
+          <div class="soc-block-head"><b>${bs.name}</b><span>${fmt(bs.antutu)} ・ ${bs.maker} ・ 差 ${Math.round(Math.abs(bs.antutu-p.score)/p.score*100)}%</span></div>
+          <div class="chips" style="margin-top:9px">${bs.phones.map(x=>`<button class="chipbtn" data-select="${x.id}">${x.emoji} ${x.name}（${x.ram}GB）</button>`).join('')}</div>
+        </div>`).join('') : '<p class="desc">近いSoC帯はありません。</p>'}
+    </div>
+
+    <div class="section">
+      <h3>📍 近い性能のスマホ</h3>
+      <p class="desc">スコアが近い順。買い替え・乗り換え候補として見比べてください。各機種からAmazonへ飛べます。</p>
+      <div class="rel-list">${near.map(x=>relItem(x)).join('') || '<p class="desc">近い性能の機種はありません。</p>'}</div>
+    </div>
+    <p class="note">SoCとは：スマホの頭脳チップ。CPU（処理）とGPU（描画）をまとめたもので、ゲームの快適さはほぼこのSoCとRAMで決まります。</p>
+  `;
+}
+function relItem(x){
+  return `<div class="rel-item" role="button" tabindex="0" data-select="${x.id}"><span style="font-size:20px">${x.emoji}</span><div><b>${x.name}</b><span>${x.socObj.name} ・ ${x.ram}GB RAM ・ ${x.maker}</span></div><div class="rel-score">${fmt(x.score)}<small>指数 ${x.index}</small><a href="${amazonUrl(x)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:4px;background:#ff9900;color:#111;text-decoration:none;padding:3px 7px;border-radius:999px;font-size:11px;font-family:'Noto Sans JP'">Amazon ↗</a></div></div>`;
+}
+function selectPhone(id){
+  selectedId=id;
+  renderList();
+  renderDetail();
+  var detail=document.getElementById('detail');
+  if(!detail) return;
+  // PCでは詳細がstickyで常時表示されるため、パネル内のスクロール位置を先頭に戻して新しい機種の冒頭を見せる
+  detail.scrollTop=0;
+  // 切り替わったことが目で分かるように一瞬ハイライトする（同SoC同士でスコアが同じでも気づける）
+  detail.classList.remove('flash');
+  // 描き直し（innerHTML差し替え）でレイアウトが確定してからスクロールする。
+  // 即時に scrollIntoView すると再描画に負けて届かないことがあるため、二重 rAF + フォールバックで確実に寄せる。
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      try{ void detail.offsetWidth; }catch(e){}
+      detail.classList.add('flash');
+      var rect=detail.getBoundingClientRect();
+      var inView = rect.top>=-8 && rect.top < window.innerHeight*0.6;
+      if(!inView){
+        var reduced=false; try{ reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+        detail.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});
+        // smooth スクロールが再描画で打ち切られた場合の保険：少し遅れて位置を再確認する
+        setTimeout(function(){
+          var r2=detail.getBoundingClientRect();
+          if(r2.top>80 || r2.top<-80){
+            detail.scrollIntoView({block:'start'});
+          }
+        },380);
+      }
+    });
+  });
+}
+
+// クリックはインラインの onclick 属性ではなく、すべて addEventListener のイベント委譲で受ける。
+// （埋め込み環境では onclick 属性だけが実行されない場合があり、委譲なら確実に発火する）
+function activateFromEvent(e){
+  if(e.target.closest && e.target.closest('a')) return; // Amazonリンクはリンクとしてそのまま動かす
+  const samesoc = e.target.closest ? e.target.closest('[data-samesoc]') : null;
+  if(samesoc){
+    const name = samesoc.getAttribute('data-samesoc');
+    const q = document.getElementById('q');
+    q.value = name; query = name.toLowerCase(); renderList();
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  const sel = e.target.closest ? e.target.closest('[data-select]') : null;
+  if(sel) selectPhone(sel.getAttribute('data-select'));
+}
+function keyActivate(e){
+  if(e.key!=='Enter' && e.key!==' ') return;
+  if(e.target.closest && e.target.closest('a')) return;
+  const sel = e.target.closest ? e.target.closest('[data-select]') : null;
+  if(sel){ e.preventDefault(); selectPhone(sel.getAttribute('data-select')); }
+}
+document.getElementById('list').addEventListener('click', activateFromEvent);
+document.getElementById('detail').addEventListener('click', activateFromEvent);
+document.getElementById('list').addEventListener('keydown', keyActivate);
+document.getElementById('detail').addEventListener('keydown', keyActivate);
+
+document.getElementById('q').addEventListener('input',e=>{ query=e.target.value.trim(); renderList(); });
+document.getElementById('filters').addEventListener('click',e=>{
+  const b=e.target.closest('.pill'); if(!b) return;
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterTier=b.dataset.f; renderList();
+});
+renderList(); renderDetail();
+</script>
+
+<section style="max-width:860px;margin:24px auto;padding:20px;line-height:1.9;font-size:14px;color:#444;">
+<h2 style="font-size:18px;">このツールについて</h2>
+<p>スマホ性能チェッカーは、機種を選ぶだけで搭載SoC・メモリ・性能の目安と、人気ゲームの動作判定が一目でわかるツールです。同じSoCを積んだ機種や、同性能帯のSoCとその搭載機もあわせて表示するので、買い替えや機種選びの比較に使えます。</p>
+<p>性能指数は公開ベンチマーク（AnTuTu v10）をもとにした概算で、実機の動作を保証するものではありません。ゲームの動作判定もSoCの性能帯からの目安です。</p>
+<p><a href="/tools/sumaho-seinou/models/">機種別ページ一覧</a>では、収録機種ごとの性能・ゲーム動作を1機種1ページでまとめています。「機種名＋ゲーム名」で探したい方はこちらからどうぞ。</p>
+<p>各機種のAmazonリンクはアフィリエイトリンクです（Amazonアソシエイト・プログラムを利用しています）。</p>
+<p><a href="/tools/">ツール一覧へ戻る</a> ／ <a href="/games/">自作ゲーム</a> ／ <a href="/">ブログ</a></p>
+</section>
+</body>
+</html>

@@ -1,11 +1,21 @@
 {
   "name": "yudetaro-blog",
   "compatibility_date": "2026-09-19",
+  "main": "worker.js",
   "build": {
     "command": "hugo --gc --minify"
   },
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
     "not_found_handling": "404-page"
-  }
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "RAMEN_ROOM", "class_name": "RamenRoom" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["RamenRoom"] }
+  ]
 }
