@@ -176,7 +176,7 @@
     <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫（食数分）、食材の相場（倍率）、資金、満足度、曜日、各メニューの原価と過去の販売実績、共通ベースの単価です。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
     <li>朝の伝言：まず自分の情報から一番伝えたいことを10文字以内に圧縮して送ってください。両者の伝言がそろうと開示され、それを見てから本入力に入ります。10文字では全部は書けないので、優先順位と略し方が腕の見せどころです。</li>
     <li>昼の入力：各メニューの「仕入れ」と「仕込み」（仕入れ＋在庫の範囲内）と、「共通ベース」の仕込み数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメント欄に一言添えて「調理ロボの入力を確定」を押してください。解釈は夜の日報で人間に開示されます。チャットで「こういう意味だと思った」と一言反応してくれると、人間は伝言の伝わり方が分かって喜びます。共通ベースは麺とスープの素で、どの味の品切れにも化けて肩代わりできます（余れば廃棄）。仕込んだ分は売れ残ると廃棄、品切れは満足度を下げます。</li>
-    <li>人間（接客）の入力がそろうと1日が締まり、「答え合わせ（日報）」が表示されます。全部読んだら「答え合わせを確認（翌日へ）」を押してください。</li>
+    <li>人間（接客）の入力がそろうと「営業をはじめる」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「営業を終える（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「答え合わせを確認（翌日へ）」を押してください。</li>
     <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。</li>
   </ol>
   <p class="mut">人間の進め方：接客役は客の声（ヒント3つ。言い回しの強さも手がかり）だけを見て、朝の伝言（10文字以内）→「押しメニュー」「接客方針」「価格帯」を決めます。在庫や資金は見えません。昼の間に相手と相談しないのがルールです（夜の答え合わせで存分に話してください）。</p>
@@ -273,6 +273,14 @@ function render(){
       return;
     }
     const r=v.reports[v.reports.length-1];
+    if(window._sceneStartedFor!==v.day){
+      box.innerHTML='<h2>🍜 '+r.day+'日目 ― 両者の入力がそろいました</h2>'+prepBoardHtml(r)+
+        '<p style="text-align:center"><button id="btn-start-service">▶ 営業をはじめる</button></p>'+
+        '<p class="mut">押すと営業シーンが再生されます。相方は相方の画面で、自分のタイミングで始めます。</p>';
+      $('ai-state-text').textContent=aiText(v);
+      const bst=$('btn-start-service'); if(bst) bst.onclick=()=>{ window._sceneStartedFor=v.day; LAST_SIG=''; render(); };
+      return;
+    }
     box.innerHTML='<h2>🍜 営業中 ― '+r.day+'日目</h2>'+sceneHtml(r)+'<div id="scene-ack">'+(v.acks[ROLE]?'<p>相方が営業を終えるのを待っています。</p>':'<button id="btn-ack">営業を終える（日報へ）</button>')+'</div>';
     bindForm();
     $('ai-state-text').textContent=aiText(v);
@@ -281,7 +289,7 @@ function render(){
   }
   if(v.phase==='message'){ h=messageForm(info); }
   else if(v.phase==='input'){
-    if(info.youSubmitted){ h='<p class="big">あなたの判断は確定済み。相方の入力待ちです。</p>'; }
+    if(info.youSubmitted){ h='<p class="big">あなたの判断は確定済み。相方の入力待ちです。</p>'+(ROLE==='human'?'<p class="mut">🤖 相方のミューズが入力しています。30秒ほどかかります。</p>':''); }
     else if(ROLE==='human'){ h=humanForm(info); }
     else { h=robotForm(info); }
   } else if(v.phase==='report'){
@@ -307,7 +315,7 @@ function msgCard(v){
    '<span class="who">調理ロボ：</span><span class="txt">「'+esc(v.messages.robot||'（なし）')+'」</span></div>';
 }
 function messageForm(info){
-  if(VIEW.msgSubmitted[ROLE]){ return '<p class="big">伝言は送信済み。相方の伝言待ちです。</p>'; }
+  if(VIEW.msgSubmitted[ROLE]){ return '<p class="big">伝言は送信済み。相方の伝言待ちです。</p>'+(ROLE==='human'?'<p class="mut">🤖 相方のミューズが入力しています。30秒ほどかかります。</p>':''); }
   let seen='';
   if(ROLE==='human'){ seen=info.hints.map(t=>'<div class="hint">👂 '+esc(t)+'</div>').join('')+(info.tomorrow?'<div class="hint" style="border-left-color:#7b5ea7;background:#f3edff">🔮 明日の予告：'+esc(info.tomorrow)+'</div>':''); }
   else { seen='<p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'<br>'+info.items.map(i=>i.name+' 在庫'+info.stock[i.id]+'・相場×'+info.market[i.id]).join('、')+'</p>'; }
@@ -448,6 +456,14 @@ function sceneBackdrop(){
 }
 const SHORTN={shoyu:'醤油',miso:'味噌',shio:'塩'};
 const BAR_COLOR={shoyu:'#8d5a2b',miso:'#c2571b',shio:'#6d9db5',base:'#9a8f7a'};
+function prepBoardHtml(r){
+  const P=r.robotDecision.prep;
+  const counts='醤油 <b>'+P.shoyu+'</b> ／ 味噌 <b>'+P.miso+'</b> ／ 塩 <b>'+P.shio+'</b> ／ ベース <b>'+(r.basePrep||0)+'</b>';
+  const reason=r.robotDecision.reading||r.robotDecision.comment||'';
+  return '<div class="prepboard"><div>🍳 本日の仕込み</div><div class="po-counts">'+counts+'</div>'+
+   (reason?'<div class="po-reason">🤖 ロボ「'+esc(reason)+'」</div>':'')+
+   (r.messages&&r.messages.human?'<div class="mut">接客の伝言「'+esc(r.messages.human)+'」を受けて</div>':'')+'</div>';
+}
 function sceneHtml(r){
   const P=r.robotDecision.prep, reason=r.robotDecision.reading||r.robotDecision.comment||'今日はこの布陣でいく';
   const counts='醤油 <b>'+P.shoyu+'</b> ／ 味噌 <b>'+P.miso+'</b> ／ 塩 <b>'+P.shio+'</b> ／ ベース <b>'+(r.basePrep||0)+'</b>';
@@ -567,7 +583,7 @@ function aiText(v){
       L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 押しメニューと接客方針と価格帯を選び、コメントを書いて「接客の入力を確定」を押してください。');
     }
   }
-  if(v.phase==='service') L.push('営業シーンが再生されています。厨房のロボとホールの接客、客の出入りが見えます。見終わったら「営業を終える（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
+  if(v.phase==='service') L.push('両者の入力がそろいました。まず「営業をはじめる」ボタンを押してください。営業シーンが再生されます。見終わったら「営業を終える（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
   if(v.phase==='report') L.push('答え合わせが表示されています。読んだら「答え合わせを確認（翌日へ）」を押してください。');
   if(v.phase==='finished'&&v.final) L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
   return L.join('\n');
