@@ -119,10 +119,6 @@ a{color:inherit}
 h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
 @media(max-width:560px){h1.page-title{font-size:20px}}
 .new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
-.latest-strip{max-width:1180px;margin:0 auto;padding:2px 16px 0}
-.latest-strip .ls-head{font-size:12px;font-weight:900;color:var(--sub);margin-bottom:7px}
-.latest-strip .ls-head b{color:var(--accent)}
-.ls-chips{display:flex;gap:6px;flex-wrap:wrap}
 .seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
 .seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
 .seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
@@ -152,7 +148,7 @@ h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
 <body>
 <div class="top">
   <h1 class="page-title">スマホ性能チェッカー</h1>
-  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2025〜2026年の最新モデル</b>（Pixel 10 Pro XL、Redmi Note 15 Pro、POCO F7／F7 Pro／F7 Ultra、POCO X8 Pro、OPPO Reno14／Reno13 A、Xiaomi 15T Pro、arrows Alpha、Nothing Phone (3)、Xperia 10 VII、AQUOS sense10 など）まで収録。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録しています。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
+  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2026年発売モデルまで、全148機種を収録</b>しています。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
   <div class="controls">
     <label class="search">🔍 <input id="q" type="search" placeholder="機種名・SoC・メーカーで検索（例：POCO F7、レノ14、Redmi Note 15、ピクセル10、8Gen3）"></label>
     <div class="pills" id="filters">
@@ -171,11 +167,6 @@ h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
   </div>
 </div>
 
-<div class="latest-strip" aria-label="最新モデルへのショートカット">
-  <div class="ls-head">🆕 <b>今回追加した最新モデル</b> ― タップで性能とゲーム対応をすぐ確認できます</div>
-  <div class="ls-chips" id="latestChips"></div>
-</div>
-
 <div class="layout" id="layout">
   <div class="list" id="list"></div>
 
@@ -184,23 +175,14 @@ h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
 
 <div class="seo-wrap">
   <section class="seo-card" aria-labelledby="latest-guide">
-    <h2 id="latest-guide">2025〜2026年 最新モデルの性能ガイド</h2>
-    <p>今回追加した最新モデルは、SoC（スマホの頭脳チップ）で見ると性格がはっきり分かれます。ゲームを快適に遊びたいかどうかで、選ぶラインが変わります。</p>
+    <h2 id="latest-guide">性能ランクの見方ガイド</h2>
+    <p>収録機種は、SoC（スマホの頭脳チップ）で見ると性格がはっきり分かれます。ゲームを快適に遊びたいかどうかで、選ぶラインが変わります。</p>
     <h3>ハイエンド ― 原神の最高画質でも余裕があるライン</h3>
-    <ul>
-      <li><b>POCO F7 Ultra</b>（Snapdragon 8 Elite）／ <b>POCO F7 Pro</b>（Snapdragon 8 Gen 3）／ <b>POCO F7</b>（Snapdragon 8s Gen 4）／ <b>POCO X8 Pro</b>（Dimensity 8500 Ultra）／ <b>Xiaomi 15T Pro</b>（Dimensity 9400+）／ <b>Nothing Phone (3)</b>（Snapdragon 8s Gen 4）／ <b>Galaxy Z Fold7</b>（Snapdragon 8 Elite）／ <b>Pixel 10 Pro XL・Pixel 10 Pro Fold</b>（Google Tensor G5）／ <b>OPPO Reno14 5G</b>・<b>arrows Alpha F-51F</b>・<b>motorola edge 60 pro</b>（いずれも Dimensity 8350）</li>
-      <li>この帯は原神・崩壊：スターレイルの最高画質でも快適な水準です。とくにPOCO F7系は「価格に対してどこまで速いか」を比べる人が多いラインで、同じSoCの他メーカー機と並べて見るのがおすすめです。Pixel 10 Pro XL はAI処理とカメラが強みで、純粋なゲーム性能では Snapdragon 8 Elite 搭載機が一歩リードします。</li>
-    </ul>
+    <p>原神・崩壊：スターレイルの最高画質でも快適な水準です。とくに「価格に対してどこまで速いか」を比べる人が多いラインで、同じSoCの他メーカー機と並べて見るのがおすすめです。AI処理やカメラが強みの機種は、純粋なゲーム性能では最速クラスのSoC搭載機が一歩リードします。</p>
     <h3>ミドルハイ〜ミドル ― 価格と性能のバランスがいいライン</h3>
-    <ul>
-      <li><b>Xiaomi 15T</b>（Dimensity 8400 Ultra）／ <b>Redmi Note 15 Pro 5G</b>（Dimensity 7400 Ultra、AnTuTu約90万クラス）／ <b>Galaxy A57 5G</b>（Exynos 1680、約139万クラス）・<b>A56 5G</b>（Exynos 1580）／ <b>Xperia 10 VII</b>・<b>Redmi Note 15 5G（日本版）</b>（Snapdragon 6 Gen 3）</li>
-      <li>原神は画質設定を調整すれば快適に遊べる帯です。プロセカやウマ娘、モンスト程度なら余裕があります。A57は従来のAシリーズより大きく性能が上がっているので、前モデルとの差に注意してください。</li>
-    </ul>
+    <p>原神は画質設定を調整すれば快適に遊べる帯です。プロセカやウマ娘、モンスト程度なら余裕があります。同じシリーズでも世代が変わると性能が大きく上がることがあるので、前モデルとの差に注意してください。</p>
     <h3>エントリー〜ミドル ― 日常使いが快適なライン</h3>
-    <ul>
-      <li><b>OPPO Reno13 A</b>（Snapdragon 6 Gen 1）／ <b>moto g66j 5G</b>（Dimensity 7060）</li>
-      <li>LINE・SNS・動画・軽いゲームが中心なら十分な性能です。重い3Dゲームは画質を下げる前提で考えてください。Reno13 A はおサイフケータイや防水など国内向け機能のバランスで選ばれる機種で、性能重視なら上位の Reno14 5G との差を必ず比べてください。</li>
-    </ul>
+    <p>LINE・SNS・動画・軽いゲームが中心なら十分な性能です。重い3Dゲームは画質を下げる前提で考えてください。おサイフケータイや防水など国内向け機能のバランスで選ばれる機種も多く、性能重視なら上位モデルとの差を必ず比べてください。</p>
     <h3>POCO・Renoを買うときの見方</h3>
     <p>POCOとRenoは、同じ価格帯でもSoCが1〜2ランク違うことがあるため、<b>型番の新しさよりSoCとAnTuTuスコアで比べる</b>のが確実です。POCOは性能寄り、Renoは国内向け機能とデザイン寄りになりやすいので、このチェッカーでゲーム判定まで並べて確認してください。iPhoneは性能を気にして買う人は少ないものの、乗り換えや価格比較の基準として全モデルを収録しています。</p>
   </section>
@@ -712,13 +694,6 @@ document.getElementById('filters').addEventListener('click',e=>{
   const b=e.target.closest('.pill'); if(!b) return;
   document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterTier=b.dataset.f; renderList();
 });
-(function renderLatestChips(){
-  const wrap=document.getElementById('latestChips'); if(!wrap) return;
-  const items=PH.filter(p=>NEW_IDS.has(p.id));
-  wrap.innerHTML=items.map(p=>`<button class="chipbtn" data-select="${p.id}">${p.emoji} ${p.name}</button>`).join('');
-  wrap.addEventListener('click', activateFromEvent);
-  wrap.addEventListener('keydown', keyActivate);
-})();
 renderList(); renderDetail();
 </script>
 
