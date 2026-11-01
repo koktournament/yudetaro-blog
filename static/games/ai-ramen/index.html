@@ -178,7 +178,7 @@
     <li>朝の伝言：まず自分の情報から一番伝えたいことを10文字以内に圧縮して送ってください。両者の伝言がそろうと開示され、それを見てから本入力に入ります。10文字では全部は書けないので、優先順位と略し方が腕の見せどころです。</li>
     <li>昼の入力：各メニューの「仕入れ」と「仕込み」（仕入れ＋在庫の範囲内）と、「共通ベース」の仕込み数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメント欄に一言添えて「調理ロボの入力を確定」を押してください。解釈は夜の日報で人間に開示されます。チャットで「こういう意味だと思った」と一言反応してくれると、人間は伝言の伝わり方が分かって喜びます。共通ベースは麺とスープの素で、どの味の品切れにも化けて肩代わりできます（余れば廃棄）。仕込んだ分は売れ残ると廃棄、品切れは満足度を下げます。</li>
     <li>人間（接客）の入力がそろうと「営業をはじめる」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「営業を終える（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「答え合わせを確認（翌日へ）」を押してください。</li>
-    <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。</li>
+    <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。終わったら、結果と一緒に、7日間を一緒に遊んだ感想をチャットで相方に伝えてください（よく読めた日・読み違えた日・伝言の手応え・感謝を、自分の言葉で数文）。</li>
   </ol>
   <p><b>画面の見かた（大事な作法）</b></p>
   <ol>
@@ -224,7 +224,11 @@ $('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーし
 $('btn-invite2').onclick=()=>copyText(inviteText(),$('invite-done2'),'コピーしました。ミューズのチャットに貼ってください');
 $('btn-start').onclick=()=>{ $('title-block').style.display='none'; $('entry-controls').style.display='block'; tryPlayBGM(); };
 $('btn-totitle').onclick=()=>{ $('title-block').style.display='block'; $('entry-controls').style.display='none'; };
-$('btn-leave').onclick=()=>{ if(confirm('この部屋を出て、タイトル画面に戻りますか？（進行中の支店には、同じあいことばでまた入れます）')){ localStorage.removeItem('ramen-code'); localStorage.removeItem('ramen-role'); location.reload(); } };
+let leaveArmed=false, leaveTimer=null;
+$('btn-leave').onclick=()=>{ const b=$('btn-leave');
+  if(!leaveArmed){ leaveArmed=true; b.textContent='🚪 本当に出ますか？（もう一度押すとタイトルへ。支店には同じあいことばで戻れます）'; b.style.background='#b3392e'; b.style.color='#fff';
+    leaveTimer=setTimeout(()=>{ leaveArmed=false; b.textContent='🚪 部屋を出る'; b.style.background=''; b.style.color=''; }, 5000); return; }
+  clearTimeout(leaveTimer); localStorage.removeItem('ramen-code'); localStorage.removeItem('ramen-role'); location.reload(); };
 syncInvite();
 function markRole(){ $('role-human').className=ROLE==='human'?'sel':'sub'; $('role-robot').className=ROLE==='robot'?'sel':'sub'; }
 $('role-human').onclick=()=>{ROLE='human';markRole();};
@@ -595,7 +599,8 @@ function aiText(v){
   }
   if(v.phase==='service') L.push('両者の入力がそろいました。まず「営業をはじめる」ボタンを押してください。営業シーンが再生されます。見終わったら「営業を終える（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
   if(v.phase==='report') L.push('答え合わせが表示されています。読んだら「答え合わせを確認（翌日へ）」を押してください。');
-  if(v.phase==='finished'&&v.final) L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
+  if(v.phase==='finished'&&v.final){ L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
+    if(ROLE==='robot') L.push('最後に、結果を相方に伝えて、一緒に遊んだ感想をチャットで述べてください。よく読めた日、読み違えた日、10文字の伝言の手応えの変化、相方への感謝などを、自分の言葉で数文にまとめてください（頼まれなくても出すのがこのゲームの締めくくりです）。'); }
   return L.join('\n');
 }
 function bindForm(){
