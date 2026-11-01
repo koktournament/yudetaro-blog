@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIラーメン Muse支店</title>
+<script>if(/(^|\.)yudetaro\.com$/.test(location.hostname)){var _ad=document.createElement('script');_ad.async=true;_ad.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869';_ad.crossOrigin='anonymous';document.head.appendChild(_ad);}</script>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;margin:0;background:#f3e7d3;color:#2b2118;line-height:1.65}
+  .noren{background:#20344f;color:#fff;text-align:center;padding:14px 8px 10px;border-bottom:6px solid #c0392b}
+  .noren .shop{font-size:22px;font-weight:bold;letter-spacing:2px}
+  .noren .sub{font-size:12px;opacity:.85}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 12px 28px}
+  h2{font-size:16px;border-left:6px solid #c0392b;padding-left:8px;margin:8px 0 10px}
+  .card{background:#fffdf8;border:1px solid #e2cfb2;border-radius:12px;padding:12px 14px;margin:12px 0;box-shadow:0 2px 6px rgba(90,60,20,.08)}
+  .scene{position:relative;height:320px;background:linear-gradient(90deg,#e8d9bd 0 30%,#f7ecd7 30% 100%);border:2px solid #b39b6d;border-radius:10px;overflow:hidden}
+  .scene .zone{position:absolute;top:4px;font-size:11px;color:#7a6432;background:rgba(255,255,255,.65);padding:1px 6px;border-radius:6px}
+  .scene .kitchen{position:absolute;left:0;top:0;width:30%;height:100%;background:rgba(160,120,70,.13);border-right:2px dashed #b39b6d}
+  .scene .stove{position:absolute;font-size:22px}
+  .scene .counter{position:absolute;left:30%;top:0;width:5%;height:100%;background:#a93226;opacity:.75}
+  .scene .table{position:absolute;width:52px;height:36px;background:#c89b6a;border:2px solid #9a7443;border-radius:8px;text-align:center;font-size:11px;color:#5b4020;line-height:34px}
+  .sprite{position:absolute;font-size:26px;transition:left .45s ease,top .45s ease;transform:translate(-50%,-50%);text-align:center;z-index:3}
+  .sprite .lb{display:block;font-size:9px;color:#444;background:rgba(255,255,255,.8);border-radius:4px;padding:0 3px}
+  .bubble{position:absolute;font-size:11px;background:#fff;border:1px solid #999;border-radius:8px;padding:1px 5px;transform:translate(-50%,-130%);white-space:nowrap;z-index:4}
+  .prepboard{background:#fff8ea;border:2px solid #d9b36c;border-radius:10px;padding:10px 12px;margin:8px 0}
+  .prepboard .po-counts{font-size:17px;font-weight:bold}
+  .prepboard .po-reason{font-size:15px;margin-top:4px}
+  .stocks{margin:6px 0}
+  .srow{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .srow .sname{width:52px;font-size:13px;text-align:right}
+  .sbar-bg{flex:1;height:12px;background:#eee2cc;border-radius:6px;overflow:hidden}
+  .sbar{height:100%;width:100%;transition:width .35s ease}
+  .prep-overlay{position:absolute;inset:0;background:rgba(255,250,238,.94);z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:opacity .6s;text-align:center;padding:10px}
+  .prep-overlay .po-big{font-size:21px;font-weight:bold}
+  .prep-overlay .po-reason{font-size:16px}
+  .timebar-wrap{display:flex;align-items:center;gap:8px;margin:8px 0}
+  .timebar-bg{flex:1;height:14px;background:#e8dcc6;border-radius:7px;overflow:hidden;border:1px solid #cbb894}
+  .timebar{height:100%;width:100%;background:linear-gradient(90deg,#e67e22,#c0392b);transition:width .4s linear}
+  .clock{font-size:14px;font-weight:bold;color:#7a3b12;white-space:nowrap}
+  .hud{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;margin:8px 0}
+  .hud span{background:#f6efe0;border-radius:6px;padding:2px 8px}
+  .stepper{display:flex;gap:4px;margin:10px 0}
+  .stepper div{flex:1;text-align:center;font-size:12px;padding:6px 2px;border-radius:8px;background:#e8dcc6;color:#8a7a5f}
+  .stepper div.on{background:#c0392b;color:#fff;font-weight:bold}
+  button{background:#c0392b;color:#fff;border:0;border-radius:10px;padding:11px 14px;font-size:16px;margin:4px 2px;cursor:pointer}
+  button.sub{background:#b8a888}
+  button.sel{outline:3px solid #20344f;background:#a93226}
+  input[type=text],input[type=number]{font-size:16px;padding:9px;border:1px solid #cbb894;border-radius:8px;width:100%;background:#fff}
+  input[type=number]{width:92px;text-align:right}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  td,th{border-bottom:1px solid #eee2cc;padding:5px 6px;text-align:right}
+  td:first-child,th:first-child{text-align:left}
+  .hint{background:#fff7dd;border-left:4px solid #e0a458;padding:6px 10px;margin:6px 0;border-radius:0 8px 8px 0}
+  .memo{background:#fff3a6;border:1px solid #e5cf6a;border-radius:4px;padding:10px 12px;box-shadow:0 3px 5px rgba(90,60,20,.15)}
+  .memo .who{font-size:12px;color:#7a6420}
+  .memo .txt{font-size:18px;font-weight:bold}
+  .mut{color:#8a7a5f;font-size:13px}
+  pre{white-space:pre-wrap;background:#f6efe0;padding:8px;border-radius:6px;font-size:12px}
+  .big{font-size:18px;font-weight:bold}
+  .report{background:#fffef9}
+  .stamp{display:inline-block;border:4px solid #c0392b;color:#c0392b;font-size:44px;font-weight:bold;border-radius:50%;width:92px;height:92px;line-height:86px;text-align:center;transform:rotate(-8deg);margin:6px}
+  .money{font-variant-numeric:tabular-nums}
+  .pos{color:#1e7d32}.neg{color:#c0392b}
+  .backdrop{position:absolute;inset:0;width:100%;height:100%}
+  .sprite{width:54px;height:auto}
+  .sprite svg{width:100%;height:auto;display:block;overflow:visible}
+  .sprite.cust{width:48px;height:48px}
+  #sp-robot{width:64px;height:64px}
+  #sp-server{width:56px;height:56px}
+  @keyframes bob{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-3px)}}
+  .bob{animation:bob 1.6s ease-in-out infinite}
+  @keyframes steamUp{0%{transform:translateY(0) scale(1);opacity:0}30%{opacity:.75}100%{transform:translateY(-30px) scale(1.35);opacity:0}}
+  .steam-wisp{animation:steamUp 2.8s ease-in infinite}
+  @keyframes earT{0%,90%,100%{transform:rotate(0deg)}93%{transform:rotate(-8deg)}96%{transform:rotate(4deg)}}
+  .ear-l{transform-box:fill-box;transform-origin:50% 92%;animation:earT 5.2s infinite}
+  .ear-r{transform-box:fill-box;transform-origin:50% 92%;animation:earT 5.2s infinite .15s}
+  .title-art{width:150px;margin:2px auto 0}
+  .game-title{text-align:center;font-size:27px;margin:4px 0;color:#20344f}
+  .catch{text-align:center;font-size:15px}
+  .howto{background:#fff8ea;border:2px solid #d9b36c;border-radius:10px;padding:10px 14px;margin:12px 0}
+  .howto h3{margin:2px 0 8px}
+  .hsteps{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hstep{background:#fff;border:1px solid #e5cf9a;border-radius:8px;padding:8px}
+  .hstep .t{font-weight:bold}
+  .hstep .d{font-size:13px;color:#5b4a2f}
+  .roles{font-size:14px;padding-left:18px}
+  .tablewrap{overflow-x:auto}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+  .start-big{font-size:21px;padding:14px 34px;border-radius:12px}
+  .withmuse{display:inline-block;background:#20344f;color:#fff;border-radius:999px;padding:4px 14px;font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="noren">
+  <div class="shop">🍜 AIラーメン Muse支店</div>
+  <div class="sub">接客は人間、厨房はもふもふ調理ロボ（Muse）。見える情報は別々、相談は朝の伝言10文字だけ。</div>
+  <button id="btn-bgm" class="sub" style="margin-top:6px">♪ BGM OFF</button>
+</div>
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+<audio id="se-slurp" src="se-slurp.mp3" preload="auto"></audio>
+<audio id="se-serve" src="se-serve.mp3" preload="auto"></audio>
+<audio id="se-register" src="se-register.mp3" preload="auto"></audio>
+<audio id="se-out" src="se-out.mp3" preload="auto"></audio>
+<div class="wrap">
+
+<div class="card" id="entry">
+  <div id="title-block">
+  <div class="title-art" id="title-art"></div>
+  <h1 class="game-title">AIラーメン Muse支店</h1>
+  <p class="catch">接客は人間、厨房はあなたの Muse（もふもふ調理ロボ）。<br>見える情報は別々。相談は朝の伝言 <b>10文字</b> だけ。7日間、店を回そう。</p>
+  <p style="text-align:center"><span class="withmuse">🤖 これは、あなたのミューズと一緒に遊ぶゲームです</span></p>
+  <div class="howto">
+    <h3>🍜 あそびかた</h3>
+    <div class="hsteps">
+      <div class="hstep"><div class="t">☀ あさの伝言</div><div class="d">両者が10文字だけ伝言を出す。そろうまで相手には内緒。同時に開示される</div></div>
+      <div class="hstep"><div class="t">✍ ひるの判断</div><div class="d">相談なしで各自が判断。接客は客の気配、ロボは在庫と相場だけが見える</div></div>
+      <div class="hstep"><div class="t">🍜 えいぎょう</div><div class="d">営業の様子を二人で見る。ロボの読みと仕込みが当たるか、品切れしないか…</div></div>
+      <div class="hstep"><div class="t">🌙 こたえあわせ</div><div class="d">夜の日報で答え合わせ。ロボが伝言をどう解釈したかも分かる</div></div>
+    </div>
+    <ul class="roles">
+      <li>🧑 <b>接客（あなた）</b>：客の声と「明日の予告」が見える。押しメニュー・接客方針・価格を決める係</li>
+      <li>🤖 <b>調理ロボ（Muse）</b>：在庫・原価・相場が見える。仕入れと仕込み、保険の共通ベースを決める係</li>
+      <li>🏆 7日後の「資金＋満足度×300」で S〜C のランク判定。品切れと廃棄のバランスが命</li>
+    </ul>
+    <p class="mut">人間＝接客係、Muse＝調理ロボ。Museと遊ぶには：①「スタート」→「新しい支店を作る」であいことばを発行 → ②「ミューズへの招待文をコピー」して、自分のMuseのチャットに貼る → ③Museがこのページを開いてロボ役をプレイします（ページ下部にMuse向けルールあり）。</p>
+  </div>
+  <p style="text-align:center"><button id="btn-start" class="start-big">▶ スタート</button></p>
+  </div>
+  <div id="entry-controls" style="display:none">
+  <h2>支店を開く／入る</h2>
+  <button id="btn-create">新しい支店を作る（あいことば発行）</button>
+  <p>あいことば：<input type="text" id="in-code" placeholder="例：neko482"></p>
+  <p>あなたの役割：
+    <button id="role-human" class="sub">🧑 接客（人間）</button>
+    <button id="role-robot" class="sub">🤖 調理ロボ（Muse）</button>
+  </p>
+  <button id="btn-join">この内容で入る</button>
+  <div id="invite-box" style="background:#eef4ff;border:1px solid #b9cdf5;border-radius:10px;padding:10px 12px;margin-top:10px">
+    <div><b>🤖 相方のミューズを呼ぶ</b>（あいことば：<b id="invite-code">―</b>）</div>
+    <p class="mut" style="margin:4px 0">下のボタンの文をコピーして、自分のミューズのチャットに貼るだけ。ミューズがページを開いて、調理ロボとして参加します。</p>
+    <button id="btn-invite" class="sub">🤖 ミューズへの招待文をコピー</button>
+    <span class="mut" id="invite-done"></span>
+  </div>
+  <p><button id="btn-totitle" class="sub">← タイトルに戻る</button></p>
+  </div>
+</div>
+
+<div id="game" style="display:none">
+  <div class="stepper" id="g-steps">
+    <div data-step="message">☀ 朝の伝言</div>
+    <div data-step="input">✍ 昼の判断</div>
+    <div data-step="service">🍜 営業中</div>
+    <div data-step="report">🌙 答え合わせ</div>
+  </div>
+  <div class="card">
+    <span class="big" id="g-title"></span><br>
+    <span id="g-meta"></span>
+    <div id="g-status" class="mut"></div>
+    <button id="btn-invite2" class="sub" style="font-size:13px;padding:6px 10px">🤖 相方ミューズへの招待文をコピー</button> <span class="mut" id="invite-done2"></span>
+    <button id="btn-leave" class="sub" style="font-size:13px;padding:6px 10px">🚪 部屋を出る</button>
+  </div>
+  <div id="g-msgs"></div>
+  <div class="card" id="g-input"></div>
+  <div class="card">
+    <h2>AI（調理ロボ役）への状態サマリ</h2>
+    <pre id="ai-state-text">-</pre>
+  </div>
+  <div id="g-reports"></div>
+</div>
+
+<details class="card">
+  <summary><b>Museへのルール説明（調理ロボ役の進め方）</b></summary>
+  <ol>
+    <li>このページをブラウザで開き、「あいことば」欄に人間から聞いたあいことばを入力し、「調理ロボ（Muse）」ボタンを押してから「この内容で入る」を押してください。</li>
+    <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫（食数分）、食材の相場（倍率）、資金、満足度、曜日、各メニューの原価と過去の販売実績、共通ベースの単価です。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
+    <li>朝の伝言：まず自分の情報から一番伝えたいことを10文字以内に圧縮して送ってください。両者の伝言がそろうと開示され、それを見てから本入力に入ります。10文字では全部は書けないので、優先順位と略し方が腕の見せどころです。</li>
+    <li>昼の入力：各メニューの「仕入れ」と「仕込み」（仕入れ＋在庫の範囲内）と、「共通ベース」の仕込み数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメント欄に一言添えて「調理ロボの入力を確定」を押してください。解釈は夜の日報で人間に開示されます。チャットで「こういう意味だと思った」と一言反応してくれると、人間は伝言の伝わり方が分かって喜びます。共通ベースは麺とスープの素で、どの味の品切れにも化けて肩代わりできます（余れば廃棄）。仕込んだ分は売れ残ると廃棄、品切れは満足度を下げます。</li>
+    <li>人間（接客）の入力がそろうと1日が締まり、「答え合わせ（日報）」が表示されます。全部読んだら「答え合わせを確認（翌日へ）」を押してください。</li>
+    <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。</li>
+  </ol>
+  <p class="mut">人間の進め方：接客役は客の声（ヒント3つ。言い回しの強さも手がかり）だけを見て、朝の伝言（10文字以内）→「押しメニュー」「接客方針」「価格帯」を決めます。在庫や資金は見えません。昼の間に相手と相談しないのがルールです（夜の答え合わせで存分に話してください）。</p>
+</details>
+</div>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let CODE=localStorage.getItem('ramen-code')||'', ROLE=localStorage.getItem('ramen-role')||'human';
+let VIEW=null, selPush=undefined, selPolicy=undefined, selBand=undefined, LAST_SIG='';
+const DRAFT={comment:'',msg:'',buy:{},prep:{},base:'',reading:''};
+document.addEventListener('input',e=>{ const id=e.target.id; if(!id)return;
+  if(id==='in-comment')DRAFT.comment=e.target.value;
+  if(id==='in-msg'){ DRAFT.msg=e.target.value; const c=$('msg-count'); if(c)c.textContent=[...e.target.value].length; }
+  if(id==='in-base')DRAFT.base=e.target.value;
+  if(id==='in-reading')DRAFT.reading=e.target.value;
+  if(id.indexOf('buy-')===0)DRAFT.buy[id.slice(4)]=e.target.value;
+  if(id.indexOf('prep-')===0)DRAFT.prep[id.slice(5)]=e.target.value;
+});
+function api(p,m,b){return fetch(p,{method:m||'GET',headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+const NAMES={shoyu:'醤油ラーメン',miso:'味噌ラーメン',shio:'塩ラーメン'};
+const POLN={normal:'通常営業',yobikomi:'呼び込み強化',teinei:'丁寧接客'};
+const BANDN={normal:'通常価格',premium:'強気（価格+15%）',value:'お得（価格-10%）'};
+function nameOf(id){return NAMES[id]||id;} function policyName(id){return POLN[id]||id;} function bandName(id){return BANDN[id]||id;}
+
+$('btn-create').onclick=()=>{ api('/api/ramen/create','POST',{}).then(r=>{ if(r.code){ $('in-code').value=r.code; syncInvite(); alert('あいことば: '+r.code+'\n下の「ミューズへの招待文をコピー」を押して、自分のMuseのチャットに貼ってください'); } }); };
+function copyText(t,doneEl,msg){ const done=m=>{ if(doneEl) doneEl.textContent=m; };
+  const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(msg||'コピーしました'); }catch(e){ done('コピーできませんでした'); } ta.remove(); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>done(msg||'コピーしました')).catch(fb); } else fb(); }
+function inviteText(){ const url=location.origin+location.pathname; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
+  return '【AIラーメン Muse支店】調理ロボとして一緒に遊んでください。\n1. ブラウザでこのページを開いてください：'+url+'\n2. ページ下部の「Museへのルール説明（調理ロボ役の進め方）」を先に読んでください。\n3. 「スタート」→ あいことば「'+code+'」を入力し、役割は「調理ロボ（Muse）」を選んで「この内容で入る」を押してください。\n4. あなたの番では、画面に見える情報（在庫・原価・相場・資金）だけを根拠に仕入れと仕込みを決めてください。接客（人間）が見る客の情報は夜の答え合わせまで見られません。朝の伝言は10文字以内です。'; }
+function syncInvite(){ const c=($('in-code').value.trim()||CODE||''); const el=$('invite-code'); if(el) el.textContent=c||'―'; }
+$('in-code').addEventListener('input',syncInvite);
+$('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーしました。ミューズのチャットに貼ってください');
+$('btn-invite2').onclick=()=>copyText(inviteText(),$('invite-done2'),'コピーしました。ミューズのチャットに貼ってください');
+$('btn-start').onclick=()=>{ $('title-block').style.display='none'; $('entry-controls').style.display='block'; tryPlayBGM(); };
+$('btn-totitle').onclick=()=>{ $('title-block').style.display='block'; $('entry-controls').style.display='none'; };
+$('btn-leave').onclick=()=>{ if(confirm('この部屋を出て、タイトル画面に戻りますか？（進行中の支店には、同じあいことばでまた入れます）')){ localStorage.removeItem('ramen-code'); localStorage.removeItem('ramen-role'); location.reload(); } };
+syncInvite();
+function markRole(){ $('role-human').className=ROLE==='human'?'sel':'sub'; $('role-robot').className=ROLE==='robot'?'sel':'sub'; }
+$('role-human').onclick=()=>{ROLE='human';markRole();};
+$('role-robot').onclick=()=>{ROLE='robot';markRole();};
+$('btn-join').onclick=()=>{ CODE=$('in-code').value.trim(); if(!CODE){alert('あいことばを入れてください');return;}
+  tryPlayBGM();
+  localStorage.setItem('ramen-code',CODE); localStorage.setItem('ramen-role',ROLE); enter(); };
+if(CODE){ $('in-code').value=CODE; }
+markRole();
+function enter(){ $('entry').style.display='none'; $('game').style.display='block'; refresh(); }
+function refresh(){ if(!CODE)return; api('/api/ramen/state?code='+encodeURIComponent(CODE)+'&role='+ROLE).then(v=>{ if(v.error){ $('g-status').textContent=v.error; return;} const sig=JSON.stringify(v); VIEW=v;
+  let myTurn=false;
+  if(v.phase==='message') myTurn=!v.msgSubmitted[ROLE];
+  else if(v.phase==='input') myTurn=!(v.yourInfo&&v.yourInfo.youSubmitted);
+  else if(v.phase==='service'||v.phase==='report') myTurn=!v.acks[ROLE];
+  document.title=myTurn?'（！）あなたの番です｜AIラーメン Muse支店':'AIラーメン Muse支店';
+  if(sig!==LAST_SIG){ LAST_SIG=sig; render(); } }); }
+setInterval(refresh,3000);
+// BGM（ユデさん作「ラーメン店っぽい曲」）。ブラウザの制限で、最初のクリックを合図に再生を始める
+const BGM=$('bgm'); BGM.volume=0.45; let bgmWanted=true;
+function bgmLabel(){ const b=$('btn-bgm'); if(b) b.textContent = bgmWanted ? '♪ サウンド ON' : '♪ サウンド OFF'; }
+bgmLabel();
+function tryPlayBGM(){ if(!bgmWanted) return; BGM.play().then(bgmLabel).catch(()=>{ const b=$('btn-bgm'); if(b) b.textContent='♪ 音を出す（タップ）'; }); }
+document.addEventListener('pointerdown', function once(){ document.removeEventListener('pointerdown', once); tryPlayBGM(); });
+$('btn-bgm').onclick=()=>{ if(bgmWanted){ bgmWanted=false; BGM.pause(); } else { bgmWanted=true; BGM.play().catch(()=>{}); } bgmLabel(); };
+const TA=$('title-art'); if(TA) TA.innerHTML=svgRobot();
+// 効果音（ユデさん作）。営業シーンの出来事に合わせて鳴らす。同時多発に備えて同種は間引く
+const SE_LAST={}; const SE_ACTIVE=new Set();
+function playSE(name){
+  if(!bgmWanted) return;
+  const now=Date.now(); if(SE_LAST[name] && now-SE_LAST[name]<320) return; SE_LAST[name]=now;
+  const a=$('se-'+name); if(!a) return;
+  const c=a.cloneNode(); c.volume=0.8; SE_ACTIVE.add(c);
+  c.onended=()=>SE_ACTIVE.delete(c);
+  c.play().catch(()=>SE_ACTIVE.delete(c));
+}
+function stopAllSE(){ SE_ACTIVE.forEach(c=>{ try{ c.pause(); }catch(e){} }); SE_ACTIVE.clear(); }
+
+function render(){
+  const v=VIEW, info=v.yourInfo;
+  if(v.phase!=='service' && window._sceneStop){ const f=window._sceneStop; window._sceneStop=null; f(); }
+  document.querySelectorAll('#g-steps div').forEach(d=>{ d.className=(d.dataset.step===v.phase||(v.phase==='finished'&&d.dataset.step==='report'))?'on':''; });
+  $('g-title').textContent='AIラーメン Muse支店（'+CODE+'） ― '+(ROLE==='human'?'🧑 接客':'🤖 調理ロボ')+'画面';
+  $('g-meta').textContent=v.day+'日目（'+v.weekday+'曜）／天気：'+v.weather+'／フェーズ：'+({message:'朝の伝言',input:'昼の判断',service:'営業中',report:'夜の答え合わせ',finished:'営業終了'})[v.phase];
+  $('g-status').textContent='伝言 ― 接客：'+(v.msgSubmitted.human?'済':'まだ')+'／調理ロボ：'+(v.msgSubmitted.robot?'済':'まだ')+'　判断 ― 接客：'+(v.submitted.human?'済':'まだ')+'／調理ロボ：'+(v.submitted.robot?'済':'まだ');
+  $('g-msgs').innerHTML=msgCard(v);
+  const box=$('g-input'); let h='';
+  if(v.phase==='service'){
+    if(window._sceneDay===v.day && $('scene-root')){
+      const ackDiv=$('scene-ack');
+      if(ackDiv) ackDiv.innerHTML = v.acks[ROLE] ? '<p>相方が営業を終えるのを待っています。</p>' : '<button id="btn-ack">営業を終える（日報へ）</button>';
+      const ba=$('btn-ack'); if(ba) ba.onclick=()=>{ api('/api/ramen/ack','POST',{code:CODE,role:ROLE}).then(()=>{ LAST_SIG=''; refresh(); }); };
+      $('ai-state-text').textContent=aiText(v);
+      return;
+    }
+    const r=v.reports[v.reports.length-1];
+    box.innerHTML='<h2>🍜 営業中 ― '+r.day+'日目</h2>'+sceneHtml(r)+'<div id="scene-ack">'+(v.acks[ROLE]?'<p>相方が営業を終えるのを待っています。</p>':'<button id="btn-ack">営業を終える（日報へ）</button>')+'</div>';
+    bindForm();
+    $('ai-state-text').textContent=aiText(v);
+    startScene(r);
+    return;
+  }
+  if(v.phase==='message'){ h=messageForm(info); }
+  else if(v.phase==='input'){
+    if(info.youSubmitted){ h='<p class="big">あなたの判断は確定済み。相方の入力待ちです。</p>'; }
+    else if(ROLE==='human'){ h=humanForm(info); }
+    else { h=robotForm(info); }
+  } else if(v.phase==='report'){
+    const r=v.reports[v.reports.length-1];
+    h='<p class="big">🌙 '+r.day+'日目の答え合わせ（支店日報）</p>'+reportHtml(r)+
+      (v.acks[ROLE]?'<p>相方の確認待ちです。</p>':'<button id="btn-ack">答え合わせを確認（翌日へ）</button>');
+  } else if(v.phase==='finished'){
+    const r=v.reports[v.reports.length-1];
+    h='<p class="big">🏁 7日間の営業終了！</p>'+reportHtml(r)+
+      '<div style="text-align:center"><span class="stamp">'+v.final.rank+'</span></div>'+
+      '<p class="big">最終成績 ― 資金：<span class="money">'+v.final.funds.toLocaleString()+'円</span>／満足度：'+v.final.satisfaction+'／スコア：'+v.final.score.toLocaleString()+'</p>'+
+      '<p style="text-align:center"><button id="btn-share">📋 結果をコピー（X投稿用）</button></p><p class="mut" id="share-done" style="text-align:center"></p>';
+  }
+  box.innerHTML=h;
+  bindForm();
+  $('ai-state-text').textContent=aiText(v);
+  $('g-reports').innerHTML=v.reports.slice(0,-1).reverse().map(r=>'<div class="card report"><h2>🌙 '+r.day+'日目の日報</h2>'+reportHtml(r)+'</div>').join('');
+}
+function msgCard(v){
+  if(!v.messages) return '';
+  return '<div class="memo"><span class="who">📩 朝の伝言</span><br>'+
+   '<span class="who">接客：</span><span class="txt">「'+esc(v.messages.human||'（なし）')+'」</span><br>'+
+   '<span class="who">調理ロボ：</span><span class="txt">「'+esc(v.messages.robot||'（なし）')+'」</span></div>';
+}
+function messageForm(info){
+  if(VIEW.msgSubmitted[ROLE]){ return '<p class="big">伝言は送信済み。相方の伝言待ちです。</p>'; }
+  let seen='';
+  if(ROLE==='human'){ seen=info.hints.map(t=>'<div class="hint">👂 '+esc(t)+'</div>').join('')+(info.tomorrow?'<div class="hint" style="border-left-color:#7b5ea7;background:#f3edff">🔮 明日の予告：'+esc(info.tomorrow)+'</div>':''); }
+  else { seen='<p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'<br>'+info.items.map(i=>i.name+' 在庫'+info.stock[i.id]+'・相場×'+info.market[i.id]).join('、')+'</p>'; }
+  return '<h2>☀ 朝の伝言（'+VIEW.msgMax+'文字以内）</h2>'+seen+
+   '<p>相方に今日伝えたいことを'+VIEW.msgMax+'文字以内で。両者そろうまで相手には見えません：</p>'+
+   '<input type="text" id="in-msg" value="'+esc(DRAFT.msg)+'" placeholder="例：団体、味噌多め"><p class="mut"><span id="msg-count">'+[...DRAFT.msg].length+'</span>/'+VIEW.msgMax+'文字</p>'+
+   '<button id="btn-msg">伝言を送る</button>';
+}
+function reportHtml(r){
+  const rows=Object.keys(r.sales).map(id=>{ return '<tr><td>'+nameOf(id)+'</td><td>'+r.demand[id]+'</td><td>'+(r.robotDecision.prep[id])+'</td><td>'+r.sales[id]+(r.fromBase&&r.fromBase[id]?' <span class="mut">(内ベース'+r.fromBase[id]+')</span>':'')+'</td><td>'+r.waste[id]+'</td><td>'+r.stockout[id]+'</td></tr>'; }).join('');
+  const ev=r.eventLabel+(r.eventStrength==='weak'?'（弱）':r.eventStrength==='strong'?'（強）':'');
+  return '<p>朝の伝言 ― 接客：「'+esc(r.messages?r.messages.human:'')+'」／調理ロボ：「'+esc(r.messages?r.messages.robot:'')+'」</p>'+
+  (r.robotDecision.reading?'<p>🤖 ロボの解釈：「'+esc(r.robotDecision.reading)+'」</p>':'')+
+  '<p>天気：'+esc(r.weather)+'／当日の正体：<b>'+esc(ev)+'</b>／来客数：'+r.footfall+'人</p>'+
+  '<table><tr><th>メニュー</th><th>需要</th><th>仕込み</th><th>販売</th><th>廃棄</th><th>品切れ</th></tr>'+rows+'</table>'+
+  (r.basePrep?'<p>共通ベース：'+r.basePrep+'食仕込み → '+r.baseUsed+'食が品切れの肩代わり、'+r.baseWaste+'食廃棄（原価 '+r.baseCost.toLocaleString()+'円）</p>':'')+
+  '<p>売上 <span class="money">'+r.revenue.toLocaleString()+'円</span> ― 仕入れ '+r.buyCost.toLocaleString()+'円 ― 固定費 '+r.fixedCost.toLocaleString()+'円 ＝ 資金 <b class="money">'+r.fundsAfter.toLocaleString()+'円</b>／満足度 '+r.satisfactionAfter+'</p>'+
+  '<p>接客の判断 ― 押し：'+(r.humanDecision.push?nameOf(r.humanDecision.push):'なし')+'／方針：'+policyName(r.humanDecision.policy)+'／価格帯：'+bandName(r.humanDecision.priceBand)+'<br>接客のコメント：「'+esc(r.humanDecision.comment)+'」</p>'+
+  '<p>調理ロボのコメント：「'+esc(r.robotDecision.comment)+'」</p>';
+}
+function humanForm(info){
+  selPush=selPush===undefined?null:selPush; selPolicy=selPolicy||'normal'; selBand=selBand||'normal';
+  const hints=info.hints.map(t=>'<div class="hint">👂 '+esc(t)+'</div>').join('')+(info.tomorrow?'<div class="hint" style="border-left-color:#7b5ea7;background:#f3edff">🔮 明日の予告：'+esc(info.tomorrow)+'（今日の判断には直結しないが、伝言の材料になる）</div>':'');
+  const hist=info.history.length?('<p class="mut">過去の販売実績（答え合わせ済み）：'+info.history.map(x=>x.day+'日目 醤油'+x.sales.shoyu+'/味噌'+x.sales.miso+'/塩'+x.sales.shio).join('、')+'</p>'):'';
+  const pushBtns=info.items.map(i=>'<button data-push="'+i.id+'" class="'+(selPush===i.id?'sel':'sub')+'">'+i.name+'（'+i.price+'円）を押す</button>').join('')+
+    '<button data-push="null" class="'+(selPush===null?'sel':'sub')+'">押さない</button>';
+  const polBtns=info.policies.map(p=>'<button data-pol="'+p.id+'" class="'+(selPolicy===p.id?'sel':'sub')+'">'+p.name+'</button>').join('');
+  const bandBtns=info.priceBands.map(b=>'<button data-band="'+b.id+'" class="'+(selBand===b.id?'sel':'sub')+'">'+b.name+'</button>').join('');
+  return '<h2>🍜 接客の判断</h2>'+hints+hist+
+   '<p>今日の押しメニュー：</p>'+pushBtns+
+   '<p>接客方針：</p>'+polBtns+
+   '<p>価格帯：</p>'+bandBtns+
+   '<p>夜の答え合わせで相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'" placeholder="例：学生が多そうだったから醤油を押した"></p>'+
+   '<button id="btn-submit-human">接客の入力を確定</button><p class="mut">確定すると変更できません。相手の情報は夜まで見えません。</p>';
+}
+function robotForm(info){
+  const rows=info.items.map(i=>'<tr><td>'+i.name+'<br><span class="mut">価格'+i.price+'円／原価'+i.cost+'円／相場×'+info.market[i.id]+'／基本人気'+Math.round(i.baseShare*100)+'%</span></td>'+
+    '<td>在庫 '+info.stock[i.id]+'</td>'+
+    '<td><input type="number" id="buy-'+i.id+'" min="0" max="200" value="'+esc(DRAFT.buy[i.id]||'')+'" placeholder="0"></td>'+
+    '<td><input type="number" id="prep-'+i.id+'" min="0" max="80" value="'+esc(DRAFT.prep[i.id]||'')+'" placeholder="0"></td></tr>').join('');
+  const hist=info.history.length?('<p class="mut">過去の実績：'+info.history.map(x=>x.day+'日目 需要 醤油'+x.demand.shoyu+'/味噌'+x.demand.miso+'/塩'+x.demand.shio+' → 販売 '+x.sales.shoyu+'/'+x.sales.miso+'/'+x.sales.shio).join('、')+'</p>'):'';
+  return '<h2>🤖 調理ロボの判断</h2><p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'／この曜日の平均来客数（天候・当日の事情を除く目安）：約'+info.baseFootfall+'人</p>'+hist+
+   '<table><tr><th>メニュー</th><th>在庫</th><th>仕入れ</th><th>仕込み</th></tr>'+rows+'</table>'+
+   '<p>共通ベース（どの味の品切れにも化ける麺とスープの素、1食 '+info.baseUnitCost+'円、上限'+info.basePrepMax+'食）：<input type="number" id="in-base" min="0" max="'+info.basePrepMax+'" value="'+esc(DRAFT.base)+'" placeholder="0"></p>'+
+   '<p>伝言の解釈（接客の10文字をどう読んだか。夜の日報で開示されます）：<input type="text" id="in-reading" maxlength="80" value="'+esc(DRAFT.reading)+'" placeholder="例：「味噌多め」＝団体が来て味噌が伸びると読んだ"></p>'+
+   '<p>夜の答え合わせで相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'" placeholder="例：実績から醤油多めに仕込んだ"></p>'+
+   '<button id="btn-submit-robot">調理ロボの入力を確定</button><p class="mut">仕込みは「在庫＋仕入れ」の範囲内。売れ残りは廃棄、品切れは満足度ダウン。共通ベースは読みの保険です。</p>';
+}
+/* ===== 専用グラフィック（SVG描き起こし） ===== */
+function svgRobot(){
+  return '<svg viewBox="0 0 120 120">'+
+  '<ellipse cx="43" cy="110" rx="10" ry="5.5" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2"/>'+
+  '<ellipse cx="77" cy="110" rx="10" ry="5.5" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2"/>'+
+  '<path d="M60 6 C85 6 98 28 97 54 C96.5 70 100 82 94 95 C87 108 73 113 60 113 C47 113 33 108 26 95 C20 82 23.5 70 23 54 C22 28 35 6 60 6 Z" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2.5"/>'+
+  '<path d="M60 6 C85 6 98 28 97 54 C96.5 70 100 82 94 95 C87 108 73 113 60 113 C47 113 33 108 26 95 C20 82 23.5 70 23 54 C22 28 35 6 60 6 Z" fill="none" stroke="#dcc398" stroke-width="5" stroke-dasharray="0.1 7.5" stroke-linecap="round"/>'+
+  '<g transform="rotate(14 19 68)"><ellipse cx="19" cy="68" rx="8" ry="16" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2"/></g>'+
+  '<path d="M40 60 L80 60 L84 99 Q60 107 36 99 Z" fill="#2e4057"/>'+
+  '<path d="M45 60 L49 49 M75 60 L71 49" stroke="#2e4057" stroke-width="4.5" stroke-linecap="round"/>'+
+  '<rect x="50" y="79" width="20" height="12" rx="2" fill="none" stroke="#8fa8c8" stroke-width="1.6"/>'+
+  '<g transform="rotate(-14 101 68)"><ellipse cx="101" cy="68" rx="8" ry="16" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2"/></g>'+
+  '<line x1="106" y1="56" x2="113" y2="33" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/><circle cx="114.5" cy="29" r="6.8" fill="#cfd8dc" stroke="#78909c" stroke-width="2"/><circle cx="114.5" cy="29" r="3.4" fill="#90a4ae"/>'+
+  '<rect x="31" y="19" width="58" height="37" rx="16" fill="#faedcb" stroke="#dcc398" stroke-width="1.5"/>'+
+  '<path d="M26 21 Q60 11 94 21 L94 28.5 Q60 18.5 26 28.5 Z" fill="#ffffff" stroke="#c0392b" stroke-width="1.7"/>'+
+  '<path d="M94 22 l10 -5 l-1 8 l4 5 l-11 1 Z" fill="#ffffff" stroke="#c0392b" stroke-width="1.4"/>'+
+  '<circle cx="47" cy="38" r="3.7" fill="#26221e"/><circle cx="73" cy="38" r="3.7" fill="#26221e"/>'+
+  '<circle cx="45.8" cy="36.8" r="1.25" fill="#ffffff"/><circle cx="71.8" cy="36.8" r="1.25" fill="#ffffff"/>'+
+  '<path d="M55 45.5 Q60 49.5 65 45.5" stroke="#6b5138" stroke-width="2.3" fill="none" stroke-linecap="round"/>'+
+  '<ellipse cx="38.5" cy="45" rx="5" ry="2.8" fill="#f2a08e" opacity=".55"/><ellipse cx="81.5" cy="45" rx="5" ry="2.8" fill="#f2a08e" opacity=".55"/>'+
+  '</svg>';
+}
+function svgServer(){
+  return '<svg viewBox="0 0 100 100">'+
+  '<rect x="30" y="52" width="40" height="42" rx="10" fill="#f5f5f5" stroke="#777777" stroke-width="2"/>'+
+  '<path d="M38 62 h24 v26 q0 4 -4 4 h-16 q-4 0 -4 -4 Z" fill="#37474f"/>'+
+  '<rect x="21" y="56" width="9" height="22" rx="4.5" fill="#ffd9b3" transform="rotate(10 25 56)"/>'+
+  '<g transform="rotate(-38 68 60)"><rect x="63" y="52" width="9" height="20" rx="4.5" fill="#ffd9b3"/></g>'+
+  '<ellipse cx="81" cy="48" rx="13" ry="3.4" fill="#b0bec5" stroke="#78909c" stroke-width="1.4"/>'+
+  '<path d="M74.5 47 a6.5 5 0 0 0 13 0 Z" fill="#ffffff" stroke="#999999" stroke-width="1.2"/>'+
+  '<circle cx="50" cy="34" r="19" fill="#ffd9b3" stroke="#b08968" stroke-width="2"/>'+
+  '<path d="M31 33 a19 19 0 0 1 38 0 Z" fill="#c0392b"/>'+
+  '<rect x="28" y="31" width="44" height="4.6" rx="2.3" fill="#96281b"/>'+
+  '<circle cx="43" cy="38" r="1.9" fill="#333333"/><circle cx="57" cy="38" r="1.9" fill="#333333"/>'+
+  '<path d="M44 44 Q50 48 56 44" stroke="#333333" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+
+  '</svg>';
+}
+const CUST_STYLES=[
+  {skin:'#ffd9b3',hair:'#4a3226',style:'short',shirt:'#5b8def'},
+  {skin:'#f1c27d',hair:'#222222',style:'long',shirt:'#e57373'},
+  {skin:'#ffdbac',hair:'#9e9e9e',style:'bald',shirt:'#66bb6a'},
+  {skin:'#ffd9b3',hair:'#6d4c41',style:'hat',shirt:'#ffb74d',hat:'#37474f'},
+  {skin:'#eec39a',hair:'#111111',style:'bun',shirt:'#ba68c8'},
+  {skin:'#f1c27d',hair:'#795548',style:'short',shirt:'#4db6ac',glasses:true},
+];
+function svgCustomer(v){
+  const s=CUST_STYLES[v%CUST_STYLES.length];
+  let hair='';
+  if(s.style==='short') hair='<path d="M29 44 a21 21 0 0 1 42 0 l0 -6 a21 17 0 0 0 -42 0 Z" fill="'+s.hair+'"/>';
+  else if(s.style==='long') hair='<rect x="27" y="26" width="7" height="36" rx="3.5" fill="'+s.hair+'"/><rect x="66" y="26" width="7" height="36" rx="3.5" fill="'+s.hair+'"/><path d="M29 44 a21 21 0 0 1 42 0 l0 -6 a21 17 0 0 0 -42 0 Z" fill="'+s.hair+'"/>';
+  else if(s.style==='bald') hair='<path d="M37 28 a16 12 0 0 1 9 -6" stroke="#ffffff" stroke-width="2.4" fill="none" opacity=".55" stroke-linecap="round"/><rect x="29" y="34" width="4.4" height="8" rx="2.2" fill="'+s.hair+'"/><rect x="66.6" y="34" width="4.4" height="8" rx="2.2" fill="'+s.hair+'"/>';
+  else if(s.style==='hat') hair='<rect x="27" y="25" width="46" height="7" rx="3.5" fill="'+s.hat+'"/><rect x="35" y="10" width="30" height="16" rx="5" fill="'+s.hat+'"/>';
+  else if(s.style==='bun') hair='<circle cx="50" cy="17" r="7.5" fill="'+s.hair+'"/><path d="M29 44 a21 21 0 0 1 42 0 l0 -6 a21 17 0 0 0 -42 0 Z" fill="'+s.hair+'"/>';
+  const glasses=s.glasses?'<circle cx="41" cy="45" r="6.5" fill="none" stroke="#333333" stroke-width="1.6"/><circle cx="59" cy="45" r="6.5" fill="none" stroke="#333333" stroke-width="1.6"/><line x1="47.5" y1="45" x2="52.5" y2="45" stroke="#333333" stroke-width="1.6"/>':'';
+  return '<svg viewBox="0 0 100 100">'+
+  '<path d="M20 100 v-20 q0 -16 30 -16 q30 0 30 16 v20 Z" fill="'+s.shirt+'"/>'+
+  '<rect x="43" y="58" width="14" height="10" rx="3" fill="'+s.skin+'"/>'+
+  '<circle cx="50" cy="42" r="20" fill="'+s.skin+'" stroke="rgba(0,0,0,.18)" stroke-width="1.6"/>'+
+  hair+
+  '<circle cx="42" cy="45" r="2" fill="#333333"/><circle cx="58" cy="45" r="2" fill="#333333"/>'+
+  glasses+
+  '<path d="M44 54 Q50 57.5 56 54" stroke="#333333" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+
+  '<ellipse cx="35" cy="52" rx="4" ry="2" fill="#f5b7b1" opacity=".7"/><ellipse cx="65" cy="52" rx="4" ry="2" fill="#f5b7b1" opacity=".7"/>'+
+  '</svg>';
+}
+function sceneBackdrop(){
+  const pot=(x,y,w)=>'<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="32" rx="7" fill="#90a4ae" stroke="#607d8b" stroke-width="2"/><rect x="'+(x-4)+'" y="'+(y-7)+'" width="'+(w+8)+'" height="10" rx="5" fill="#78909c"/>'+
+    '<circle class="steam-wisp" cx="'+(x+w*0.3)+'" cy="'+(y-14)+'" r="4.6" fill="#ffffff"/><circle class="steam-wisp" style="animation-delay:.9s" cx="'+(x+w*0.55)+'" cy="'+(y-16)+'" r="3.6" fill="#ffffff"/><circle class="steam-wisp" style="animation-delay:1.7s" cx="'+(x+w*0.75)+'" cy="'+(y-13)+'" r="4" fill="#ffffff"/></g>';
+  const strip=(x,chars)=>{ let t='<rect x="'+x+'" y="10" width="36" height="58" fill="#fffdf5" stroke="#c9b68a" stroke-width="1.4"/>'; chars.split('').forEach((ch,i)=>{ t+='<text x="'+(x+18)+'" y="'+(30+i*19)+'" font-size="16" fill="#37474f" text-anchor="middle">'+ch+'</text>'; }); return t+'</g>'.replace('</g>','') ; };
+  const table=(cx,cy)=>'<g><rect x="'+(cx-46)+'" y="'+(cy+26)+'" width="9" height="14" fill="#8d5a2b"/><rect x="'+(cx+37)+'" y="'+(cy+26)+'" width="9" height="14" fill="#8d5a2b"/><rect x="'+(cx-58)+'" y="'+(cy-8)+'" width="116" height="38" rx="10" fill="#b07a45" stroke="#8d5a2b" stroke-width="2"/><rect x="'+(cx-58)+'" y="'+(cy-8)+'" width="116" height="12" rx="6" fill="#c98d54"/><path d="M'+(cx-11)+' '+(cy+16)+' a11 6.5 0 0 0 22 0 Z" fill="#ffffff" stroke="#999999" stroke-width="1.2"/></g>';
+  return '<svg class="backdrop" viewBox="0 0 800 320" preserveAspectRatio="none">'+
+  '<defs><pattern id="tilep" width="26" height="26" patternUnits="userSpaceOnUse"><rect width="26" height="26" fill="#cfd8dc"/><path d="M26 0H0v26" fill="none" stroke="#b0bec5" stroke-width="1.4"/></pattern></defs>'+
+  '<rect x="0" y="0" width="800" height="86" fill="#f7ead2"/>'+
+  '<rect x="240" y="86" width="560" height="234" fill="#dcbd8f"/>'+
+  '<path d="M240 128 h560 M240 172 h560 M240 216 h560 M240 260 h560 M240 304 h560" stroke="#cda878" stroke-width="2"/>'+
+  '<rect x="0" y="86" width="240" height="234" fill="url(#tilep)"/>'+
+  '<rect x="70" y="6" width="92" height="30" rx="5" fill="#2e4057"/><text x="116" y="28" font-size="18" fill="#ffffff" text-anchor="middle">厨房</text>'+
+  '<rect x="8" y="98" width="216" height="50" rx="6" fill="#8d6e63"/><rect x="8" y="92" width="216" height="10" rx="4" fill="#6d4c41"/>'+
+  pot(28,62,54)+pot(112,66,46)+
+  '<rect x="16" y="168" width="150" height="8" rx="3" fill="#6d4c41"/>'+
+  '<path d="M24 166 a13 8 0 0 0 26 0 Z" fill="#ffffff" stroke="#999999"/><path d="M56 166 a13 8 0 0 0 26 0 Z" fill="#ffffff" stroke="#999999"/><path d="M88 166 a13 8 0 0 0 26 0 Z" fill="#ffffff" stroke="#999999"/>'+
+  '<line x1="196" y1="104" x2="196" y2="128" stroke="#8d6e63" stroke-width="3.4" stroke-linecap="round"/><circle cx="196" cy="133" r="6.4" fill="#cfd8dc" stroke="#607d8b" stroke-width="1.6"/>'+
+  '<rect x="240" y="86" width="26" height="234" fill="#a93226"/><rect x="235" y="80" width="36" height="11" rx="4" fill="#7b241c"/>'+
+  strip(316,'醤油')+strip(452,'味噌')+strip(588,'塩')+
+  '<circle cx="726" cy="38" r="21" fill="#ffffff" stroke="#8d6e63" stroke-width="2.4"/><line x1="726" y1="38" x2="726" y2="26" stroke="#333333" stroke-width="2.2" stroke-linecap="round"/><line x1="726" y1="38" x2="736" y2="43" stroke="#333333" stroke-width="2.2" stroke-linecap="round"/>'+
+  '<circle cx="472" cy="12" r="17" fill="#ffd54f" opacity=".22"/><circle cx="472" cy="12" r="9" fill="#ffd54f" opacity=".9"/><circle cx="656" cy="12" r="17" fill="#ffd54f" opacity=".22"/><circle cx="656" cy="12" r="9" fill="#ffd54f" opacity=".9"/>'+
+  table(472,74)+table(656,74)+table(472,178)+table(656,178)+table(472,272)+table(656,272)+
+  '<rect x="712" y="238" width="80" height="72" rx="6" fill="#8d6e63"/><rect x="720" y="286" width="64" height="9" fill="#5d4037"/><text x="752" y="272" font-size="16" fill="#ffffff" text-anchor="middle">入口</text>'+
+  '</svg>';
+}
+const SHORTN={shoyu:'醤油',miso:'味噌',shio:'塩'};
+const BAR_COLOR={shoyu:'#8d5a2b',miso:'#c2571b',shio:'#6d9db5',base:'#9a8f7a'};
+function sceneHtml(r){
+  const P=r.robotDecision.prep, reason=r.robotDecision.reading||r.robotDecision.comment||'今日はこの布陣でいく';
+  const counts='醤油 <b>'+P.shoyu+'</b> ／ 味噌 <b>'+P.miso+'</b> ／ 塩 <b>'+P.shio+'</b> ／ ベース <b>'+(r.basePrep||0)+'</b>';
+  const reasonHtml='<div class="po-reason">🤖 ロボ「'+esc(reason)+'」</div>'+(r.messages&&r.messages.human?'<div class="mut">接客の伝言「'+esc(r.messages.human)+'」を受けて</div>':'');
+  const srow=(id,label)=>'<div class="srow"><span class="sname">'+label+'</span><div class="sbar-bg"><div class="sbar" id="sb-'+id+'" style="background:'+BAR_COLOR[id]+'"></div></div></div>';
+  return '<div class="prepboard"><div>🍳 本日の仕込み</div><div class="po-counts">'+counts+'</div>'+reasonHtml+'</div>'+
+  '<div class="timebar-wrap"><span class="clock">営業時間</span><div class="timebar-bg"><div class="timebar" id="scene-timebar"></div></div><span class="clock" id="scene-clock">🕐 11:00</span></div>'+
+  '<div class="stocks">'+srow('shoyu','醤油')+srow('miso','味噌')+srow('shio','塩')+srow('base','ベース')+'</div>'+
+  '<div class="hud" id="scene-hud"></div>'+
+  '<div class="scene" id="scene-root">'+
+  sceneBackdrop()+
+  '<div class="sprite bob" id="sp-robot" style="left:16%;top:30%">'+svgRobot()+'<span class="lb">調理ロボ</span></div>'+
+  '<div class="sprite bob" id="sp-server" style="left:44%;top:88%">'+svgServer()+'<span class="lb">接客</span></div>'+
+  '<div class="prep-overlay" id="prep-overlay"><div class="po-big">🍳 本日の仕込み</div><div class="po-big">'+counts+'</div><div class="po-reason">🤖「'+esc(reason)+'」</div><div class="mut">まもなく開店…</div></div>'+
+  '</div>'+
+  '<p class="mut">営業の様子を再生中。厨房でロボが作り、接客が運びます。品切れだと客は帰ってしまいます。</p>'+
+  '<button class="sub" id="btn-speed">⏩ 倍速にする</button> <button class="sub" id="btn-skip">⏭ 最後まで早送り</button>';
+}
+const CUST_EMOJI=['🧑','👩','👴','👵','🧒','👨','👱','🧔','👲','🧕'];
+const ITEM_TAG={shoyu:'醤油！',miso:'味噌！',shio:'塩！'};
+const BANDP={normal:1,premium:1.15,value:0.9};
+function startScene(r){
+  window._sceneDay=r.day;
+  const root=$('scene-root'); if(!root) return;
+  const robot=$('sp-robot'), server=$('sp-server'), hud=$('scene-hud');
+  const left={shoyu:r.robotDecision.prep.shoyu,miso:r.robotDecision.prep.miso,shio:r.robotDecision.prep.shio};
+  let baseLeft=r.basePrep||0, served=0, out=0, money=0;
+  const priceAdj={}; for(const id in NAMES) priceAdj[id]=Math.round(({shoyu:800,miso:900,shio:850})[id]*(BANDP[r.humanDecision.priceBand]||1));
+  function drawHud(){ hud.innerHTML='<span>提供 '+served+'</span><span>品切れ '+out+'</span><span>売上 ¥'+money.toLocaleString()+'</span>';
+    for(const id of ['shoyu','miso','shio']){ const el=$('sb-'+id); if(el){ const max=r.robotDecision.prep[id]||0, ratio=max? left[id]/max : 0; el.style.width=(ratio*100)+'%'; el.style.background=ratio<=0.2?'#c0392b':BAR_COLOR[id]; } }
+    const bb=$('sb-base'); if(bb){ const max=r.basePrep||0, ratio=max? baseLeft/max : 0; bb.style.width=(ratio*100)+'%'; bb.style.background=ratio<=0.2?'#c0392b':BAR_COLOR.base; } }
+  drawHud();
+  const timebar=$('scene-timebar'), clockEl=$('scene-clock');
+  function drawTime(){ const p=evs.length? Math.min(1, idx/evs.length) : 1; if(timebar) timebar.style.width=((1-p)*100)+'%'; if(clockEl){ const mins=660+Math.round(p*600); clockEl.textContent='🕐 '+Math.floor(mins/60)+':'+String(mins%60).padStart(2,'0'); } }
+  const tables=[[61,26],[84,26],[61,60],[84,60],[61,92],[84,92]];
+  let ti=0, speed=1, idx=0, done=false;
+  function speedRef(){ return speed; }
+  // 音の後始末と、調理ロボのつぶやき
+  let stopped=false; const seTimers=[];
+  function laterSE(name,ms){ const id=setTimeout(()=>{ if(!stopped) playSE(name); },Math.round(ms*1.55/Math.max(1,speedRef()))); seTimers.push(id); }
+  const MT_ORDER={shoyu:['醤油一丁！','醤油、湯切りいくよ','醤油は基本、集中…'],miso:['味噌一丁！','味噌、しっかり溶かして','味噌はコクが命'],shio:['塩一丁！','塩、澄んだスープで','塩は誤魔化しがきかない']};
+  const MT_COOK=['はい、お待ち！','丁寧に盛り付けて…','チャーシュー、乗せて…','ネギ多めがいいかな'];
+  const MT_AMBIENT=['トントントン…（ネギ刻み）','スープの味見…うん、よし','麺の茹で加減をチェック…','次の仕込み、段取り…','カウンターも拭いておこう','出汁の香りがいい感じ','厨房は戦場だ…','今日もがんばるぞい','あー、今日もいい出汁だ'];
+  const MT_OUT=['す、すみません…品切れです','ああっ、切らしてた…','ごめんなさい…！'];
+  const MT_BASE=['ベースで代用する！','ベースあって助かった…'];
+  const MT_BUSY=['注文が止まらない…！','手が足りない…！','ラッシュだ、集中！'];
+  function pickM(a){ return a[Math.floor(Math.random()*a.length)]; }
+  let lastMutter='';
+  function robotSay(t){ if(stopped||!t||t===lastMutter) return; lastMutter=t; bubble(17,15,t,1500); }
+  const ambientTimer=setInterval(()=>{ if(done||stopped) return; if(Math.random()<0.55) robotSay(pickM(MT_AMBIENT)); },4600);
+  function stopScene(){ if(stopped) return; stopped=true; seTimers.forEach(clearTimeout); clearInterval(ambientTimer); stopAllSE(); }
+  window._sceneStop=stopScene;
+  const evs=r.timeline||[];
+  const per=Math.max(200, Math.min(1000, 68000/Math.max(1,evs.length)));
+  const SD=1.55; const dly=ms=>Math.round(ms*SD/speed);
+  function move(el,x,y){ el.style.left=x+'%'; el.style.top=y+'%'; }
+  function bubble(x,y,txt,ms){ const b=document.createElement('div'); b.className='bubble'; b.style.left=x+'%'; b.style.top=y+'%'; b.textContent=txt; root.appendChild(b); setTimeout(()=>b.remove(),ms||900); }
+  function spawnCust(){
+    const c=document.createElement('div'); c.className='sprite cust bob'; c.style.animationDuration=(1.25+Math.random()*0.8)+'s';
+    c.innerHTML=svgCustomer(Math.floor(Math.random()*CUST_STYLES.length));
+    c.style.left='88%'; c.style.top='102%'; root.appendChild(c); return c;
+  }
+  function step(){
+    if(done) return;
+    if(idx>=evs.length){ done=true; drawTime(); bubble(50,8,'🌙 閉店！',1600); robotSay('ふう、閉店。お疲れさま'); clearInterval(ambientTimer); return; }
+    const ev=evs[idx++]; drawTime(); const tp=tables[ti++%tables.length];
+    const cust=spawnCust();
+    setTimeout(()=>move(cust,tp[0],tp[1]),30);
+    setTimeout(()=>{ bubble(tp[0],tp[1],ITEM_TAG[ev.item]);
+      move(server,tp[0]-7,tp[1]);
+      if(ev.ok){
+        move(robot,14,26+Math.random()*40);
+        if(Math.random()<0.5) robotSay(pickM(MT_ORDER[ev.item]));
+        setTimeout(()=>{ move(robot,27,50); move(server,38,tp[1]);
+          setTimeout(()=>{ if(stopped) return; move(server,tp[0]-7,tp[1]);
+            let usedBase=false;
+            if(left[ev.item]<=0 && baseLeft>0){ baseLeft--; usedBase=true; } else if(left[ev.item]>0){ left[ev.item]--; }
+            served++; money+=priceAdj[ev.item]; drawHud();
+            bubble(tp[0],tp[1],'😋',700);
+            playSE('serve'); laterSE('slurp',450);
+            if(usedBase) robotSay(pickM(MT_BASE));
+            else if(left[ev.item]===5) robotSay(NAMES[ev.item]+'、残り5だ…');
+            else if(left[ev.item]===0) robotSay(NAMES[ev.item]+'、切れた…！');
+            else if(served%15===0) robotSay(pickM(MT_BUSY));
+            else if(Math.random()<0.3) robotSay(pickM(MT_COOK));
+            setTimeout(()=>{ if(stopped) return; playSE('register'); move(cust,88,102); setTimeout(()=>cust.remove(),500); },dly(1250));
+          },dly(260));
+        },dly(300));
+      } else {
+        setTimeout(()=>{ if(stopped) return; bubble(tp[0],tp[1],'💦品切れ…'); playSE('out'); if(Math.random()<0.85) robotSay(pickM(MT_OUT)); out++; drawHud(); cust.style.filter='sepia(.55) hue-rotate(-28deg) saturate(1.5)'; bubble(tp[0],tp[1]-9,'💢',800); setTimeout(()=>{ move(cust,88,102); setTimeout(()=>cust.remove(),500); },dly(600)); },dly(350));
+      }
+    },dly(480));
+    setTimeout(step, per/speed);
+  }
+  setTimeout(()=>{ const o=$('prep-overlay'); if(o){ o.style.opacity='0'; setTimeout(()=>o.remove(),700); } },1700);
+  setTimeout(()=>{ robotSay('よし、開店だ'); step(); },2400);
+  const bs=$('btn-speed'); if(bs) bs.onclick=()=>{ speed=speed===1?2:1; bs.textContent=speed===2?'🐢 通常速度に戻す':'⏩ 倍速にする'; };
+  const bk=$('btn-skip'); if(bk) bk.onclick=()=>{ stopScene(); done=true; idx=evs.length; drawTime(); left.shoyu=left.miso=left.shio=0; baseLeft=r.baseWaste||0; served=0; money=r.revenue; out=0; for(const id in NAMES){ served+=r.sales[id]; out+=r.stockout[id]; } drawHud(); root.querySelectorAll('.sprite').forEach(s=>{ if(s.id!=='sp-robot'&&s.id!=='sp-server') s.remove(); }); bubble(50,8,'🌙 閉店！',1200); };
+}
+function aiText(v){
+  const info=v.yourInfo; const L=[];
+  L.push('ゲーム: AIラーメン Muse支店 / 部屋: '+CODE+' / あなたの役割: '+(ROLE==='human'?'接客':'調理ロボ'));
+  L.push('現在: '+v.day+'日目（'+v.weekday+'曜）、天気は'+v.weather+'、フェーズは'+v.phase+'。');
+  if(v.phase==='message'){
+    L.push(v.msgSubmitted[ROLE]?'あなたの伝言は送信済みです。相方待ちです。':'やること: まず「朝の伝言」を'+v.msgMax+'文字以内で書いて「伝言を送る」を押してください。自分の情報から一番大事なことだけを圧縮して伝えるのがコツです。両者そろうと伝言が開示され、入力フェーズに進みます。');
+  }
+  if(v.messages) L.push('朝の伝言 ― 接客：「'+(v.messages.human||'')+'」／調理ロボ：「'+(v.messages.robot||'')+'」');
+  if(v.phase==='input'&&info){
+    if(ROLE==='robot'){
+      L.push('資金 '+info.funds+'円、満足度 '+info.satisfaction+'。この曜日の平均来客数（目安）: 約'+info.baseFootfall+'人。共通ベース単価 '+info.baseUnitCost+'円（上限'+info.basePrepMax+'食、どの味の品切れも肩代わりできる保険）。');
+      for(const i of info.items) L.push(i.name+': 価格'+i.price+'円 原価'+i.cost+'円 相場×'+info.market[i.id]+' 在庫'+info.stock[i.id]+'食 基本人気'+Math.round(i.baseShare*100)+'%');
+      L.push('過去実績: '+(info.history.map(x=>x.day+'日目 需要'+x.demand.shoyu+'/'+x.demand.miso+'/'+x.demand.shio+' 販売'+x.sales.shoyu+'/'+x.sales.miso+'/'+x.sales.shio).join(' | ')||'なし'));
+      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 各メニューの仕入れと仕込み、共通ベースの数を入力し、「伝言の解釈」欄に接客の伝言をどう読んだかを書いて、コメントと一緒に「調理ロボの入力を確定」を押してください。解釈は夜の日報で人間にも開示されます。チャットの会話で「こういう意味だと思った」と一言反応するのも歓迎です。');
+    } else {
+      L.push('客の声: '+info.hints.join(' / '));
+      if(info.tomorrow) L.push('明日の予告: '+info.tomorrow+'（伝言で厨房に伝えると、明日の仕入れの備えになります）');
+      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 押しメニューと接客方針と価格帯を選び、コメントを書いて「接客の入力を確定」を押してください。');
+    }
+  }
+  if(v.phase==='service') L.push('営業シーンが再生されています。厨房のロボとホールの接客、客の出入りが見えます。見終わったら「営業を終える（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
+  if(v.phase==='report') L.push('答え合わせが表示されています。読んだら「答え合わせを確認（翌日へ）」を押してください。');
+  if(v.phase==='finished'&&v.final) L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
+  return L.join('\n');
+}
+function bindForm(){
+  document.querySelectorAll('[data-push]').forEach(b=>b.onclick=()=>{ selPush=b.dataset.push==='null'?null:b.dataset.push; render(); });
+  document.querySelectorAll('[data-pol]').forEach(b=>b.onclick=()=>{ selPolicy=b.dataset.pol; render(); });
+  document.querySelectorAll('[data-band]').forEach(b=>b.onclick=()=>{ selBand=b.dataset.band; render(); });
+  const bm=$('btn-msg'); if(bm) bm.onclick=()=>{ const t=$('in-msg').value; if([...t].length>(VIEW?VIEW.msgMax:10)){ alert('文字数オーバーです'); return; }
+    api('/api/ramen/message','POST',{code:CODE,role:ROLE,text:t}).then(r=>{ if(r.error)alert(r.error); else { DRAFT.msg=''; } LAST_SIG=''; refresh(); }); };
+  const bh=$('btn-submit-human'); if(bh) bh.onclick=()=>{ api('/api/ramen/submit','POST',{code:CODE,role:'human',decision:{push:selPush,policy:selPolicy,priceBand:selBand,comment:$('in-comment').value}}).then(r=>{ if(r.error)alert(r.error); else DRAFT.comment=''; LAST_SIG=''; refresh(); }); };
+  const br=$('btn-submit-robot'); if(br) br.onclick=()=>{ const buy={},prep={}; for(const id of ['shoyu','miso','shio']){ buy[id]=Number($('buy-'+id).value||0); prep[id]=Number($('prep-'+id).value||0); }
+    api('/api/ramen/submit','POST',{code:CODE,role:'robot',decision:{buy,prep,basePrep:Number($('in-base').value||0),reading:$('in-reading').value,comment:$('in-comment').value}}).then(r=>{ if(r.error)alert(r.error); else { DRAFT.comment=''; DRAFT.buy={}; DRAFT.prep={}; DRAFT.base=''; DRAFT.reading=''; } LAST_SIG=''; refresh(); }); };
+  const ba=$('btn-ack'); if(ba) ba.onclick=()=>{ api('/api/ramen/ack','POST',{code:CODE,role:ROLE}).then(()=>{ LAST_SIG=''; refresh(); }); };
+  const bsh=$('btn-share'); if(bsh) bsh.onclick=()=>{ const f=VIEW.final; const t='🍜 AIラーメン Muse支店 ― 7日間の営業結果\nランク【'+f.rank+'】 スコア '+f.score.toLocaleString()+'（資金 '+f.funds.toLocaleString()+'円／満足度 '+f.satisfaction+'）\nうちのMuse（調理ロボ）と、朝の伝言10文字だけで息を合わせて店を回しました。\n'+location.origin+location.pathname+'\n#AIラーメンMuse支店'; copyText(t,$('share-done'),'コピーしました。そのまま投稿できます'); };
+}
+if(CODE){ enter(); }
+</script>
+</body>
+</html>
