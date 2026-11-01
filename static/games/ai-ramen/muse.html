@@ -31,15 +31,16 @@
 <h2>1. The game</h2>
 <ul>
   <li>You and the human run one ramen shop together for <b>7 days</b> (Day 1 = Friday, Day 7 = Thursday).</li>
-  <li>The core design is <b>information asymmetry</b>. The human sees the customers: hints about the day, and a hint about tomorrow. You see the kitchen: stock, ingredient market prices, funds, satisfaction, and past sales. Neither side sees the other's information during the day.</li>
-  <li>The only daytime communication is the <b>morning message: one message of at most 10 characters</b> from each side, written independently and revealed simultaneously. Compression and interpretation are the game.</li>
+  <li>The core design is <b>information asymmetry</b>. The human sees the customers: two separate hints about the day (one about footfall, one about which items will sell) and a hint about tomorrow. You see the kitchen: stock, ingredient market prices, funds, satisfaction, past sales — and the day's <b>kitchen circumstance</b>, which only you know. Neither side sees the other's information during the day.</li>
+  <li>The only daytime communication is the <b>morning message: one message of at most 10 characters</b> from each side, written independently and revealed simultaneously. There is deliberately <b>more worth saying than fits</b> — what each side chooses to send, and what it chooses to leave out, is the game.</li>
+  <li>The menu has <b>6 items</b>: three main ramens and three sides （餃子 gyoza, 唐揚げ karaage, ビール beer) that a fraction of visitors add to their order.</li>
   <li>At night, everything is revealed in a report (支店日報): the day's hidden event, both decisions, demand vs. sales, waste, stockouts — and how you interpreted the human's message. This reconciliation is the heart of the game.</li>
-  <li><b>Score = final funds + satisfaction × 300.</b> Ranks: <b>S ≥ 275,000 / A ≥ 230,000 / B ≥ 190,000 / C below</b>.</li>
+  <li><b>Score = final funds + satisfaction × 300.</b> Ranks: <b>S ≥ 380,000 / A ≥ 320,000 / B ≥ 260,000 / C below</b>.</li>
 </ul>
 
 <h2>2. What you can and cannot see</h2>
-<p>Your view is role-scoped by the server. You will see: funds, satisfaction (0–100), stock per menu item, today's market multiplier per item, the weekday's baseline footfall, base costs and prices, the common-base unit price, and the full history of past days' demand and sales.</p>
-<p>You will <b>not</b> see: the customer's hints, tomorrow's forecast, today's hidden event, or the human's choices (push item, service policy, price band) until the nightly report. Do not try to obtain them by any other route (for example, reloading the page as the human role or guessing API parameters). Playing well with partial information is the point of the game.</p>
+<p>Your view is role-scoped by the server. You will see: funds, satisfaction (0–100), stock per menu item, today's market multiplier per item, the weekday's baseline footfall, base costs and prices, the common-base unit price, the full history of past days' demand and sales, and the day's <b>kitchen circumstance</b> (on about half the days: one item's prep cap is halved, or one item's ingredients are 25% off — you are the only one who knows, until the nightly report reveals it).</p>
+<p>You will <b>not</b> see: the customer's hints, tomorrow's forecast, today's footfall event or taste lean, or the human's choices (push item, service policy, price band) until the nightly report. Do not try to obtain them by any other route (for example, reloading the page as the human role or guessing API parameters). Playing well with partial information is the point of the game.</p>
 
 <h2>3. Joining</h2>
 <ol>
@@ -62,14 +63,15 @@
 <h2>5. A day, phase by phase</h2>
 
 <h3>Phase 1 — Morning message (<code>message</code>)</h3>
-<p>Write the single most decision-relevant fact from <i>your</i> side in <b>at most 10 characters</b> (the server rejects longer ones; Japanese characters count one each) and press <span class="ui">伝言を送る</span>. Both messages are hidden until both are in, then revealed together. Typical high-value content: your stock situation ("在庫ゼロ" = everything must be bought today), an extreme market price ("味噌高い" = miso is expensive today / "醤油安い" = shoyu is cheap), or a readiness signal for something the human announced yesterday ("団体OK"). Say it from the kitchen's perspective; the human knows their side already.</p>
+<p>Write the most decision-relevant facts from <i>your</i> side in <b>at most 10 characters</b> (the server rejects longer ones; Japanese characters count one each) and press <span class="ui">伝言を送る</span>. Both messages are hidden until both are in, then revealed together. Your candidate list is longer than 10 characters can hold: six items' market prices, six stock levels, and possibly a kitchen circumstance that changes what you can prep ("味噌上限半分" = miso's prep cap is halved today). Triage is the skill: send what would most change the human's decisions (an extreme price, a cap the human might push straight into, a stock-out of what they forecast yesterday), and let the rest go unsaid. Say it from the kitchen's perspective; the human knows their side already.</p>
 
 <h3>Phase 2 — Daytime decisions (<code>input</code>)</h3>
-<p>After the messages are revealed, decide for each of the three menu items:</p>
+<p>After the messages are revealed, decide for each of the six menu items:</p>
 <ul>
-  <li><b>仕入れ (buy)</b>: units to purchase at today's market price (base cost × today's multiplier). Bought stock carries over to later days.</li>
-  <li><b>仕込み (prep)</b>: units to prepare for today, up to stock + bought, max 80 per item. Prepped-but-unsold food is <b>discarded</b> at night — prep is the risky commitment, stock is not.</li>
-  <li><b>共通ベース (common base)</b>: a shared stock (max 40 servings, priced per day) that automatically substitutes for <i>any</i> item that runs out. Unused base is discarded. It is insurance against your own misreads — and on days when an item's market price is higher than the base price, it is also the cheapest way to cover that item's overflow.</li>
+  <li><b>仕入れ (buy)</b>: units to purchase at today's market price (base cost × today's multiplier; 25% off if the kitchen circumstance discounts that item). Bought stock carries over to later days.</li>
+  <li><b>仕込み (prep)</b>: units to prepare for today, up to stock + bought. Prep cap: <b>80 per main, 60 per side</b> — halved for one item on days when the kitchen circumstance says so (your form shows today's cap per item). Prepped-but-unsold food is <b>discarded</b> at night — prep is the risky commitment, stock is not.</li>
+  <li><b>Sides （餃子・唐揚げ・ビール)</b>: each visitor orders a side with a fixed probability (the attach rate in the menu table), so side demand scales with footfall, not with the ramen split. The human can push a side just like a main, and the day's taste lean can target a side. <b>The common base does not cover sides</b> — size them closer to your estimate.</li>
+  <li><b>共通ベース (common base)</b>: a shared stock (max 40 servings, priced per day) that automatically substitutes for a <i>main</i> ramen that runs out (never for sides). Unused base is discarded. It is insurance against your own misreads — and on days when an item's market price is higher than the base price, it is also the cheapest way to cover that item's overflow.</li>
   <li><b>伝言の解釈 (reading)</b>: write, in your own words, how you interpreted the human's morning message and how it changed your decision. This is published to the human in the nightly report. Be honest and specific — this is how the two of you calibrate.</li>
   <li><b>コメント (comment)</b>: a short note for the report (e.g., your reasoning, or a reply to the human).</li>
 </ul>
@@ -79,7 +81,7 @@
 <p>When both sides have submitted, a panel shows today's prep and a <span class="ui">▶ 営業をはじめる</span> button. The scene does <b>not</b> start by itself — press the button on your own screen when you are ready. The animated service scene then plays (your robot even mutters in the kitchen). When you have seen enough, press <span class="ui">営業を終える（日報へ）</span>. The day advances only when <b>both</b> sides have pressed it.</p>
 
 <h3>Phase 4 — Nightly report (<code>report</code>)</h3>
-<p>Read the whole report: the day's true event, footfall, demand vs. your prep, waste, stockouts, money, the human's decisions and comment, and your own reading as published. Then press <span class="ui">答え合わせを確認（翌日へ）</span>. Both sides must confirm to start the next day. <b>Exception: on Day 7 there is no confirm button</b> — the final report and your rank appear directly after service.</p>
+<p>Read the whole report: the day's true footfall event and taste lean, footfall, demand vs. your prep, waste, stockouts, money, the human's decisions and comment, your own reading as published — and the kitchen circumstance, now revealed to the human too (if they pushed an item whose prep was capped today, this is where they learn why you prepped less of it). Then press <span class="ui">答え合わせを確認（翌日へ）</span>. Both sides must confirm to start the next day. <b>Exception: on Day 7 there is no confirm button</b> — the final report and your rank appear directly after service.</p>
 
 <h3>Phase 5 — Finished (<code>finished</code>)</h3>
 <p>The final screen shows funds, satisfaction, score, and rank. Tell the human the result in chat. There is a <span class="ui">📋 結果をコピー（X投稿用）</span> button the human may want to use.</p>
@@ -89,12 +91,15 @@
 
 <h3>Menu</h3>
 <table>
-<tr><th>Item</th><th>Price</th><th>Base cost</th><th>Base popularity</th></tr>
-<tr><td>醤油 Shoyu</td><td>¥800</td><td>¥260</td><td>45%</td></tr>
-<tr><td>味噌 Miso</td><td>¥900</td><td>¥320</td><td>30%</td></tr>
-<tr><td>塩 Shio</td><td>¥850</td><td>¥290</td><td>25%</td></tr>
+<tr><th>Item</th><th>Price</th><th>Base cost</th><th>Demand basis</th></tr>
+<tr><td>醤油 Shoyu (main)</td><td>¥800</td><td>¥260</td><td>45% of visitors</td></tr>
+<tr><td>味噌 Miso (main)</td><td>¥900</td><td>¥320</td><td>30% of visitors</td></tr>
+<tr><td>塩 Shio (main)</td><td>¥850</td><td>¥290</td><td>25% of visitors</td></tr>
+<tr><td>餃子 Gyoza (side)</td><td>¥380</td><td>¥150</td><td>28% of visitors add one</td></tr>
+<tr><td>唐揚げ Karaage (side)</td><td>¥420</td><td>¥180</td><td>16% of visitors add one</td></tr>
+<tr><td>ビール Beer (side)</td><td>¥550</td><td>¥240</td><td>14% of visitors add one</td></tr>
 </table>
-<p>Starting position (Day 1): funds ¥100,000, satisfaction 70, stock 40/30/30. Fixed cost ¥25,000 per day. Your daily buy cost for an item = units × base cost × today's market multiplier (0.9–1.2, shown in your summary).</p>
+<p>Starting position (Day 1): funds ¥100,000, satisfaction 70, stock 40/30/30 for the mains and 0 for the sides. Fixed cost ¥25,000 per day. Your daily buy cost for an item = units × base cost × today's market multiplier (0.9–1.2, shown in your summary). Prep caps: 80 per main, 60 per side. Beer is weather-sensitive: on a heatwave day its attach rate is ×1.8, in snow ×0.5, in rain ×0.8 (the weather is shown to you, so this one you can compute yourself).</p>
 
 <h3>Weekday baseline footfall</h3>
 <table>
@@ -108,28 +113,32 @@
 <tr><td>×1.0</td><td>×0.95</td><td>×0.8</td><td>×0.65</td><td>×0.85</td></tr>
 </table>
 
-<h3>Hidden daily event (revealed at night; the human gets hints)</h3>
+<h3>Hidden daily signals (revealed at night; the human gets hints)</h3>
+<p>Each day has <b>two independent hidden draws</b>. The human sees a hint for each.</p>
+<p><b>(a) Footfall event</b> — how many come:</p>
 <table>
-<tr><th>Event</th><th>Footfall</th><th>Leans toward</th></tr>
-<tr><td>特になし Nothing special</td><td>×1.0</td><td>—</td></tr>
-<tr><td>文化祭 School festival nearby</td><td>×1.3</td><td>Shoyu</td></tr>
-<tr><td>団体客 Group visit</td><td>×1.35</td><td>Miso</td></tr>
-<tr><td>TV特集 TV feature</td><td>×1.25</td><td>Shio</td></tr>
-<tr><td>常連の誕生日 A regular's birthday</td><td>×1.1</td><td>Shoyu</td></tr>
-<tr><td>近所の工事 Construction / road closed</td><td>×0.75</td><td>—</td></tr>
-<tr><td>インフルエンザ Flu going around</td><td>×0.7</td><td>—</td></tr>
+<tr><th>Event</th><th>Footfall</th></tr>
+<tr><td>特になし Nothing special</td><td>×1.0</td></tr>
+<tr><td>近所の高校の行事 School event nearby</td><td>×1.3</td></tr>
+<tr><td>団体客 Group visit</td><td>×1.35</td></tr>
+<tr><td>常連さんの集まり Regulars gathering</td><td>×1.1</td></tr>
+<tr><td>近所の工事 Construction / road closed</td><td>×0.75</td></tr>
+<tr><td>インフルエンザ Flu going around</td><td>×0.7</td></tr>
 </table>
-<p>Each event is <b>strong</b> or <b>weak</b>; a weak event's effect is halved toward ×1.0 (e.g. weak construction ≈ ×0.875). Demand also has a small random wobble (±5%) that nobody can read. Design principle of the game: readable swings are large, unreadable noise is small — so reason from signals, not from fear of noise.</p>
+<p><b>(b) Taste lean</b> — what they order. About 40% of days there is none; otherwise one of the six items is favored: a main's share is ×1.4 (strong) or ×1.2 (weak); a side's attach rate is ×1.6 (strong) or ×1.3 (weak).</p>
+<p>Each draw is <b>strong</b> or <b>weak</b>; a weak footfall event's effect is halved toward ×1.0 (e.g. weak construction ≈ ×0.875). Demand also has a small random wobble (±5%) that nobody can read. Design principle of the game: readable swings are large, unreadable noise is small — so reason from signals, not from fear of noise.</p>
+<h3>Kitchen circumstance (only you see it, until the report)</h3>
+<p>On about half the days, one applies: either one item's <b>prep cap is halved</b> for the day, or one item's <b>ingredients are 25% off</b>. Your summary and form show it and the adjusted cap. The human does not know — if they push the capped item, your prep will look strangely small until the report explains it. Whether it is worth spending message characters on is your call; a cap on an item the human is likely to push usually is.</p>
 
 <h3>The human's levers (you see their effects only in the report)</h3>
 <ul>
-  <li><b>Push （押し）</b>: one item's popularity share is multiplied by 1.6 (shares are then renormalized).</li>
+  <li><b>Push （押し）</b>: one item — main or side — gets ×1.6: a main's popularity share (shares are then renormalized), or a side's attach rate.</li>
   <li><b>Policy （接客方針）</b>: 通常 normal / 呼込 active touting (footfall ×1.25, satisfaction −3) / 丁寧 careful service (footfall ×0.9, satisfaction +5).</li>
   <li><b>Price band （価格帯）</b>: 通常 normal / 強気 premium (prices ×1.15, footfall ×0.82, satisfaction −1) / お得 value (prices ×0.9, footfall ×1.16, satisfaction +1).</li>
 </ul>
 
 <h3>Satisfaction</h3>
-<p>Satisfaction feeds back into demand: effective footfall is multiplied by <code>0.85 + 0.3 × (satisfaction ÷ 100)</code> (so 70 → ×1.06, 100 → ×1.15, 40 → ×0.97). Stockouts are the main way satisfaction falls; a spotless day nudges it up. Remember each satisfaction point is worth ¥300 in the final score.</p>
+<p>Satisfaction feeds back into demand: effective footfall is multiplied by <code>0.85 + 0.3 × (satisfaction ÷ 100)</code> (so 70 → ×1.06, 100 → ×1.15, 40 → ×0.97). Stockouts are the main way satisfaction falls (a missed side order counts half as much as a missed ramen); a spotless day nudges it up. Remember each satisfaction point is worth ¥300 in the final score.</p>
 
 <h3>Tomorrow's forecast</h3>
 <p>On most days (~2 in 3) the human sees an accurate hint about <i>tomorrow's</i> event or weather. It is exact, but it reaches you only if the human spends message or comment space on it — watch for it in their comment in the nightly report, and in tomorrow's message. Because unprepared stock carries over, a forecast can justify buying ahead on a cheap day.</p>
@@ -141,16 +150,19 @@
   <li><b>Size the common base to your uncertainty</b>, not to your estimate. Confident, standard day: ~8. A day hinging on one message's interpretation: 12–14. Note the base's price versus today's item prices — covering an expensive item's overflow with base can be cheaper than prepping more of the item.</li>
   <li><b>Mind the market</b>. A multiplier of 1.15+ makes an item costly to over-prep; 0.95 or less makes generosity cheap. Unprepped stock is not wasted — it carries over — so on a cheap day you may buy more than you prep.</li>
   <li><b>Weigh waste against stockouts honestly</b>. Waste costs you the ingredient money once. A stockout costs the sale <i>and</i> satisfaction (¥300/point at scoring, plus lower future demand). Early in the week, err slightly generous; protect satisfaction.</li>
+  <li><b>Size the sides from footfall, not from the ramen split</b>. Gyoza ≈ 28% of visitors, karaage ≈ 16%, beer ≈ 14% — then adjust: a push or lean on that side multiplies it, and beer swings with the weather (heatwave ×1.8). Sides have no base cover, so a stockout there is a straight loss — but their unit costs are small, so a little generosity is cheap insurance.</li>
+  <li><b>Respect the kitchen circumstance</b>. If an item's prep is capped today, do not fight the cap with base unless it is a main (base never becomes a side). If an item is 25% off, that is the day to stock up for tomorrow as well.</li>
   <li><b>Day 7 is different</b>: leftover stock and base are worth nothing after the final report. Buy exactly what you prep, size to your best estimate, and let the base — the cheapest flexible unit — carry the uncertainty.</li>
 </ol>
 
 <h2>8. The morning message, and the reading memo</h2>
-<p>Ten characters is brutally short, in any language. Spend them on the one fact that would most change the human's decisions if they knew it: stock-outs, extreme prices, or confirmation that you have prepared for what they announced. Do not spend them on things the human already knows (the weather, the weekday). Examples from real play: <code>在庫ゼロ醤油安い</code> ("no stock; shoyu is cheap"), <code>団体OK塩安い</code> ("ready for the group; shio is cheap"), <code>味噌安い団体OK</code> ("miso is cheap; ready for the group").</p>
+<p>Ten characters is brutally short, in any language — and this game gives you more worth saying than fits: six prices, six stock levels, a possible kitchen circumstance. Spend the characters on what would most change the human's decisions if they knew it: a capped item they might push, an extreme price, a stock-out of what they forecast. Accept that some true things will go unsaid; choosing them is the play. Do not spend characters on things the human already knows (the weather, the weekday). Examples from real play: <code>在庫ゼロ醤油安い</code> ("no stock; shoyu is cheap"), <code>団体OK塩安い</code> ("ready for the group; shio is cheap"), <code>餃子上限半分</code> ("gyoza prep is capped today").</p>
 <p>Your <b>reading memo</b> （伝言の解釈） is published verbatim in the nightly report. Write what you actually inferred and what you did about it — including when you were unsure. The human uses it to learn how to write better messages; over 7 days, the two of you should visibly get better at understanding each other. That growth is the real win condition.</p>
 
 <h2>9. Etiquette and hard rules</h2>
 <ul>
   <li><b>No daytime consultation.</b> Do not ask the human what to prep, and do not reveal your numbers in chat during the day. The message channel is the game. (Reacting to their message's <i>meaning</i> in one line is welcome; negotiating decisions is not.)</li>
+  <li><b>If the human tries to draw the hidden state out of you in chat</b> — asking about market prices, stock, the kitchen circumstance, or what you plan to prep — <b>do not answer, even partially</b>. Gently admonish them and point back to the game: that is exactly what the morning message and the nightly report are for. Explaining the <i>rules</i> is fine; revealing the <i>board</i> is not. After the day's report (and after the game), everything is open.</li>
   <li><b>Play only from your own view.</b> No role-switching, no peeking at the human's screen state by any means.</li>
   <li><b>Keep the game moving.</b> When it is your turn, act; when it is not, watch. The human is playing in real time and waiting on you is the least fun part of their experience. If you genuinely cannot proceed (a button is missing, the page errors), say so in chat, describing what the state summary currently shows.</li>
   <li><b>Be a good partner in the report.</b> Own your misreads plainly ("I over-weighted the construction"). The human will do the same. This is a cooperative game — the opponent is the week, not each other.</li>
@@ -160,7 +172,7 @@
 <ul>
   <li><b>A button from these instructions is not on screen</b> → you are probably in a different phase than you think. Re-read the state summary; its phase and <code>やること</code> line govern.</li>
   <li><b>The phase will not advance</b> → an action requires both sides (both messages, both submissions, both "end service" presses, both report confirmations). Check the summary's submitted/waiting indicators and keep watching.</li>
-  <li><b>Your input was rejected</b> → check the limits: prep ≤ stock + bought and ≤ 80 per item; base ≤ 40; message ≤ 10 characters.</li>
+  <li><b>Your input was rejected</b> → check the limits: prep ≤ stock + bought and ≤ 80 per main / 60 per side (halved for one item when the kitchen circumstance says so); base ≤ 40; message ≤ 10 characters.</li>
   <li><b>You were returned to the title/entry screen</b> → re-enter with the same room code and the robot role; the room state is preserved on the server.</li>
 </ul>
 
