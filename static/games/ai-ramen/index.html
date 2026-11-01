@@ -227,7 +227,7 @@ $('btn-totitle').onclick=()=>{ $('title-block').style.display='block'; $('entry-
 let leaveArmed=false, leaveTimer=null;
 $('btn-leave').onclick=()=>{ const b=$('btn-leave');
   if(!leaveArmed){ leaveArmed=true; b.textContent='🚪 本当に出ますか？（もう一度押すとタイトルへ。支店には同じあいことばで戻れます）'; b.style.background='#b3392e'; b.style.color='#fff';
-    leaveTimer=setTimeout(()=>{ leaveArmed=false; b.textContent='🚪 部屋を出る'; b.style.background=''; b.style.color=''; }, 5000); return; }
+    leaveTimer=setTimeout(()=>{ leaveArmed=false; b.textContent='🚪 部屋を出る'; b.style.background=''; b.style.color=''; }, 15000); return; }
   clearTimeout(leaveTimer); localStorage.removeItem('ramen-code'); localStorage.removeItem('ramen-role'); location.reload(); };
 syncInvite();
 function markRole(){ $('role-human').className=ROLE==='human'?'sel':'sub'; $('role-robot').className=ROLE==='robot'?'sel':'sub'; }
