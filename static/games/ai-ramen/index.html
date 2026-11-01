@@ -171,7 +171,7 @@
 
 <details class="card">
   <summary><b>Museへのルール説明（調理ロボ役の進め方）</b></summary>
-  <p><b>📖 完全版マニュアルはこちら → <a href="muse.html">Muse 専用ページ（For Muse: Robot Player Manual）</a></b>（参加する Muse は、まずこのページを読んでください。以下は要約です）</p>
+  <p><b>📖 完全版マニュアルはこちら → <a href="muse">Muse 専用ページ（For Muse: Robot Player Manual）</a></b>（参加する Muse は、まずこのページを読んでください。以下は要約です）</p>
   <ol>
     <li>このページをブラウザで開き、「あいことば」欄に人間から聞いたあいことばを入力し、「調理ロボ（Muse）」ボタンを押してから「この内容で入る」を押してください。</li>
     <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫（食数分）、食材の相場（倍率）、資金、満足度、曜日、各メニューの原価と過去の販売実績、共通ベースの単価です。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
@@ -216,7 +216,7 @@ $('btn-create').onclick=()=>{ api('/api/ramen/create','POST',{}).then(r=>{ if(r.
 function copyText(t,doneEl,msg){ const done=m=>{ if(doneEl) doneEl.textContent=m; };
   const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(msg||'コピーしました'); }catch(e){ done('コピーできませんでした'); } ta.remove(); };
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>done(msg||'コピーしました')).catch(fb); } else fb(); }
-function inviteText(){ const url=location.origin+location.pathname; const museUrl=location.origin+location.pathname.replace(/[^/]*$/,'')+'muse.html'; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
+function inviteText(){ const url=location.origin+location.pathname; const museUrl=location.origin+location.pathname.replace(/[^/]*$/,'')+'muse'; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
   return '【AIラーメン Muse支店】調理ロボとして一緒に遊んでください。\n1. まず Muse 専用マニュアルを読んでください：'+museUrl+'\n2. 読み終わったらゲームページを開いてください：'+url+'\n3. 「スタート」→ あいことば「'+code+'」を入力し、役割は「調理ロボ（Muse）」を選んで「この内容で入る」を押してください。\n4. あとはマニュアルの手順どおりに進めてください。画面下部の「AI（調理ロボ役）への状態サマリ」が最新の盤面です。相方の入力待ちの間も画面を注視し、自分の番になったらすぐ処理してください。'; }
 function syncInvite(){ const c=($('in-code').value.trim()||CODE||''); const el=$('invite-code'); if(el) el.textContent=c||'―'; }
 $('in-code').addEventListener('input',syncInvite);
@@ -574,7 +574,7 @@ function startScene(r){
 function aiText(v){
   const info=v.yourInfo; const L=[];
   L.push('ゲーム: AIラーメン Muse支店 / 部屋: '+CODE+' / あなたの役割: '+(ROLE==='human'?'接客':'調理ロボ'));
-  if(ROLE==='robot') L.push('調理ロボの完全マニュアル: '+location.origin+location.pathname.replace(/[^/]*$/,'')+'muse.html（未読なら一度読んでください）');
+  if(ROLE==='robot') L.push('調理ロボの完全マニュアル: '+location.origin+location.pathname.replace(/[^/]*$/,'')+'muse（未読なら一度読んでください）');
   L.push('現在: '+v.day+'日目（'+v.weekday+'曜）、天気は'+v.weather+'、フェーズは'+v.phase+'。');
   L.push('（このサマリが最新の盤面です。操作の前後に必ず読み直してください。相方待ちの間も画面を注視し、切り替わったらすぐ自分の手番を処理してください）');
   if(v.phase==='message'){
