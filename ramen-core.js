@@ -227,6 +227,7 @@ function newRoom(seed) {
     reports: [], // 夜の答え合わせ
     msgs: { human: null, robot: null, forecast: null }, // 朝の伝言（両者そろうまで非公開）。forecast は接客が任意で付ける予告メモ（伝言とは別枠）
     submissions: { human: null, robot: null },
+    tentative: null, // 夜の仮仕込み（ロボが日報フェーズで置く翌日の下書き。朝に自動調整して仮提出される）
     acks: { human: false, robot: false },
     days: null, // 全日程を先に生成（明日の予告のため）。ビューには絶対に含めない
     cur: null,
@@ -257,7 +258,7 @@ function submitMessage(state, role, text, forecast) {
 function submit(state, role, decision) {
   if (state.phase !== 'input') return { ok: false, error: '今は入力フェーズではありません' };
   if (role !== 'human' && role !== 'robot') return { ok: false, error: '役割が不正です' };
-  if (state.submissions[role]) return { ok: false, error: '本日は既に入力済みです' };
+  if (state.submissions[role] && !(role === 'robot' && state.submissions.robot.tentative)) return { ok: false, error: '本日は既に入力済みです' };
   ensureStock(state);
   if (role === 'human') {
     const pol = POLICIES.find(p => p.id === decision.policy);
@@ -412,6 +413,48 @@ function resolveDay(state) {
   return report;
 }
 
+/* 夜の仮仕込み：ロボが日報フェーズで翌日の仕入れ・仕込みの下書きを置く。
+   在庫は夜の時点で確定しているが、翌日の相場の実額と厨房の事情は朝まで分からない。
+   朝の開始時に上限・在庫・資金へ自動で丸めて「仮提出」とし、入力フェーズで上書きできる。
+   ねらいは、ロボの考える時間を人間の日報読みの時間に重ねて、朝の待ちを短くすること。 */
+function setTentative(state, plan) {
+  if (state.phase !== 'report') return { ok: false, error: '仮仕込みは日報の画面でのみ置けます' };
+  if (state.day >= GAME_DAYS) return { ok: false, error: '明日の営業はありません' };
+  if (plan === null || plan === undefined) { state.tentative = null; return { ok: true }; }
+  const buy = {}, prep = {};
+  for (const it of ITEMS) {
+    buy[it.id] = Math.max(0, Math.min(200, Math.floor(Number(plan.buy && plan.buy[it.id]) || 0)));
+    prep[it.id] = Math.max(0, Math.min(200, Math.floor(Number(plan.prep && plan.prep[it.id]) || 0)));
+  }
+  const basePrep = Math.max(0, Math.min(BASE_PREP_MAX, Math.floor(Number(plan.basePrep) || 0)));
+  state.tentative = { buy, prep, basePrep };
+  return { ok: true };
+}
+function applyTentative(state) {
+  const plan = state.tentative;
+  state.tentative = null;
+  if (!plan) return;
+  let funds = state.funds;
+  const buy = {}, prep = {};
+  for (const it of ITEMS) {
+    let b = plan.buy[it.id] || 0;
+    const unit = effUnitCost(state, it); // 翌日（=新しい当日）の相場・特売で計算
+    if (unit > 0) b = Math.min(b, Math.max(0, Math.floor(funds / unit)));
+    buy[it.id] = b;
+    funds -= Math.round(b * unit);
+  }
+  const bu = baseUnitCostToday(state);
+  let basePrep = plan.basePrep || 0;
+  if (bu > 0) basePrep = Math.min(basePrep, Math.max(0, Math.floor(funds / bu)));
+  funds -= basePrep * bu;
+  for (const it of ITEMS) {
+    const cap = prepMaxFor(state, it); // 翌日の厨房の事情（上限半分）を反映
+    const avail = (state.stock[it.id] || 0) + buy[it.id];
+    prep[it.id] = Math.max(0, Math.min(plan.prep[it.id] || 0, cap, avail));
+  }
+  state.submissions.robot = { buy, prep, basePrep, reading: '', comment: '', tentative: true };
+}
+
 function ack(state, role) {
   if (state.phase === 'service') {
     state.acks[role] = true;
@@ -429,6 +472,7 @@ function ack(state, role) {
     state.phase = 'message';
     state.msgs = { human: null, robot: null, forecast: null };
     state.acks = { human: false, robot: false };
+    applyTentative(state); // 夜の仮仕込みがあれば、新しい当日の条件で丸めて仮提出にする
   }
   return { ok: true };
 }
@@ -482,6 +526,9 @@ function viewFor(state, role) {
     }
     base.yourInfo = {
       funds: state.funds, satisfaction: state.satisfaction, stock: state.stock,
+      tentative: state.tentative || null, // 夜に置いた仮仕込み（日報フェーズで自分が置いたもの）
+      autoPlan: (state.submissions.robot && state.submissions.robot.tentative)
+        ? { buy: state.submissions.robot.buy, prep: state.submissions.robot.prep, basePrep: state.submissions.robot.basePrep } : null, // 仮仕込みが仮提出されている場合の内容
       market: state.cur.market, tomorrowMarket, baseFootfall: BASE_FOOTFALL[state.cur.weekday],
       baseUnitCost: baseUnitCostToday(state), basePrepMax: BASE_PREP_MAX,
       kitchen: state.cur.kitchen ? { item: state.cur.kitchen.item, type: state.cur.kitchen.type, label: kitchenLabel(state.cur.kitchen) } : null,
@@ -494,4 +541,4 @@ function viewFor(state, role) {
   return base;
 }
 
-module.exports = { newRoom, submitMessage, submit, ack, viewFor, finalResult, ITEMS, POLICIES, PRICE_BANDS, GAME_DAYS, MSG_MAX, BASE_PREP_MAX, CROWD_TASTE, CROWD_NOTES, tasteMult };
+module.exports = { newRoom, submitMessage, submit, ack, setTentative, viewFor, finalResult, ITEMS, POLICIES, PRICE_BANDS, GAME_DAYS, MSG_MAX, BASE_PREP_MAX, CROWD_TASTE, CROWD_NOTES, tasteMult };

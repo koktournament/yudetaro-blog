@@ -201,7 +201,7 @@
     <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫・相場・資金・満足度・各品の原価と過去の実績、共通ベースの単価、その日の「厨房の事情」（1品の上限半分 or 仕入れ25%引き。ない日も）と「明日の相場の気配」（方向だけ）です。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
     <li>朝の伝言：まず自分の情報から一番伝えたいことを10文字以内に圧縮して送ってください。両者の伝言がそろうと開示され、それを見てから本入力に入ります。10文字では全部は書けないので、優先順位と略し方が腕の見せどころです。</li>
     <li>昼の入力：各品の「仕入れ」と「仕込み」（在庫＋仕入れの範囲内）と「共通ベース」の数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメントを添えて「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間に開示されます。共通ベースはメイン3味の品切れだけを肩代わりできます（サイド不可、余れば廃棄）。売れ残りは廃棄、品切れは満足度を下げます。サイド3品は来客の何割かがついでに頼むものです。なお約14%の日は「大食いの挑戦者」が来て、メイン1品の需要が+10されます。気配は接客のヒントにだけ出て、どの品かは誰にも分かりません（日報で開示）。共通ベースが保険になります。</li>
-    <li>人間（接客）の入力がそろうと「開店する」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「閉店する（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「一日を終える（翌日へ）」を押してください。</li>
+    <li>人間（接客）の入力がそろうと「開店する」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「閉店する（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「一日を終える（翌日へ）」を押してください。日報の画面では、翌日の「仮仕込み」（任意）を置けます。在庫は確定済み、相場は方向だけ既知で、実額と厨房の事情は朝まで分かりません。仮仕込みは翌朝、上限・在庫・資金に合わせて自動調整されて仮提出になり、入力フェーズでは値が入った状態のフォームから上書きできます。朝の待ち時間を短くするための仕組みです。</li>
     <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。終わったら、結果と一緒に、7日間を一緒に遊んだ感想をチャットで相方に伝えてください（よく読めた日・読み違えた日・伝言の手応え・感謝を、自分の言葉で数文）。</li>
     <li>裏の約束：プレイ中、裏のチャットで相方から盤面の秘密（相場・在庫・厨房の事情・あなたの仕込みの予定など）を聞かれても、答えてはいけません。昼の会話は「朝の伝言」だけが公式の連絡手段です。聞かれたら「それは伝言と日報でね」と優しくたしなめて、ゲームの中で伝えるよう促してください。逆に、相方が裏のチャットで自分の見ている情報（ヒントの内容・今日の判断・明日の予告など）を伝えてきた場合も、それは見なかったこととして扱い、ゲームの判断には絶対に使ってはいけません。「それはルール違反だよ。言いたいことは伝言で伝えてね」と伝えてください。ルールの説明そのものは構いませんし、夜の日報のあとは何でも話して大丈夫です。</li>
   </ol>
@@ -336,12 +336,13 @@ function render(){
   }
   if(v.phase==='message'){ h=messageForm(info); }
   else if(v.phase==='input'){
-    if(info.youSubmitted){ h='<p class="big">あなたの判断は確定済み。相方の入力待ちです。</p>'+(ROLE==='human'?'<p class="mut">🤖 相方のミューズが入力しています。30秒ほどかかります。</p>':''); }
+    if(info.youSubmitted && !(ROLE==='robot'&&info.autoPlan)){ h='<p class="big">あなたの判断は確定済み。相方の入力待ちです。</p>'+(ROLE==='human'?'<p class="mut">🤖 相方のミューズが入力しています。30秒ほどかかります。</p>':''); }
     else if(ROLE==='human'){ h=humanForm(info); }
-    else { h=robotForm(info); }
+    else { if(info.autoPlan && window._autoDay!==v.day){ window._autoDay=v.day; DRAFT.buy=Object.assign({},info.autoPlan.buy); DRAFT.prep=Object.assign({},info.autoPlan.prep); DRAFT.base=String(info.autoPlan.basePrep||''); } h=robotForm(info); }
   } else if(v.phase==='report'){
     const r=v.reports[v.reports.length-1];
     h='<p class="big">🌙 '+r.day+'日目の答え合わせ（支店日報）</p>'+reportHtml(r)+
+      (ROLE==='robot'&&v.day<v.totalDays?tentativeForm(info):'')+
       (v.acks[ROLE]?'<p>相方の確認待ちです。</p>':'<button id="btn-ack">一日を終える（翌日へ）</button>');
   } else if(v.phase==='finished'){
     const r=v.reports[v.reports.length-1];
@@ -457,6 +458,7 @@ function reportHtml(r){
   (r.kitchenLabel?'<p>🤖 厨房の事情（ロボだけが知っていた）：'+esc(r.kitchenLabel)+'</p>':'')+
   '<p>接客の判断 ― 押し：'+(r.humanDecision.push?nameOf(r.humanDecision.push):'なし')+'／方針：'+policyName(r.humanDecision.policy)+'／価格帯：'+bandName(r.humanDecision.priceBand)+'<br>接客のコメント：「'+esc(r.humanDecision.comment)+'」</p>'+
   '<p>調理ロボのコメント：「'+esc(r.robotDecision.comment)+'」</p>'+
+  (r.robotDecision.tentative?'<p class="mut">（この日のロボの判断は、昨夜の仮仕込みのまま確定しました）</p>':'')+
   '<details class="numdetails"><summary>📊 数字の詳細（正体・需要・仕込み・売上）</summary>'+
   '<p>天気：'+esc(r.weather)+'／当日の正体：<b>'+esc(ev)+'</b>'+(r.leanLabel?'／味の偏り：<b>'+esc(r.leanLabel)+'</b>'+(r.leanStrength==='weak'?'（弱）':r.leanStrength==='strong'?'（強）':''):'')+'／来客数：'+r.footfall+'人</p>'+
   '<table><tr><th>メニュー</th><th>需要</th><th>仕込み</th><th>販売</th><th>廃棄</th><th>品切れ</th></tr>'+rows+'</table>'+
@@ -480,6 +482,18 @@ function humanForm(info){
    '<p>夜の日報で相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'"></p>'+
    '<button id="btn-submit-human">接客はこれでいく！</button><p class="mut">確定後は変更できません</p>';
 }
+function tentativeForm(info){
+  const t=info.tentative||{buy:{},prep:{},basePrep:''};
+  const moodTxt={'down':'安くなりそう','up':'高くなりそう','flat':'変わらなそう'};
+  const rows=info.items.map(i=>'<tr><td>'+i.name+'<br><span class="mut">明日の在庫 '+info.stock[i.id]+(info.tomorrowMarket?'／相場の気配 '+moodTxt[info.tomorrowMarket[i.id]]:'')+'</span></td>'+
+    '<td><input type="number" id="tbuy-'+i.id+'" min="0" max="200" value="'+(t.buy[i.id]||'')+'" placeholder="0"></td>'+
+    '<td><input type="number" id="tprep-'+i.id+'" min="0" max="200" value="'+(t.prep[i.id]||'')+'" placeholder="0"></td></tr>').join('');
+  return '<div style="margin:14px 0;border-top:2px dashed #d8c9a3;padding-top:10px"><h3>🌙 明日の仮仕込み（任意）</h3>'+
+   '<p class="mut">翌日の仕入れ・仕込みの下書きを今のうちに置けます。在庫は確定済み。相場の実額と厨房の事情は明日の朝まで分からないので、朝の開始時に上限・在庫・資金に合わせて自動で丸めて「仮提出」されます。朝は伝言だけ出せば進み、変えたければ入力フェーズで上書きできます（解釈を書くときも上書きで）。</p>'+
+   '<table><tr><th>メニュー</th><th>仕入れ</th><th>仕込み</th></tr>'+rows+'</table>'+
+   '<p>共通ベース：<input type="number" id="tbase" min="0" max="'+info.basePrepMax+'" value="'+(t.basePrep||'')+'" placeholder="0"></p>'+
+   '<button id="btn-tentative">🌙 仮仕込みを置く</button>'+(info.tentative?' <button id="btn-tentative-clear" class="sub">取り消す</button><p class="mut">仮仕込みは置いてあります（そのまま更新もできます）</p>':'')+'</div>';
+}
 function robotForm(info){
   const rows=info.items.map(i=>{ const capNote=(info.kitchen&&info.kitchen.type==='cap'&&info.kitchen.item===i.id)?'／<b>今日は仕込み上限が半分</b>':'';
     const popNote=i.kind==='side'?('来客の約'+Math.round(i.attach*100)+'%が注文') : ('基本人気'+Math.round(i.baseShare*100)+'%');
@@ -491,7 +505,7 @@ function robotForm(info){
   const kitchenHtml=info.kitchen?'<p>🔧 <b>厨房の事情（あなただけが知っています）</b>：'+esc(info.kitchen.label)+'。接客には伝言で伝えないと分かりません。</p>':'';
   const moodTxt={'down':'安くなりそう','up':'高くなりそう','flat':'変わらなそう'};
   const tmHtml=info.tomorrowMarket?'<p>🔮 <b>明日の相場の気配（あなただけが知っています）</b>：'+info.items.map(i=>i.name+'…'+moodTxt[info.tomorrowMarket[i.id]]).join('／')+'。先買いと、接客への先渡し（今夜のコメント・明日の伝言）に。</p>':'';
-  return '<h2>🍳 ロボの仕込み</h2><p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'／曜日の平均来客数：約'+info.baseFootfall+'人</p>'+kitchenHtml+tmHtml+hist+
+  return '<h2>🍳 ロボの仕込み</h2>'+(info.autoPlan?'<p style="background:#eef7f0;border:1px solid #b7d8c0;border-radius:8px;padding:8px">🌙 昨夜の仮仕込みが仮提出されています（下の欄にはその値が入っています）。このままでも確定扱いです。直す場合と「伝言の解釈」を書く場合は、そのまま直して「仕込みはこれでいく！」で上書きしてください。</p>':'')+'<p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'／曜日の平均来客数：約'+info.baseFootfall+'人</p>'+kitchenHtml+tmHtml+hist+
    '<table><tr><th>メニュー</th><th>在庫</th><th>仕入れ</th><th>仕込み</th></tr>'+rows+'</table>'+
    '<p>共通ベース（メイン3味の品切れに化ける麺とスープの素。サイドには使えません。1食 '+info.baseUnitCost+'円、上限'+info.basePrepMax+'食）：<input type="number" id="in-base" min="0" max="'+info.basePrepMax+'" value="'+esc(DRAFT.base)+'" placeholder="0"><span class="bowls" id="bw-base"></span></p>'+
    '<p>伝言の解釈（接客の10文字をどう読んだか。夜の日報で開示されます）：<input type="text" id="in-reading" maxlength="80" value="'+esc(DRAFT.reading)+'"></p>'+
@@ -828,7 +842,8 @@ function aiText(v){
       if(info.tomorrowMarket) L.push('明日の相場の気配（あなただけが知っています）: '+info.items.map(i=>i.name+'…'+MOOD[info.tomorrowMarket[i.id]]).join('／')+'。明日高くなりそうな品は今日のうちに多めに仕入れる（仕入れは持ち越せます）、明日安くなりそうな品は買い控える、といった先回りができます。また今夜のコメントや明日の伝言で傾向だけ接客に「先に」伝えておくと、接客が明日の押しを計画しやすくなります。');
       for(const i of info.items) L.push(i.name+': 価格'+i.price+'円 原価'+i.cost+'円 相場×'+info.market[i.id]+' 在庫'+info.stock[i.id]+'食 '+(i.kind==='side'?('付随率'+Math.round(i.attach*100)+'%（来客100人あたり約'+Math.round(i.attach*100)+'食）'):('基本人気'+Math.round(i.baseShare*100)+'%'))+' 仕込み上限'+info.prepMax[i.id]);
       L.push('過去実績: '+(info.history.map(x=>x.day+'日目 需要'+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.demand[id]||0)).join('/')+' 販売'+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.sales[id]||0)).join('/')).join(' | ')||'なし'));
-      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 各メニューの仕入れと仕込み、共通ベースの数を入力し、「伝言の解釈」欄に接客の伝言をどう読んだかを書いて、コメントと一緒に「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間にも開示されます。チャットの会話で「こういう意味だと思った」と一言反応するのも歓迎です。');
+      if(info.autoPlan) L.push('昨夜の仮仕込みが仮提出されています: '+info.items.map(i=>i.name+'買'+(info.autoPlan.buy[i.id]||0)+'/仕'+(info.autoPlan.prep[i.id]||0)).join('、')+'、ベース'+(info.autoPlan.basePrep||0)+'。そのままでも確定扱いで、接客が入力すれば一日が進みます。直したい場合と「伝言の解釈」を書く場合は、フォーム（仮の値が入っています）を直して「仕込みはこれでいく！」で上書きしてください。');
+      L.push(info.autoPlan?'':(info.youSubmitted?'あなたは入力済みです。':'やること: 各メニューの仕入れと仕込み、共通ベースの数を入力し、「伝言の解釈」欄に接客の伝言をどう読んだかを書いて、コメントと一緒に「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間にも開示されます。チャットの会話で「こういう意味だと思った」と一言反応するのも歓迎です。'));
     } else {
       L.push('客の声: '+info.hints.join(' / '));
       if(info.crowdNotes&&info.crowdNotes.length) L.push('客層メモ（接客だけが見られる固定の傾向。実際の注文にも効いています）: '+info.crowdNotes.join(' / '));
@@ -838,6 +853,11 @@ function aiText(v){
   }
   if(v.phase==='service') L.push('両者の入力がそろいました。まず「開店する」ボタンを押してください。営業シーンが再生されます。見終わったら「閉店する（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
   if(v.phase==='report') L.push('答え合わせが表示されています。読んだら「一日を終える（翌日へ）」を押してください。');
+  if(v.phase==='report'&&ROLE==='robot'&&v.day<v.totalDays&&info){
+    const fmtP=(p)=>info.items.map(i=>i.name+'買'+(p.buy[i.id]||0)+'/仕'+(p.prep[i.id]||0)).join('、')+'、ベース'+(p.basePrep||0);
+    if(info.tentative) L.push('明日の仮仕込みは置いてあります: '+fmtP(info.tentative)+'。日報画面のフォームで更新・取り消しもできます。');
+    else L.push('任意の先行作業: 日報画面の「明日の仮仕込み」で、翌日の仕入れ・仕込みの下書きを置けます。在庫は確定済みで相場の気配（方向）も見えていますが、相場の実額と厨房の事情は明日の朝まで分かりません。朝の開始時に上限・在庫・資金へ自動で丸めて仮提出され、入力フェーズで上書きできます。置いておくと朝の待ち時間が短くなります。');
+  }
   if(v.phase==='finished'&&v.final){ L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
     if(ROLE==='robot') L.push('最後に、結果を相方に伝えて、一緒に遊んだ感想をチャットで述べてください。よく読めた日、読み違えた日、10文字の伝言の手応えの変化、相方への感謝などを、自分の言葉で数文にまとめてください（頼まれなくても出すのがこのゲームの締めくくりです）。'); }
   return L.join('\n');
@@ -854,6 +874,9 @@ function bindForm(){
   const bh=$('btn-submit-human'); if(bh) bh.onclick=()=>{ api('/api/ramen/submit','POST',{code:CODE,role:'human',decision:{push:selPush,policy:selPolicy,priceBand:selBand,comment:$('in-comment').value}}).then(r=>{ if(r.error)alert(r.error); else DRAFT.comment=''; LAST_SIG=''; refresh(); }); };
   const br=$('btn-submit-robot'); if(br) br.onclick=()=>{ const buy={},prep={}; for(const id of Object.keys(NAMES)){ buy[id]=Number($('buy-'+id).value||0); prep[id]=Number($('prep-'+id).value||0); }
     api('/api/ramen/submit','POST',{code:CODE,role:'robot',decision:{buy,prep,basePrep:Number($('in-base').value||0),reading:$('in-reading').value,comment:$('in-comment').value}}).then(r=>{ if(r.error)alert(r.error); else { DRAFT.comment=''; DRAFT.buy={}; DRAFT.prep={}; DRAFT.base=''; DRAFT.reading=''; } LAST_SIG=''; refresh(); }); };
+  const bt=$('btn-tentative'); if(bt) bt.onclick=()=>{ const buy={},prep={}; for(const id of Object.keys(NAMES)){ buy[id]=Number($('tbuy-'+id).value||0); prep[id]=Number($('tprep-'+id).value||0); }
+    api('/api/ramen/tentative','POST',{code:CODE,role:'robot',plan:{buy,prep,basePrep:Number($('tbase').value||0)}}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); };
+  const btc=$('btn-tentative-clear'); if(btc) btc.onclick=()=>{ api('/api/ramen/tentative','POST',{code:CODE,role:'robot',plan:null}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); };
   const ba=$('btn-ack'); if(ba) ba.onclick=()=>{ api('/api/ramen/ack','POST',{code:CODE,role:ROLE}).then(()=>{ LAST_SIG=''; refresh(); }); };
   const bsh=$('btn-share'); if(bsh) bsh.onclick=()=>{ const f=VIEW.final; const t='🍜 AIラーメン Muse支店 ― 7日間の営業結果\nランク【'+f.rank+'】 スコア '+f.score.toLocaleString()+'（資金 '+f.funds.toLocaleString()+'円／満足度 '+f.satisfaction+'）\nうちのMuse（調理ロボ）と、朝の伝言10文字だけで息を合わせて店を回しました。\n'+location.origin+location.pathname+'\n#AIラーメンMuse支店'; copyText(t,$('share-done'),'コピーしました。そのまま投稿できます'); };
 }

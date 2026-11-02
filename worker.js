@@ -41,6 +41,14 @@ export class RamenRoom {
       await this.save(st);
       return json({ ok: true, phase: st.phase });
     }
+    if (u.pathname.endsWith('/tentative')) {
+      const body = await req.json();
+      if (body.role !== 'robot') return json({ error: '仮仕込みは調理ロボだけが置けます' }, 400);
+      const r = core.setTentative(st, body.plan === undefined ? null : body.plan);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
     if (u.pathname.endsWith('/ack')) {
       const body = await req.json();
       const r = core.ack(st, body.role);
