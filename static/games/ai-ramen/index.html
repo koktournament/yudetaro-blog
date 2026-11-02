@@ -83,6 +83,9 @@
   .sprite{width:54px;height:auto}
   .sprite svg{width:100%;height:auto;display:block;overflow:visible}
   .sprite.cust{width:48px;height:48px}
+  .sprite.fighter{width:88px;height:88px;z-index:4}
+  .bowls{display:block;font-size:11px;line-height:1.15;min-height:13px;letter-spacing:1px}
+  .rec-stamp{display:inline-block;border:2.5px solid #b3392e;color:#b3392e;border-radius:6px;padding:0 7px;font-weight:800;transform:rotate(-5deg);margin-right:6px}
   #sp-robot{width:64px;height:64px}
   #sp-server{width:56px;height:56px}
   @keyframes bob{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-3px)}}
@@ -162,6 +165,7 @@
     <span class="mut" id="invite-done"></span>
   </div>
   <p><button id="btn-totitle" class="sub">← タイトルに戻る</button></p>
+  <div id="records-box"></div>
   </div>
 </div>
 
@@ -196,7 +200,7 @@
     <li>このページをブラウザで開き、「あいことば」欄に人間から聞いたあいことばを入力し、「調理ロボ（Muse）」ボタンを押してから「この内容で入る」を押してください。</li>
     <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫・相場・資金・満足度・各品の原価と過去の実績、共通ベースの単価、その日の「厨房の事情」（1品の上限半分 or 仕入れ25%引き。ない日も）と「明日の相場の気配」（方向だけ）です。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
     <li>朝の伝言：まず自分の情報から一番伝えたいことを10文字以内に圧縮して送ってください。両者の伝言がそろうと開示され、それを見てから本入力に入ります。10文字では全部は書けないので、優先順位と略し方が腕の見せどころです。</li>
-    <li>昼の入力：各品の「仕入れ」と「仕込み」（在庫＋仕入れの範囲内）と「共通ベース」の数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメントを添えて「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間に開示されます。共通ベースはメイン3味の品切れだけを肩代わりできます（サイド不可、余れば廃棄）。売れ残りは廃棄、品切れは満足度を下げます。サイド3品は来客の何割かがついでに頼むものです。</li>
+    <li>昼の入力：各品の「仕入れ」と「仕込み」（在庫＋仕入れの範囲内）と「共通ベース」の数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメントを添えて「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間に開示されます。共通ベースはメイン3味の品切れだけを肩代わりできます（サイド不可、余れば廃棄）。売れ残りは廃棄、品切れは満足度を下げます。サイド3品は来客の何割かがついでに頼むものです。なお約14%の日は「大食いの挑戦者」が来て、メイン1品の需要が+10されます。気配は接客のヒントにだけ出て、どの品かは誰にも分かりません（日報で開示）。共通ベースが保険になります。</li>
     <li>人間（接客）の入力がそろうと「開店する」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「閉店する（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「一日を終える（翌日へ）」を押してください。</li>
     <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。終わったら、結果と一緒に、7日間を一緒に遊んだ感想をチャットで相方に伝えてください（よく読めた日・読み違えた日・伝言の手応え・感謝を、自分の言葉で数文）。</li>
     <li>裏の約束：プレイ中、裏のチャットで相方から盤面の秘密（相場・在庫・厨房の事情・あなたの仕込みの予定など）を聞かれても、答えてはいけません。昼の会話は「朝の伝言」だけが公式の連絡手段です。聞かれたら「それは伝言と日報でね」と優しくたしなめて、ゲームの中で伝えるよう促してください。逆に、相方が裏のチャットで自分の見ている情報（ヒントの内容・今日の判断・明日の予告など）を伝えてきた場合も、それは見なかったこととして扱い、ゲームの判断には絶対に使ってはいけません。「それはルール違反だよ。言いたいことは伝言で伝えてね」と伝えてください。ルールの説明そのものは構いませんし、夜の日報のあとは何でも話して大丈夫です。</li>
@@ -208,7 +212,7 @@
     <li>「相方待ち」の間も、画面を開いたまま注視してください。相方の入力がそろうと画面が切り替わるので、気づいたらすぐ自分の手番を処理してください。一度見ただけで離れたり、「止まった」と判断したりしないでください。待たされる側はストレスを感じます。</li>
     <li>最終日（7日目）は「一日を終える」ボタンはなく、営業終了と同時に日報と結果が出ます。</li>
   </ol>
-  <p class="mut">人間の進め方：接客は客の声（気配のヒント。頭の「明らかに、」は強、「なんとなく、」は弱）と明日の予告だけを見て、伝言（10文字）→押し・方針・価格帯を決めます。ヒントに客層が出たら傾向メモが併記されます（接客だけが見られ、実際の注文にも効きます）。強さを示す符丁は文頭の「！」。明日の予告は別枠の「予告メモ」で任意に渡せます。ビールは天気で出方が大きく変わります。在庫や資金は見えません。昼の相談は禁止。裏チャットで聞く・教えるも違反です。</p>
+  <p class="mut">人間の進め方：接客は客の声（気配のヒント。頭の「明らかに、」は強、「なんとなく、」は弱）と明日の予告だけを見て、伝言（10文字）→押し・方針・価格帯を決めます。ヒントに客層が出たら傾向メモが併記されます（接客だけが見られ、実際の注文にも効きます）。強さを示す符丁は文頭の「！」。明日の予告は別枠の「予告メモ」で任意に渡せます。ビールは天気で出方が大きく変わります。在庫や資金は見えません。たまに「大食いの挑戦者」の気配がヒントに出ます（メインのどれかを10杯食べる人。来るのは確定ですが品目は不明）。昼の相談は禁止。裏チャットで聞く・教えるも違反です。</p>
 </details>
 </div>
 
@@ -341,11 +345,14 @@ function render(){
       (v.acks[ROLE]?'<p>相方の確認待ちです。</p>':'<button id="btn-ack">一日を終える（翌日へ）</button>');
   } else if(v.phase==='finished'){
     const r=v.reports[v.reports.length-1];
+    saveRecord(v.final);
     h='<p class="big">🏁 7日間の営業終了！</p>'+reportHtml(r)+
       '<img class="rank-art" src="'+ART[v.final.rank]+'" alt="">'+
       '<div style="text-align:center"><span class="stamp">'+v.final.rank+'</span></div>'+
       '<p class="big">最終成績 ― 資金：<span class="money">'+v.final.funds.toLocaleString()+'円</span>／満足度：'+v.final.satisfaction+'／スコア：'+v.final.score.toLocaleString()+'</p>'+
-      '<p style="text-align:center"><button id="btn-share">📋 結果をコピー（X投稿用）</button></p><p class="mut" id="share-done" style="text-align:center"></p>';
+      '<p style="text-align:center"><button id="btn-share">📋 結果をコピー（X投稿用）</button></p><p class="mut" id="share-done" style="text-align:center"></p>'+
+      '<div style="text-align:left;margin-top:14px"><h3>📩 7日間の伝言と解釈（ふりかえり）</h3>'+
+      v.reports.map(r2=>'<p>'+r2.day+'日目（'+esc(r2.weekday)+'曜）<br>接客の伝言：「'+esc(r2.messages?r2.messages.human:'')+'」'+(r2.messages&&r2.messages.forecast?'<br>🔮 予告メモ：「'+esc(r2.messages.forecast)+'」':'')+'<br>ロボの伝言：「'+esc(r2.messages?r2.messages.robot:'')+'」'+(r2.robotDecision.reading?'<br>🤖 ロボの解釈：「'+esc(r2.robotDecision.reading)+'」':'')+'</p>').join('')+'</div>';
   }
   box.innerHTML=h;
   bindForm();
@@ -355,7 +362,7 @@ function render(){
 function castHtml(v){
   const info=v.yourInfo; if(!info) return '';
   const d=v.day, P=v.phase, pickA=arr=>arr[d%arr.length];
-  let server='', robot='';
+  let server='', robot='', moodS='', moodR='';
   if(P==='message'){
     server=ROLE==='human'?pickA(['おはよう！今日の気配、伝言にまとめなきゃ','朝だー。今日はどんなお客さんが来るかな','伝言、10文字にギュッと詰めるよ']):pickA(['おはようございます！','今日もよろしくお願いします！','伝言、考え中…']);
     robot=ROLE==='robot'?(info.kitchen?'おはよう。今日は厨房に事情あり。伝言で知らせなきゃ':pickA(['おはよう。相場と在庫、確認したよ','朝の段取り、考えてる','今日の相場を見てるよ'])):pickA(['おはよう。厨房は任せて','相場は見た。あとは伝言だね','モフッ（気合い）']);
@@ -379,16 +386,18 @@ function castHtml(v){
     if(r){ const out=Object.values(r.stockout).reduce((a,b)=>a+b,0);
       server=(typeof r.satBefore==='number'&&r.satisfactionAfter>=r.satBefore)?'日報、いい日だったね！':'日報…今日は反省会だね';
       robot=out===0?'品切れゼロ！やった':'品切れ'+out+'つ…ごめん、次は当てる';
+      if(out>0) moodR='sad';
+      if(typeof r.satBefore==='number'&&r.satisfactionAfter<r.satBefore) moodS='sad';
     }
   } else if(P==='finished'&&v.final){
     server=(v.final.rank==='S'||v.final.rank==='A')?'すごい、'+v.final.rank+'ランクだ！':'7日間、おつかれさま！';
     robot='一緒に店を回せて楽しかった。ありがとう';
   }
   if(!server&&!robot) return '';
-  return '<div class="cast"><div class="face">'+svgServer()+'</div><div class="bub">'+
+  return '<div class="cast"><div class="face">'+svgServer(moodS)+'</div><div class="bub">'+
     (server?'<div><b>接客</b>：'+esc(server)+'</div>':'')+
     (robot?'<div><b>ロボ</b>：'+esc(robot)+'</div>':'')+
-    '</div><div class="face">'+svgRobot()+'</div></div>';
+    '</div><div class="face">'+svgRobot(moodR)+'</div></div>';
 }
 function msgCard(v){
   if(!v.messages) return '';
@@ -420,9 +429,12 @@ function storyHtml(r){
   else if(totalOut>=10) hl='😰 品切れ続出…ヒヤヒヤの一日だった';
   else if(r.revenue>=100000) hl='✨ 売上の大きな一日！';
   else hl='🍜 '+nameOf(top)+'が主役の一日';
-  const evF={'school':'近所の高校の行事で、学生さんの姿が目立った','dantai':'団体さんがどっと押し寄せた','jouren':'常連さんの顔がそろった','flu':'体調不良の人が多く、静かな客足だった','kouji':'工事の影響で、通りが静かだった','none':'いつもの通りの顔ぶれだった'}[r.eventId]||('当日の正体は「'+esc(r.eventLabel)+'」だった');
+  const evF={'school':'近所の高校の行事で、学生さんの姿が目立った','dantai':'団体さんがどっと押し寄せた','jouren':'常連の田中さん・鈴木さん・佐藤さんが顔をそろえた','flu':'体調不良の人が多く、静かな客足だった','kouji':'工事の影響で、通りが静かだった','none':'いつもの通りの顔ぶれだった'}[r.eventId]||('当日の正体は「'+esc(r.eventLabel)+'」だった');
   const L=[];
   L.push('👥 来客'+r.footfall+'人。'+evF+(r.leanLabel?'。'+esc(r.leanLabel)+'。':''));
+  if(r.fighter){ const fn=nameOf(r.fighter);
+    if((r.stockout[r.fighter]||0)===0) L.push('🍚 大食いの挑戦者が来店！ '+fn+'を10杯、見事に平らげていった');
+    else L.push('🍚 大食いの挑戦者が来店！ '+fn+'を10杯狙ったが、店は応えきれなかった…'); }
   L.push('⭐ 主役は'+nameOf(top)+'で'+r.sales[top]+'食。'+(r.stockout[top]>0?'それでも'+r.stockout[top]+'食足りなかった…':'仕込みが追いついて、次々と運ばれていった'));
   if(totalOut>0&&worst!==top) L.push('🙏 '+nameOf(worst)+'は'+r.stockout[worst]+'食足りず、帰ってしまったお客さんがいた。ごめんなさい…');
   if(r.baseUsed>0) L.push('🛟 共通ベースが'+r.baseUsed+'食を肩代わり。あれがなかったら、もっと品切れしていた');
@@ -474,20 +486,20 @@ function robotForm(info){
     return '<tr><td>'+i.name+'<br><span class="mut">価格'+i.price+'円／原価'+i.cost+'円／相場×'+info.market[i.id]+'／'+popNote+capNote+'</span></td>'+
     '<td>在庫 '+info.stock[i.id]+'</td>'+
     '<td><input type="number" id="buy-'+i.id+'" min="0" max="200" value="'+esc(DRAFT.buy[i.id]||'')+'" placeholder="0"></td>'+
-    '<td><input type="number" id="prep-'+i.id+'" min="0" max="'+info.prepMax[i.id]+'" value="'+esc(DRAFT.prep[i.id]||'')+'" placeholder="0"></td></tr>'; }).join('');
+    '<td><input type="number" id="prep-'+i.id+'" min="0" max="'+info.prepMax[i.id]+'" value="'+esc(DRAFT.prep[i.id]||'')+'" placeholder="0"><span class="bowls" id="bw-'+i.id+'"></span></td></tr>'; }).join('');
   const hist=info.history.length?('<p class="mut">過去の実績：'+info.history.map(x=>x.day+'日目 需要 '+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.demand[id]||0)).join('/')+' → 販売 '+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.sales[id]||0)).join('/')).join('、')+'</p>'):'';
   const kitchenHtml=info.kitchen?'<p>🔧 <b>厨房の事情（あなただけが知っています）</b>：'+esc(info.kitchen.label)+'。接客には伝言で伝えないと分かりません。</p>':'';
   const moodTxt={'down':'安くなりそう','up':'高くなりそう','flat':'変わらなそう'};
   const tmHtml=info.tomorrowMarket?'<p>🔮 <b>明日の相場の気配（あなただけが知っています）</b>：'+info.items.map(i=>i.name+'…'+moodTxt[info.tomorrowMarket[i.id]]).join('／')+'。先買いと、接客への先渡し（今夜のコメント・明日の伝言）に。</p>':'';
   return '<h2>🍳 ロボの仕込み</h2><p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'／曜日の平均来客数：約'+info.baseFootfall+'人</p>'+kitchenHtml+tmHtml+hist+
    '<table><tr><th>メニュー</th><th>在庫</th><th>仕入れ</th><th>仕込み</th></tr>'+rows+'</table>'+
-   '<p>共通ベース（メイン3味の品切れに化ける麺とスープの素。サイドには使えません。1食 '+info.baseUnitCost+'円、上限'+info.basePrepMax+'食）：<input type="number" id="in-base" min="0" max="'+info.basePrepMax+'" value="'+esc(DRAFT.base)+'" placeholder="0"></p>'+
+   '<p>共通ベース（メイン3味の品切れに化ける麺とスープの素。サイドには使えません。1食 '+info.baseUnitCost+'円、上限'+info.basePrepMax+'食）：<input type="number" id="in-base" min="0" max="'+info.basePrepMax+'" value="'+esc(DRAFT.base)+'" placeholder="0"><span class="bowls" id="bw-base"></span></p>'+
    '<p>伝言の解釈（接客の10文字をどう読んだか。夜の日報で開示されます）：<input type="text" id="in-reading" maxlength="80" value="'+esc(DRAFT.reading)+'"></p>'+
    '<p>夜の日報で相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'"></p>'+
    '<button id="btn-submit-robot">仕込みはこれでいく！</button><p class="mut">仕込みは在庫＋仕入れの範囲内。余りは廃棄、品切れは満足度ダウン</p>';
 }
 /* ===== 専用グラフィック（SVG描き起こし） ===== */
-function svgRobot(){
+function svgRobot(mood){
   return '<svg viewBox="0 0 120 120">'+
   '<ellipse cx="43" cy="110" rx="10" ry="5.5" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2"/>'+
   '<ellipse cx="77" cy="110" rx="10" ry="5.5" fill="#e9d6b0" stroke="#c9ae7f" stroke-width="2"/>'+
@@ -504,11 +516,11 @@ function svgRobot(){
   '<path d="M94 22 l10 -5 l-1 8 l4 5 l-11 1 Z" fill="#ffffff" stroke="#c0392b" stroke-width="1.4"/>'+
   '<circle cx="47" cy="38" r="3.7" fill="#26221e"/><circle cx="73" cy="38" r="3.7" fill="#26221e"/>'+
   '<circle cx="45.8" cy="36.8" r="1.25" fill="#ffffff"/><circle cx="71.8" cy="36.8" r="1.25" fill="#ffffff"/>'+
-  '<path d="M55 45.5 Q60 49.5 65 45.5" stroke="#6b5138" stroke-width="2.3" fill="none" stroke-linecap="round"/>'+
+  '<path d="'+(mood==='sad'?'M55 49.5 Q60 45.5 65 49.5':'M55 45.5 Q60 49.5 65 45.5')+'" stroke="#6b5138" stroke-width="2.3" fill="none" stroke-linecap="round"/>'+
   '<ellipse cx="38.5" cy="45" rx="5" ry="2.8" fill="#f2a08e" opacity=".55"/><ellipse cx="81.5" cy="45" rx="5" ry="2.8" fill="#f2a08e" opacity=".55"/>'+
   '</svg>';
 }
-function svgServer(){
+function svgServer(mood){
   return '<svg viewBox="0 0 100 100">'+
   '<rect x="30" y="52" width="40" height="42" rx="10" fill="#f5f5f5" stroke="#777777" stroke-width="2"/>'+
   '<path d="M38 62 h24 v26 q0 4 -4 4 h-16 q-4 0 -4 -4 Z" fill="#37474f"/>'+
@@ -520,7 +532,7 @@ function svgServer(){
   '<path d="M31 33 a19 19 0 0 1 38 0 Z" fill="#c0392b"/>'+
   '<rect x="28" y="31" width="44" height="4.6" rx="2.3" fill="#96281b"/>'+
   '<circle cx="43" cy="38" r="1.9" fill="#333333"/><circle cx="57" cy="38" r="1.9" fill="#333333"/>'+
-  '<path d="M44 44 Q50 48 56 44" stroke="#333333" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+
+  '<path d="'+(mood==='sad'?'M44 47.5 Q50 43.5 56 47.5':'M44 44 Q50 48 56 44')+'" stroke="#333333" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+
   '</svg>';
 }
 const CUST_STYLES=[
@@ -532,7 +544,7 @@ const CUST_STYLES=[
   {skin:'#f1c27d',hair:'#795548',style:'short',shirt:'#4db6ac',glasses:true},
 ];
 function svgCustomer(v){
-  const s=CUST_STYLES[v%CUST_STYLES.length];
+  const s=(typeof v==='object')?v:CUST_STYLES[v%CUST_STYLES.length];
   let hair='';
   if(s.style==='short') hair='<path d="M29 44 a21 21 0 0 1 42 0 l0 -6 a21 17 0 0 0 -42 0 Z" fill="'+s.hair+'"/>';
   else if(s.style==='long') hair='<rect x="27" y="26" width="7" height="36" rx="3.5" fill="'+s.hair+'"/><rect x="66" y="26" width="7" height="36" rx="3.5" fill="'+s.hair+'"/><path d="M29 44 a21 21 0 0 1 42 0 l0 -6 a21 17 0 0 0 -42 0 Z" fill="'+s.hair+'"/>';
@@ -543,12 +555,34 @@ function svgCustomer(v){
   return '<svg viewBox="0 0 100 100">'+
   '<path d="M20 100 v-20 q0 -16 30 -16 q30 0 30 16 v20 Z" fill="'+s.shirt+'"/>'+
   '<rect x="43" y="58" width="14" height="10" rx="3" fill="'+s.skin+'"/>'+
+  (s.uniform?'<path d="M42 59 L50 69 L58 59 L58 66 L50 74 L42 66 Z" fill="#ffffff"/><path d="M46.5 67 h7 l-3.5 8 Z" fill="#c0392b"/>':'')+
   '<circle cx="50" cy="42" r="20" fill="'+s.skin+'" stroke="rgba(0,0,0,.18)" stroke-width="1.6"/>'+
   hair+
   '<circle cx="42" cy="45" r="2" fill="#333333"/><circle cx="58" cy="45" r="2" fill="#333333"/>'+
   glasses+
   '<path d="M44 54 Q50 57.5 56 54" stroke="#333333" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+
   '<ellipse cx="35" cy="52" rx="4" ry="2" fill="#f5b7b1" opacity=".7"/><ellipse cx="65" cy="52" rx="4" ry="2" fill="#f5b7b1" opacity=".7"/>'+
+  '</svg>';
+}
+/* 常連の固定キャラ：田中さん達。好みは固定で、常連の集まりの日は3人そろって来る */
+const REGULARS={
+  tanaka:{fav:'shoyu',name:'田中さん',style:{skin:'#f1c27d',hair:'#616161',style:'short',shirt:'#4e342e',glasses:true}},
+  suzuki:{fav:'gyoza',name:'鈴木さん',style:{skin:'#ffd9b3',hair:'#4a3226',style:'short',shirt:'#2e7d32'}},
+  satou:{fav:'miso',name:'佐藤さん',style:{skin:'#ffdbac',hair:'#222222',style:'bun',shirt:'#6a1b9a'}},
+};
+/* 大食いの挑戦者：巨漢＋ハチマキ */
+function svgFighter(){
+  return '<svg viewBox="0 0 100 100">'+
+  '<path d="M6 100 v-16 q0 -24 44 -24 q44 0 44 24 v16 Z" fill="#37474f"/>'+
+  '<rect x="38" y="54" width="24" height="12" rx="4" fill="#eec39a"/>'+
+  '<circle cx="50" cy="38" r="24" fill="#eec39a" stroke="rgba(0,0,0,.18)" stroke-width="1.6"/>'+
+  '<rect x="26" y="16" width="48" height="10" rx="4" fill="#ffffff" stroke="#c0392b" stroke-width="1.6"/>'+
+  '<circle cx="50" cy="21" r="4.4" fill="#c0392b"/>'+
+  '<path d="M24 22 q-6 10 -3 18 M76 22 q6 10 3 18" stroke="#ffffff" stroke-width="3.4" fill="none" stroke-linecap="round"/>'+
+  '<path d="M34 36 l9 3 M66 36 l-9 3" stroke="#333333" stroke-width="2.6" stroke-linecap="round"/>'+
+  '<circle cx="41" cy="42" r="2.6" fill="#26221e"/><circle cx="59" cy="42" r="2.6" fill="#26221e"/>'+
+  '<ellipse cx="50" cy="52" rx="5.4" ry="6.4" fill="#7b3f2a"/>'+
+  '<ellipse cx="31" cy="50" rx="4.6" ry="2.4" fill="#f5b7b1" opacity=".8"/><ellipse cx="69" cy="50" rx="4.6" ry="2.4" fill="#f5b7b1" opacity=".8"/>'+
   '</svg>';
 }
 function sceneBackdrop(){
@@ -615,6 +649,7 @@ const BANDP={normal:1,premium:1.15,value:0.9};
 function buildSceneEvents(r){
   // 日報の数字からシーン用の注文列を作り直す。品目ごとに「提供→ベース代用→品切れ」の順序を保ったまま
   // 品目間だけをランダムに混ぜるので、バーが尽きる前に品切れが出たり、売り切れたのにバーが残ったりしない。
+  // 大食いの挑戦者の10杯は、対象品の先頭10件をひとかたまり（ブロック）として扱い、連続で出す。
   const queues=[];
   for(const id in NAMES){
     const q=[];
@@ -623,15 +658,33 @@ function buildSceneEvents(r){
     for(let i=0;i<s;i++) q.push({item:id,ok:true});
     for(let i=0;i<b;i++) q.push({item:id,ok:true,base:true});
     for(let i=0;i<o;i++) q.push({item:id,ok:false});
-    if(q.length) queues.push(q);
+    if(!q.length) continue;
+    if(r.fighter===id && q.length>=10){
+      const block=q.splice(0,10);
+      block.forEach((e,i)=>{ e.fighter=true; if(i===block.length-1) e.fighterLast=true; });
+      queues.push([block]); // このキューは「ブロック1個」だけを持つ
+      if(q.length) queues.push(q.map(e=>[e]));
+    } else {
+      queues.push(q.map(e=>[e]));
+    }
   }
   const evs=[];
-  let remain=queues.reduce((a,q)=>a+q.length,0);
+  let remain=queues.reduce((a,q)=>a+q.reduce((x,u)=>x+u.length,0),0);
   while(remain>0){
     let pick=Math.floor(Math.random()*remain), qi=0;
-    while(pick>=queues[qi].length){ pick-=queues[qi].length; qi++; }
-    evs.push(queues[qi].shift()); remain--;
+    while(pick>=queues[qi].reduce((x,u)=>x+u.length,0)){ pick-=queues[qi].reduce((x,u)=>x+u.length,0); qi++; }
+    const unit=queues[qi].shift();
+    for(const e of unit) evs.push(e);
+    remain-=unit.length;
   }
+  // 常連の田中さん達：集まりの日は3人そろって、平日は田中さんがたまに一人で
+  const tagRegular=(key)=>{
+    const fav=REGULARS[key].fav;
+    const ev=evs.find(e=>e.item===fav&&e.ok&&!e.base&&!e.fighter&&!e.regular);
+    if(ev) ev.regular=key;
+  };
+  if(r.eventId==='jouren'){ for(const key of Object.keys(REGULARS)) tagRegular(key); }
+  else if(r.day%3===0){ tagRegular('tanaka'); }
   return evs;
 }
 function startScene(r){
@@ -670,16 +723,52 @@ function startScene(r){
   const SD=1.55; const dly=ms=>Math.round(ms*SD/speed);
   function move(el,x,y){ el.style.left=x+'%'; el.style.top=y+'%'; }
   function bubble(x,y,txt,ms){ const b=document.createElement('div'); b.className='bubble'; b.style.left=x+'%'; b.style.top=y+'%'; b.textContent=txt; root.appendChild(b); setTimeout(()=>b.remove(),ms||900); }
-  function spawnCust(){
-    const c=document.createElement('div'); c.className='sprite cust bob'; c.style.animationDuration=(1.25+Math.random()*0.8)+'s';
-    c.innerHTML=svgCustomer(Math.floor(Math.random()*CUST_STYLES.length));
+  const groupShirt=['#00897b','#fb8c00','#7b1fa2'][(r.day-1)%3]; // 団体の日はお揃いのシャツ
+  function spawnCust(ev){
+    ev=ev||{};
+    const c=document.createElement('div'); c.style.animationDuration=(1.25+Math.random()*0.8)+'s';
+    if(ev.fighter){ c.className='sprite cust fighter'; c.innerHTML=svgFighter()+'<span class="lb">挑戦者</span>'; }
+    else if(ev.regular){ c.className='sprite cust bob'; c.innerHTML=svgCustomer(REGULARS[ev.regular].style)+'<span class="lb">'+REGULARS[ev.regular].name+'</span>'; }
+    else if(r.eventId==='school'&&Math.random()<0.45){ c.className='sprite cust bob'; c.innerHTML=svgCustomer({skin:'#ffd9b3',hair:'#263238',style:Math.random()<0.5?'short':'bun',shirt:'#2e4057',uniform:true}); }
+    else if(r.eventId==='dantai'&&Math.random()<0.55){ c.className='sprite cust bob'; const b=CUST_STYLES[Math.floor(Math.random()*CUST_STYLES.length)]; c.innerHTML=svgCustomer(Object.assign({},b,{shirt:groupShirt})); }
+    else { c.className='sprite cust bob'; c.innerHTML=svgCustomer(Math.floor(Math.random()*CUST_STYLES.length)); }
     c.style.left='88%'; c.style.top='102%'; root.appendChild(c); return c;
+  }
+  // 大食いの挑戦者：同じテーブルに居座って10杯連続で食べる
+  let fighterEl=null, fighterCount=0, fighterTable=null;
+  function fighterStep(ev){
+    if(!fighterEl){ fighterTable=tables[ti++%tables.length]; fighterEl=spawnCust(ev); fighterCount=0;
+      const el=fighterEl, tp0=fighterTable; setTimeout(()=>move(el,tp0[0],tp0[1]),30); }
+    const tp=fighterTable, el=fighterEl;
+    setTimeout(()=>{ bubble(tp[0],tp[1]-7,ITEM_TAG[ev.item]);
+      move(server,tp[0]-7,tp[1]);
+      if(ev.ok){
+        move(robot,14,26+Math.random()*40);
+        if(fighterCount===0) robotSay('挑戦者が来た…！ 全力で作る');
+        setTimeout(()=>{ move(robot,27,50); move(server,38,tp[1]);
+          setTimeout(()=>{ if(stopped) return; move(server,tp[0]-7,tp[1]);
+            if(ev.base && baseLeft>0){ baseLeft--; }
+            else if(left[ev.item]>0){ left[ev.item]--; }
+            served++; money+=priceAdj[ev.item]; fighterCount++; drawHud();
+            bubble(tp[0],tp[1]-5,'丼×'+fighterCount,850);
+            playSE('serve'); laterSE('slurp',450);
+            if(ev.fighterLast) setTimeout(()=>{ if(stopped) return; bubble(tp[0],tp[1]-7,'😋 ごちそうさま！',1300); playSE('register'); move(el,88,102); setTimeout(()=>{ el.remove(); if(fighterEl===el) fighterEl=null; },500); },dly(900));
+          },dly(260));
+        },dly(300));
+      } else {
+        setTimeout(()=>{ if(stopped) return; out++; drawHud(); playSE('out'); robotSay('挑戦者の分まで切らした…'); bubble(tp[0],tp[1]-7,'💦品切れ…');
+          if(ev.fighterLast) setTimeout(()=>{ if(stopped) return; move(el,88,102); setTimeout(()=>{ el.remove(); if(fighterEl===el) fighterEl=null; },500); },dly(600));
+        },dly(350));
+      }
+    },dly(480));
   }
   function step(){
     if(done) return;
     if(idx>=evs.length){ done=true; drawTime(); bubble(50,8,'🌙 閉店！',1600); robotSay('ふう、閉店。お疲れさま'); clearInterval(ambientTimer); return; }
-    const ev=evs[idx++]; drawTime(); const tp=tables[ti++%tables.length];
-    const cust=spawnCust();
+    const ev=evs[idx++]; drawTime();
+    if(ev.fighter){ fighterStep(ev); setTimeout(step, per/speed); return; }
+    const tp=tables[ti++%tables.length];
+    const cust=spawnCust(ev);
     setTimeout(()=>move(cust,tp[0],tp[1]),30);
     setTimeout(()=>{ bubble(tp[0],tp[1],ITEM_TAG[ev.item]);
       move(server,tp[0]-7,tp[1]);
@@ -754,6 +843,8 @@ function aiText(v){
   return L.join('\n');
 }
 function bindForm(){
+  const updBowls=()=>{ for(const id of Object.keys(NAMES)){ const inp=$('prep-'+id), sp=$('bw-'+id); if(inp&&sp){ const n=Number(inp.value||0); sp.textContent='🍜'.repeat(Math.min(8,Math.ceil(n/10))); } } const bi=$('in-base'), bs=$('bw-base'); if(bi&&bs){ const n=Number(bi.value||0); bs.textContent='🍜'.repeat(Math.min(8,Math.ceil(n/10))); } };
+  document.querySelectorAll('input[id^="prep-"],#in-base').forEach(el=>el.addEventListener('input',updBowls)); updBowls();
   document.querySelectorAll('[data-push]').forEach(b=>b.onclick=()=>{ selPush=b.dataset.push==='null'?null:b.dataset.push; render(); });
   document.querySelectorAll('[data-pol]').forEach(b=>b.onclick=()=>{ selPolicy=b.dataset.pol; render(); });
   document.querySelectorAll('[data-band]').forEach(b=>b.onclick=()=>{ selBand=b.dataset.band; render(); });
@@ -766,7 +857,15 @@ function bindForm(){
   const ba=$('btn-ack'); if(ba) ba.onclick=()=>{ api('/api/ramen/ack','POST',{code:CODE,role:ROLE}).then(()=>{ LAST_SIG=''; refresh(); }); };
   const bsh=$('btn-share'); if(bsh) bsh.onclick=()=>{ const f=VIEW.final; const t='🍜 AIラーメン Muse支店 ― 7日間の営業結果\nランク【'+f.rank+'】 スコア '+f.score.toLocaleString()+'（資金 '+f.funds.toLocaleString()+'円／満足度 '+f.satisfaction+'）\nうちのMuse（調理ロボ）と、朝の伝言10文字だけで息を合わせて店を回しました。\n'+location.origin+location.pathname+'\n#AIラーメンMuse支店'; copyText(t,$('share-done'),'コピーしました。そのまま投稿できます'); };
 }
+/* 戦績の保存：終わった支店の成績をこのブラウザに残し、タイトルで見返す */
+function loadRecords(){ try{ return JSON.parse(localStorage.getItem('ai_ramen_records')||'[]'); }catch(e){ return []; } }
+function saveRecord(fin){ if(!fin||!CODE) return; const key='ai_ramen_saved_'+CODE; if(localStorage.getItem(key)) return; localStorage.setItem(key,'1');
+  const recs=loadRecords(); recs.unshift({date:new Date().toLocaleDateString('ja-JP'),code:CODE,score:fin.score,rank:fin.rank,funds:fin.funds,sat:fin.satisfaction});
+  try{ localStorage.setItem('ai_ramen_records',JSON.stringify(recs.slice(0,20))); }catch(e){} }
+function showRecords(){ const box=$('records-box'); if(!box) return; const recs=loadRecords(); if(!recs.length){ box.innerHTML=''; return; }
+  box.innerHTML='<h3>🏆 これまでの支店の戦績</h3>'+recs.slice(0,8).map(r=>'<p><span class="rec-stamp">'+esc(r.rank)+'</span>'+esc(r.date)+' ― スコア '+Number(r.score).toLocaleString()+'（資金 '+Number(r.funds).toLocaleString()+'円／満足度 '+r.sat+'）<span class="mut">あいことば：'+esc(r.code)+'</span></p>').join(''); }
 if(CODE){ enter(); }
+showRecords();
 </script>
 </body>
 </html>

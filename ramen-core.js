@@ -186,7 +186,11 @@ function genDayFor(seed, day) {
   const hints = (strength === 'weak' ? event.hintsWeak : event.hints).slice()
     .map(t => (strength ? mark(strength) + t : t));
   if (lean) hints.push(mark(leanStrength) + (leanStrength === 'weak' ? lean.hintWeak : lean.hint));
-  return { day, weekday, weather, event, market, strength, effFootfall, lean, leanStrength, favMult, kitchen, hints, preview: null };
+  // 大食いの挑戦者：約14%の日、メイン1品を10杯食べる。気配だけ接客のヒントに出す（どの品かは内緒）
+  let fighter = null;
+  if (rng() < 0.14) fighter = { item: pick(rng, ITEMS.filter(i => i.kind === 'main')).id };
+  if (fighter) hints.push('なんだか、大食いの挑戦者が来そうな気配がする…');
+  return { day, weekday, weather, event, market, strength, effFootfall, lean, leanStrength, favMult, kitchen, hints, fighter, preview: null };
 }
 /* 明日の予告：接客だけが知る翌日の気配。在庫は持ち越せるので、伝言の第3の軸になる */
 const PREVIEW_BY_EVENT = {
@@ -316,6 +320,7 @@ function resolveDay(state) {
       if (it.weatherMod && it.weatherMod[d.weather.id]) rate *= it.weatherMod[d.weather.id];
       dem = Math.max(0, Math.round(footfall * rate * (0.95 + rng() * 0.1)));
     }
+    if (d.fighter && d.fighter.item === it.id) dem += 10; // 大食いの挑戦者の10杯（通常需要に上乗せ）
     demand[it.id] = dem;
     const sold = Math.min(R.prep[it.id] || 0, dem);
     sales[it.id] = sold;
@@ -388,6 +393,7 @@ function resolveDay(state) {
     messages: { human: state.msgs.human, robot: state.msgs.robot, forecast: state.msgs.forecast },
     eventLabel: d.event.label, eventStrength: d.strength, eventId: d.event.id,
     leanLabel: d.lean ? d.lean.label : null, leanStrength: d.leanStrength, leanId: d.lean ? d.lean.id : null,
+    fighter: d.fighter ? d.fighter.item : null, // 大食いの挑戦者が食べた品（日報で開示）
     fundsBefore, satBefore,
     kitchenLabel: kitchenLabel(d.kitchen),
     footfall, demand, sales, waste, stockout, fromBase,
