@@ -25,6 +25,12 @@
   .cast .bub{position:relative;background:#fff;border:2px solid #d9b36c;border-radius:12px;padding:8px 12px;font-size:14.5px;flex:1;margin-top:8px}
   .cast .bub div{margin:1px 0}
   .scene{position:relative;height:320px;background:linear-gradient(90deg,#e8d9bd 0 30%,#f7ecd7 30% 100%);border:2px solid #b39b6d;border-radius:10px;overflow:hidden}
+  #scene-screen{position:fixed;inset:0;z-index:60;background:#f3e6cd;display:none;overflow:auto;padding:16px 12px 32px}
+  #scene-screen.on{display:block;animation:sceneIn .35s ease}
+  @keyframes sceneIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+  #scene-screen .sc-wrap{max-width:860px;margin:0 auto}
+  #scene-screen h2{margin:2px 0 10px}
+  #scene-ack{margin-top:12px;text-align:center}
   .scene .zone{position:absolute;top:4px;font-size:11px;color:#7a6432;background:rgba(255,255,255,.65);padding:1px 6px;border-radius:6px}
   .scene .kitchen{position:absolute;left:0;top:0;width:30%;height:100%;background:rgba(160,120,70,.13);border-right:2px dashed #b39b6d}
   .scene .stove{position:absolute;font-size:22px}
@@ -191,6 +197,7 @@
     <pre id="ai-state-text">-</pre>
   </div>
   <div id="g-reports"></div>
+  <div id="scene-screen"></div>
 </div>
 
 <details class="card">
@@ -220,7 +227,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 let CODE=localStorage.getItem('ramen-code')||'', ROLE=localStorage.getItem('ramen-role')||'human';
-let VIEW=null, selPush=undefined, selPolicy=undefined, selBand=undefined, LAST_SIG='';
+let VIEW=null, selPush=undefined, selPolicy=undefined, selBand=undefined, LAST_SIG='', LAST_PHASE='';
 const DRAFT={comment:'',msg:'',forecast:'',buy:{},prep:{},base:'',reading:''};
 document.addEventListener('input',e=>{ const id=e.target.id; if(!id)return;
   if(id==='in-comment')DRAFT.comment=e.target.value;
@@ -279,7 +286,7 @@ function refresh(){ if(!CODE)return; api('/api/ramen/state?code='+encodeURICompo
   else if(v.phase==='input') myTurn=!(v.yourInfo&&v.yourInfo.youSubmitted);
   else if(v.phase==='service'||v.phase==='report') myTurn=!v.acks[ROLE];
   document.title=myTurn?'（！）あなたの番です｜AIラーメン Muse支店':'AIラーメン Muse支店';
-  if(sig!==LAST_SIG){ LAST_SIG=sig; render(); } }); }
+  if(sig!==LAST_SIG){ const pc=LAST_PHASE!==v.phase; LAST_SIG=sig; render(); if(pc){ LAST_PHASE=v.phase; setTimeout(()=>{ const t=$('g-input'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); },80); } } }); }
 setInterval(refresh,3000);
 // BGM（ユデさん作「ラーメン店っぽい曲」）。ブラウザの制限で、最初のクリックを合図に再生を始める
 const BGM=$('bgm'); BGM.volume=0.45; let bgmWanted=true;
@@ -304,6 +311,7 @@ function stopAllSE(){ SE_ACTIVE.forEach(c=>{ try{ c.pause(); }catch(e){} }); SE_
 function render(){
   const v=VIEW, info=v.yourInfo;
   if(v.phase!=='service' && window._sceneStop){ const f=window._sceneStop; window._sceneStop=null; f(); }
+  const ss=$('scene-screen'); if(ss && v.phase!=='service') ss.classList.remove('on');
   document.querySelectorAll('#g-steps div').forEach(d=>{ d.className=(d.dataset.step===v.phase||(v.phase==='finished'&&d.dataset.step==='report'))?'on':''; });
   $('g-title').textContent='AIラーメン Muse支店（'+CODE+'） ― '+(ROLE==='human'?'🧑 接客':'🤖 調理ロボ')+'画面';
   $('g-meta').textContent=v.day+'日目（'+v.weekday+'曜）／天気：'+v.weather+'／フェーズ：'+({message:'朝の伝言',input:'昼の作戦',service:'営業中',report:'夜の日報',finished:'営業終了'})[v.phase];
@@ -321,6 +329,7 @@ function render(){
     }
     const r=v.reports[v.reports.length-1];
     if(window._sceneStartedFor!==v.day){
+      if(ss) ss.classList.remove('on');
       box.innerHTML='<h2>🍜 '+r.day+'日目 ― 両者の入力がそろいました</h2>'+prepBoardHtml(r)+
         '<p style="text-align:center"><button id="btn-start-service">🔔 開店する</button></p>'+
         '<p class="mut">相方は自分の画面で、自分のタイミングで始めます。</p>';
@@ -328,7 +337,8 @@ function render(){
       const bst=$('btn-start-service'); if(bst) bst.onclick=()=>{ window._sceneStartedFor=v.day; LAST_SIG=''; render(); };
       return;
     }
-    box.innerHTML='<h2>🍜 営業中 ― '+r.day+'日目</h2>'+sceneHtml(r)+'<div id="scene-ack">'+(v.acks[ROLE]?'<p>相方が閉店するのを待っています。</p>':'<button id="btn-ack">閉店する（日報へ）</button>')+'</div>';
+    if(ss){ ss.innerHTML='<div class="sc-wrap"><h2>🍜 営業中 ― '+r.day+'日目</h2>'+sceneHtml(r)+'<div id="scene-ack">'+(v.acks[ROLE]?'<p>相方が閉店するのを待っています。</p>':'<button id="btn-ack">閉店する（日報へ）</button>')+'</div></div>'; ss.classList.add('on'); }
+    box.innerHTML='<p class="big">🍜 営業中 ― '+r.day+'日目（シーンは別画面で表示中です）</p>';
     bindForm();
     $('ai-state-text').textContent=aiText(v);
     startScene(r);
@@ -347,13 +357,15 @@ function render(){
   } else if(v.phase==='finished'){
     const r=v.reports[v.reports.length-1];
     saveRecord(v.final);
+    localStorage.removeItem('ramen-code'); localStorage.removeItem('ramen-role');
     h='<p class="big">🏁 7日間の営業終了！</p>'+reportHtml(r)+
       '<img class="rank-art" src="'+ART[v.final.rank]+'" alt="">'+
       '<div style="text-align:center"><span class="stamp">'+v.final.rank+'</span></div>'+
       '<p class="big">最終成績 ― 資金：<span class="money">'+v.final.funds.toLocaleString()+'円</span>／満足度：'+v.final.satisfaction+'／スコア：'+v.final.score.toLocaleString()+'</p>'+
       '<p style="text-align:center"><button id="btn-share">📋 結果をコピー（X投稿用）</button></p><p class="mut" id="share-done" style="text-align:center"></p>'+
       '<div style="text-align:left;margin-top:14px"><h3>📩 7日間の伝言と解釈（ふりかえり）</h3>'+
-      v.reports.map(r2=>'<p>'+r2.day+'日目（'+esc(r2.weekday)+'曜）<br>接客の伝言：「'+esc(r2.messages?r2.messages.human:'')+'」'+(r2.messages&&r2.messages.forecast?'<br>🔮 予告メモ：「'+esc(r2.messages.forecast)+'」':'')+'<br>ロボの伝言：「'+esc(r2.messages?r2.messages.robot:'')+'」'+(r2.robotDecision.reading?'<br>🤖 ロボの解釈：「'+esc(r2.robotDecision.reading)+'」':'')+'</p>').join('')+'</div>';
+      v.reports.map(r2=>'<p>'+r2.day+'日目（'+esc(r2.weekday)+'曜）<br>接客の伝言：「'+esc(r2.messages?r2.messages.human:'')+'」'+(r2.messages&&r2.messages.forecast?'<br>🔮 予告メモ：「'+esc(r2.messages.forecast)+'」':'')+'<br>ロボの伝言：「'+esc(r2.messages?r2.messages.robot:'')+'」'+(r2.robotDecision.reading?'<br>🤖 ロボの解釈：「'+esc(r2.robotDecision.reading)+'」':'')+'</p>').join('')+'</div>'+
+      '<p class="mut" style="text-align:center;margin-top:12px">🚪 この結果ページは、部屋を出たあとのページです（入室情報は自動で消去しました）。次に開くときはタイトル画面から始まります。同じあいことばで入れば、この結果はいつでも見直せます。</p>';
   }
   box.innerHTML=h;
   bindForm();
@@ -859,6 +871,7 @@ function aiText(v){
     else L.push('任意の先行作業: 日報画面の「明日の仮仕込み」で、翌日の仕入れ・仕込みの下書きを置けます。在庫は確定済みで相場の気配（方向）も見えていますが、相場の実額と厨房の事情は明日の朝まで分かりません。朝の開始時に上限・在庫・資金へ自動で丸めて仮提出され、入力フェーズで上書きできます。置いておくと朝の待ち時間が短くなります。');
   }
   if(v.phase==='finished'&&v.final){ L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
+    L.push('入室情報は自動で消去済みです。再読み込みするとタイトル画面に戻ります。この結果を見直す場合は、同じあいことば・同じ役割で入り直してください。');
     if(ROLE==='robot') L.push('最後に、結果を相方に伝えて、一緒に遊んだ感想をチャットで述べてください。よく読めた日、読み違えた日、10文字の伝言の手応えの変化、相方への感謝などを、自分の言葉で数文にまとめてください（頼まれなくても出すのがこのゲームの締めくくりです）。'); }
   return L.join('\n');
 }
