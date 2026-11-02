@@ -126,6 +126,10 @@
   .skit-row.robot .skit-bubble{background:#e3ecff}
   .skit-msg{background:#20344f;color:#fff;border-radius:10px;padding:8px 12px;text-align:center;font-size:16px;letter-spacing:.06em}
   .skit-punch{text-align:center;font-weight:900;font-size:16.5px;margin:10px 0 2px}
+  .sk-mock{background:#fff;border:2px solid #e0d3ac;border-radius:10px;padding:10px 12px;margin:8px 0}
+  .sk-mock-title{font-weight:900;margin-bottom:4px}
+  .sk-line{display:flex;justify-content:space-between;border-bottom:1px dashed #ddd;padding:3px 0;font-size:14.5px}
+  .skit-nav{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
 </style>
 </head>
 <body>
@@ -147,15 +151,7 @@
   <h1 class="game-title">AIラーメン Muse支店</h1>
   <p class="catch">接客は人間、厨房はあなたの Muse（もふもふ調理ロボ）。<br>見える情報は別々。相談は朝の伝言 <b>10文字</b> だけ。7日間、店を回そう。</p>
   <p style="text-align:center"><span class="withmuse">🤖 これは、あなたのミューズと一緒に遊ぶゲームです</span></p>
-  <div class="skit">
-    <div class="skit-scene">― あさ、伝言のお時間 ―</div>
-    <div class="skit-msg">📩 明日の伝言　「客多い！気温高い！」</div>
-    <div class="skit-row robot"><span class="skit-who">🤖</span><span class="skit-bubble">お？　お客様たくさんで暑いからビールが出そうだぞ！<br>ビールをたくさん仕入れよう！</span></div>
-    <div class="skit-scene">― 翌日、営業おわり ―</div>
-    <div class="skit-row human"><span class="skit-who">🧑</span><span class="skit-bubble">客は多いけど<b>未成年</b>じゃん！　ちゃんと伝えてよ！</span></div>
-    <div class="skit-row robot"><span class="skit-who">🤖</span><span class="skit-bubble"><b>成人とも言ってないだろ！！</b></span></div>
-    <p class="skit-punch">――あなたは、うまく伝えてね。</p>
-  </div>
+  <p style="text-align:center"><button id="btn-skit" class="sub" style="font-size:16px;padding:10px 20px">🎬 初めてプレイする方はこちら（コントでわかる遊び方）</button></p>
   <div class="howto">
     <h3>🍜 あそびかた</h3>
     <div class="hsteps">
@@ -193,6 +189,16 @@
   </div>
 </div>
 
+<div class="card" id="skit-player" style="display:none">
+  <h2 style="margin-top:2px">🎬 コントでわかる遊び方</h2>
+  <div id="skit-stage"></div>
+  <div class="skit-nav">
+    <button id="btn-skit-prev" class="sub">← もどる</button>
+    <span class="mut" id="skit-progress"></span>
+    <button id="btn-skit-next">つぎへ →</button>
+  </div>
+  <p style="text-align:center"><button id="btn-skit-close" class="sub">✕ とじる（タイトルへ）</button></p>
+</div>
 <div id="game" style="display:none">
   <div class="stepper" id="g-steps">
     <div data-step="message">☀ 朝の伝言</div>
@@ -283,6 +289,39 @@ $('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーし
 $('btn-invite2').onclick=()=>copyText(inviteText(),$('invite-done2'),'コピーしました。ミューズのチャットに貼ってください');
 $('btn-start').onclick=()=>{ $('title-block').style.display='none'; $('entry-controls').style.display='block'; tryPlayBGM(); };
 $('btn-totitle').onclick=()=>{ $('title-block').style.display='block'; $('entry-controls').style.display='none'; };
+/* 導入コント：実際のプレイ画面の流れを見せながら、伝言のすれ違いを演じる */
+const SKIT_SCENES=[
+ { mock:'<div class="sk-mock"><div class="sk-mock-title">☀ あさの伝言（接客の画面）</div><p class="mut" style="margin:2px 0">明日の予告（接客だけが見える）：近くの高校で、部活の大会があるみたい</p><div class="skit-msg">📩 伝言（10文字まで）「客多い！気温高い！」</div></div>',
+   lines:[['human','明日の伝言これね。']] },
+ { mock:'<div class="sk-mock"><div class="sk-mock-title">✍ ひるの判断（調理ロボの画面）</div><p class="mut" style="margin:2px 0">ロボに見えるのは在庫と相場だけ。お客さんの顔ぶれは知らない</p><div class="sk-line"><span>📩 届いた伝言</span><b>「客多い！気温高い！」</b></div><div class="sk-line"><span>🍺 ビールの仕入れ</span><b>たくさん！</b></div></div>',
+   lines:[['robot','お？　お客様たくさんで暑いからビールが出そうだぞ！<br>ビールをたくさん仕入れよう！']] },
+ { mock:'<div class="sk-mock"><div class="sk-mock-title">🍜 えいぎょう（当日の様子）</div><p style="font-size:22px;text-align:center;margin:6px 0">🧑‍🎓🧑‍🎓🧑‍🎓🧑‍🎓🧑‍🎓🧑‍🎓</p><div class="sk-line"><span>本日のお客様</span><b>たくさん！</b></div></div>',
+   lines:[['human','お客さん、いっぱい来た！'],['robot','ビール、どんどん出すぞー！']] },
+ { mock:'<div class="sk-mock"><div class="sk-mock-title">🌙 こたえあわせ（夜の日報）</div><div class="sk-line"><span>客数</span><b>とても多い</b></div><div class="sk-line"><span>客層</span><b>高校生の団体</b></div><div class="sk-line"><span>🍺 ビール売上</span><b>0本（まるっと残った）</b></div></div>',
+   lines:[['human','客は多いけど<b>未成年</b>じゃん！　ちゃんと伝えてよ！']] },
+ { mock:'',
+   lines:[['robot','<b>成人とも言ってないだろ！！</b>']] },
+ { mock:'', lines:[], punch:true },
+];
+let skitIdx=0;
+function skitRender(){
+  const sc=SKIT_SCENES[skitIdx];
+  let h=sc.mock||'';
+  (sc.lines||[]).forEach(L=>{
+    h+='<div class="skit-row '+(L[0]==='robot'?'robot':'human')+'"><span class="skit-who">'+(L[0]==='robot'?'🤖':'🧑')+'</span><span class="skit-bubble">'+L[1]+'</span></div>';
+  });
+  if(sc.punch){ h+='<p class="skit-punch" style="font-size:20px;margin-top:24px">――あなたは、うまく伝えてね。</p><p class="mut" style="text-align:center">伝言は10文字。何を入れて、何を落とすかが勝負です。</p>'; }
+  $('skit-stage').innerHTML=h;
+  $('skit-progress').textContent=(skitIdx+1)+' / '+SKIT_SCENES.length;
+  $('btn-skit-prev').style.visibility=skitIdx===0?'hidden':'visible';
+  $('btn-skit-next').textContent=skitIdx===SKIT_SCENES.length-1?'▶ 支店を開く':'つぎへ →';
+}
+function closeSkit(){ $('skit-player').style.display='none'; $('entry').style.display='block'; window.scrollTo(0,0); }
+$('btn-skit').onclick=()=>{ $('entry').style.display='none'; $('skit-player').style.display='block'; skitIdx=0; skitRender(); window.scrollTo(0,0); };
+$('btn-skit-close').onclick=closeSkit;
+$('btn-skit-prev').onclick=()=>{ if(skitIdx>0){ skitIdx--; skitRender(); } };
+$('btn-skit-next').onclick=()=>{ if(skitIdx<SKIT_SCENES.length-1){ skitIdx++; skitRender(); } else { closeSkit(); $('btn-start').click(); } };
+
 let leaveArmed=false, leaveTimer=null;
 $('btn-leave').onclick=()=>{ const b=$('btn-leave');
   if(!leaveArmed){ leaveArmed=true; b.textContent='🚪 本当に出ますか？（もう一度押すとタイトルへ。支店には同じあいことばで戻れます）'; b.style.background='#b3392e'; b.style.color='#fff';
