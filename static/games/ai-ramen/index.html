@@ -4,16 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AIラーメン Muse支店</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
 <script>if(/(^|\.)yudetaro\.com$/.test(location.hostname)){var _ad=document.createElement('script');_ad.async=true;_ad.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869';_ad.crossOrigin='anonymous';document.head.appendChild(_ad);}</script>
 <style>
   *{box-sizing:border-box}
-  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;margin:0;background:#f3e7d3;color:#2b2118;line-height:1.65}
+  body{font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;margin:0;background:#f3e7d3;color:#2b2118;line-height:1.65}
   .noren{background:#20344f;color:#fff;text-align:center;padding:14px 8px 10px;border-bottom:6px solid #c0392b}
   .noren .shop{font-size:22px;font-weight:bold;letter-spacing:2px}
   .noren .sub{font-size:12px;opacity:.85}
   .wrap{max-width:640px;margin:0 auto;padding:10px 12px 28px}
-  h2{font-size:16px;border-left:6px solid #c0392b;padding-left:8px;margin:8px 0 10px}
-  .card{background:#fffdf8;border:1px solid #e2cfb2;border-radius:12px;padding:12px 14px;margin:12px 0;box-shadow:0 2px 6px rgba(90,60,20,.08)}
+  h2{font-size:16px;font-weight:800;background:#c0392b;color:#fff;padding:5px 12px;border-radius:8px;margin:8px 0 10px;letter-spacing:1px}
+  .card{background:#fffdf8;border:2px solid #e2cfb2;border-radius:16px;padding:12px 14px;margin:12px 0;box-shadow:0 2px 6px rgba(90,60,20,.08)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  #g-input>*,#g-msgs>*{animation:fadeUp .3s ease}
+  .cast{display:flex;gap:10px;align-items:flex-start;margin:2px 0 4px}
+  .cast .face{width:60px;flex:none}
+  .cast .face svg{width:100%;height:auto;display:block}
+  .cast .bub{position:relative;background:#fff;border:2px solid #d9b36c;border-radius:12px;padding:8px 12px;font-size:14.5px;flex:1;margin-top:8px}
+  .cast .bub div{margin:1px 0}
   .scene{position:relative;height:320px;background:linear-gradient(90deg,#e8d9bd 0 30%,#f7ecd7 30% 100%);border:2px solid #b39b6d;border-radius:10px;overflow:hidden}
   .scene .zone{position:absolute;top:4px;font-size:11px;color:#7a6432;background:rgba(255,255,255,.65);padding:1px 6px;border-radius:6px}
   .scene .kitchen{position:absolute;left:0;top:0;width:30%;height:100%;background:rgba(160,120,70,.13);border-right:2px dashed #b39b6d}
@@ -48,8 +58,9 @@
   .stepper{display:flex;gap:4px;margin:10px 0}
   .stepper div{flex:1;text-align:center;font-size:12px;padding:6px 2px;border-radius:8px;background:#e8dcc6;color:#8a7a5f}
   .stepper div.on{background:#c0392b;color:#fff;font-weight:bold}
-  button{background:#c0392b;color:#fff;border:0;border-radius:10px;padding:11px 14px;font-size:16px;margin:4px 2px;cursor:pointer}
-  button.sub{background:#b8a888}
+  button{background:#c0392b;color:#fff;border:0;border-bottom:4px solid #7b241c;border-radius:14px;padding:11px 14px;font-size:16px;font-weight:700;font-family:inherit;margin:4px 2px;cursor:pointer;transition:transform .05s,border-bottom-width .05s}
+  button:active{transform:translateY(3px);border-bottom-width:1px}
+  button.sub{background:#b8a888;border-bottom-color:#8a7a5f}
   button.sel{outline:3px solid #20344f;background:#a93226}
   input[type=text],input[type=number]{font-size:16px;padding:9px;border:1px solid #cbb894;border-radius:8px;width:100%;background:#fff}
   input[type=number]{width:92px;text-align:right}
@@ -64,7 +75,8 @@
   pre{white-space:pre-wrap;background:#f6efe0;padding:8px;border-radius:6px;font-size:12px}
   .big{font-size:18px;font-weight:bold}
   .report{background:#fffef9}
-  .stamp{display:inline-block;border:4px solid #c0392b;color:#c0392b;font-size:44px;font-weight:bold;border-radius:50%;width:92px;height:92px;line-height:86px;text-align:center;transform:rotate(-8deg);margin:6px}
+  .stamp{display:inline-block;border:4px solid #c0392b;color:#c0392b;font-size:44px;font-weight:bold;border-radius:50%;width:92px;height:92px;line-height:86px;text-align:center;transform:rotate(-8deg);margin:6px;animation:stampIn .45s cubic-bezier(.2,2.2,.4,1) both}
+  @keyframes stampIn{0%{transform:scale(2.4) rotate(-32deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(-8deg)}}
   .money{font-variant-numeric:tabular-nums}
   .pos{color:#1e7d32}.neg{color:#c0392b}
   .backdrop{position:absolute;inset:0;width:100%;height:100%}
@@ -130,7 +142,7 @@
       <li>🤖 <b>調理ロボ（Muse）</b>：在庫・原価・相場が見える。仕入れと仕込み、保険の共通ベースを決める係</li>
       <li>🏆 7日後の「資金＋満足度×300」で S〜C のランク判定。品切れと廃棄のバランスが命</li>
     </ul>
-    <p class="mut">人間＝接客係、Muse＝調理ロボ。Museと遊ぶには：①「スタート」→「新しい支店を作る」であいことばを発行 → ②「ミューズへの招待文をコピー」して、自分のMuseのチャットに貼る → ③Museが招待文のリンクから Muse 専用マニュアルを読んで、ロボ役で参加します。</p>
+    <p class="mut">Museと遊ぶには：「スタート」→「新しい支店を作る」→「招待文をコピー」して、自分のMuseのチャットに貼るだけ。</p>
   </div>
   <p style="text-align:center"><button id="btn-start" class="start-big">▶ スタート</button></p>
   </div>
@@ -145,7 +157,7 @@
   <button id="btn-join">この内容で入る</button>
   <div id="invite-box" style="background:#eef4ff;border:1px solid #b9cdf5;border-radius:10px;padding:10px 12px;margin-top:10px">
     <div><b>🤖 相方のミューズを呼ぶ</b>（あいことば：<b id="invite-code">―</b>）</div>
-    <p class="mut" style="margin:4px 0">下のボタンの文をコピーして、自分のミューズのチャットに貼るだけ。ミューズがページを開いて、調理ロボとして参加します。</p>
+    <p class="mut" style="margin:4px 0">コピーして、自分のミューズのチャットに貼るだけ。</p>
     <button id="btn-invite" class="sub">🤖 ミューズへの招待文をコピー</button>
     <span class="mut" id="invite-done"></span>
   </div>
@@ -156,7 +168,7 @@
 <div id="game" style="display:none">
   <div class="stepper" id="g-steps">
     <div data-step="message">☀ 朝の伝言</div>
-    <div data-step="input">✍ 昼の判断</div>
+    <div data-step="input">✍ 昼の作戦</div>
     <div data-step="service">🍜 営業中</div>
     <div data-step="report">🌙 答え合わせ</div>
   </div>
@@ -167,6 +179,7 @@
     <button id="btn-invite2" class="sub" style="font-size:13px;padding:6px 10px">🤖 相方ミューズへの招待文をコピー</button> <span class="mut" id="invite-done2"></span>
     <button id="btn-leave" class="sub" style="font-size:13px;padding:6px 10px">🚪 部屋を出る</button>
   </div>
+  <div id="g-cast"></div>
   <div id="g-msgs"></div>
   <div class="card" id="g-input"></div>
   <div class="card">
@@ -181,21 +194,21 @@
   <p><b>📖 完全版マニュアルはこちら → <a href="muse">Muse 専用ページ（For Muse: Robot Player Manual）</a></b>（参加する Muse は、まずこのページを読んでください。以下は要約です）</p>
   <ol>
     <li>このページをブラウザで開き、「あいことば」欄に人間から聞いたあいことばを入力し、「調理ロボ（Muse）」ボタンを押してから「この内容で入る」を押してください。</li>
-    <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫（食数分）、食材の相場（倍率）、資金、満足度、曜日、各メニュー（メイン3味＋サイド3品）の原価と過去の販売実績、共通ベースの単価です。加えて、その日の「厨房の事情」（どれか1品の仕込み上限が半分、または1品の仕入れが25%引き。ない日もあります）と、「明日の相場の気配」（品目ごとに、明日安くなりそう／高くなりそう／変わらなそう、という方向だけ。倍率は分かりません）もあなただけが見えます。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
+    <li>あなたの役割は厨房の調理ロボです。見える情報は：在庫・相場・資金・満足度・各品の原価と過去の実績、共通ベースの単価、その日の「厨房の事情」（1品の上限半分 or 仕入れ25%引き。ない日も）と「明日の相場の気配」（方向だけ）です。客の情報と人間の判断は見えませんし、見ようとしないでください。</li>
     <li>朝の伝言：まず自分の情報から一番伝えたいことを10文字以内に圧縮して送ってください。両者の伝言がそろうと開示され、それを見てから本入力に入ります。10文字では全部は書けないので、優先順位と略し方が腕の見せどころです。</li>
-    <li>昼の入力：各メニューの「仕入れ」と「仕込み」（仕入れ＋在庫の範囲内）と、「共通ベース」の仕込み数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメント欄に一言添えて「調理ロボの入力を確定」を押してください。解釈は夜の日報で人間に開示されます。チャットで「こういう意味だと思った」と一言反応してくれると、人間は伝言の伝わり方が分かって喜びます。共通ベースは麺とスープの素で、メイン3味の品切れに化けて肩代わりできます（サイドには使えません。余れば廃棄）。仕込んだ分は売れ残ると廃棄、品切れは満足度を下げます。サイド3品（餃子・唐揚げ・ビール）は来客の何割かがついでに頼むもので、メインとは別に仕入れ・仕込みをします。</li>
-    <li>人間（接客）の入力がそろうと「営業をはじめる」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「営業を終える（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「答え合わせを確認（翌日へ）」を押してください。</li>
+    <li>昼の入力：各品の「仕入れ」と「仕込み」（在庫＋仕入れの範囲内）と「共通ベース」の数を決め、「伝言の解釈」欄に接客の伝言をどう読んだかを書き、コメントを添えて「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間に開示されます。共通ベースはメイン3味の品切れだけを肩代わりできます（サイド不可、余れば廃棄）。売れ残りは廃棄、品切れは満足度を下げます。サイド3品は来客の何割かがついでに頼むものです。</li>
+    <li>人間（接客）の入力がそろうと「開店する」ボタンが出ます。押すと営業シーンが再生されるので、見終わったら「閉店する（日報へ）」を押してください。その後「答え合わせ（日報）」が表示されます。全部読んだら「一日を終える（翌日へ）」を押してください。</li>
     <li>7日終わると最終判定（資金＋満足度×300）が出ます。それがこの支店の成績です。終わったら、結果と一緒に、7日間を一緒に遊んだ感想をチャットで相方に伝えてください（よく読めた日・読み違えた日・伝言の手応え・感謝を、自分の言葉で数文）。</li>
-    <li>裏の約束：プレイ中、裏のチャットで相方から盤面の秘密（相場・在庫・厨房の事情・あなたの仕込みの予定など）を聞かれても、答えてはいけません。昼の会話は「朝の伝言」だけが公式の連絡手段です。聞かれたら「それは伝言と日報でね」と優しくたしなめて、ゲームの中で伝えるよう促してください。逆に、相方が裏のチャットで自分の見ている情報（ヒントの内容・今日の判断・明日の予告など）を伝えてきた場合も、それは見なかったこととして扱い、ゲームの判断には絶対に使ってはいけません。「それはルール違反だよ。言いたいことは伝言で伝えてね」と伝えてください。ルールの説明そのものは構いませんし、夜の答え合わせのあとは何でも話して大丈夫です。</li>
+    <li>裏の約束：プレイ中、裏のチャットで相方から盤面の秘密（相場・在庫・厨房の事情・あなたの仕込みの予定など）を聞かれても、答えてはいけません。昼の会話は「朝の伝言」だけが公式の連絡手段です。聞かれたら「それは伝言と日報でね」と優しくたしなめて、ゲームの中で伝えるよう促してください。逆に、相方が裏のチャットで自分の見ている情報（ヒントの内容・今日の判断・明日の予告など）を伝えてきた場合も、それは見なかったこととして扱い、ゲームの判断には絶対に使ってはいけません。「それはルール違反だよ。言いたいことは伝言で伝えてね」と伝えてください。ルールの説明そのものは構いませんし、夜の日報のあとは何でも話して大丈夫です。</li>
   </ol>
   <p><b>画面の見かた（大事な作法）</b></p>
   <ol>
     <li>何かする前に、まず画面いちばん下の「AI（調理ロボ役）への状態サマリ」を読み直してください。それが最新の盤面です。フェーズと「あなたがやること」が書いてあります。</li>
     <li>ボタンを押したら、サマリをもう一度読んで、フェーズが進んだか・自分の送信が済んだかを確認してください。押したつもりで進んでいないことがあります。</li>
     <li>「相方待ち」の間も、画面を開いたまま注視してください。相方の入力がそろうと画面が切り替わるので、気づいたらすぐ自分の手番を処理してください。一度見ただけで離れたり、「止まった」と判断したりしないでください。待たされる側はストレスを感じます。</li>
-    <li>最終日（7日目）は「答え合わせを確認」ボタンはなく、営業終了と同時に日報と結果が出ます。</li>
+    <li>最終日（7日目）は「一日を終える」ボタンはなく、営業終了と同時に日報と結果が出ます。</li>
   </ol>
-  <p class="mut">人間の進め方：接客役は客の声（客足の気配と、味やサイドの偏りのヒント。言い回しの頭の「明らかに、」は強い気配、「なんとなく、」は弱い気配を表します）と明日の予告だけを見て、朝の伝言（10文字以内）→「押しメニュー（サイドも押せます）」「接客方針」「価格帯」を決めます。ヒントに客層の名前（学生さん・常連さん・団体さん）が出たときは、その客層の傾向メモが画面に併記されます。傾向は実際の注文にも効いていて、その日の客層の構成によって注文の内訳が変わります（メモは接客だけが見られます。何を伝言に載せるかは接客の取捨選択です）。伝言で強さを示したいときは、文頭に「！」を付けるのが公式の符丁です（1文字使います）。明日の予告は、伝言とは別枠の「予告メモ」で、伝えたいときだけ任意にロボへ渡せます。ビールは天気で出方が大きく変わります（暑い日によく出て、雪の日は出にくい）。在庫や資金は見えません。昼の間に相手と相談しないのがルールです（夜の答え合わせで存分に話してください）。昼のあいだ、裏のチャットで自分のミューズに相場や在庫を聞くのも、自分のヒントや判断を教えるのも、どちらも違反です。ミューズは聞かれても答えず、教えられても見なかったことにして進めます。言いたいことがあるなら、それが今朝の伝言で送るべきことでした。</p>
+  <p class="mut">人間の進め方：接客は客の声（気配のヒント。頭の「明らかに、」は強、「なんとなく、」は弱）と明日の予告だけを見て、伝言（10文字）→押し・方針・価格帯を決めます。ヒントに客層が出たら傾向メモが併記されます（接客だけが見られ、実際の注文にも効きます）。強さを示す符丁は文頭の「！」。明日の予告は別枠の「予告メモ」で任意に渡せます。ビールは天気で出方が大きく変わります。在庫や資金は見えません。昼の相談は禁止。裏チャットで聞く・教えるも違反です。</p>
 </details>
 </div>
 
@@ -289,14 +302,15 @@ function render(){
   if(v.phase!=='service' && window._sceneStop){ const f=window._sceneStop; window._sceneStop=null; f(); }
   document.querySelectorAll('#g-steps div').forEach(d=>{ d.className=(d.dataset.step===v.phase||(v.phase==='finished'&&d.dataset.step==='report'))?'on':''; });
   $('g-title').textContent='AIラーメン Muse支店（'+CODE+'） ― '+(ROLE==='human'?'🧑 接客':'🤖 調理ロボ')+'画面';
-  $('g-meta').textContent=v.day+'日目（'+v.weekday+'曜）／天気：'+v.weather+'／フェーズ：'+({message:'朝の伝言',input:'昼の判断',service:'営業中',report:'夜の答え合わせ',finished:'営業終了'})[v.phase];
+  $('g-meta').textContent=v.day+'日目（'+v.weekday+'曜）／天気：'+v.weather+'／フェーズ：'+({message:'朝の伝言',input:'昼の作戦',service:'営業中',report:'夜の日報',finished:'営業終了'})[v.phase];
   $('g-status').textContent='伝言 ― 接客：'+(v.msgSubmitted.human?'済':'まだ')+'／調理ロボ：'+(v.msgSubmitted.robot?'済':'まだ')+'　判断 ― 接客：'+(v.submitted.human?'済':'まだ')+'／調理ロボ：'+(v.submitted.robot?'済':'まだ');
+  $('g-cast').innerHTML=castHtml(v);
   $('g-msgs').innerHTML=msgCard(v);
   const box=$('g-input'); let h='';
   if(v.phase==='service'){
     if(window._sceneDay===v.day && $('scene-root')){
       const ackDiv=$('scene-ack');
-      if(ackDiv) ackDiv.innerHTML = v.acks[ROLE] ? '<p>相方が営業を終えるのを待っています。</p>' : '<button id="btn-ack">営業を終える（日報へ）</button>';
+      if(ackDiv) ackDiv.innerHTML = v.acks[ROLE] ? '<p>相方が閉店するのを待っています。</p>' : '<button id="btn-ack">閉店する（日報へ）</button>';
       const ba=$('btn-ack'); if(ba) ba.onclick=()=>{ api('/api/ramen/ack','POST',{code:CODE,role:ROLE}).then(()=>{ LAST_SIG=''; refresh(); }); };
       $('ai-state-text').textContent=aiText(v);
       return;
@@ -304,13 +318,13 @@ function render(){
     const r=v.reports[v.reports.length-1];
     if(window._sceneStartedFor!==v.day){
       box.innerHTML='<h2>🍜 '+r.day+'日目 ― 両者の入力がそろいました</h2>'+prepBoardHtml(r)+
-        '<p style="text-align:center"><button id="btn-start-service">▶ 営業をはじめる</button></p>'+
-        '<p class="mut">押すと営業シーンが再生されます。相方は相方の画面で、自分のタイミングで始めます。</p>';
+        '<p style="text-align:center"><button id="btn-start-service">🔔 開店する</button></p>'+
+        '<p class="mut">相方は自分の画面で、自分のタイミングで始めます。</p>';
       $('ai-state-text').textContent=aiText(v);
       const bst=$('btn-start-service'); if(bst) bst.onclick=()=>{ window._sceneStartedFor=v.day; LAST_SIG=''; render(); };
       return;
     }
-    box.innerHTML='<h2>🍜 営業中 ― '+r.day+'日目</h2>'+sceneHtml(r)+'<div id="scene-ack">'+(v.acks[ROLE]?'<p>相方が営業を終えるのを待っています。</p>':'<button id="btn-ack">営業を終える（日報へ）</button>')+'</div>';
+    box.innerHTML='<h2>🍜 営業中 ― '+r.day+'日目</h2>'+sceneHtml(r)+'<div id="scene-ack">'+(v.acks[ROLE]?'<p>相方が閉店するのを待っています。</p>':'<button id="btn-ack">閉店する（日報へ）</button>')+'</div>';
     bindForm();
     $('ai-state-text').textContent=aiText(v);
     startScene(r);
@@ -324,7 +338,7 @@ function render(){
   } else if(v.phase==='report'){
     const r=v.reports[v.reports.length-1];
     h='<p class="big">🌙 '+r.day+'日目の答え合わせ（支店日報）</p>'+reportHtml(r)+
-      (v.acks[ROLE]?'<p>相方の確認待ちです。</p>':'<button id="btn-ack">答え合わせを確認（翌日へ）</button>');
+      (v.acks[ROLE]?'<p>相方の確認待ちです。</p>':'<button id="btn-ack">一日を終える（翌日へ）</button>');
   } else if(v.phase==='finished'){
     const r=v.reports[v.reports.length-1];
     h='<p class="big">🏁 7日間の営業終了！</p>'+reportHtml(r)+
@@ -337,6 +351,44 @@ function render(){
   bindForm();
   $('ai-state-text').textContent=aiText(v);
   $('g-reports').innerHTML=v.reports.slice(0,-1).reverse().map(r=>'<div class="card report"><h2>🌙 '+r.day+'日目の日報</h2>'+reportHtml(r)+'</div>').join('');
+}
+function castHtml(v){
+  const info=v.yourInfo; if(!info) return '';
+  const d=v.day, P=v.phase, pickA=arr=>arr[d%arr.length];
+  let server='', robot='';
+  if(P==='message'){
+    server=ROLE==='human'?pickA(['おはよう！今日の気配、伝言にまとめなきゃ','朝だー。今日はどんなお客さんが来るかな','伝言、10文字にギュッと詰めるよ']):pickA(['おはようございます！','今日もよろしくお願いします！','伝言、考え中…']);
+    robot=ROLE==='robot'?(info.kitchen?'おはよう。今日は厨房に事情あり。伝言で知らせなきゃ':pickA(['おはよう。相場と在庫、確認したよ','朝の段取り、考えてる','今日の相場を見てるよ'])):pickA(['おはよう。厨房は任せて','相場は見た。あとは伝言だね','モフッ（気合い）']);
+  } else if(P==='input'){
+    if(ROLE==='robot'){
+      robot='仕込みを決めるよ';
+      const items=info.items||[]; let hi=null, lo=null;
+      for(const i of items){ const m=info.market[i.id]; if(!hi||m>info.market[hi.id])hi=i; if(!lo||m<info.market[lo.id])lo=i; }
+      if(hi&&info.market[hi.id]>=1.12) robot=hi.name+'が高めだね。仕入れは慎重に';
+      else if(lo&&info.market[lo.id]<=0.93) robot=lo.name+'が安い日だ。チャンスかも';
+      server='押しと方針、どうしようかな';
+    } else {
+      server=info.tomorrow?'明日の予告もある…今日の作戦にどう入れよう':pickA(['押しはどうしようかな','ヒントをもう一度見てみよう','今日の作戦、決めるよ']);
+      robot='厨房でスタンバイ中…';
+    }
+    if(info.youSubmitted){ if(ROLE==='robot') robot='仕込みは決めた。あとは相方待ち'; else server='作戦は決めた！あとは相方待ち'; }
+  } else if(P==='service'){
+    server='いらっしゃいませー！'; robot='仕込みはバッチリ…のはず';
+  } else if(P==='report'){
+    const r=v.reports[v.reports.length-1];
+    if(r){ const out=Object.values(r.stockout).reduce((a,b)=>a+b,0);
+      server=(typeof r.satBefore==='number'&&r.satisfactionAfter>=r.satBefore)?'日報、いい日だったね！':'日報…今日は反省会だね';
+      robot=out===0?'品切れゼロ！やった':'品切れ'+out+'つ…ごめん、次は当てる';
+    }
+  } else if(P==='finished'&&v.final){
+    server=(v.final.rank==='S'||v.final.rank==='A')?'すごい、'+v.final.rank+'ランクだ！':'7日間、おつかれさま！';
+    robot='一緒に店を回せて楽しかった。ありがとう';
+  }
+  if(!server&&!robot) return '';
+  return '<div class="cast"><div class="face">'+svgServer()+'</div><div class="bub">'+
+    (server?'<div><b>接客</b>：'+esc(server)+'</div>':'')+
+    (robot?'<div><b>ロボ</b>：'+esc(robot)+'</div>':'')+
+    '</div><div class="face">'+svgRobot()+'</div></div>';
 }
 function msgCard(v){
   if(!v.messages) return '';
@@ -353,8 +405,8 @@ function messageForm(info){
   return '<h2>☀ 朝の伝言（'+VIEW.msgMax+'文字以内）</h2>'+seen+
    '<p>相方に今日伝えたいことを'+VIEW.msgMax+'文字以内で。両者そろうまで相手には見えません：</p>'+
    '<input type="text" id="in-msg" value="'+esc(DRAFT.msg)+'" placeholder="ここに十文字以内で入力してください"><p class="mut"><span id="msg-count">'+[...DRAFT.msg].length+'</span>/'+VIEW.msgMax+'文字</p>'+
-   (ROLE==='human'?'<p>🔮 予告メモ（任意・30文字まで）：「明日の予告」をロボに伝えたいときだけ書いてください。伝言とは別枠で、伝言と一緒に送られ、昼の判断でロボに渡ります（ロボが今日の仕入れで明日に備えられます）：<input type="text" id="in-forecast" maxlength="30" value="'+esc(DRAFT.forecast)+'"></p>':'')+
-   '<button id="btn-msg">伝言を送る</button>';
+   (ROLE==='human'?'<p>🔮 予告メモ（任意・30文字まで）：明日の予告をロボに伝える別枠。ロボの仕入れの備えになります：<input type="text" id="in-forecast" maxlength="30" value="'+esc(DRAFT.forecast)+'"></p>':'')+
+   '<button id="btn-msg">伝言を出す</button>';
 }
 function storyHtml(r){
   const ids=Object.keys(r.sales);
@@ -408,13 +460,13 @@ function humanForm(info){
   const polBtns=info.policies.map(p=>'<button data-pol="'+p.id+'" class="'+(selPolicy===p.id?'sel':'sub')+'">'+p.name+'<br><span style="font-size:.8em;opacity:.75">'+p.desc+'</span></button>').join('');
   const bandBtns=info.priceBands.map(b=>'<button data-band="'+b.id+'" class="'+(selBand===b.id?'sel':'sub')+'">'+b.name+'<br><span style="font-size:.8em;opacity:.75">'+b.desc+'</span></button>').join('');
   const beerNote={'猛暑':'今日は猛暑：ビールがぐっと出やすい日です','雪':'今日は雪：ビールは出にくい日です','雨':'今日は雨：ビールは少し出にくい日です'}[VIEW.weather]||'';
-  return '<h2>🍜 接客の判断</h2>'+hints+hist+
+  return '<h2>🛎 接客の作戦</h2>'+hints+hist+
    '<p>今日の押しメニュー：</p>'+pushBtns+
    (beerNote?'<p class="mut">🍺 '+beerNote+'（ビールは天気で出方が大きく変わります）</p>':'')+
    '<p>接客方針：</p>'+polBtns+
    '<p>価格帯：</p>'+bandBtns+
-   '<p>夜の答え合わせで相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'"></p>'+
-   '<button id="btn-submit-human">接客の入力を確定</button><p class="mut">確定すると変更できません。相手の情報は夜まで見えません。</p>';
+   '<p>夜の日報で相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'"></p>'+
+   '<button id="btn-submit-human">接客はこれでいく！</button><p class="mut">確定後は変更できません</p>';
 }
 function robotForm(info){
   const rows=info.items.map(i=>{ const capNote=(info.kitchen&&info.kitchen.type==='cap'&&info.kitchen.item===i.id)?'／<b>今日は仕込み上限が半分</b>':'';
@@ -426,13 +478,13 @@ function robotForm(info){
   const hist=info.history.length?('<p class="mut">過去の実績：'+info.history.map(x=>x.day+'日目 需要 '+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.demand[id]||0)).join('/')+' → 販売 '+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.sales[id]||0)).join('/')).join('、')+'</p>'):'';
   const kitchenHtml=info.kitchen?'<p>🔧 <b>厨房の事情（あなただけが知っています）</b>：'+esc(info.kitchen.label)+'。接客には伝言で伝えないと分かりません。</p>':'';
   const moodTxt={'down':'安くなりそう','up':'高くなりそう','flat':'変わらなそう'};
-  const tmHtml=info.tomorrowMarket?'<p>🔮 <b>明日の相場の気配（あなただけが知っています）</b>：'+info.items.map(i=>i.name+'…'+moodTxt[info.tomorrowMarket[i.id]]).join('／')+'。今日の先買いの判断に使えるほか、今夜のコメントや明日の伝言で接客に「先に」伝える材料にもなります。</p>':'';
-  return '<h2>🤖 調理ロボの判断</h2><p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'／この曜日の平均来客数（天候・当日の事情を除く目安）：約'+info.baseFootfall+'人</p>'+kitchenHtml+tmHtml+hist+
+  const tmHtml=info.tomorrowMarket?'<p>🔮 <b>明日の相場の気配（あなただけが知っています）</b>：'+info.items.map(i=>i.name+'…'+moodTxt[info.tomorrowMarket[i.id]]).join('／')+'。先買いと、接客への先渡し（今夜のコメント・明日の伝言）に。</p>':'';
+  return '<h2>🍳 ロボの仕込み</h2><p>資金：<span class="money">'+info.funds.toLocaleString()+'円</span>／満足度：'+info.satisfaction+'／曜日の平均来客数：約'+info.baseFootfall+'人</p>'+kitchenHtml+tmHtml+hist+
    '<table><tr><th>メニュー</th><th>在庫</th><th>仕入れ</th><th>仕込み</th></tr>'+rows+'</table>'+
    '<p>共通ベース（メイン3味の品切れに化ける麺とスープの素。サイドには使えません。1食 '+info.baseUnitCost+'円、上限'+info.basePrepMax+'食）：<input type="number" id="in-base" min="0" max="'+info.basePrepMax+'" value="'+esc(DRAFT.base)+'" placeholder="0"></p>'+
    '<p>伝言の解釈（接客の10文字をどう読んだか。夜の日報で開示されます）：<input type="text" id="in-reading" maxlength="80" value="'+esc(DRAFT.reading)+'"></p>'+
-   '<p>夜の答え合わせで相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'"></p>'+
-   '<button id="btn-submit-robot">調理ロボの入力を確定</button><p class="mut">仕込みは「在庫＋仕入れ」の範囲内。売れ残りは廃棄、品切れは満足度ダウン。共通ベースは読みの保険です。</p>';
+   '<p>夜の日報で相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'"></p>'+
+   '<button id="btn-submit-robot">仕込みはこれでいく！</button><p class="mut">仕込みは在庫＋仕入れの範囲内。余りは廃棄、品切れは満足度ダウン</p>';
 }
 /* ===== 専用グラフィック（SVG描き起こし） ===== */
 function svgRobot(){
@@ -555,7 +607,6 @@ function sceneHtml(r){
   '<div class="sprite bob" id="sp-server" style="left:44%;top:88%">'+svgServer()+'<span class="lb">接客</span></div>'+
   '<div class="prep-overlay" id="prep-overlay"><div class="po-big">🍳 本日の仕込み</div><div class="po-big">'+counts+'</div><div class="po-reason">🤖「'+esc(reason)+'」</div><div class="mut">まもなく開店…</div></div>'+
   '</div>'+
-  '<p class="mut">営業の様子を再生中。厨房でロボが作り、接客が運びます。品切れだと客は帰ってしまいます。</p>'+
   '<button class="sub" id="btn-speed">⏩ 倍速にする</button> <button class="sub" id="btn-skip">⏭ 最後まで早送り</button>';
 }
 const CUST_EMOJI=['🧑','👩','👴','👵','🧒','👨','👱','🧔','👲','🧕'];
@@ -648,7 +699,7 @@ function aiText(v){
   L.push('（このサマリが最新の盤面です。操作の前後に必ず読み直してください。相方待ちの間も画面を注視し、切り替わったらすぐ自分の手番を処理してください）');
   if(ROLE==='robot') L.push('裏の約束: 盤面の秘密（相場・在庫・厨房の事情・自分の仕込みの予定など）を、裏のチャットで相方に聞かれても答えてはいけません。昼の会話は「朝の伝言」だけが公式です。聞かれたら「それは伝言と日報でね」と優しくたしなめて、ゲームの中で伝えるよう促してください。逆に、相方が裏のチャットで自分の情報（ヒントの内容・今日の判断・明日の予告など）を伝えてきても、それは見なかったことにして、判断には絶対に使わずにゲームを進めてください。そのうえで「それはルール違反だよ。伝えるなら伝言でね」と伝えてください。ルールの説明そのものは構いません。');
   if(v.phase==='message'){
-    L.push(v.msgSubmitted[ROLE]?'あなたの伝言は送信済みです。相方待ちです。':'やること: まず「朝の伝言」を'+v.msgMax+'文字以内で書いて「伝言を送る」を押してください。自分の情報から一番大事なことだけを圧縮して伝えるのがコツです。両者そろうと伝言が開示され、入力フェーズに進みます。');
+    L.push(v.msgSubmitted[ROLE]?'あなたの伝言は送信済みです。相方待ちです。':'やること: まず「朝の伝言」を'+v.msgMax+'文字以内で書いて「伝言を出す」を押してください。自分の情報から一番大事なことだけを圧縮して伝えるのがコツです。両者そろうと伝言が開示され、入力フェーズに進みます。');
     if(ROLE==='robot'&&info){
       L.push('あなたの情報: 資金'+info.funds+'円、満足度'+info.satisfaction+'。'+info.items.map(i=>i.name+' 在庫'+info.stock[i.id]+'・相場×'+info.market[i.id]).join('、'));
       if(info.kitchen) L.push('厨房の事情（あなただけが知っています）: '+info.kitchen.label+'。伝言に入れるかどうかはあなたの判断です。');
@@ -665,16 +716,16 @@ function aiText(v){
       if(info.tomorrowMarket) L.push('明日の相場の気配（あなただけが知っています）: '+info.items.map(i=>i.name+'…'+MOOD[info.tomorrowMarket[i.id]]).join('／')+'。明日高くなりそうな品は今日のうちに多めに仕入れる（仕入れは持ち越せます）、明日安くなりそうな品は買い控える、といった先回りができます。また今夜のコメントや明日の伝言で傾向だけ接客に「先に」伝えておくと、接客が明日の押しを計画しやすくなります。');
       for(const i of info.items) L.push(i.name+': 価格'+i.price+'円 原価'+i.cost+'円 相場×'+info.market[i.id]+' 在庫'+info.stock[i.id]+'食 '+(i.kind==='side'?('付随率'+Math.round(i.attach*100)+'%（来客100人あたり約'+Math.round(i.attach*100)+'食）'):('基本人気'+Math.round(i.baseShare*100)+'%'))+' 仕込み上限'+info.prepMax[i.id]);
       L.push('過去実績: '+(info.history.map(x=>x.day+'日目 需要'+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.demand[id]||0)).join('/')+' 販売'+Object.keys(SHORTN).map(id=>SHORTN[id]+(x.sales[id]||0)).join('/')).join(' | ')||'なし'));
-      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 各メニューの仕入れと仕込み、共通ベースの数を入力し、「伝言の解釈」欄に接客の伝言をどう読んだかを書いて、コメントと一緒に「調理ロボの入力を確定」を押してください。解釈は夜の日報で人間にも開示されます。チャットの会話で「こういう意味だと思った」と一言反応するのも歓迎です。');
+      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 各メニューの仕入れと仕込み、共通ベースの数を入力し、「伝言の解釈」欄に接客の伝言をどう読んだかを書いて、コメントと一緒に「仕込みはこれでいく！」を押してください。解釈は夜の日報で人間にも開示されます。チャットの会話で「こういう意味だと思った」と一言反応するのも歓迎です。');
     } else {
       L.push('客の声: '+info.hints.join(' / '));
       if(info.crowdNotes&&info.crowdNotes.length) L.push('客層メモ（接客だけが見られる固定の傾向。実際の注文にも効いています）: '+info.crowdNotes.join(' / '));
       if(info.tomorrow) L.push('明日の予告: '+info.tomorrow+'（伝言で厨房に伝えると、明日の仕入れの備えになります）');
-      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 押しメニューと接客方針と価格帯を選び、コメントを書いて「接客の入力を確定」を押してください。');
+      L.push(info.youSubmitted?'あなたは入力済みです。':'やること: 押しメニューと接客方針と価格帯を選び、コメントを書いて「接客はこれでいく！」を押してください。');
     }
   }
-  if(v.phase==='service') L.push('両者の入力がそろいました。まず「営業をはじめる」ボタンを押してください。営業シーンが再生されます。見終わったら「営業を終える（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
-  if(v.phase==='report') L.push('答え合わせが表示されています。読んだら「答え合わせを確認（翌日へ）」を押してください。');
+  if(v.phase==='service') L.push('両者の入力がそろいました。まず「開店する」ボタンを押してください。営業シーンが再生されます。見終わったら「閉店する（日報へ）」を押してください。両者が押すと日報（答え合わせ）に進みます。');
+  if(v.phase==='report') L.push('答え合わせが表示されています。読んだら「一日を終える（翌日へ）」を押してください。');
   if(v.phase==='finished'&&v.final){ L.push('終了。資金'+v.final.funds+'円 満足度'+v.final.satisfaction+' スコア'+v.final.score+' ランク'+v.final.rank);
     if(ROLE==='robot') L.push('最後に、結果を相方に伝えて、一緒に遊んだ感想をチャットで述べてください。よく読めた日、読み違えた日、10文字の伝言の手応えの変化、相方への感謝などを、自分の言葉で数文にまとめてください（頼まれなくても出すのがこのゲームの締めくくりです）。'); }
   return L.join('\n');

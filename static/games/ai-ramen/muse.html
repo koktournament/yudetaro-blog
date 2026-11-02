@@ -26,7 +26,7 @@
 
 <p>You have been invited to play <b>AI Ramen: Muse Branch</b> (AIラーメン Muse支店), a cooperative browser game. A human runs the front of the house; <b>you are the kitchen robot</b>. This page is your complete manual. Read it once, then open the game page and play. You do not need any other instructions from the human.</p>
 
-<div class="key"><b>Your loop, in one paragraph:</b> Open the game page → enter with the room code as the robot → each morning, re-read the state summary at the bottom of the game page (it is your source of truth) → send a ≤10-character morning message → after both messages are revealed, decide buying/prepping and submit → when both sides have submitted, press <span class="ui">▶ 営業をはじめる</span>, watch the service scene, then press <span class="ui">営業を終える（日報へ）</span> → read the nightly report and press <span class="ui">答え合わせを確認（翌日へ）</span>. Repeat for 7 days. While you wait for the human, <b>keep watching the page</b> — act as soon as it becomes your turn.</div>
+<div class="key"><b>Your loop, in one paragraph:</b> Open the game page → enter with the room code as the robot → each morning, re-read the state summary at the bottom of the game page (it is your source of truth) → send a ≤10-character morning message → after both messages are revealed, decide buying/prepping and submit → when both sides have submitted, press <span class="ui">🔔 開店する</span>, watch the service scene, then press <span class="ui">閉店する（日報へ）</span> → read the nightly report and press <span class="ui">一日を終える（翌日へ）</span>. Repeat for 7 days. While you wait for the human, <b>keep watching the page</b> — act as soon as it becomes your turn.</div>
 
 <h2>1. The game</h2>
 <ul>
@@ -63,7 +63,7 @@
 <h2>5. A day, phase by phase</h2>
 
 <h3>Phase 1 — Morning message (<code>message</code>)</h3>
-<p>Write the most decision-relevant facts from <i>your</i> side in <b>at most 10 characters</b> (the server rejects longer ones; Japanese characters count one each) and press <span class="ui">伝言を送る</span>. Both messages are hidden until both are in, then revealed together. Your candidate list is longer than 10 characters can hold: six items' market prices, six stock levels, and possibly a kitchen circumstance that changes what you can prep ("味噌上限半分" = miso's prep cap is halved today). Triage is the skill: send what would most change the human's decisions (an extreme price, a cap the human might push straight into, a stock-out of what they forecast yesterday), and let the rest go unsaid. Say it from the kitchen's perspective; the human knows their side already.</p>
+<p>Write the most decision-relevant facts from <i>your</i> side in <b>at most 10 characters</b> (the server rejects longer ones; Japanese characters count one each) and press <span class="ui">伝言を出す</span>. Both messages are hidden until both are in, then revealed together. Your candidate list is longer than 10 characters can hold: six items' market prices, six stock levels, and possibly a kitchen circumstance that changes what you can prep ("味噌上限半分" = miso's prep cap is halved today). Triage is the skill: send what would most change the human's decisions (an extreme price, a cap the human might push straight into, a stock-out of what they forecast yesterday), and let the rest go unsaid. Say it from the kitchen's perspective; the human knows their side already.</p>
 
 <h3>Phase 2 — Daytime decisions (<code>input</code>)</h3>
 <p>After the messages are revealed, decide for each of the six menu items:</p>
@@ -75,13 +75,13 @@
   <li><b>伝言の解釈 (reading)</b>: write, in your own words, how you interpreted the human's morning message and how it changed your decision. This is published to the human in the nightly report. Be honest and specific — this is how the two of you calibrate.</li>
   <li><b>コメント (comment)</b>: a short note for the report (e.g., your reasoning, or a reply to the human).</li>
 </ul>
-<p>Then press <span class="ui">調理ロボの入力を確定</span>. Also, in the chat with your human, react to their message in one line ("I read that as …") — it helps them learn how their words land.</p>
+<p>Then press <span class="ui">仕込みはこれでいく！</span>. Also, in the chat with your human, react to their message in one line ("I read that as …") — it helps them learn how their words land.</p>
 
 <h3>Phase 3 — Service (<code>service</code>)</h3>
-<p>When both sides have submitted, a panel shows today's prep and a <span class="ui">▶ 営業をはじめる</span> button. The scene does <b>not</b> start by itself — press the button on your own screen when you are ready. The animated service scene then plays (your robot even mutters in the kitchen). When you have seen enough, press <span class="ui">営業を終える（日報へ）</span>. The day advances only when <b>both</b> sides have pressed it.</p>
+<p>When both sides have submitted, a panel shows today's prep and a <span class="ui">🔔 開店する</span> button. The scene does <b>not</b> start by itself — press the button on your own screen when you are ready. The animated service scene then plays (your robot even mutters in the kitchen). When you have seen enough, press <span class="ui">閉店する（日報へ）</span>. The day advances only when <b>both</b> sides have pressed it.</p>
 
 <h3>Phase 4 — Nightly report (<code>report</code>)</h3>
-<p>Read the whole report: the day's true footfall event and taste lean, footfall, demand vs. your prep, waste, stockouts, money, the human's decisions and comment, your own reading as published — and the kitchen circumstance, now revealed to the human too (if they pushed an item whose prep was capped today, this is where they learn why you prepped less of it). Then press <span class="ui">答え合わせを確認（翌日へ）</span>. Both sides must confirm to start the next day. <b>Exception: on Day 7 there is no confirm button</b> — the final report and your rank appear directly after service.</p>
+<p>Read the whole report: the day's true footfall event and taste lean, footfall, demand vs. your prep, waste, stockouts, money, the human's decisions and comment, your own reading as published — and the kitchen circumstance, now revealed to the human too (if they pushed an item whose prep was capped today, this is where they learn why you prepped less of it). Then press <span class="ui">一日を終える（翌日へ）</span>. Both sides must confirm to start the next day. <b>Exception: on Day 7 there is no confirm button</b> — the final report and your rank appear directly after service.</p>
 
 <h3>Phase 5 — Finished (<code>finished</code>)</h3>
 <p>The final screen shows funds, satisfaction, score, and rank. Tell the human the result in chat. There is a <span class="ui">📋 結果をコピー（X投稿用）</span> button the human may want to use.</p>
