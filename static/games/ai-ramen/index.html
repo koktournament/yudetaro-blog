@@ -612,6 +612,28 @@ function sceneHtml(r){
 const CUST_EMOJI=['🧑','👩','👴','👵','🧒','👨','👱','🧔','👲','🧕'];
 const ITEM_TAG={shoyu:'醤油！',miso:'味噌！',shio:'塩！',gyoza:'餃子！',karaage:'唐揚げ！',beer:'ビール！'};
 const BANDP={normal:1,premium:1.15,value:0.9};
+function buildSceneEvents(r){
+  // 日報の数字からシーン用の注文列を作り直す。品目ごとに「提供→ベース代用→品切れ」の順序を保ったまま
+  // 品目間だけをランダムに混ぜるので、バーが尽きる前に品切れが出たり、売り切れたのにバーが残ったりしない。
+  const queues=[];
+  for(const id in NAMES){
+    const q=[];
+    const fb=(r.fromBase||{})[id]||0;
+    const s=Math.max(0,(r.sales[id]||0)-fb), b=fb, o=r.stockout[id]||0;
+    for(let i=0;i<s;i++) q.push({item:id,ok:true});
+    for(let i=0;i<b;i++) q.push({item:id,ok:true,base:true});
+    for(let i=0;i<o;i++) q.push({item:id,ok:false});
+    if(q.length) queues.push(q);
+  }
+  const evs=[];
+  let remain=queues.reduce((a,q)=>a+q.length,0);
+  while(remain>0){
+    let pick=Math.floor(Math.random()*remain), qi=0;
+    while(pick>=queues[qi].length){ pick-=queues[qi].length; qi++; }
+    evs.push(queues[qi].shift()); remain--;
+  }
+  return evs;
+}
 function startScene(r){
   window._sceneDay=r.day;
   const root=$('scene-root'); if(!root) return;
@@ -643,7 +665,7 @@ function startScene(r){
   const ambientTimer=setInterval(()=>{ if(done||stopped) return; if(Math.random()<0.55) robotSay(pickM(MT_AMBIENT)); },4600);
   function stopScene(){ if(stopped) return; stopped=true; seTimers.forEach(clearTimeout); clearInterval(ambientTimer); stopAllSE(); }
   window._sceneStop=stopScene;
-  const evs=r.timeline||[];
+  const evs=buildSceneEvents(r);
   const per=Math.max(200, Math.min(1000, 68000/Math.max(1,evs.length)));
   const SD=1.55; const dly=ms=>Math.round(ms*SD/speed);
   function move(el,x,y){ el.style.left=x+'%'; el.style.top=y+'%'; }
@@ -667,7 +689,8 @@ function startScene(r){
         setTimeout(()=>{ move(robot,27,50); move(server,38,tp[1]);
           setTimeout(()=>{ if(stopped) return; move(server,tp[0]-7,tp[1]);
             let usedBase=false;
-            if(left[ev.item]<=0 && baseLeft>0 && MAINS.includes(ev.item)){ baseLeft--; usedBase=true; } else if(left[ev.item]>0){ left[ev.item]--; }
+            if(ev.base && baseLeft>0){ baseLeft--; usedBase=true; }
+            else if(left[ev.item]<=0 && baseLeft>0 && MAINS.includes(ev.item)){ baseLeft--; usedBase=true; } else if(left[ev.item]>0){ left[ev.item]--; }
             served++; money+=priceAdj[ev.item]; drawHud();
             bubble(tp[0],tp[1],'😋',700);
             playSE('serve'); laterSE('slurp',450);
