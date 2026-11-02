@@ -285,6 +285,7 @@ function submit(state, role, decision) {
 function resolveDay(state) {
   const d = state.cur, H = state.submissions.human, R = state.submissions.robot;
   ensureStock(state);
+  const fundsBefore = state.funds, satBefore = state.satisfaction; // 日報の物語表示用（変化を感情で伝えるため）
   const pol = POLICIES.find(p => p.id === H.policy);
   const band = PRICE_BANDS.find(b => b.id === H.priceBand);
   // 来客数
@@ -385,8 +386,9 @@ function resolveDay(state) {
   const report = {
     day: d.day, weekday: d.weekday, weather: d.weather.name,
     messages: { human: state.msgs.human, robot: state.msgs.robot, forecast: state.msgs.forecast },
-    eventLabel: d.event.label, eventStrength: d.strength,
-    leanLabel: d.lean ? d.lean.label : null, leanStrength: d.leanStrength,
+    eventLabel: d.event.label, eventStrength: d.strength, eventId: d.event.id,
+    leanLabel: d.lean ? d.lean.label : null, leanStrength: d.leanStrength, leanId: d.lean ? d.lean.id : null,
+    fundsBefore, satBefore,
     kitchenLabel: kitchenLabel(d.kitchen),
     footfall, demand, sales, waste, stockout, fromBase,
     basePrep: R.basePrep || 0, baseUsed, baseWaste, baseCost,

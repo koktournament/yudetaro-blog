@@ -24,6 +24,11 @@
   .sprite .lb{display:block;font-size:9px;color:#444;background:rgba(255,255,255,.8);border-radius:4px;padding:0 3px}
   .bubble{position:absolute;font-size:11px;background:#fff;border:1px solid #999;border-radius:8px;padding:1px 5px;transform:translate(-50%,-130%);white-space:nowrap;z-index:4}
   .prepboard{background:#fff8ea;border:2px solid #d9b36c;border-radius:10px;padding:10px 12px;margin:8px 0}
+  .story{background:#fff8ea;border:2px solid #d9b36c;border-radius:10px;padding:10px 12px;margin:8px 0}
+  .story .hl{font-size:17px;font-weight:bold;margin-bottom:4px}
+  .story .sline{font-size:14px;margin:2px 0}
+  .numdetails{margin:8px 0}
+  .numdetails summary{cursor:pointer;color:#7a6432;font-size:14px;padding:4px 0}
   .prepboard .po-counts{font-size:17px;font-weight:bold}
   .prepboard .po-reason{font-size:15px;margin-top:4px}
   .stocks{margin:6px 0}
@@ -351,18 +356,48 @@ function messageForm(info){
    (ROLE==='human'?'<p>🔮 予告メモ（任意・30文字まで）：「明日の予告」をロボに伝えたいときだけ書いてください。伝言とは別枠で、伝言と一緒に送られ、昼の判断でロボに渡ります（ロボが今日の仕入れで明日に備えられます）：<input type="text" id="in-forecast" maxlength="30" value="'+esc(DRAFT.forecast)+'"></p>':'')+
    '<button id="btn-msg">伝言を送る</button>';
 }
+function storyHtml(r){
+  const ids=Object.keys(r.sales);
+  const totalSold=ids.reduce((a,id)=>a+r.sales[id],0);
+  const totalOut=ids.reduce((a,id)=>a+(r.stockout[id]||0),0);
+  const top=ids.reduce((a,id)=>r.sales[id]>r.sales[a]?id:a,ids[0]);
+  const worst=ids.reduce((a,id)=>(r.stockout[id]||0)>(r.stockout[a]||0)?id:a,ids[0]);
+  let hl;
+  if(totalOut===0&&totalSold>=130) hl='🎉 大繁盛の一日！ 品切れゼロで、来た人みんなに食べてもらえた';
+  else if(totalOut===0) hl='😊 穏やかな一日。品切れなしで営業終了';
+  else if(totalOut>=10) hl='😰 品切れ続出…ヒヤヒヤの一日だった';
+  else if(r.revenue>=100000) hl='✨ 売上の大きな一日！';
+  else hl='🍜 '+nameOf(top)+'が主役の一日';
+  const evF={'school':'近所の高校の行事で、学生さんの姿が目立った','dantai':'団体さんがどっと押し寄せた','jouren':'常連さんの顔がそろった','flu':'体調不良の人が多く、静かな客足だった','kouji':'工事の影響で、通りが静かだった','none':'いつもの通りの顔ぶれだった'}[r.eventId]||('当日の正体は「'+esc(r.eventLabel)+'」だった');
+  const L=[];
+  L.push('👥 来客'+r.footfall+'人。'+evF+(r.leanLabel?'。'+esc(r.leanLabel)+'。':''));
+  L.push('⭐ 主役は'+nameOf(top)+'で'+r.sales[top]+'食。'+(r.stockout[top]>0?'それでも'+r.stockout[top]+'食足りなかった…':'仕込みが追いついて、次々と運ばれていった'));
+  if(totalOut>0&&worst!==top) L.push('🙏 '+nameOf(worst)+'は'+r.stockout[worst]+'食足りず、帰ってしまったお客さんがいた。ごめんなさい…');
+  if(r.baseUsed>0) L.push('🛟 共通ベースが'+r.baseUsed+'食を肩代わり。あれがなかったら、もっと品切れしていた');
+  else if(r.baseWaste>=8) L.push('🧺 ベースは'+r.baseWaste+'食余ってしまった。保険のかけすぎだったかも');
+  if(typeof r.satBefore==='number'){
+    const dSat=r.satisfactionAfter-r.satBefore;
+    const dFunds=(typeof r.fundsBefore==='number')?r.fundsAfter-r.fundsBefore:null;
+    L.push((dSat>0?'💛':dSat<0?'💔':'💚')+' 満足度は'+r.satBefore+'→'+r.satisfactionAfter+(dSat>0?'。お客さんの笑顔が増えた気がする':dSat<0?'。品切れが響いてしまった':'。安定した一日だった')+(dFunds!==null?'／資金は'+r.fundsAfter.toLocaleString()+'円（'+(dFunds>=0?'+':'')+dFunds.toLocaleString()+'円）':''));
+  } else {
+    L.push('💚 満足度は'+r.satisfactionAfter+'／資金は'+r.fundsAfter.toLocaleString()+'円');
+  }
+  return '<div class="story"><div class="hl">'+hl+'</div>'+L.map(t=>'<div class="sline">'+t+'</div>').join('')+'</div>';
+}
 function reportHtml(r){
   const rows=Object.keys(r.sales).map(id=>{ return '<tr><td>'+nameOf(id)+'</td><td>'+r.demand[id]+'</td><td>'+(r.robotDecision.prep[id])+'</td><td>'+r.sales[id]+(r.fromBase&&r.fromBase[id]?' <span class="mut">(内ベース'+r.fromBase[id]+')</span>':'')+'</td><td>'+r.waste[id]+'</td><td>'+r.stockout[id]+'</td></tr>'; }).join('');
   const ev=r.eventLabel+(r.eventStrength==='weak'?'（弱）':r.eventStrength==='strong'?'（強）':'');
-  return '<p>朝の伝言 ― 接客：「'+esc(r.messages?r.messages.human:'')+'」／調理ロボ：「'+esc(r.messages?r.messages.robot:'')+'」'+(r.messages&&r.messages.forecast?'／🔮予告メモ：「'+esc(r.messages.forecast)+'」':'')+'</p>'+
+  return storyHtml(r)+
+  '<p>朝の伝言 ― 接客：「'+esc(r.messages?r.messages.human:'')+'」／調理ロボ：「'+esc(r.messages?r.messages.robot:'')+'」'+(r.messages&&r.messages.forecast?'／🔮予告メモ：「'+esc(r.messages.forecast)+'」':'')+'</p>'+
   (r.robotDecision.reading?'<p>🤖 ロボの解釈：「'+esc(r.robotDecision.reading)+'」</p>':'')+
-  '<p>天気：'+esc(r.weather)+'／当日の正体：<b>'+esc(ev)+'</b>'+(r.leanLabel?'／味の偏り：<b>'+esc(r.leanLabel)+'</b>'+(r.leanStrength==='weak'?'（弱）':r.leanStrength==='strong'?'（強）':''):'')+'／来客数：'+r.footfall+'人</p>'+
   (r.kitchenLabel?'<p>🤖 厨房の事情（ロボだけが知っていた）：'+esc(r.kitchenLabel)+'</p>':'')+
+  '<p>接客の判断 ― 押し：'+(r.humanDecision.push?nameOf(r.humanDecision.push):'なし')+'／方針：'+policyName(r.humanDecision.policy)+'／価格帯：'+bandName(r.humanDecision.priceBand)+'<br>接客のコメント：「'+esc(r.humanDecision.comment)+'」</p>'+
+  '<p>調理ロボのコメント：「'+esc(r.robotDecision.comment)+'」</p>'+
+  '<details class="numdetails"><summary>📊 数字の詳細（正体・需要・仕込み・売上）</summary>'+
+  '<p>天気：'+esc(r.weather)+'／当日の正体：<b>'+esc(ev)+'</b>'+(r.leanLabel?'／味の偏り：<b>'+esc(r.leanLabel)+'</b>'+(r.leanStrength==='weak'?'（弱）':r.leanStrength==='strong'?'（強）':''):'')+'／来客数：'+r.footfall+'人</p>'+
   '<table><tr><th>メニュー</th><th>需要</th><th>仕込み</th><th>販売</th><th>廃棄</th><th>品切れ</th></tr>'+rows+'</table>'+
   (r.basePrep?'<p>共通ベース：'+r.basePrep+'食仕込み → '+r.baseUsed+'食が品切れの肩代わり、'+r.baseWaste+'食廃棄（原価 '+r.baseCost.toLocaleString()+'円）</p>':'')+
-  '<p>売上 <span class="money">'+r.revenue.toLocaleString()+'円</span> ― 仕入れ '+r.buyCost.toLocaleString()+'円 ― 固定費 '+r.fixedCost.toLocaleString()+'円 ＝ 資金 <b class="money">'+r.fundsAfter.toLocaleString()+'円</b>／満足度 '+r.satisfactionAfter+'</p>'+
-  '<p>接客の判断 ― 押し：'+(r.humanDecision.push?nameOf(r.humanDecision.push):'なし')+'／方針：'+policyName(r.humanDecision.policy)+'／価格帯：'+bandName(r.humanDecision.priceBand)+'<br>接客のコメント：「'+esc(r.humanDecision.comment)+'」</p>'+
-  '<p>調理ロボのコメント：「'+esc(r.robotDecision.comment)+'」</p>';
+  '<p>売上 <span class="money">'+r.revenue.toLocaleString()+'円</span> ― 仕入れ '+r.buyCost.toLocaleString()+'円 ― 固定費 '+r.fixedCost.toLocaleString()+'円 ＝ 資金 <b class="money">'+r.fundsAfter.toLocaleString()+'円</b>／満足度 '+r.satisfactionAfter+'</p></details>';
 }
 function humanForm(info){
   selPush=selPush===undefined?null:selPush; selPolicy=selPolicy||'normal'; selBand=selBand||'normal';
@@ -467,14 +502,18 @@ function svgCustomer(v){
 function sceneBackdrop(){
   const pot=(x,y,w)=>'<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="32" rx="7" fill="#90a4ae" stroke="#607d8b" stroke-width="2"/><rect x="'+(x-4)+'" y="'+(y-7)+'" width="'+(w+8)+'" height="10" rx="5" fill="#78909c"/>'+
     '<circle class="steam-wisp" cx="'+(x+w*0.3)+'" cy="'+(y-14)+'" r="4.6" fill="#ffffff"/><circle class="steam-wisp" style="animation-delay:.9s" cx="'+(x+w*0.55)+'" cy="'+(y-16)+'" r="3.6" fill="#ffffff"/><circle class="steam-wisp" style="animation-delay:1.7s" cx="'+(x+w*0.75)+'" cy="'+(y-13)+'" r="4" fill="#ffffff"/></g>';
-  const strip=(x,chars)=>{ let t='<rect x="'+x+'" y="10" width="36" height="58" fill="#fffdf5" stroke="#c9b68a" stroke-width="1.4"/>'; chars.split('').forEach((ch,i)=>{ t+='<text x="'+(x+18)+'" y="'+(30+i*19)+'" font-size="16" fill="#37474f" text-anchor="middle">'+ch+'</text>'; }); return t+'</g>'.replace('</g>','') ; };
-  const table=(cx,cy)=>'<g><rect x="'+(cx-46)+'" y="'+(cy+26)+'" width="9" height="14" fill="#8d5a2b"/><rect x="'+(cx+37)+'" y="'+(cy+26)+'" width="9" height="14" fill="#8d5a2b"/><rect x="'+(cx-58)+'" y="'+(cy-8)+'" width="116" height="38" rx="10" fill="#b07a45" stroke="#8d5a2b" stroke-width="2"/><rect x="'+(cx-58)+'" y="'+(cy-8)+'" width="116" height="12" rx="6" fill="#c98d54"/><path d="M'+(cx-11)+' '+(cy+16)+' a11 6.5 0 0 0 22 0 Z" fill="#ffffff" stroke="#999999" stroke-width="1.2"/></g>';
+  const strip=(x,chars)=>{ let t='<g><line x1="'+(x+18)+'" y1="0" x2="'+(x+18)+'" y2="10" stroke="#8d6e63" stroke-width="2"/><rect x="'+x+'" y="10" width="36" height="58" fill="#fffdf5" stroke="#c9b68a" stroke-width="1.4"/>'; chars.split('').forEach((ch,i)=>{ t+='<text x="'+(x+18)+'" y="'+(30+i*19)+'" font-size="16" fill="#37474f" text-anchor="middle">'+ch+'</text>'; }); return t+'</g>'; };
+  const lamp=(x)=>'<g><ellipse cx="'+x+'" cy="128" rx="98" ry="54" fill="url(#lampglow)"/><line x1="'+x+'" y1="0" x2="'+x+'" y2="24" stroke="#4e342e" stroke-width="2.4"/><path d="M'+(x-27)+' 46 L'+(x-9)+' 24 H'+(x+9)+' L'+(x+27)+' 46 Z" fill="#2f4f4f" stroke="#1d3333" stroke-width="1.6"/><rect x="'+(x-27)+'" y="44" width="54" height="4" rx="2" fill="#1d3333"/><circle cx="'+x+'" cy="50" r="5.5" fill="#ffe9a8"/></g>';
+  const table=(cx,cy)=>'<g><ellipse cx="'+cx+'" cy="'+(cy+34)+'" rx="66" ry="8" fill="#000000" opacity=".10"/><rect x="'+(cx-46)+'" y="'+(cy+26)+'" width="9" height="14" fill="#8d5a2b"/><rect x="'+(cx+37)+'" y="'+(cy+26)+'" width="9" height="14" fill="#8d5a2b"/><rect x="'+(cx-72)+'" y="'+(cy+8)+'" width="16" height="16" rx="4" fill="#7a4a21"/><rect x="'+(cx+56)+'" y="'+(cy+8)+'" width="16" height="16" rx="4" fill="#7a4a21"/><rect x="'+(cx-58)+'" y="'+(cy-8)+'" width="116" height="38" rx="10" fill="#b07a45" stroke="#8d5a2b" stroke-width="2"/><rect x="'+(cx-58)+'" y="'+(cy-8)+'" width="116" height="12" rx="6" fill="#c98d54"/><path d="M'+(cx-11)+' '+(cy+16)+' a11 6.5 0 0 0 22 0 Z" fill="#ffffff" stroke="#999999" stroke-width="1.2"/><rect x="'+(cx+18)+'" y="'+(cy+2)+'" width="4" height="14" rx="2" fill="#d7ccc8"/><rect x="'+(cx+30)+'" y="'+(cy-2)+'" width="10" height="14" fill="#fffdf5" stroke="#c9b68a" stroke-width="1"/></g>';
   return '<svg class="backdrop" viewBox="0 0 800 320" preserveAspectRatio="none">'+
-  '<defs><pattern id="tilep" width="26" height="26" patternUnits="userSpaceOnUse"><rect width="26" height="26" fill="#cfd8dc"/><path d="M26 0H0v26" fill="none" stroke="#b0bec5" stroke-width="1.4"/></pattern></defs>'+
-  '<rect x="0" y="0" width="800" height="86" fill="#f7ead2"/>'+
-  '<rect x="240" y="86" width="560" height="234" fill="#dcbd8f"/>'+
-  '<path d="M240 128 h560 M240 172 h560 M240 216 h560 M240 260 h560 M240 304 h560" stroke="#cda878" stroke-width="2"/>'+
-  '<rect x="0" y="86" width="240" height="234" fill="url(#tilep)"/>'+
+  '<defs><pattern id="tilep" width="26" height="26" patternUnits="userSpaceOnUse"><rect width="26" height="26" fill="#cfd8dc"/><path d="M26 0H0v26" fill="none" stroke="#b0bec5" stroke-width="1.4"/></pattern>'+
+  '<radialGradient id="lampglow"><stop offset="0%" stop-color="#ffd76e" stop-opacity=".38"/><stop offset="55%" stop-color="#ffd76e" stop-opacity=".14"/><stop offset="100%" stop-color="#ffd76e" stop-opacity="0"/></radialGradient></defs>'+
+  '<rect x="0" y="0" width="800" height="92" fill="#f7ead2"/>'+
+  '<rect x="0" y="86" width="800" height="7" fill="#b08954"/>'+
+  '<rect x="240" y="93" width="560" height="227" fill="#dcbd8f"/>'+
+  '<path d="M240 137 h560 M240 181 h560 M240 225 h560 M240 269 h560 M240 313 h560" stroke="#cda878" stroke-width="2"/>'+
+  '<rect x="0" y="93" width="240" height="227" fill="url(#tilep)"/>'+
+  '<ellipse cx="118" cy="122" rx="105" ry="40" fill="url(#lampglow)"/>'+
   '<rect x="70" y="6" width="92" height="30" rx="5" fill="#2e4057"/><text x="116" y="28" font-size="18" fill="#ffffff" text-anchor="middle">厨房</text>'+
   '<rect x="8" y="98" width="216" height="50" rx="6" fill="#8d6e63"/><rect x="8" y="92" width="216" height="10" rx="4" fill="#6d4c41"/>'+
   pot(28,62,54)+pot(112,66,46)+
@@ -482,11 +521,12 @@ function sceneBackdrop(){
   '<path d="M24 166 a13 8 0 0 0 26 0 Z" fill="#ffffff" stroke="#999999"/><path d="M56 166 a13 8 0 0 0 26 0 Z" fill="#ffffff" stroke="#999999"/><path d="M88 166 a13 8 0 0 0 26 0 Z" fill="#ffffff" stroke="#999999"/>'+
   '<line x1="196" y1="104" x2="196" y2="128" stroke="#8d6e63" stroke-width="3.4" stroke-linecap="round"/><circle cx="196" cy="133" r="6.4" fill="#cfd8dc" stroke="#607d8b" stroke-width="1.6"/>'+
   '<rect x="240" y="86" width="26" height="234" fill="#a93226"/><rect x="235" y="80" width="36" height="11" rx="4" fill="#7b241c"/>'+
-  strip(316,'醤油')+strip(452,'味噌')+strip(588,'塩')+
-  '<circle cx="726" cy="38" r="21" fill="#ffffff" stroke="#8d6e63" stroke-width="2.4"/><line x1="726" y1="38" x2="726" y2="26" stroke="#333333" stroke-width="2.2" stroke-linecap="round"/><line x1="726" y1="38" x2="736" y2="43" stroke="#333333" stroke-width="2.2" stroke-linecap="round"/>'+
-  '<circle cx="472" cy="12" r="17" fill="#ffd54f" opacity=".22"/><circle cx="472" cy="12" r="9" fill="#ffd54f" opacity=".9"/><circle cx="656" cy="12" r="17" fill="#ffd54f" opacity=".22"/><circle cx="656" cy="12" r="9" fill="#ffd54f" opacity=".9"/>'+
+  strip(300,'醤油')+strip(448,'味噌')+strip(596,'塩')+
+  lamp(382)+lamp(538)+lamp(700)+
+  '<circle cx="770" cy="34" r="16" fill="#ffffff" stroke="#8d6e63" stroke-width="2.2"/><line x1="770" y1="34" x2="770" y2="24" stroke="#333333" stroke-width="2" stroke-linecap="round"/><line x1="770" y1="34" x2="778" y2="38" stroke="#333333" stroke-width="2" stroke-linecap="round"/>'+
   table(472,74)+table(656,74)+table(472,178)+table(656,178)+table(472,272)+table(656,272)+
-  '<rect x="712" y="238" width="80" height="72" rx="6" fill="#8d6e63"/><rect x="720" y="286" width="64" height="9" fill="#5d4037"/><text x="752" y="272" font-size="16" fill="#ffffff" text-anchor="middle">入口</text>'+
+  '<g><rect x="706" y="206" width="22" height="34" fill="#20344f"/><rect x="732" y="206" width="22" height="34" fill="#20344f"/><rect x="758" y="206" width="22" height="34" fill="#20344f"/><text x="743" y="229" font-size="14" fill="#ffffff" text-anchor="middle">麺</text></g>'+
+  '<rect x="712" y="240" width="80" height="72" rx="6" fill="#8d6e63"/><rect x="720" y="288" width="64" height="9" fill="#5d4037"/><text x="752" y="274" font-size="16" fill="#ffffff" text-anchor="middle">入口</text>'+
   '</svg>';
 }
 const SHORTN={shoyu:'醤油',miso:'味噌',shio:'塩',gyoza:'餃子',karaage:'唐揚げ',beer:'ビール'};
