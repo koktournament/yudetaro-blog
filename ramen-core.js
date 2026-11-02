@@ -6,7 +6,10 @@
    v2（2026-11-02 本人の設計決定）:
    - サイドメニュー3品（餃子・唐揚げ・ビール）を追加。需要は来客数への付随率で決まる。
    - イベントを2軸に分離：量のイベント（客足）と味の偏り（需要の寄り）を別々に抽選する。
-   - 厨房の事情（ロボ専用情報）：1品の仕込み上限半分、または1品の仕入れ25%引き。夜の日報で開示。 */
+   - 厨房の事情（ロボ専用情報）：1品の仕込み上限半分、または1品の仕入れ25%引き。夜の日報で開示。
+   v2.3（2026-11-02 本人の号令）:
+   - 客層の注文傾向を実 mechanics 化：その日の客層構成（イベント客層＋偏りの客層）が
+     注文の内訳に実際に効く。傾向表は接客側の客層メモにだけあり、ロボ側には渡さない。 */
 
 const ITEMS = [
   { id: 'shoyu',   name: '醤油ラーメン', price: 800, cost: 260, share: 0.45, kind: 'main' },
@@ -85,10 +88,42 @@ const PRICE_BANDS = [
 ];
 /* 客層メモ（固定の傾向プロフィール。接客側のヒントに客層が出たときだけ併記され、ロボ側には渡さない） */
 const CROWD_NOTES = {
-  gakusei: '学生さん：近所の高校の生徒さん。若いお客さんで、学校行事の日はまとまって来ます',
-  jouren: '常連さん：いつもの顔なじみ。田中さんはいつも醤油を頼む醤油派です',
-  dantai: '団体さん：大人数でまとまって来るお客さん。がっつり食べたい人が多めです',
+  gakusei: '学生さん：近所の高校の生徒さん。学校行事の日はまとまって来ます。注文傾向：ビールはほぼ頼みません。唐揚げと餃子がよく出て、味噌などガッツリ系も人気です',
+  jouren: '常連さん：いつもの顔なじみ。田中さんはいつも醤油を頼む醤油派です。注文傾向：醤油と餃子がよく出て、ビールも少し出ます',
+  dantai: '団体さん：大人数でまとまって来るお客さん。がっつり食べたい人が多めです。注文傾向：ビールがよく出て、唐揚げ・餃子も多めに出ます',
 };
+/* 客層の注文傾向（v2.3〜実 mechanics）：その日の客層の構成が、注文の内訳に実際に効く。
+   イベント客層は「今日はこの客層が増えている」ことを表し、偏りの客層は「その客層の声が偏りの
+   ヒントになっている」ことを表す。倍率は客層の人数ぶんだけ需要に混ざる（混ざる割合は強弱で変わる）。
+   偏り対象の品目そのものには、その客層由来の傾向を重ねない（偏りの倍率が既にその客層の
+   「食べたい」を表しているため）。傾向の対応表は接客側のメモにだけあり、ロボ側には渡さない。 */
+const EVENT_CROWD = { school: 'gakusei', jouren: 'jouren', dantai: 'dantai' };
+const CROWD_TASTE = {
+  gakusei: { shoyu: 1.05, miso: 1.1, shio: 0.9, gyoza: 1.15, karaage: 1.35, beer: 0.15 },
+  jouren: { shoyu: 1.25, miso: 0.95, shio: 1.0, gyoza: 1.2, karaage: 0.95, beer: 1.15 },
+  dantai: { shoyu: 1.0, miso: 1.05, shio: 1.0, gyoza: 1.2, karaage: 1.25, beer: 1.5 },
+};
+function crowdSources(d) {
+  const src = [];
+  const ev = EVENT_CROWD[d.event.id] || null;
+  if (ev) src.push({ crowd: ev, share: d.strength === 'weak' ? 0.3 : 0.5, fromLean: false });
+  if (d.lean && d.lean.crowd) {
+    const share = d.leanStrength === 'weak' ? 0.2 : 0.3;
+    const ex = src.find(s => s.crowd === d.lean.crowd);
+    if (ex) { ex.share = Math.max(ex.share, share); ex.fromLean = true; }
+    else src.push({ crowd: d.lean.crowd, share, fromLean: true });
+  }
+  return src;
+}
+function tasteMult(d, itemId) {
+  let m = 1;
+  for (const s of crowdSources(d)) {
+    if (s.fromLean && d.lean && itemId === d.lean.id) continue; // 偏り対象には重ねない
+    const t = CROWD_TASTE[s.crowd][itemId];
+    if (typeof t === 'number') m *= (1 - s.share) + s.share * t;
+  }
+  return m;
+}
 const BASE_UNIT_COST = 250; // 共通ベース1食分の原価（相場の平均で変動）
 const BASE_PREP_MAX = 40;
 const PREP_MAX = { main: 80, side: 60 };
@@ -262,6 +297,7 @@ function resolveDay(state) {
     let s = it.share;
     if (H.push === it.id) s *= 1.6;
     if (d.lean && d.lean.id === it.id) s *= d.favMult;
+    s *= tasteMult(d, it.id); // 客層の注文傾向
     shares[it.id] = s; sum += s;
   }
   const rng = mulberry32(state.seed + state.day * 104729);
@@ -275,6 +311,7 @@ function resolveDay(state) {
       let rate = it.attach;
       if (H.push === it.id) rate *= 1.6;
       if (d.lean && d.lean.id === it.id) rate *= d.favMult;
+      rate *= tasteMult(d, it.id); // 客層の注文傾向
       if (it.weatherMod && it.weatherMod[d.weather.id]) rate *= it.weatherMod[d.weather.id];
       dem = Math.max(0, Math.round(footfall * rate * (0.95 + rng() * 0.1)));
     }
@@ -412,7 +449,7 @@ function viewFor(state, role) {
   if (role === 'human') {
     // 客層メモ：今日のヒントに登場した客層の分だけ、固定の傾向プロフィールを接客に併記する（ロボ側には渡さない）
     const crowdNotes = [];
-    const evCrowd = { school: 'gakusei', jouren: 'jouren', dantai: 'dantai' }[state.cur.event.id] || null;
+    const evCrowd = EVENT_CROWD[state.cur.event.id] || null;
     if (evCrowd) crowdNotes.push(CROWD_NOTES[evCrowd]);
     if (state.cur.lean && state.cur.lean.crowd && state.cur.lean.crowd !== evCrowd) crowdNotes.push(CROWD_NOTES[state.cur.lean.crowd]);
     base.yourInfo = {
@@ -449,4 +486,4 @@ function viewFor(state, role) {
   return base;
 }
 
-module.exports = { newRoom, submitMessage, submit, ack, viewFor, finalResult, ITEMS, POLICIES, PRICE_BANDS, GAME_DAYS, MSG_MAX, BASE_PREP_MAX };
+module.exports = { newRoom, submitMessage, submit, ack, viewFor, finalResult, ITEMS, POLICIES, PRICE_BANDS, GAME_DAYS, MSG_MAX, BASE_PREP_MAX, CROWD_TASTE, CROWD_NOTES, tasteMult };
