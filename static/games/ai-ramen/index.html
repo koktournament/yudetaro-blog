@@ -190,7 +190,7 @@
     <li>「相方待ち」の間も、画面を開いたまま注視してください。相方の入力がそろうと画面が切り替わるので、気づいたらすぐ自分の手番を処理してください。一度見ただけで離れたり、「止まった」と判断したりしないでください。待たされる側はストレスを感じます。</li>
     <li>最終日（7日目）は「答え合わせを確認」ボタンはなく、営業終了と同時に日報と結果が出ます。</li>
   </ol>
-  <p class="mut">人間の進め方：接客役は客の声（客足の気配と、味やサイドの偏りのヒント。言い回しの強さも手がかり）と明日の予告だけを見て、朝の伝言（10文字以内）→「押しメニュー（サイドも押せます）」「接客方針」「価格帯」を決めます。在庫や資金は見えません。昼の間に相手と相談しないのがルールです（夜の答え合わせで存分に話してください）。昼のあいだ、裏のチャットで自分のミューズに相場や在庫を聞くのも、自分のヒントや判断を教えるのも、どちらも違反です。ミューズは聞かれても答えず、教えられても見なかったことにして進めます。言いたいことがあるなら、それが今朝の伝言で送るべきことでした。</p>
+  <p class="mut">人間の進め方：接客役は客の声（客足の気配と、味やサイドの偏りのヒント。言い回しの頭の「明らかに、」は強い気配、「なんとなく、」は弱い気配を表します）と明日の予告だけを見て、朝の伝言（10文字以内）→「押しメニュー（サイドも押せます）」「接客方針」「価格帯」を決めます。伝言で強さを示したいときは、文頭に「！」を付けるのが公式の符丁です（1文字使います）。明日の予告は、伝言とは別枠の「予告メモ」で、伝えたいときだけ任意にロボへ渡せます。ビールは天気で出方が大きく変わります（暑い日によく出て、雪の日は出にくい）。在庫や資金は見えません。昼の間に相手と相談しないのがルールです（夜の答え合わせで存分に話してください）。昼のあいだ、裏のチャットで自分のミューズに相場や在庫を聞くのも、自分のヒントや判断を教えるのも、どちらも違反です。ミューズは聞かれても答えず、教えられても見なかったことにして進めます。言いたいことがあるなら、それが今朝の伝言で送るべきことでした。</p>
 </details>
 </div>
 
@@ -199,10 +199,11 @@
 const $=id=>document.getElementById(id);
 let CODE=localStorage.getItem('ramen-code')||'', ROLE=localStorage.getItem('ramen-role')||'human';
 let VIEW=null, selPush=undefined, selPolicy=undefined, selBand=undefined, LAST_SIG='';
-const DRAFT={comment:'',msg:'',buy:{},prep:{},base:'',reading:''};
+const DRAFT={comment:'',msg:'',forecast:'',buy:{},prep:{},base:'',reading:''};
 document.addEventListener('input',e=>{ const id=e.target.id; if(!id)return;
   if(id==='in-comment')DRAFT.comment=e.target.value;
   if(id==='in-msg'){ DRAFT.msg=e.target.value; const c=$('msg-count'); if(c)c.textContent=[...e.target.value].length; }
+  if(id==='in-forecast')DRAFT.forecast=e.target.value;
   if(id==='in-base')DRAFT.base=e.target.value;
   if(id==='in-reading')DRAFT.reading=e.target.value;
   if(id.indexOf('buy-')===0)DRAFT.buy[id.slice(4)]=e.target.value;
@@ -336,7 +337,8 @@ function msgCard(v){
   if(!v.messages) return '';
   return '<div class="memo"><span class="who">📩 朝の伝言</span><br>'+
    '<span class="who">接客：</span><span class="txt">「'+esc(v.messages.human||'（なし）')+'」</span><br>'+
-   '<span class="who">調理ロボ：</span><span class="txt">「'+esc(v.messages.robot||'（なし）')+'」</span></div>';
+   '<span class="who">調理ロボ：</span><span class="txt">「'+esc(v.messages.robot||'（なし）')+'」</span>'+
+   (v.messages.forecast?'<br><span class="who">🔮 接客の予告メモ：</span><span class="txt">「'+esc(v.messages.forecast)+'」</span>':'')+'</div>';
 }
 function messageForm(info){
   if(VIEW.msgSubmitted[ROLE]){ return '<p class="big">伝言は送信済み。相方の伝言待ちです。</p>'+(ROLE==='human'?'<p class="mut">🤖 相方のミューズが入力しています。30秒ほどかかります。</p>':''); }
@@ -346,12 +348,13 @@ function messageForm(info){
   return '<h2>☀ 朝の伝言（'+VIEW.msgMax+'文字以内）</h2>'+seen+
    '<p>相方に今日伝えたいことを'+VIEW.msgMax+'文字以内で。両者そろうまで相手には見えません：</p>'+
    '<input type="text" id="in-msg" value="'+esc(DRAFT.msg)+'" placeholder="例：客多塩多醤油少"><p class="mut"><span id="msg-count">'+[...DRAFT.msg].length+'</span>/'+VIEW.msgMax+'文字</p>'+
+   (ROLE==='human'?'<p>🔮 予告メモ（任意・30文字まで）：「明日の予告」をロボに伝えたいときだけ書いてください。伝言とは別枠で、伝言と一緒に送られ、昼の判断でロボに渡ります（ロボが今日の仕入れで明日に備えられます）：<input type="text" id="in-forecast" maxlength="30" value="'+esc(DRAFT.forecast)+'" placeholder="例：明日は団体が来そう"></p>':'')+
    '<button id="btn-msg">伝言を送る</button>';
 }
 function reportHtml(r){
   const rows=Object.keys(r.sales).map(id=>{ return '<tr><td>'+nameOf(id)+'</td><td>'+r.demand[id]+'</td><td>'+(r.robotDecision.prep[id])+'</td><td>'+r.sales[id]+(r.fromBase&&r.fromBase[id]?' <span class="mut">(内ベース'+r.fromBase[id]+')</span>':'')+'</td><td>'+r.waste[id]+'</td><td>'+r.stockout[id]+'</td></tr>'; }).join('');
   const ev=r.eventLabel+(r.eventStrength==='weak'?'（弱）':r.eventStrength==='strong'?'（強）':'');
-  return '<p>朝の伝言 ― 接客：「'+esc(r.messages?r.messages.human:'')+'」／調理ロボ：「'+esc(r.messages?r.messages.robot:'')+'」</p>'+
+  return '<p>朝の伝言 ― 接客：「'+esc(r.messages?r.messages.human:'')+'」／調理ロボ：「'+esc(r.messages?r.messages.robot:'')+'」'+(r.messages&&r.messages.forecast?'／🔮予告メモ：「'+esc(r.messages.forecast)+'」':'')+'</p>'+
   (r.robotDecision.reading?'<p>🤖 ロボの解釈：「'+esc(r.robotDecision.reading)+'」</p>':'')+
   '<p>天気：'+esc(r.weather)+'／当日の正体：<b>'+esc(ev)+'</b>'+(r.leanLabel?'／味の偏り：<b>'+esc(r.leanLabel)+'</b>'+(r.leanStrength==='weak'?'（弱）':r.leanStrength==='strong'?'（強）':''):'')+'／来客数：'+r.footfall+'人</p>'+
   (r.kitchenLabel?'<p>🤖 厨房の事情（ロボだけが知っていた）：'+esc(r.kitchenLabel)+'</p>':'')+
@@ -369,8 +372,10 @@ function humanForm(info){
     '<button data-push="null" class="'+(selPush===null?'sel':'sub')+'">押さない</button>';
   const polBtns=info.policies.map(p=>'<button data-pol="'+p.id+'" class="'+(selPolicy===p.id?'sel':'sub')+'">'+p.name+'</button>').join('');
   const bandBtns=info.priceBands.map(b=>'<button data-band="'+b.id+'" class="'+(selBand===b.id?'sel':'sub')+'">'+b.name+'</button>').join('');
+  const beerNote={'猛暑':'今日は猛暑：ビールがぐっと出やすい日です','雪':'今日は雪：ビールは出にくい日です','雨':'今日は雨：ビールは少し出にくい日です'}[VIEW.weather]||'';
   return '<h2>🍜 接客の判断</h2>'+hints+hist+
    '<p>今日の押しメニュー：</p>'+pushBtns+
+   (beerNote?'<p class="mut">🍺 '+beerNote+'（ビールは天気で出方が大きく変わります）</p>':'')+
    '<p>接客方針：</p>'+polBtns+
    '<p>価格帯：</p>'+bandBtns+
    '<p>夜の答え合わせで相方に伝えるコメント：<input type="text" id="in-comment" maxlength="200" value="'+esc(DRAFT.comment)+'" placeholder="例：学生が多そうだったから醤油を押した"></p>'+
@@ -607,6 +612,8 @@ function aiText(v){
     }
   }
   if(v.messages) L.push('朝の伝言 ― 接客：「'+(v.messages.human||'')+'」／調理ロボ：「'+(v.messages.robot||'')+'」');
+  if(v.messages&&v.messages.forecast) L.push('接客からの予告メモ（伝言とは別枠・任意）: 「'+v.messages.forecast+'」。接客が見た「明日の予告」をもとに、接客が選んで伝えたものです。今日の仕入れで明日に備える（安い品の先買いなど）判断に使えます。');
+  if(ROLE==='robot'&&v.phase==='input'&&v.messages) L.push('伝言の符丁: 接客の伝言が「！」で始まっていたら、その情報は「強い・確信あり」という意味です（公式の約束。1文字を割いて伝えてきています）。');
   if(v.phase==='input'&&info){
     if(ROLE==='robot'){
       L.push('資金 '+info.funds+'円、満足度 '+info.satisfaction+'。この曜日の平均来客数（目安）: 約'+info.baseFootfall+'人。共通ベース単価 '+info.baseUnitCost+'円（上限'+info.basePrepMax+'食、メイン3味の品切れを肩代わりできる保険。サイドには使えません）。');
@@ -631,7 +638,8 @@ function bindForm(){
   document.querySelectorAll('[data-pol]').forEach(b=>b.onclick=()=>{ selPolicy=b.dataset.pol; render(); });
   document.querySelectorAll('[data-band]').forEach(b=>b.onclick=()=>{ selBand=b.dataset.band; render(); });
   const bm=$('btn-msg'); if(bm) bm.onclick=()=>{ const t=$('in-msg').value; if([...t].length>(VIEW?VIEW.msgMax:10)){ alert('文字数オーバーです'); return; }
-    api('/api/ramen/message','POST',{code:CODE,role:ROLE,text:t}).then(r=>{ if(r.error)alert(r.error); else { DRAFT.msg=''; } LAST_SIG=''; refresh(); }); };
+    const memo=(ROLE==='human'&&$('in-forecast'))?$('in-forecast').value:'';
+    api('/api/ramen/message','POST',{code:CODE,role:ROLE,text:t,memo}).then(r=>{ if(r.error)alert(r.error); else { DRAFT.msg=''; DRAFT.forecast=''; } LAST_SIG=''; refresh(); }); };
   const bh=$('btn-submit-human'); if(bh) bh.onclick=()=>{ api('/api/ramen/submit','POST',{code:CODE,role:'human',decision:{push:selPush,policy:selPolicy,priceBand:selBand,comment:$('in-comment').value}}).then(r=>{ if(r.error)alert(r.error); else DRAFT.comment=''; LAST_SIG=''; refresh(); }); };
   const br=$('btn-submit-robot'); if(br) br.onclick=()=>{ const buy={},prep={}; for(const id of Object.keys(NAMES)){ buy[id]=Number($('buy-'+id).value||0); prep[id]=Number($('prep-'+id).value||0); }
     api('/api/ramen/submit','POST',{code:CODE,role:'robot',decision:{buy,prep,basePrep:Number($('in-base').value||0),reading:$('in-reading').value,comment:$('in-comment').value}}).then(r=>{ if(r.error)alert(r.error); else { DRAFT.comment=''; DRAFT.buy={}; DRAFT.prep={}; DRAFT.base=''; DRAFT.reading=''; } LAST_SIG=''; refresh(); }); };

@@ -29,7 +29,7 @@ export class RamenRoom {
     }
     if (u.pathname.endsWith('/message')) {
       const body = await req.json();
-      const r = core.submitMessage(st, body.role, body.text);
+      const r = core.submitMessage(st, body.role, body.text, body.memo);
       if (!r.ok) return json({ error: r.error }, 400);
       await this.save(st);
       return json({ ok: true, phase: st.phase });

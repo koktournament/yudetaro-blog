@@ -140,8 +140,11 @@ function genDayFor(seed, day) {
     const it = pick(rng, ITEMS);
     kitchen = { item: it.id, type: rng() < 0.55 ? 'cap' : 'discount' };
   }
-  const hints = (strength === 'weak' ? event.hintsWeak : event.hints).slice();
-  if (lean) hints.push(leanStrength === 'weak' ? lean.hintWeak : lean.hint);
+  // 強弱は言い回しの頭で明示する（弱「なんとなく、」／強「明らかに、」）。伝言に強弱を残す余地がほぼ無いため、ヒント側で差をはっきりさせる
+  const mark = s => (s === 'weak' ? 'なんとなく、' : '明らかに、');
+  const hints = (strength === 'weak' ? event.hintsWeak : event.hints).slice()
+    .map(t => (strength ? mark(strength) + t : t));
+  if (lean) hints.push(mark(leanStrength) + (leanStrength === 'weak' ? lean.hintWeak : lean.hint));
   return { day, weekday, weather, event, market, strength, effFootfall, lean, leanStrength, favMult, kitchen, hints, preview: null };
 }
 /* 明日の予告：接客だけが知る翌日の気配。在庫は持ち越せるので、伝言の第3の軸になる */
@@ -177,7 +180,7 @@ function newRoom(seed) {
     stock: { shoyu: 40, miso: 30, shio: 30, gyoza: 0, karaage: 0, beer: 0 },
     history: [], // 確定した各日の実績 {day, sales:{}, demand:{}}（両者公開：答え合わせ済みの情報）
     reports: [], // 夜の答え合わせ
-    msgs: { human: null, robot: null }, // 朝の伝言（両者そろうまで非公開）
+    msgs: { human: null, robot: null, forecast: null }, // 朝の伝言（両者そろうまで非公開）。forecast は接客が任意で付ける予告メモ（伝言とは別枠）
     submissions: { human: null, robot: null },
     acks: { human: false, robot: false },
     days: null, // 全日程を先に生成（明日の予告のため）。ビューには絶対に含めない
@@ -190,13 +193,18 @@ function newRoom(seed) {
   return state;
 }
 
-function submitMessage(state, role, text) {
+const FORECAST_MEMO_MAX = 30; // 予告メモ（任意・別枠）の文字数上限
+function submitMessage(state, role, text, forecast) {
   if (state.phase !== 'message') return { ok: false, error: '今は伝言フェーズではありません' };
   if (role !== 'human' && role !== 'robot') return { ok: false, error: '役割が不正です' };
   if (state.msgs[role] !== null) return { ok: false, error: '本日の伝言は送信済みです' };
   const t = String(text || '').trim();
   if ([...t].length > MSG_MAX) return { ok: false, error: `伝言は${MSG_MAX}文字以内です` };
   state.msgs[role] = t;
+  if (role === 'human') {
+    const f = String(forecast || '').trim();
+    state.msgs.forecast = f ? [...f].slice(0, FORECAST_MEMO_MAX).join('') : null;
+  }
   if (state.msgs.human !== null && state.msgs.robot !== null) state.phase = 'input';
   return { ok: true };
 }
@@ -333,7 +341,7 @@ function resolveDay(state) {
   state.satisfaction = Math.max(0, Math.min(100, sat));
   const report = {
     day: d.day, weekday: d.weekday, weather: d.weather.name,
-    messages: { human: state.msgs.human, robot: state.msgs.robot },
+    messages: { human: state.msgs.human, robot: state.msgs.robot, forecast: state.msgs.forecast },
     eventLabel: d.event.label, eventStrength: d.strength,
     leanLabel: d.lean ? d.lean.label : null, leanStrength: d.leanStrength,
     kitchenLabel: kitchenLabel(d.kitchen),
@@ -368,7 +376,7 @@ function ack(state, role) {
     state.day += 1;
     state.cur = state.days[state.day - 1];
     state.phase = 'message';
-    state.msgs = { human: null, robot: null };
+    state.msgs = { human: null, robot: null, forecast: null };
     state.acks = { human: false, robot: false };
   }
   return { ok: true };
@@ -389,7 +397,7 @@ function viewFor(state, role) {
     reports: state.reports,
     submitted: { human: !!state.submissions.human || state.phase !== 'input', robot: !!state.submissions.robot || state.phase !== 'input' },
     msgSubmitted: { human: state.msgs.human !== null, robot: state.msgs.robot !== null },
-    messages: state.phase === 'message' ? null : { human: state.msgs.human, robot: state.msgs.robot },
+    messages: state.phase === 'message' ? null : { human: state.msgs.human, robot: state.msgs.robot, forecast: state.msgs.forecast },
     msgMax: MSG_MAX,
     acks: state.acks,
     yourRole: role,
