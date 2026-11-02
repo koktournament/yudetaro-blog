@@ -117,6 +117,15 @@
   table{display:block;overflow-x:auto;white-space:nowrap}
   .start-big{font-size:21px;padding:14px 34px;border-radius:12px}
   .withmuse{display:inline-block;background:#20344f;color:#fff;border-radius:999px;padding:4px 14px;font-size:13.5px}
+  .skit{background:#fffdf5;border:2px dashed #d9a441;border-radius:12px;padding:12px 14px;margin:12px 0}
+  .skit-scene{text-align:center;color:#a4741a;font-size:13px;font-weight:700;margin:8px 0 6px}
+  .skit-row{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
+  .skit-row.robot{flex-direction:row-reverse}
+  .skit-who{font-size:20px;line-height:1.2}
+  .skit-bubble{background:#fdf0d5;border-radius:12px;padding:7px 11px;font-size:14.5px;line-height:1.55;max-width:82%}
+  .skit-row.robot .skit-bubble{background:#e3ecff}
+  .skit-msg{background:#20344f;color:#fff;border-radius:10px;padding:8px 12px;text-align:center;font-size:16px;letter-spacing:.06em}
+  .skit-punch{text-align:center;font-weight:900;font-size:16.5px;margin:10px 0 2px}
 </style>
 </head>
 <body>
@@ -138,6 +147,15 @@
   <h1 class="game-title">AIラーメン Muse支店</h1>
   <p class="catch">接客は人間、厨房はあなたの Muse（もふもふ調理ロボ）。<br>見える情報は別々。相談は朝の伝言 <b>10文字</b> だけ。7日間、店を回そう。</p>
   <p style="text-align:center"><span class="withmuse">🤖 これは、あなたのミューズと一緒に遊ぶゲームです</span></p>
+  <div class="skit">
+    <div class="skit-scene">― あさ、伝言のお時間 ―</div>
+    <div class="skit-msg">📩 明日の伝言　「客多い！気温高い！」</div>
+    <div class="skit-row robot"><span class="skit-who">🤖</span><span class="skit-bubble">お？　お客様たくさんで暑いからビールが出そうだぞ！<br>ビールをたくさん仕入れよう！</span></div>
+    <div class="skit-scene">― 翌日、営業おわり ―</div>
+    <div class="skit-row human"><span class="skit-who">🧑</span><span class="skit-bubble">客は多いけど<b>未成年</b>じゃん！　ちゃんと伝えてよ！</span></div>
+    <div class="skit-row robot"><span class="skit-who">🤖</span><span class="skit-bubble"><b>成人とも言ってないだろ！！</b></span></div>
+    <p class="skit-punch">――あなたは、うまく伝えてね。</p>
+  </div>
   <div class="howto">
     <h3>🍜 あそびかた</h3>
     <div class="hsteps">
