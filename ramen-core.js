@@ -51,15 +51,15 @@ const EVENTS = [
 /* 味の偏り（需要の寄り）。量のイベントとは別抽選。接客だけがヒントで知る。
    メインは人気シェア倍率、サイドは付随率倍率として効く。 */
 const LEANS = [
-  { id: 'shoyu',   label: '醤油が多めに出そう',
+  { id: 'shoyu',   label: '醤油が多めに出そう', crowd: 'jouren',
     hint: '常連の田中さんはいつも醤油。今日はその仲間も来そう', hintWeak: '醤油が出そうな気配' },
   { id: 'miso',    label: '味噌が多めに出そう',
     hint: '「こってり味噌が食べたい」という声を聞いた', hintWeak: '味噌が少し動きそうな気配' },
   { id: 'shio',    label: '塩が多めに出そう',
     hint: 'テレビで塩ラーメンの特集をやっていたらしい', hintWeak: '塩のことを聞く人がいるかもしれない' },
-  { id: 'gyoza',   label: '餃子が多めに出そう',
+  { id: 'gyoza',   label: '餃子が多めに出そう', crowd: 'jouren',
     hint: '常連さんが「今日は餃子の気分」と言っていた', hintWeak: '餃子がちょこちょこ出そうな気配' },
-  { id: 'karaage', label: '唐揚げが多めに出そう',
+  { id: 'karaage', label: '唐揚げが多めに出そう', crowd: 'gakusei',
     hint: '学生さんが「唐揚げも頼みたい」と話していた', hintWeak: '唐揚げが少し出そうな気配' },
   { id: 'beer',    label: 'ビールが多めに出そう',
     hint: '近所でビールが進みそうな集まりがあるらしい', hintWeak: 'ビールが少し出そうな気配' },
@@ -74,15 +74,21 @@ function kitchenLabel(k) {
     : `${it.name}の材料が特売で、仕入れが25%引き`;
 }
 const POLICIES = [
-  { id: 'normal', name: '通常営業', footfall: 1.0, sat: 0 },
-  { id: 'yobikomi', name: '呼び込み強化', footfall: 1.25, sat: -3 },
-  { id: 'teinei', name: '丁寧接客', footfall: 0.9, sat: 5 },
+  { id: 'normal', name: '通常営業', footfall: 1.0, sat: 0, desc: 'いつも通りの接客。客足も満足度もそのまま' },
+  { id: 'yobikomi', name: '呼び込み強化', footfall: 1.25, sat: -3, desc: '客足は増えるけれど、満足度は少し下がります' },
+  { id: 'teinei', name: '丁寧接客', footfall: 0.9, sat: 5, desc: '客足は少し減るけれど、満足度が上がります' },
 ];
 const PRICE_BANDS = [
-  { id: 'normal', name: '通常価格', price: 1.0, footfall: 1.0, sat: 0 },
-  { id: 'premium', name: '強気（価格+15%）', price: 1.15, footfall: 0.82, sat: -1 },
-  { id: 'value', name: 'お得（価格-10%）', price: 0.9, footfall: 1.16, sat: 1 },
+  { id: 'normal', name: '通常価格', price: 1.0, footfall: 1.0, sat: 0, desc: 'いつもの値段。客足も満足度もそのまま' },
+  { id: 'premium', name: '強気（価格+15%）', price: 1.15, footfall: 0.82, sat: -1, desc: '値段を上げる分、客足は減って満足度も少し下がります' },
+  { id: 'value', name: 'お得（価格-10%）', price: 0.9, footfall: 1.16, sat: 1, desc: '値段を下げる分、客足は増えて満足度も少し上がります' },
 ];
+/* 客層メモ（固定の傾向プロフィール。接客側のヒントに客層が出たときだけ併記され、ロボ側には渡さない） */
+const CROWD_NOTES = {
+  gakusei: '学生さん：近所の高校の生徒さん。若いお客さんで、学校行事の日はまとまって来ます',
+  jouren: '常連さん：いつもの顔なじみ。田中さんはいつも醤油を頼む醤油派です',
+  dantai: '団体さん：大人数でまとまって来るお客さん。がっつり食べたい人が多めです',
+};
 const BASE_UNIT_COST = 250; // 共通ベース1食分の原価（相場の平均で変動）
 const BASE_PREP_MAX = 40;
 const PREP_MAX = { main: 80, side: 60 };
@@ -404,11 +410,17 @@ function viewFor(state, role) {
   };
   if (state.phase === 'finished') base.final = finalResult(state);
   if (role === 'human') {
+    // 客層メモ：今日のヒントに登場した客層の分だけ、固定の傾向プロフィールを接客に併記する（ロボ側には渡さない）
+    const crowdNotes = [];
+    const evCrowd = { school: 'gakusei', jouren: 'jouren', dantai: 'dantai' }[state.cur.event.id] || null;
+    if (evCrowd) crowdNotes.push(CROWD_NOTES[evCrowd]);
+    if (state.cur.lean && state.cur.lean.crowd && state.cur.lean.crowd !== evCrowd) crowdNotes.push(CROWD_NOTES[state.cur.lean.crowd]);
     base.yourInfo = {
       hints: state.cur.hints,
+      crowdNotes,
       tomorrow: state.cur.preview,
-      policies: POLICIES.map(p => ({ id: p.id, name: p.name })),
-      priceBands: PRICE_BANDS.map(b => ({ id: b.id, name: b.name })),
+      policies: POLICIES.map(p => ({ id: p.id, name: p.name, desc: p.desc })),
+      priceBands: PRICE_BANDS.map(b => ({ id: b.id, name: b.name, desc: b.desc })),
       items: ITEMS.map(i => ({ id: i.id, name: i.name, price: i.price, kind: i.kind })),
       history: state.history,
       youSubmitted: !!state.submissions.human,
@@ -416,9 +428,16 @@ function viewFor(state, role) {
   } else if (role === 'robot') {
     const prepMax = {};
     for (const it of ITEMS) prepMax[it.id] = prepMaxFor(state, it);
+    // 明日の相場の気配：翌日の相場倍率そのものは見せず、品目ごとの方向（安くなりそう／高くなりそう／変わらなそう）だけをロボに先渡しする
+    let tomorrowMarket = null;
+    if (state.day < GAME_DAYS) {
+      const tm = state.days[state.day].market;
+      tomorrowMarket = {};
+      for (const it of ITEMS) tomorrowMarket[it.id] = tm[it.id] <= 0.97 ? 'down' : (tm[it.id] >= 1.03 ? 'up' : 'flat');
+    }
     base.yourInfo = {
       funds: state.funds, satisfaction: state.satisfaction, stock: state.stock,
-      market: state.cur.market, baseFootfall: BASE_FOOTFALL[state.cur.weekday],
+      market: state.cur.market, tomorrowMarket, baseFootfall: BASE_FOOTFALL[state.cur.weekday],
       baseUnitCost: baseUnitCostToday(state), basePrepMax: BASE_PREP_MAX,
       kitchen: state.cur.kitchen ? { item: state.cur.kitchen.item, type: state.cur.kitchen.type, label: kitchenLabel(state.cur.kitchen) } : null,
       prepMax,
