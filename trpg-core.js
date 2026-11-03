@@ -253,6 +253,8 @@ function enemyPhase(st) {
 function allyPhase(st) {
   if (st.ally.out || st.ally.hp <= 0 || !st.combat) return;
   const foes = livingEnemies(st); if (!foes.length) return;
+  if (st.arrows <= 0) { log(st, 'dice', 'ミオは矢筒を確かめたが空だった。オロオロしている'); return; }
+  st.arrows -= 1;
   const roll = die(st, 6);
   if (roll >= 3) { const dmg = die(st, 6); foes[0].hp -= dmg; log(st, 'dice', 'ミオの弓が' + foes[0].name + 'に命中（' + dmg + 'ダメージ）'); }
   else log(st, 'dice', 'ミオの矢は外れた');
