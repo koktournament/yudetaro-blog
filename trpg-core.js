@@ -275,6 +275,14 @@ function enemyPhase(st) {
 function allyPhase(st) {
   if (st.ally.out || st.ally.hp <= 0 || !st.combat) return;
   const foes = livingEnemies(st); if (!foes.length) return;
+  /* 自律回復：傷が深ければ、撃つのをやめて自分の判断で薬草を使う（2026-11-03 本人の裁定） */
+  if (st.ally.hp <= 5 && st.items.herb > 0) {
+    st.items.herb -= 1;
+    const h = die(st, 6) + 2;
+    st.ally.hp = Math.min(st.ally.maxHp, st.ally.hp + h);
+    log(st, 'dice', 'ミオは薬草を使った（ミオのHP+' + h + '）');
+    return;
+  }
   if (st.arrows <= 0) { log(st, 'dice', 'ミオは矢筒を確かめたが空だった。オロオロしている'); return; }
   st.arrows -= 1;
   const roll = die(st, 6);
