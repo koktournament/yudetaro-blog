@@ -562,6 +562,7 @@ const origFetch = window.fetch.bind(window);
 window.fetch = async (url, opt) => {
 const u = String(url);
 if (!u.includes('/api/ramen/')) return origFetch(url, opt);
+window.__apiHits = (window.__apiHits || 0) + 1;
 const body = opt && opt.body? JSON.parse(opt.body): {};
 const q = new URLSearchParams(u.split('?')[1] || '');
 const resp = (obj, status) => new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json'}});
@@ -1492,6 +1493,7 @@ showRecords();
 (function(){
 const css = document.createElement('style');
 css.textContent = '#skit-shield{position:fixed;inset:0;z-index:9000;background:rgba(20,16,8,0.06)}'
++ '#skit-debug{position:fixed;top:8px;right:8px;z-index:9001;background:rgba(0,0,0,0.65);color:#fff;border-radius:8px;padding:3px 9px;font-size:11px;max-width:70vw}'
 + '#skit-bar{position:fixed;left:0;right:0;bottom:0;z-index:9001;background:#fffdf5;border-top:3px solid #d9a441;padding:12px 14px;box-shadow:0 -4px 18px rgba(0,0,0,0.18)}'
 + '#skit-line{display:flex;gap:10px;align-items:flex-start;max-width:860px;margin:0 auto}'
 + '#skit-who{font-size:30px;line-height:1.1}'
@@ -1505,12 +1507,21 @@ css.textContent = '#skit-shield{position:fixed;inset:0;z-index:9000;background:r
 document.head.appendChild(css);
 const shield = document.createElement('div'); shield.id = 'skit-shield';
 const badge = document.createElement('div'); badge.id = 'skit-badge'; badge.textContent = '🎬 コント再生中（実際のゲーム画面です）';
+const dbg = document.createElement('div'); dbg.id = 'skit-debug'; dbg.textContent = 'phase=-';
 const bar = document.createElement('div'); bar.id = 'skit-bar';
 bar.innerHTML = '<div id="skit-line"><span id="skit-who">🧑</span><span id="skit-text"></span><button id="skit-next">つぎへ →</button></div>';
 const punch = document.createElement('div'); punch.id = 'skit-punch';
 punch.innerHTML = '<p class="big">――あなたは、うまく伝えてね。</p><p style="color:#8a7d63">伝言は10文字。何を入れて、何を落とすかが勝負です。</p><p><button id="skit-again" class="sub">↻ もう一度見る</button><button id="skit-play">▶ 本編で遊ぶ</button></p>';
-function mount(){ document.body.appendChild(shield); document.body.appendChild(badge); document.body.appendChild(bar); document.body.appendChild(punch);}
+function mount(){ document.body.appendChild(shield); document.body.appendChild(badge); document.body.appendChild(dbg); document.body.appendChild(bar); document.body.appendChild(punch); setInterval(debugTick, 1000); }
 function $(id){ return document.getElementById(id);}
+let lastErr = '';
+window.addEventListener('error', (ev) => { lastErr = String(ev.message || ev.error || ''); });
+function curPhase(){ try { return (typeof VIEW !== 'undefined' && VIEW) ? VIEW.phase : 'noview'; } catch (e) { return 'err'; } }
+function debugTick(){
+  const d = $('skit-debug'); if (!d) return;
+  const g = $('game');
+  d.textContent = 'phase=' + curPhase() + ' game=' + (g ? g.style.display : '?') + ' api=' + (window.__apiHits || 0) + (lastErr ? ' err=' + lastErr : '');
+}
 function setLine(who, text){ $('skit-who').textContent = who === 'robot'? '🤖': '🧑'; $('skit-text').innerHTML = text;}
 function waitFor(fn, timeout){
 return new Promise((resolve) => {
@@ -1540,7 +1551,7 @@ const steps = [
 { who: 'human', text: 'あとは任せた！', run: async () => {
 $('btn-msg').click();
 await api('/api/ramen/message', { role: 'robot', text: 'まかせて'});
-await waitFor(() => window.VIEW && VIEW.phase === 'input' && $('btn-submit-human'), 20000);
+await waitFor(() => VIEW && VIEW.phase === 'input' && $('btn-submit-human'), 20000);
 }},
 { who: 'robot', text: 'お？　お客様たくさんで暑いからビールが出そうだぞ！', run: async () => {
 $('btn-submit-human').click();
@@ -1555,18 +1566,18 @@ setVal('in-reading', '客多い＋気温高い＝ビールが出そうと読ん�
 }},
 { who: 'human', text: 'お客さん、いっぱい来た！', run: async () => {
 $('btn-submit-robot').click();
-await waitFor(() => window.VIEW && VIEW.phase === 'service' && $('btn-start-service'), 25000);
+await waitFor(() => VIEW && VIEW.phase === 'service' && $('btn-start-service'), 25000);
 try { ROLE = 'human'; localStorage.setItem('ramen-role', 'human');} catch (e) {}
 if (typeof refresh === 'function') refresh();
 await waitFor(() => $('btn-start-service'), 15000);
 if ($('btn-start-service')) $('btn-start-service').click();
 }},
 { who: 'robot', text: 'ビール、どんどん出すぞー！', run: async () => {
-await waitFor(() => (window.VIEW && VIEW.phase === 'report') || $('btn-ack'), 150000);
-if (window.VIEW && VIEW.phase!== 'report') {
+await waitFor(() => (VIEW && VIEW.phase === 'report') || $('btn-ack'), 150000);
+if (VIEW && VIEW.phase!== 'report') {
 await api('/api/ramen/ack', { role: 'robot'});
 if ($('btn-ack')) $('btn-ack').click();
-await waitFor(() => window.VIEW && VIEW.phase === 'report', 30000);
+await waitFor(() => VIEW && VIEW.phase === 'report', 30000);
 }
 }},
 { who: 'human', text: '客は多いけど<b>未成年</b>じゃん！　ちゃんと伝えてよ！', run: async () => {}},
@@ -1588,16 +1599,32 @@ mount();
 $('skit-next').onclick = advance;
 $('skit-again').onclick = () => location.reload();
 $('skit-play').onclick = () => { location.href = './';};
+$('skit-next').disabled = true;
+$('skit-next').textContent = '準備中…';
 setLine('human', '🎬 コント「ビールの悲劇」開演。実際のゲーム画面でお送りします。');
 try { localStorage.setItem('ramen-role', 'human');} catch (e) {}
+if ($('btn-start')) $('btn-start').click();
 const codeEl = $('in-code'); if (codeEl) codeEl.value = 'skit';
 if ($('role-human')) $('role-human').click();
 if ($('btn-join')) $('btn-join').click();
-await waitFor(() => window.VIEW && VIEW.phase === 'message' && $('in-msg'), 25000);
+await waitFor(() => { const g = $('game'); return g && g.style.display !== 'none'; }, 6000);
+const g0 = $('game');
+if (!g0 || g0.style.display === 'none') {
+  try { CODE = 'skit'; } catch (e) {}
+  try { if (typeof enter === 'function') enter(); } catch (e) {}
+}
+const ready = await waitFor(() => curPhase() === 'message' && $('in-msg'), 30000);
+debugTick();
+if (!ready) {
+  setLine('human', '⚠ ゲーム画面の準備に失敗しました。お手数ですが、ページを再読み込みしてください。');
+  return;
+}
 step = -1;
 setLine('human', '明日の伝言これね。');
 setVal('in-msg', '客多い！気温高い！');
 step = 0;
+$('skit-next').disabled = false;
+$('skit-next').textContent = 'つぎへ →';
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 600));
 else setTimeout(start, 600);
