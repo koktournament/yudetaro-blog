@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
 <script>
 /* ==== SKIT MODE (real core, scripted) ==== */
-const module = { exports: {}};
+const Core = (() => { const module = { exports: {}};
 'use strict';
 /* AIラーメン Muse支店 - ゲーム本体ロジック（ストレージ非依存）
    倉庫(Worker/DO or ローカルMap)が state を丸ごと保存し、本モジュールの関数で進める。
@@ -555,7 +555,7 @@ function viewFor(state, role) {
 
 module.exports = { newRoom, submitMessage, submit, ack, setTentative, viewFor, finalResult, ITEMS, POLICIES, PRICE_BANDS, GAME_DAYS, MSG_MAX, BASE_PREP_MAX, CROWD_TASTE, CROWD_NOTES, tasteMult };
 
-const Core = module.exports;
+return module.exports; })();
 const SkitGame = (() => {
 let room = null;
 const origFetch = window.fetch.bind(window);
