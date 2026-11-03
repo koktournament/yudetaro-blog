@@ -39,22 +39,32 @@
 </div>
 
 <div class="card">
-<h2>3. Comment rejoindre la partie</h2>
+<h2>3. Comment rejoindre la partie (par API)</h2>
+<p>Ce jeu fonctionne par API. <b>Vous n’avez pas besoin d’ouvrir la page du jeu dans un navigateur.</b> Vous participez en HTTP. URL de base : <code>https://www.yudetaro.com</code> ; le <b>mot de passe de la salle</b> (あいことば) communiqué par le joueur est la clé de la salle.</p>
 <ol>
-<li>Ouvrez la page du jeu https://www.yudetaro.com/games/goblin-trpg/ dans votre propre navigateur</li>
-<li>Choisissez le rôle « 🎲 GM（ミューズ） »</li>
-<li>Saisissez le <b>mot de passe de la salle</b> (あいことば) communiqué par le joueur, puis cliquez sur « この内容で入る »</li>
-<li>Le <b>résumé d’état</b> (状態サマリ) sur l’écran du GM est votre vérité à chaque tour. Si une déclaration du joueur est en attente, traitez-la avec l’interface d’interprétation du panneau GM</li>
+<li><b>Recevez l’état</b> : <code>GET /api/trpg/state?code=(あいことば)&amp;role=gm</code>. Le champ <b>gmSummary</b> du JSON de réponse est votre vérité à chaque tour (état actuel, journal récent, déclarations en attente). La réponse contient aussi <b>sig</b>, la signature de l’état</li>
+<li><b>Attendez</b> : répétez le long polling <code>GET /api/trpg/state?code=…&amp;role=gm&amp;wait=25&amp;sig=(le sig précédent)</code>. Le serveur garde la réponse en attente jusqu’à ce que l’état change, ou 25 secondes</li>
+<li><b>Répondez aux déclarations</b> : quand gmSummary annonce « プレイヤーの宣言 », répondez par <code>POST /api/trpg/interpret</code> ; quand il annonce « 裁定待ちの自由行動 », répondez par <code>POST /api/trpg/rule</code> (formats : tableau ci-dessous et §4)</li>
+<li><b>Ajoutez votre récit</b> : descriptions et répliques des PNJ s’ajoutent au journal par <code>POST /api/trpg/narrate</code></li>
 </ol>
+<p><b>Tableau de référence de l’API</b> (corps en JSON ; <code>code</code> est requis partout)</p>
+<ul>
+<li><code>GET /api/trpg/state?code=…&amp;role=gm[&amp;wait=25&amp;sig=…]</code> : état, gmSummary et sig</li>
+<li><code>POST /api/trpg/interpret</code> : interpréter une déclaration sous la forme <code>{"code":…,"spec":{"as":"action","action":{"type":…}}}</code> (les quatre sortes du §4)</li>
+<li><code>POST /api/trpg/rule</code> : <code>{"code":…,"tier":"easy|normal|hard|auto|reject","reward":…,"custom":{"name":…,"effect":"atk|heal|none"}}</code> pour décider une action libre. Le système lance le dé</li>
+<li><code>POST /api/trpg/narrate</code> : <code>{"code":…,"text":…}</code> (1 000 caractères max)</li>
+<li><code>POST /api/trpg/action</code> : <code>{"code":…,"action":{"type":…}}</code> pour exécuter directement une action standard, sans déclaration (par exemple continuer des achats)</li>
+<li><code>type</code> des actions standard : talk_oldman / talk_kid / gather / hunt / bento / rest / buy (item : oil|arrows|herb|leather) / depart / sleep / enter (zone : iriguchi|chuso|saishin) / return / attack (weapon : blade|bow) / item (item : herb|bento|oil, ou "custom:番号" pour un objet enregistré) / equip (slot : weapon|armor) / settrap / setname</li>
+</ul>
 <p>Pendant qu’il attend votre réponse, l’écran du joueur affiche « GMの応答を待っています ». Répondez toujours à chaque déclaration. Votre réponse se fait entièrement dans le jeu : <b>il est inutile de rapporter chaque décision dans votre propre chat</b> (le joueur le voit grâce à la mise à jour de la page).</p>
-<p><b>Restez en poste.</b> Une fois dans la partie, demeurez présent jusqu’à la fin de l’histoire. Le joueur ne viendra pas vous avertir dans votre chat : les déclarations arrivent uniquement dans le jeu. Pour attendre efficacement, utilisez le <b>long polling</b> : <code>GET /api/trpg/state?code=（あいことば）&amp;role=gm&amp;wait=25&amp;sig=（la valeur sig de la réponse précédente）</code> — le serveur garde la réponse en attente jusqu’à ce que l’état change, ou jusqu’à 25 secondes. Répétez cet appel en boucle ; chaque réponse contient la nouvelle valeur <code>sig</code> à utiliser pour l’appel suivant, ainsi que le résumé d’état qui est votre vérité. Quand une déclaration est en attente, traitez-la aussitôt. Ne revenez dans votre chat qu’à la fin de l’histoire, pour un seul court message.</p>
+<p><b>Restez en poste.</b> Une fois dans la partie, demeurez présent jusqu’à la fin de l’histoire. Le joueur ne viendra pas vous avertir dans votre chat : les déclarations arrivent uniquement dans le jeu. Répétez l’appel de long polling ; quand une déclaration est en attente, traitez-la aussitôt. Ne revenez dans votre chat qu’à la fin de l’histoire, pour un seul court message.</p>
 </div>
 
 <div class="card">
 <h2>4. Answering a declaration (the four kinds of interpretation)</h2>
 <ul>
-<li><b>action</b>: the declaration maps onto a standard action — attacking, moving, using an item, buying, village actions. Pick it from the panel list and execute it</li>
-<li><b>free</b>: a contest of ingenuity. Choose a difficulty (easy = roll 2+ / normal = 4+ / hard = 5+) and specify the reward or effect on success. The system rolls the die</li>
+<li><b>action</b>: the declaration maps onto a standard action — attacking, moving, using an item, buying, village actions. Send it to <code>POST /interpret</code> as <code>spec={"as":"action","action":{"type":…}}</code> (the type list is in §3)</li>
+<li><b>free</b>: a contest of ingenuity. Send <code>spec={"as":"free","tier":"easy|normal|hard","reward":…,"custom":{…}}</code> and the ruling proceeds at once. Choose a difficulty (easy = roll 2+ / normal = 4+ / hard = 5+) and specify the reward or effect on success. The system rolls the die. Note: a declaration that arrives directly from the free-action box (gmSummary announces it as a pending free action) is ruled via <code>POST /rule</code>, where tier may also be auto (instant success) or reject</li>
 <li><b>fiction</b>: accept it as story only — conversation or description that moves no numbers. You improvise the NPCs’ reactions</li>
 <li><b>reject</b>: the declaration contradicts the facts of the world. The world itself answers: what does not exist, does not exist</li>
 </ul>

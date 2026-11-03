@@ -48,16 +48,14 @@
 <div class="card" id="entry">
   <p>部屋を作る：<button id="btn-create">新しい物語を作る</button></p>
   <p>あいことば：<input type="text" id="in-code" style="width:200px" placeholder="例：mura482"></p>
-  <p>あなたの役割：
-    <button id="role-player" class="sub">🧑 プレイヤー（村の若者）</button>
-    <button id="role-gm" class="sub">🎲 GM（ミューズ）</button>
-  </p>
+  <p>あなたの役割：🧑 プレイヤー（村の若者）です。GMはAIがAPIで参加します。</p>
   <button id="btn-join">この内容で入る</button>
-  <p class="mut">プレイヤーとGMは、それぞれ自分の画面から、同じあいことばで入ります。GM役は、自分のミューズに担当してもらうのが前提です。</p>
+  <p class="mut">プレイヤーはこの画面から、あいことばで入ってください。GM役のAIは、招待文を使ってAPIで参加します。</p>
   <div id="invite-box" style="background:#eef4ff;border:1px solid #b9cdf5;border-radius:10px;padding:10px 12px;margin-top:10px">
     <div><b>🎲 GMのミューズを呼ぶ</b>（あいことば：<b id="invite-code">―</b>）</div>
-    <p class="mut" style="margin:6px 0">下のボタンの招待文をコピーして、GMを任せたいミューズのチャットに貼ってください。マニュアルのURLとあいことばがセットになっています。</p>
+    <p class="mut" style="margin:6px 0">下のボタンの招待文をコピーして、GMを任せたいAIのチャットに貼ってください。GMはAPIで参加します（ブラウザは使いません）。マニュアルのURLとあいことばがセットになっています。</p>
     <button id="btn-invite" class="sub">🎲 GMへの招待文をコピー</button>
+    <p class="mut" style="margin:6px 0 0">APIキーで動かす自動GMランナー（Python製の雛形）：<a href="gm-runner.py" download>gm-runner.py をダウンロード</a>。待ち受けと裁定の自動化サンプルです。</p>
     <span class="mut" id="invite-done"></span>
   </div>
 </div>
@@ -104,17 +102,14 @@
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let CODE=localStorage.getItem('trpg-code')||'', ROLE=localStorage.getItem('trpg-role')||'player';
+let CODE=localStorage.getItem('trpg-code')||'', ROLE='player';
 let VIEW=null, LAST_SIG='', SERVER_SIG='', SEEN_LOG=0, FIRST_VIEW=true, POLLING=false;
 async function api(path,method,body){ const r=await fetch(path,{method:method||'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined}); return r.json(); }
-function setRole(r){ ROLE=r; $('role-player').style.outline=r==='player'?'3px solid #b3392e':''; $('role-gm').style.outline=r==='gm'?'3px solid #b3392e':''; }
-$('role-player').onclick=()=>setRole('player');
-$('role-gm').onclick=()=>setRole('gm');
 function copyText(t,doneEl,msg){ const done=m=>{ if(doneEl) doneEl.textContent=m; };
   const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(msg||'コピーしました'); }catch(e){ done('コピーできませんでした'); } ta.remove(); };
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>done(msg||'コピーしました')).catch(fb); } else fb(); }
 function inviteText(){ const url=location.origin+location.pathname; const museUrl=url.replace(/[^/]*$/,'')+'muse'; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
-  return '【ゴブリン洞穴】GMとして一緒に遊んでください。\n1. まず GM専用マニュアルを読んでください：'+museUrl+'\n2. 読み終わったらゲームページを開いてください：'+url+'\n3. 役割は「🎲 GM（ミューズ）」を選び、あいことば「'+code+'」を入力して「この内容で入る」を押してください。\n4. 参加したら、ゲームに常駐してください。プレイヤーの宣言が来たら、その都度すぐに解釈と語りで応答してください。プレイヤーがあなたのチャットに合図を送ることはありません。\n5. 宣言を待つ間は、マニュアルに書かれたロングポーリングの方法で待機してください。裁定のたびにチャットで報告する必要はありません。応答はゲームの中で完結させてください。\n6. 物語が終わったら（勝敗が決まったら）だけ、チャットで短く一言伝えてください。ゲーム内の出力（語り・台詞・裁定）は、すべて日本語で書いてください。'; }
+  return '【ゴブリン洞穴】GMとして一緒に遊んでください（APIで参加する形式です）。\n1. まず GM専用マニュアルを読んでください：'+museUrl+'\n2. このゲームはAPIで動いています。ブラウザでゲームページを開く必要はありません。あいことばは「'+code+'」です。\n3. まず GET '+location.origin+'/api/trpg/state?code='+code+'&role=gm で状態サマリ（gmSummary）を受け取ってください。\n4. そのままゲームに常駐してください。待機はロングポーリング（state に wait=25 と前回の sig を付けて繰り返す）でお願いします。宣言が来たら、マニュアルの形式で interpret / rule / narrate を返してください。プレイヤーがあなたのチャットに合図を送ることはありません。\n5. 裁定のたびにチャットで報告する必要はありません。応答はゲームの中で完結させてください。\n6. 物語が終わったら（勝敗が決まったら）だけ、チャットで短く一言伝えてください。ゲーム内の出力（語り・台詞・裁定）は、すべて日本語で書いてください。'; }
 function syncInvite(){ const c=(($('in-code')&&$('in-code').value.trim())||CODE||''); const el=$('invite-code'); if(el) el.textContent=c||'―'; }
 $('in-code').addEventListener('input',syncInvite);
 $('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーしました。ミューズのチャットに貼ってください');
@@ -313,7 +308,7 @@ $('btn-intro-go').onclick=()=>{ const nm=$('in-name').value.trim(); const done=(
   if(nm){ api('/api/trpg/action','POST',{code:CODE,action:{type:'setname',name:nm}}).then(()=>{ LAST_SIG=''; refresh(); done(); }); } else done(); };
 function interpret(spec){ api('/api/trpg/interpret','POST',{code:CODE,spec:spec}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); }
 $('btn-narrate').onclick=()=>{ const t=$('gm-text').value; if(!t.trim())return; api('/api/trpg/narrate','POST',{code:CODE,text:t}).then(r=>{ if(r.error)alert(r.error); else $('gm-text').value=''; LAST_SIG=''; refresh(); }); };
-setRole(ROLE);
+
 if(CODE){ $('in-code').value=CODE; syncInvite(); enter(); }
 syncInvite();
 </script>
