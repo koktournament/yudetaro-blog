@@ -16,6 +16,7 @@
   input[type=text],textarea,select{box-sizing:border-box;padding:9px;border:2px solid #d8c9a3;border-radius:8px;font-size:15px;background:#fff}
   input[type=text]{width:100%}
   .hpbar{background:#e8dcc0;border-radius:6px;height:14px;overflow:hidden}
+  #g-scene{width:100%;border-radius:12px;display:block;transition:opacity .35s;box-shadow:0 2px 10px rgba(0,0,0,.25)}
   .hpbar>div{height:100%;background:#7cb342;transition:width .4s}
   .hpbar.low>div{background:#c0392b}
   .log{max-height:380px;overflow-y:auto;font-size:14.5px;line-height:1.65}
@@ -76,6 +77,7 @@
   <div class="card">
     <span class="big" id="g-title"></span> <button id="btn-bgm" class="sub" style="font-size:12px">🔊 BGM</button><br><span id="g-status"></span>
     <div id="g-result"></div>
+    <div id="g-scenewrap" style="display:none;margin:8px 0"><img id="g-scene" alt="場面絵"></div>
     <p style="margin:8px 0 0"><button id="btn-invite2" class="sub" style="font-size:13px;padding:6px 10px">🎲 GMミューズへの招待文をコピー</button> <span class="mut" id="invite-done2"></span></p>
   </div>
   <details class="card"><summary>📜 世界の約束・村の台帳</summary><div id="g-handout"></div></details>
@@ -98,6 +100,7 @@
   </div>
 </div>
 </div>
+<script src="art.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -225,6 +228,12 @@ function render(){
   $('g-title').textContent='ゴブリン洞穴（'+CODE+'） ― '+(ROLE==='gm'?'🎲 GM':'🧑 プレイヤー')+'画面';
   $('g-status').textContent=v.status;
   bgmSync(v);
+  const sk = v.result==='win' ? 'village' : v.result ? 'deep' : v.phase==='village' ? 'village' : v.phase==='cave' ? ({iriguchi:'entrance',chuso:'tunnel',saishin:'deep'})[v.zone||'iriguchi'] : null;
+  const simg = $('g-scene');
+  if(sk && window.TRPG_ART && TRPG_ART[sk]){
+    $('g-scenewrap').style.display='block';
+    if(simg.dataset.k !== sk){ simg.dataset.k = sk; simg.style.opacity=0; const pre=new Image(); pre.onload=()=>{ simg.src=TRPG_ART[sk]; simg.style.opacity=1; }; pre.src=TRPG_ART[sk]; }
+  }
   $('g-result').innerHTML = v.result==='win' ? '<p><span class="stamp">村は守られた</span></p><p class="big">🏆 親玉を倒した！ 7日間の物語は完結しました。</p>'+(v.epilogue?'<div style="background:#f7efdb;border-radius:10px;padding:10px 14px;line-height:1.9">'+v.epilogue.map(p=>'<p style="margin:6px 0">'+esc(p)+'</p>').join('')+'</div>':'')
     : v.result==='lose_raid' ? '<p><span class="stamp">村は襲われた</span></p><p class="big">💀 8日目の朝、ゴブリンが押し寄せた…物語はここまでです。</p>'
     : v.result==='lose_dead' ? '<p><span class="stamp">二人は帰らなかった</span></p><p class="big">💀 倒れた者は、洞穴から帰らなかった…物語はここまでです。</p>' : '';
