@@ -205,16 +205,18 @@ function mapOptions(v){
   if(v.phase==='village'){
     add('爺さんに聞く',{type:'talk_oldman'}); add('子供たちに聞く',{type:'talk_kid'});
     add('薬草摘み',{type:'gather'}); add('狩り',{type:'hunt'}); add('母の弁当',{type:'bento'}); add('休む',{type:'rest'});
+    if(v.held.some(h=>h.key==='trap') && !v.setup) add('罠を仕掛ける（次の戦闘用）',{type:'settrap'});
     if(v.day===4){ add('行商：油を買う',{type:'buy',item:'oil'}); add('行商：矢束を買う',{type:'buy',item:'arrows'}); add('行商：薬草を買う',{type:'buy',item:'herb'}); add('行商：革当てを買う',{type:'buy',item:'leather'}); }
     add('洞穴へ出発',{type:'depart'}); add('今日は寝る',{type:'sleep'});
     add('武器を弓に持ち替え',{type:'equip',slot:'weapon',item:'bow'}); add('武器を山刀に持ち替え',{type:'equip',slot:'weapon',item:'blade'});
     add('防具：布当て',{type:'equip',slot:'armor',item:'cloth'}); if(v.equip&&v.equip.ownLeather) add('防具：革当て',{type:'equip',slot:'armor',item:'leather'}); add('防具を外す',{type:'equip',slot:'armor',item:'none'});
   } else if(v.phase==='cave' && !v.combat){
     v.zones.forEach(z=>{ if(!z.locked) add(z.name+'へ入る',{type:'enter',zone:z.id}); });
+    if(v.held.some(h=>h.key==='trap') && !v.setup) add('罠を仕掛ける（次の戦闘用）',{type:'settrap'});
     add('村へ帰る',{type:'return'});
   } else if(v.phase==='cave' && v.combat){
     add('攻撃（山刀）',{type:'attack',weapon:'blade'}); add('攻撃（弓）',{type:'attack',weapon:'bow'});
-    v.held.forEach(hd=>add('道具：'+hd.name+'を使う',{type:'item',item:hd.key}));
+    v.held.filter(hd=>hd.key!=='trap').forEach(hd=>add('道具：'+hd.name+'を使う',{type:'item',item:hd.key}));
   }
   return opts;
 }

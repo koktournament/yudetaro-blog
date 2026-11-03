@@ -349,6 +349,16 @@ function playerActionInner(st, action) {
     }
     return { ok: false, error: 'その装備はない' };
   }
+  /* ---- 罠の仕掛け（村でも洞穴でも可・戦闘中は不可。ダイスなしで確実、行動1回と罠1つを消費） ---- */
+  if (t === 'settrap') {
+    if (st.combat) return { ok: false, error: '戦闘中は仕掛けられない' };
+    if (st.flags.setup) return { ok: false, error: '罠はもう仕掛けてある' };
+    if (st.items.trap <= 0) return { ok: false, error: '罠を持っていない' };
+    if (st.actionsLeft <= 0) return { ok: false, error: '今日の行動回数はもう残っていない' };
+    st.actionsLeft -= 1; st.items.trap -= 1; st.flags.setup = true;
+    log(st, 'sys', '罠を仕掛けた（次の戦闘で、敵1体が戦う前に倒れる）');
+    return { ok: true };
+  }
   /* ---- 村フェーズ ---- */
   if (st.phase === 'village') {
     const needAct = () => { if (st.actionsLeft <= 0) return '今日の行動回数はもう残っていない'; st.actionsLeft -= 1; return null; };
@@ -418,6 +428,7 @@ function playerActionInner(st, action) {
       }
       if (t === 'item') {
         const item = action.item;
+        if (item === 'trap') return { ok: false, error: '罠は戦闘中に使うものではない。戦う前に仕掛けておくものだ' };
         if (typeof item === 'string' && item.startsWith('custom:')) {
           const ci = st.customItems[Number(item.slice(7))];
           if (!ci || ci.count <= 0) return { ok: false, error: 'その道具は持っていない' };
@@ -431,11 +442,11 @@ function playerActionInner(st, action) {
         if (!(item in st.items) || st.items[item] <= 0) return { ok: false, error: 'その道具は持っていない' };
         if (item === 'herb') { st.items.herb -= 1; const h = die(st, 6) + 2; st.player.hp = Math.min(st.player.maxHp, st.player.hp + h); log(st, 'sys', '薬草を使った（HP+' + h + '）'); }
         else if (item === 'bento') { st.items.bento -= 1; st.player.hp = Math.min(st.player.maxHp, st.player.hp + 5); if (!st.ally.out) st.ally.hp = Math.min(st.ally.maxHp, st.ally.hp + 5); log(st, 'sys', '母の弁当を分け合った（二人ともHP+5）'); }
-        else if (item === 'oil' || item === 'trap') {
+        else if (item === 'oil') {
           const foes = livingEnemies(st).filter(e => !e.boss);
           if (!foes.length) { log(st, 'sys', '雑魚がいないので使わなかった'); return { ok: true }; }
           st.items[item] -= 1; foes[0].hp = 0;
-          log(st, 'sys', item === 'oil' ? '油を投げて火をつけた。ゴブリンが1匹燃え上がった' : '仕掛けた罠がゴブリンを1匹仕留めた');
+          log(st, 'sys', '油を投げて火をつけた。ゴブリンが1匹燃え上がった');
         } else return { ok: false, error: '戦闘では使えない' };
         afterCombatTurn(st); return { ok: true };
       }
@@ -584,7 +595,7 @@ function playerView(st) {
 return {
 day: st.day, phase: st.phase, result: st.result, promises: PROMISES, ledger: { places: VILLAGE_LEDGER.places, people: VILLAGE_LEDGER.people, notHere: VILLAGE_LEDGER.notHere },
 intro: INTRO, mission: MISSION, epilogue: st.result === 'win'? EPILOGUE: null,
-actionsLeft: st.actionsLeft, status: statusLine(st),
+actionsLeft: st.actionsLeft, setup: !!st.flags.setup, status: statusLine(st),
 playerName: st.playerName,
 player: st.player, ally: { name: st.ally.name, hp: st.ally.hp, maxHp: st.ally.maxHp, out: st.ally.out},
 equip: { weapon: st.equip.weapon, weaponName: WEAPONS[st.equip.weapon], armor: st.equip.armor, armorName: ARMORS[st.equip.armor], ownLeather: st.ownLeather},
