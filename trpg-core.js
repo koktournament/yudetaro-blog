@@ -223,6 +223,13 @@ function armorReduce(st, dmg) {
   if (st.equip.armor === 'cloth' || st.equip.armor === 'leather') return Math.max(0, dmg - 1);
   return dmg;
 }
+/* 敗北は死。どちらか一方でも倒れれば、ショックのうちに殺されて物語は終わる（本人の裁定） */
+function partyDown(st, who) {
+  st.combat = null;
+  st.result = 'lose_dead'; st.phase = 'ended';
+  if (who === 'ally') log(st, 'sys', 'ミオが倒れた。ショックで動けなくなった若者もろとも、闇に呑まれた――物語はここで終わる。');
+  else log(st, 'sys', '若者が倒れた。呆然とするミオの叫びも、闇に消えた――物語はここで終わる。');
+}
 function enemyPhase(st) {
   for (const e of livingEnemies(st)) {
     const toAlly = !st.ally.out && st.ally.hp > 0 && rnd(st) < 0.4;
@@ -234,19 +241,8 @@ function enemyPhase(st) {
     } else {
       log(st, 'dice', e.name + 'の攻撃は外れた');
     }
-    if (st.player.hp <= 0) {
-      // 敗北：生き残った敵は奥へ戻る（倒した分は戻らない）
-      for (const le of livingEnemies(st)) if (!le.boss) st.poolHp[le.from].push(le.hp);
-      syncZones(st);
-      st.player.hp = Math.ceil(st.player.maxHp / 2);
-      log(st, 'sys', '倒れた若者はミオに担がれて村へ運ばれた。手当てを受けて目を覚ました。');
-      endDay(st, '負傷で引き返した');
-      return;
-    }
-    if (!st.ally.out && st.ally.hp <= 0) {
-      st.ally.hp = 0; st.ally.out = true;
-      log(st, 'sys', 'ミオが倒れた。村で寝込んでおり、この先は同行できない。');
-    }
+    if (st.player.hp <= 0) { partyDown(st, 'player'); return; }
+    if (!st.ally.out && st.ally.hp <= 0) { st.ally.hp = 0; partyDown(st, 'ally'); return; }
   }
   if (st.combat) st.combat.round += 1;
 }
@@ -275,7 +271,7 @@ function afterCombatTurn(st) {
     return;
   }
   if (livingEnemies(st).length) enemyPhase(st);
-  if (!st.combat) return; // 敗北で endDay 済み
+  if (!st.combat) return; // 敗北（死亡）で終了済み
   if (!livingEnemies(st).length) {
     const zid = st.combat.zone;
     st.combat = null;

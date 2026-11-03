@@ -132,7 +132,8 @@ function render(){
   $('g-title').textContent='ゴブリン洞穴（'+CODE+'） ― '+(ROLE==='gm'?'🎲 GM':'🧑 プレイヤー')+'画面';
   $('g-status').textContent=v.status;
   $('g-result').innerHTML = v.result==='win' ? '<p><span class="stamp">村は守られた</span></p><p class="big">🏆 親玉を倒した！ 7日間の物語は完結しました。</p>'+(v.epilogue?'<div style="background:#f7efdb;border-radius:10px;padding:10px 14px;line-height:1.9">'+v.epilogue.map(p=>'<p style="margin:6px 0">'+esc(p)+'</p>').join('')+'</div>':'')
-    : v.result==='lose_raid' ? '<p><span class="stamp">村は襲われた</span></p><p class="big">💀 8日目の朝、ゴブリンが押し寄せた…物語はここまでです。</p>' : '';
+    : v.result==='lose_raid' ? '<p><span class="stamp">村は襲われた</span></p><p class="big">💀 8日目の朝、ゴブリンが押し寄せた…物語はここまでです。</p>'
+    : v.result==='lose_dead' ? '<p><span class="stamp">二人は帰らなかった</span></p><p class="big">💀 倒れた者は、洞穴から帰らなかった…物語はここまでです。</p>' : '';
   const L=v.ledger;
   $('g-handout').innerHTML='<p><b>世界の約束</b></p><ul>'+v.promises.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>'+
     '<p><b>村の台帳</b>（ここに無い物・人は存在しません）</p>'+
