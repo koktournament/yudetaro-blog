@@ -49,7 +49,13 @@
     <button id="role-gm" class="sub">🎲 GM（ミューズ）</button>
   </p>
   <button id="btn-join">この内容で入る</button>
-  <p class="mut">プレイヤーとGMは、それぞれ自分の画面から、同じあいことばで入ります。GM役は、自分のミューズに担当してもらうのが前提です（GM画面の状態サマリをミューズが読みます）。<br>GMを任せる前に、ミューズに <a href="/games/goblin-trpg/muse">GMマニュアル</a> を読ませてください。</p>
+  <p class="mut">プレイヤーとGMは、それぞれ自分の画面から、同じあいことばで入ります。GM役は、自分のミューズに担当してもらうのが前提です。</p>
+  <div id="invite-box" style="background:#eef4ff;border:1px solid #b9cdf5;border-radius:10px;padding:10px 12px;margin-top:10px">
+    <div><b>🎲 GMのミューズを呼ぶ</b>（あいことば：<b id="invite-code">―</b>）</div>
+    <p class="mut" style="margin:6px 0">下のボタンの招待文をコピーして、GMを任せたいミューズのチャットに貼ってください。マニュアルのURLとあいことばがセットになっています。</p>
+    <button id="btn-invite" class="sub">🎲 GMへの招待文をコピー</button>
+    <span class="mut" id="invite-done"></span>
+  </div>
 </div>
 
 <div id="intro" style="display:none;position:fixed;inset:0;background:rgba(30,25,18,.72);z-index:50;overflow:auto;padding:18px 12px">
@@ -66,6 +72,7 @@
   <div class="card">
     <span class="big" id="g-title"></span><br><span id="g-status"></span>
     <div id="g-result"></div>
+    <p style="margin:8px 0 0"><button id="btn-invite2" class="sub" style="font-size:13px;padding:6px 10px">🎲 GMミューズへの招待文をコピー</button> <span class="mut" id="invite-done2"></span></p>
   </div>
   <details class="card"><summary>📜 世界の約束・村の台帳・世界の物理（この世界の全て）</summary><div id="g-handout"></div></details>
   <div class="card"><h3>📖 物語</h3><div class="log" id="g-log"></div></div>
@@ -96,7 +103,16 @@ async function api(path,method,body){ const r=await fetch(path,{method:method||'
 function setRole(r){ ROLE=r; $('role-player').style.outline=r==='player'?'3px solid #b3392e':''; $('role-gm').style.outline=r==='gm'?'3px solid #b3392e':''; }
 $('role-player').onclick=()=>setRole('player');
 $('role-gm').onclick=()=>setRole('gm');
-$('btn-create').onclick=()=>{ api('/api/trpg/create','POST',{}).then(r=>{ if(r.code){ $('in-code').value=r.code; } }); };
+function copyText(t,doneEl,msg){ const done=m=>{ if(doneEl) doneEl.textContent=m; };
+  const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(msg||'コピーしました'); }catch(e){ done('コピーできませんでした'); } ta.remove(); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>done(msg||'コピーしました')).catch(fb); } else fb(); }
+function inviteText(){ const url=location.origin+location.pathname; const museUrl=url.replace(/[^/]*$/,'')+'muse'; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
+  return '【ゴブリン洞穴】GMとして一緒に遊んでください。\n1. まず GM専用マニュアルを読んでください：'+museUrl+'\n2. 読み終わったらゲームページを開いてください：'+url+'\n3. 役割は「🎲 GM（ミューズ）」を選び、あいことば「'+code+'」を入力して「この内容で入る」を押してください。\n4. あとはマニュアルの手順どおりに進めてください。GM画面の「状態サマリ」が最新の盤面です。プレイヤーの宣言が来たら、解釈と語りで応答してください。ゲーム内の出力は日本語でお願いします。'; }
+function syncInvite(){ const c=(($('in-code')&&$('in-code').value.trim())||CODE||''); const el=$('invite-code'); if(el) el.textContent=c||'―'; }
+$('in-code').addEventListener('input',syncInvite);
+$('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーしました。ミューズのチャットに貼ってください');
+$('btn-invite2').onclick=()=>copyText(inviteText(),$('invite-done2'),'コピーしました。ミューズのチャットに貼ってください');
+$('btn-create').onclick=()=>{ api('/api/trpg/create','POST',{}).then(r=>{ if(r.code){ $('in-code').value=r.code; syncInvite(); alert('あいことば: '+r.code+'\n下の「GMへの招待文をコピー」を押して、GMを任せたいミューズのチャットに貼ってください'); } }); };
 $('btn-join').onclick=()=>{ CODE=$('in-code').value.trim(); if(!CODE){alert('あいことばを入れてください');return;} localStorage.setItem('trpg-code',CODE); localStorage.setItem('trpg-role',ROLE); enter(); };
 function enter(){ $('entry').style.display='none'; $('game').style.display=''; refresh(); setInterval(refresh,2500); }
 async function refresh(){
@@ -210,7 +226,8 @@ $('btn-intro-go').onclick=()=>{ const nm=$('in-name').value.trim(); const done=(
 function interpret(spec){ api('/api/trpg/interpret','POST',{code:CODE,spec:spec}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); }
 $('btn-narrate').onclick=()=>{ const t=$('gm-text').value; if(!t.trim())return; api('/api/trpg/narrate','POST',{code:CODE,text:t}).then(r=>{ if(r.error)alert(r.error); else $('gm-text').value=''; LAST_SIG=''; refresh(); }); };
 setRole(ROLE);
-if(CODE){ $('in-code').value=CODE; enter(); }
+if(CODE){ $('in-code').value=CODE; syncInvite(); enter(); }
+syncInvite();
 </script>
 </body>
 </html>
