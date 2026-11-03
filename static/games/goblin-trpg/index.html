@@ -62,6 +62,7 @@
   <div class="card" style="max-width:620px;margin:24px auto">
     <h3 style="margin-top:0">📖 物語のはじまり</h3>
     <div id="intro-text" style="white-space:pre-wrap;line-height:1.9;font-size:15.5px"></div>
+    <div id="intro-mission" style="background:#fdf3d8;border:2px solid #d8a03c;border-radius:10px;padding:10px 14px;margin-top:14px;font-weight:bold;line-height:1.9"></div>
     <p style="margin-top:16px">主人公の名前：<input type="text" id="in-name" style="width:180px" placeholder="若者" maxlength="8"></p>
     <p><button id="btn-intro-go">物語を始める</button></p>
     <p class="mut">名前は空でも始められます（その場合は「若者」）。</p>
@@ -171,6 +172,7 @@ function render(){
   /* 導入（初回だけ地の文＋名前入力） */
   if(!localStorage.getItem('trpg-intro-'+CODE) && v.day===1){
     $('intro-text').textContent=v.intro||'';
+    $('intro-mission').innerHTML=(v.mission||[]).map(m=>'🎯 '+esc(m)).join('<br>');
     $('intro').style.display='';
   }
   /* プレイヤーの入力：文章だけ */
