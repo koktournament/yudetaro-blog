@@ -527,7 +527,7 @@ return gmRule(st, spec.tier || 'normal', spec.reward, spec.custom);
 return { ok: false, error: '解釈の形式が不正です'};
 }
 
-function statusLine(st) {
+function statusLine(st, forGm) {
 return st.day + '日目／' + (st.phase === 'village'? '村（残り行動' + st.actionsLeft + '）': st.phase === 'cave'? '洞穴' + (st.combat? '・戦闘中': ''): '終了')
 + '／' + st.playerName + ' HP ' + st.player.hp + '/' + st.player.maxHp
 + '／ミオHP ' + (st.ally.out? '離脱': st.ally.hp + '/' + st.ally.maxHp)
@@ -536,7 +536,7 @@ return st.day + '日目／' + (st.phase === 'village'? '村（残り行動' + st
 + heldText(st)
 + (st.flags.setup? '／仕掛け済み': '')
 + '／制圧：入口' + (st.zones.iriguchi? '済': '未') + '・中層' + (st.zones.chuso? '済': '未') + '・最深部' + (st.zones.saishin? '済': '未')
-+ '／奥の残り：' + ZONE_ORDER.reduce((a, z) => a + st.poolHp[z].length, 0) + '体＋親玉' + (st.bossAlive? '健在': '討伐済');
++ (forGm ? '／奥の残り：' + ZONE_ORDER.reduce((a, z) => a + st.poolHp[z].length, 0) + '体＋親玉' + (st.bossAlive? '健在': '討伐済') : '');
 }
 function playerView(st) {
 return {
@@ -560,7 +560,7 @@ v.gmSummary = 'ゲーム: ゴブリン洞穴（AI GM TRPG） / あなたはGMで
 + '## 世界の指針（最上位）\n' + WORLD_GUIDELINE + '\n'
 + '## 硬いルール\n' + HARD_RULES + '\n'
 + '判断の順序・人物と世界の確定事実・世界の物理・裁定の作法・戦闘の規則・秘密は、GMマニュアルに集約されています: https://www.yudetaro.com/games/goblin-trpg/muse （まだ読んでいなければ、裁定の前に必ず読んでください）\n'
-+ '\n現在: ' + statusLine(st)
++ '\n現在: ' + statusLine(st, true)
 + (st.pendingText? '\nプレイヤーの宣言: 「' + st.pendingText.text + '」→ 解釈してください。通常の行動（攻撃・移動・道具・装備・村の行動）に対応づくなら action、発想の勝負なら free（難易度+報酬/効果/custom）、数字の動かない交流や描写なら fiction、世界の事実に反するなら reject。': '')
 + (st.pendingFree? '\n裁定待ちの自由行動: 「' + st.pendingFree.text + '」→ 裁定を選んでください：ダイスを振るまでもなければ auto（即成功・報酬なし）、そうでなければ難易度 easy/normal/hard、世界の事実に反すれば reject。ダイスはシステムが振ります。': '\n裁定待ちの自由行動はありません。直近の出来事に物語をつけてください（narration）。')
 + '\n直近のログ:\n' + st.log.slice(-8).map(l => '[' + l.kind + '] ' + l.text).join('\n');
