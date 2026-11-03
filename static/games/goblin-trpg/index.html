@@ -74,7 +74,7 @@
     <div id="g-result"></div>
     <p style="margin:8px 0 0"><button id="btn-invite2" class="sub" style="font-size:13px;padding:6px 10px">🎲 GMミューズへの招待文をコピー</button> <span class="mut" id="invite-done2"></span></p>
   </div>
-  <details class="card"><summary>📜 世界の約束・村の台帳・世界の物理（この世界の全て）</summary><div id="g-handout"></div></details>
+  <details class="card"><summary>📜 世界の約束・村の台帳</summary><div id="g-handout"></div></details>
   <div class="card"><h3>📖 物語</h3><div class="log" id="g-log"></div></div>
   <div class="card" id="g-actions"></div>
   <div class="card" id="g-gm" style="display:none">
@@ -154,7 +154,7 @@ function render(){
   $('g-handout').innerHTML='<p><b>世界の約束</b></p><ul>'+v.promises.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>'+
     '<p><b>村の台帳</b>（ここに無い物・人は存在しません）</p>'+
     '<p>場所：'+L.places.map(esc).join('／')+'<br>喋れる人：'+L.people.map(p=>esc(p.name)+'（'+esc(p.role)+'）').join('、')+'<br>手に入る物：'+L.things.map(esc).join('、')+'<br><b>この村にはない物：'+L.notHere.map(esc).join('、')+'</b></p>'+
-    '<p><b>世界の物理</b>（即興戦術の可否はここで決まっています）</p><ul>'+v.worldFacts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>';
+    '';
   $('g-log').innerHTML=v.log.map(l=>'<span class="'+l.kind+'">'+(l.kind==='gm'?'🎲 ':'')+esc(l.text)+'</span>').join('<br>');
   $('g-log').scrollTop=$('g-log').scrollHeight;
   /* ステータス画面（持ち物は持っている物だけ） */
@@ -186,7 +186,7 @@ function render(){
       ctx='⚔ 戦闘 ― '+esc(c.zone)+'（'+c.round+'ラウンド目）'+(c.reinforcementLeft?'<br><span class="mut">ゴブリンは耳がいい。あと'+c.nextWaveIn+'ラウンドで奥から増援が来るかもしれない</span>':'<br><span class="mut">奥に残りはいない。あとは目の前の敵だけだ</span>')+c.enemies.map(e=>'<div class="enemy"><span class="nm">'+esc(e.name)+'</span>'+hpbar(Math.max(0,e.hp),e.maxHp)+'<span>'+Math.max(0,e.hp)+'/'+e.maxHp+'</span></div>').join('');
       ex='例：「山刀で斬りかかる」「弓で撃つ」「薬草を使う」';
     }
-    h='<p>'+ctx+'</p><p class="ask">どうする？</p><input type="text" id="in-declare" placeholder="'+ex+'"><button id="btn-declare">言う</button>'+
+    h='<p>'+ctx+'</p><p class="ask">どうする？</p><input type="text" id="in-declare" placeholder="'+ex+'"><button id="btn-declare">宣言する</button>'+
     '<p style="margin-top:14px">💬 誰かに話す：<select id="in-talkto">'+v.ledger.people.map(p=>'<option value="'+esc(p.name)+'"'+(p.name==='行商'&&v.day!==4?' disabled':'')+'>'+esc(p.name)+(p.name==='行商'?'（4日目のみ）':'')+'</option>').join('')+'</select><input type="text" id="in-talk" style="width:55%" placeholder="何を話す？（例：昔の退治のことを教えて）"><button id="btn-talk">話す</button></p>';
   }
   /* 直近の出来事：いま起きたことは入力のすぐ側で見えるように（全体の物語は上のカードに残す） */
