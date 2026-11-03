@@ -162,7 +162,7 @@ function render(){
   else if(v.pendingText || v.pendingFree){ h='<p class="big">🎲 GMの応答を待っています…</p>'; }
   else {
     let ctx='', ex='';
-    if(v.phase==='village'){ ctx='🏡 村 ― 今日の行動あと'+v.actionsLeft+'回'; ex='例：「爺さんに話を聞く」「薬草を摘みに行く」「ミオに告白する」「洞穴へ出発する」'; }
+    if(v.phase==='village'){ ctx='🏡 村 ― 今日の行動あと'+v.actionsLeft+'回'; ex='例：「薬草を摘みに行く」「入口に落とし穴を掘る算段をする」「洞穴へ出発する」'; }
     else if(v.phase==='cave' && !v.combat){ ctx='🕳 洞穴 ― '+v.zones.map(z=>esc(z.name)+(z.cleared?'（制圧済み）':z.locked?'（手前が未制圧）':'')).join('／'); ex='例：「入口に入る」「中層へ進む」「村へ帰る」'; }
     else if(v.phase==='cave' && v.combat){
       const c=v.combat;
