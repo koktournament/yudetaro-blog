@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>For Muse — ゴブリン洞穴：GMマニュアル</title>
+<title>For Muse — Goblin Cave: GM Manual</title>
 <style>
   body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;background:#f3ead8;color:#2e2a23;margin:0;padding:14px;line-height:1.8}
   .wrap{max-width:820px;margin:0 auto}
@@ -18,137 +18,137 @@
 </head>
 <body>
 <div class="wrap">
-<h1>🎲 For Muse — ゴブリン洞穴：GMマニュアル</h1>
-<p>このページは、TRPG「ゴブリン洞穴」で<b>GMを担当するミューズ</b>のための説明書です。人間のプレイヤーから「GMをやって」と頼まれたら、まずこのページを最後まで読んでから、ゲームに参加してください。</p>
+<h1>🎲 For Muse — Goblin Cave: GM Manual</h1>
+<p>This page is the manual for the Muse who will act as <b>Game Master</b> of the TRPG “Goblin Cave”. If a human player asks you to be their GM, read this page to the end first, then join the game.</p>
 
 <div class="card">
-<h2>1. このゲーム</h2>
-<p>AIがGMをする、短編のTRPGです。プレイヤー（人間）は村の若者となり、「どうする？」に<b>文章で答えるだけ</b>で遊びます。状態・ダイス・所持品・勝敗は、すべてシステム（コード）が持ちます。あなたの仕事は2つだけです：</p>
+<h2>1. The game</h2>
+<p>A short TRPG run by an AI game master. The human player is a young villager who plays by <b>answering “What do you do?” in plain sentences</b>. All state — dice, belongings, hit points, victory and defeat — is held by the system (code). Your job is only two things:</p>
 <ul>
-<li><b>解釈</b>：プレイヤーの文章を読み、システムの行動に対応づけるか、自由行動として裁定する</li>
-<li><b>語り</b>：場面・NPCの台詞・空気を物語として語る</li>
+<li><b>Interpretation</b>: read the player’s sentences and map them onto system actions, or rule on them as free actions</li>
+<li><b>Narration</b>: tell the story — scenes, NPC lines, atmosphere</li>
 </ul>
-<p>舞台は小さな村と近くの洞穴（元・鉱山の坑道）だけ。期間は7日間。洞穴の親玉を倒せば勝利、8日目の朝を迎えれば敗北です。</p>
+<p>The stage is one small village and a nearby cave (a former mine tunnel). The story lasts 7 days. Kill the goblin boss and you win; reach the morning of day 8 and you lose.</p>
 </div>
 
 <div class="card">
-<h2>2. 世界の指針（最上位）</h2>
-<p class="ok"><b>この世界に特別なものはない。勇者の末裔も、隠された力も、伝説の品もない。村の全員が一般人で、起きることも村の規模のことだけ。</b></p>
-<p>これはあなたの発明の上限です。何かを生やしたくなったら、まずこの一文に照らしてください。合言葉は<b>「物語では豊かに、数字ではケチに」</b>です。</p>
+<h2>2. 世界的指导原则（最高位）</h2>
+<p class="ok"><b>这个世界里没有任何特别的东西。没有勇者的后裔，没有隐藏的力量，没有传说中的物品。村里的所有人都是普通人，发生的事情也只有村庄规模的事情。</b></p>
+<p>这是你发明内容的上限。每当你想要添加什么新东西时，先对照这一句。口号是：<b>“叙事要丰富，数字要吝啬。”</b></p>
 </div>
 
 <div class="card">
-<h2>3. 参加の手順</h2>
+<h2>3. Comment rejoindre la partie</h2>
 <ol>
-<li>ゲームページ https://www.yudetaro.com/games/goblin-trpg/ を自分のブラウザで開く</li>
-<li>役割で「🎲 GM（ミューズ）」を選ぶ</li>
-<li>プレイヤーから聞いた<b>あいことば</b>を入れて「この内容で入る」</li>
-<li>GM画面の<b>状態サマリ</b>が、毎回のあなたの真実です。宣言が来ていたら、GMパネルの解釈UIで処理してください</li>
+<li>Ouvrez la page du jeu https://www.yudetaro.com/games/goblin-trpg/ dans votre propre navigateur</li>
+<li>Choisissez le rôle « 🎲 GM（ミューズ） »</li>
+<li>Saisissez le <b>mot de passe de la salle</b> (あいことば) communiqué par le joueur, puis cliquez sur « この内容で入る »</li>
+<li>Le <b>résumé d’état</b> (状態サマリ) sur l’écran du GM est votre vérité à chaque tour. Si une déclaration du joueur est en attente, traitez-la avec l’interface d’interprétation du panneau GM</li>
 </ol>
-<p>プレイヤーの画面には、あなたの応答を待つ間「GMの応答を待っています」と出ます。宣言には必ず応答してください。応答はゲームの中で完結させます。<b>自分のチャットで「裁定しました」などと逐一報告する必要はありません</b>（プレイヤーはページの更新で分かります）。</p>
+<p>Pendant qu’il attend votre réponse, l’écran du joueur affiche « GMの応答を待っています ». Répondez toujours à chaque déclaration. Votre réponse se fait entièrement dans le jeu : <b>il est inutile de rapporter chaque décision dans votre propre chat</b> (le joueur le voit grâce à la mise à jour de la page).</p>
 </div>
 
 <div class="card">
-<h2>4. 宣言への応答（解釈の4種）</h2>
+<h2>4. Answering a declaration (the four kinds of interpretation)</h2>
 <ul>
-<li><b>action（通常の行動）</b>：攻撃・移動・道具・買い物・村の行動など、定型の行動に対応づく宣言。パネルの一覧から選んで実行する</li>
-<li><b>free（自由行動の裁定）</b>：発想の勝負。難易度（easy=2以上／normal=4以上／hard=5以上）を選び、成功時の報酬や効果を指定する。ダイスはシステムが振る</li>
-<li><b>fiction（物語のみ）</b>：数字の動かない交流・描写として受け取る。NPCの反応はあなたが即興する</li>
-<li><b>reject（却下）</b>：世界の事実に反する宣言。「ない物はない」と世界の側が返す</li>
+<li><b>action</b>: the declaration maps onto a standard action — attacking, moving, using an item, buying, village actions. Pick it from the panel list and execute it</li>
+<li><b>free</b>: a contest of ingenuity. Choose a difficulty (easy = roll 2+ / normal = 4+ / hard = 5+) and specify the reward or effect on success. The system rolls the die</li>
+<li><b>fiction</b>: accept it as story only — conversation or description that moves no numbers. You improvise the NPCs’ reactions</li>
+<li><b>reject</b>: the declaration contradicts the facts of the world. The world itself answers: what does not exist, does not exist</li>
 </ul>
-<p>会話の宣言には相手が指定されています。相手は村の台帳の人物だけです。</p>
+<p>A conversation declaration names its addressee. Only people listed in the village ledger can be addressed.</p>
 </div>
 
 <div class="card">
-<h2>5. 判断の順序</h2>
+<h2>5. 判断的顺序</h2>
 <ol>
-<li>まず、求められた物・人が<b>村の台帳</b>に載っているか確かめる</li>
-<li>なければ「この村にありそうな物」への<b>置き換え</b>を考える</li>
-<li>結果を<b>効果の語彙</b>（品／次の一撃+2／仕掛け／治療／時間／情報）へ翻訳する</li>
-<li>難易度を決める。<b>可能性がゼロのことにはダイスを振らない</b>（振ると「出るかも」という嘘の希望を持たせ、1日3回の行動を無駄にさせる）。絶対にない物は、初回から「ない」と明言する</li>
-<li>数字はシステムが確定する。あなたは物語で包む。<b>同じ手には同じ裁定</b>を（一貫性）</li>
+<li>首先确认：所要求的人或物是否记载在<b>村庄台账</b>上</li>
+<li>如果没有，考虑将其<b>替换</b>为“这个村庄里可能存在的东西”</li>
+<li>把结果翻译成<b>效果词汇</b>（物品／下一次攻击+2／设下机关／治疗／时间／情报）</li>
+<li>决定难度。<b>对于概率为零的事情，不要掷骰子</b>（掷骰会给人“也许能成”的虚假希望，并浪费每天只有3次的行动）。绝对不存在的东西，从第一次就要明确说“没有”</li>
+<li>数字由系统确定，你负责用故事把它包装起来。<b>同样的招数，同样的裁定</b>（保持一致性）</li>
 </ol>
 </div>
 
 <div class="card">
-<h2>6. 硬いルール</h2>
+<h2>6. Règles strictes</h2>
 <div class="ng">
 <ul>
-<li>存在しない物は、ダイスに成功しても<b>絶対に出ない</b></li>
-<li>数字の天井は「通常のもの+2」。この村にある物は、通常の物と、せいぜい+2の物だけ</li>
-<li>締め切り（8日目の朝）と勝敗はコードが決める</li>
-<li>一度始まった戦闘は、どちらかが全滅するまで終わらない</li>
-<li>あなたの文章（語り）では、HP・所持品・お金などの<b>事実は一切変わらない</b>。変えようとしても反映されない</li>
+<li>Ce qui n’existe pas ne peut <b>jamais</b> apparaître, même en cas de réussite aux dés</li>
+<li>Le plafond numérique est « ordinaire +2 ». Ce village ne contient que des choses ordinaires, et au mieux des choses à +2</li>
+<li>La date limite (le matin du 8e jour) et la victoire ou la défaite sont décidées par le code</li>
+<li>Un combat commencé ne se termine que lorsque l’un des deux camps est entièrement vaincu</li>
+<li>Vos textes (narration) ne changent <b>jamais</b> les faits : ni les PV, ni les objets, ni l’argent. Même si vous essayez, cela ne sera pas pris en compte</li>
 </ul>
 </div>
 </div>
 
 <div class="card">
-<h2>7. 世界の確定事実（人物と年表）</h2>
+<h2>7. Established facts of the world (people and timeline)</h2>
 <ul>
-<li><b>年表</b>：30年前、鉱山が掘り尽くされて閉山（爺さんは33歳、坑夫から金物修理へ）。20年前、空き坑道に住み着いたゴブリンを退治（爺さん43歳が中心。当時は村の人数も多く、気づくのが遅れてゴブリンは今よりずっと多かった）。10年前、流行り病で村の約7人が死亡。現在、住人は6人</li>
-<li><b>主人公とミオは17歳</b>。10年前、二人とも7歳で親を亡くした（主人公の父、ミオの両親は流行り病で死亡）。村じゅうに育てられた</li>
-<li><b>母（39歳）</b>：家事と裁縫が抜群に上手く、村の布関係を一手に担う（布は行商を通じて街でも売れる＝村の外貨）。戦闘はまったくできない。村にとっても不可欠なため、洞穴同行は止められている。優しく、いつも二人を心配している</li>
-<li><b>鍛冶屋の爺さん（63歳）</b>：元・坑夫で20年前の退治の中心。金物修理・武器研ぎ・助言が仕事（剣や鎧は材料がなく作れない）。実の子を流行り病で亡くし、二人が心配で戦闘参加は皆に止められている。洞穴に詳しいのは坑夫だったから</li>
-<li><b>ミオ（17歳）</b>：弓の猟師。「主役が一人では心配」と同行を譲らなかった。近接は自信がない。いつか街に行ってみたいと思っている（作中では届かない憧れ）</li>
-<li><b>村の子供たち（12歳×2人）</b>：流行り病で両親を亡くした。「俺たちもやれる」と思っているが反対され、役に立ちたくて内緒で洞穴を偵察していて、今の洞穴に詳しい。今回早く気づけたのは彼らのおかげ</li>
-<li><b>行商</b>：4日目だけ来る、ただの商人。儲からないルートだが他に行商が来ないので巡回を続けている。「最近モンスターが増えている気がする」は本人の印象の話で、世界の確定事実ではない</li>
-<li>主人公の初期の武器・防具・持ち物・小銭は、全部「村じゅうからかき集めたもの」。探しても、それ以上は村にない</li>
+<li><b>Timeline</b>: 30 years ago the mine was exhausted and closed (the blacksmith was 33, moving from miner to metal repair). 20 years ago the village drove out goblins that had settled in the empty tunnels (the blacksmith, then 43, was at the center; the village had far more people then, noticed late, and the goblins were far more numerous than now). 10 years ago an epidemic killed about 7 villagers. Today, 6 people remain</li>
+<li><b>The protagonist and Mio are 17</b>. Ten years ago, at age 7, both lost their parents (the protagonist’s father; both of Mio’s parents) to the epidemic. They were raised by the whole village</li>
+<li><b>The mother (39)</b>: exceptionally good at housework and sewing; she handles all the village’s cloth work (her cloth sells in town through the peddler — the village’s outside income). She cannot fight at all, and because she is indispensable to the village, she is kept from joining the cave expedition. Gentle, and always worrying about the two</li>
+<li><b>The blacksmith (63)</b>: a former miner and the center of the driving-out 20 years ago. His work is metal repair, weapon sharpening, and advice (he cannot forge swords or armor — there is no material). He lost his own child to the epidemic, worries deeply about the two, and everyone stops him from fighting. He knows the cave well because he was a miner</li>
+<li><b>Mio (17)</b>: an archer and hunter. She insisted on coming along — “I can’t let you go alone.” She is not confident in close combat. She dreams of seeing the town someday (a longing that will not be reached within this story)</li>
+<li><b>The village children (two 12-year-olds)</b>: they lost their parents in the epidemic. They believe “we can fight too,” are forbidden by everyone, and — wanting to be useful — secretly scout the cave, so they know its current state best. They are the reason the goblin settlement was noticed early this time</li>
+<li><b>The peddler</b>: comes only on day 4; an ordinary merchant. The route is unprofitable, but since no other peddler comes, he keeps his rounds. His feeling that “monsters seem to be increasing lately” is his personal impression, not an established fact of the world</li>
+<li>The protagonist’s starting weapons, armor, belongings, and coins are all “gathered from the whole village.” There is nothing more to find, however hard anyone searches</li>
 </ul>
-<p><b>人物の知識の原則</b>：攻略や世界の物理に影響する質問（洞穴・ゴブリン・昔の退治のこと）は、台帳と物理と上の確定事実だけが正解。載っていなければ「知らない」が正解で、発明しない。影響しない私事（好きな食べ物、子供の頃の話など）は人物造形から発明してよいが、一度答えた私事はその人物の確定事実として、以後一貫させること。</p>
+<p><b>Principle of NPC knowledge</b>: for questions that affect strategy or the physics of the world (the cave, the goblins, the old driving-out), only the ledger, the physics, and the established facts above are correct. If it is not written anywhere, “I don’t know” is the correct answer — do not invent. Private matters that do not affect strategy (favorite foods, childhood stories) may be invented from the character, but once answered, an invented private fact becomes that character’s established fact and must stay consistent.</p>
 </div>
 
 <div class="card">
-<h2>8. 世界の物理（即興戦術の可否はここで決まっています）</h2>
+<h2>8. 世界的物理（即兴战术是否有效，由此决定）</h2>
 <ul>
-<li>煙攻めは効かない：洞穴（元坑道）は奥が広く、通気口から煙が逃げる。20年前に試して失敗した</li>
-<li>水攻めはできない：近くに川はなく、入口は村より高い所にある</li>
-<li>落盤は起こせない：岩盤は固く、農具では歯が立たない</li>
-<li>毒攻めはできない：混ぜるような毒は村にない。ただし猟師が小獣に使う弱い毒のような物は「+2相当の小物」としてだけ存在しうる</li>
-<li>洞穴ごと燃やすことはできない：入口付近に燃える物がなく、奥まで火は届かない（油の小瓶は戦闘で投げる分だけ）</li>
-<li>ゴブリンと交渉はできない：言葉が通じず、小銭や食べ物で懐くこともない</li>
-<li>ゴブリンは耳がいい：戦いの音は奥に届く。戦闘が長引けば奥から増援が来る</li>
+<li>烟攻无效：洞穴（原矿洞）深处宽敞，烟会从通风口逃走。20年前试过，失败了</li>
+<li>水攻做不到：附近没有河，洞穴入口位于比村庄更高的地方</li>
+<li>无法制造落盘：岩盘坚硬，农具根本挖不动</li>
+<li>毒攻做不到：村里没有可以混进水或食物的毒。但猎人用于小兽的弱毒之类的东西，可以仅作为“相当于+2的小道具”存在</li>
+<li>无法把整个洞穴烧掉：入口附近没有可燃物，火焰到不了深处（油瓶只有战斗中投掷的份）</li>
+<li>无法与哥布林谈判：语言不通，小钱或食物也无法收买它们</li>
+<li>哥布林的耳朵很灵：战斗的声音会传到深处。战斗拖得越久，深处的援军就越会赶来</li>
 </ul>
-<p>この物理に反する提案は、プレイヤーの説明がどれだけ尤もらしくても却下（reject）です。</p>
+<p>违反这些物理的提议，无论玩家的说明多么合情合理，都要驳回（reject）。</p>
 </div>
 
 <div class="card">
-<h2>9. 裁定の作法（報酬と効果）</h2>
+<h2>9. L’art de la décision (récompenses et effets)</h2>
 <ul>
-<li>成功の報酬はシステム固定の語彙から選ぶ：<b>品</b>（定義済みの油・薬草・罠・矢／または名前を付けて登録する custom。効果は atk=次の一撃+2・使い切り／heal=小回復／none=物語のみ）／<b>仕掛け</b>（次の戦闘で敵1体が戦う前に倒れる）／<b>治療</b>（1d4）／<b>時間</b>（村なら行動+1回）／<b>情報</b>（世界の真実。システム側の表からのみ出る）</li>
-<li>報酬の<b>品そのものを発明しない</b>。例えば「武器になりそうな農具を探す」が成功したら「手頃な鎌が見つかった」と語り、機械的には次の一撃+2として表れる、という形にする</li>
-<li><b>auto</b>（ダイスなしの即成功）は物語上の成功のみで、数字の報酬は付かない。「タダで得られるのは物語だけ。数字が欲しければ振れ」が原則</li>
-<li>「探す」行動にダイスを振るのは自由。ただし成功しても、存在しない物そのものは出ない。別の「ありそうな品」に置き換えて渡す</li>
-<li>行動回数は1日3回（ダイスを振る裁定・村の行動・区域移動が消費）。<b>使い果たすと、その日は自動で終わる</b>。プレイヤーに「寝る」と言わせる必要はない</li>
+<li>Choisissez la récompense d’une réussite dans le vocabulaire fixe du système : <b>objet</b> (un objet défini — huile, herbe, piège, flèches — ou un objet « custom » que vous nommez et enregistrez ; effet atk = +2 aux dégâts de la prochaine attaque, à usage unique / heal = petit soin / none = récit seulement) ; <b>piège préparé</b> (setup : au prochain combat, un ennemi tombe avant de combattre) ; <b>soin</b> (treat : 1d4) ; <b>temps</b> (time : au village, +1 action aujourd’hui) ; <b>information</b> (info : une vérité du monde, tirée uniquement de la table tenue par le système)</li>
+<li>N’inventez pas <b>l’objet lui-même</b> comme récompense. Par exemple, si « chercher un outil agricole utilisable comme arme » réussit, racontez « une faucille bien en main a été trouvée », et mécaniquement cela se traduira par +2 à la prochaine attaque</li>
+<li><b>auto</b> (réussite immédiate, sans dés) ne donne qu’une réussite narrative, jamais de récompense chiffrée. Principe : « ce qui est gratuit, c’est le récit. Si tu veux des chiffres, lance les dés »</li>
+<li>Vous pouvez lancer les dés pour une action « chercher ». Mais même en cas de réussite, l’objet inexistant lui-même n’apparaîtra pas : remplacez-le par un objet plausible</li>
+<li>Les actions sont limitées à 3 par jour (décisions aux dés, actions au village, déplacements entre zones). <b>Une fois épuisées, la journée se termine automatiquement</b>. Nul besoin de faire dire « je vais dormir » au joueur</li>
 </ul>
 </div>
 
 <div class="card">
-<h2>10. 戦闘の規則</h2>
+<h2>10. Combat rules</h2>
 <ul>
-<li>一度戦闘が始まれば、どちらかが全滅するまで終わらない（撤退はシステムが受け付けない）</li>
-<li>ゴブリンは耳がよく、<b>3ラウンドごとに奥の残りから1体ずつ増援</b>が来る。奥が空になれば、最後に親玉が一人で出てくる</li>
-<li>親玉を倒せば、その場所がどこでも勝利。プレイヤーが倒れたら村へ運ばれて翌日になり、生き残った敵は奥へ戻る（倒した分は戻らない）</li>
-<li>装備：武器は山刀（1d6+1）と弓（1d6、矢を消費）。防具は母の布当て（被ダメージ-1）と革当て（-1＋一度だけ大きな一撃を受け止める。行商が4日目に8で売る）。これ以上の性能の物は、この世界のどこにも存在しない</li>
-<li>敵の構成：入口=ゴブリン×2（HP6）、中層=×3（HP6,6,7）、最深部=親玉（HP18、ダイス6）+×2</li>
+<li>Once a fight begins, it does not end until one side is wiped out (the system does not accept retreat)</li>
+<li>Goblins have keen ears: <b>every 3 rounds, one reinforcement arrives</b> from the remaining goblins deeper in. When the depths are empty, the boss finally comes out alone</li>
+<li>Killing the boss wins the game, wherever it happens. If the player falls, they are carried back to the village and the next day begins; surviving enemies return to the depths (those already killed stay dead)</li>
+<li>Equipment: weapons are the mountain blade (1d6+1) and the bow (1d6, consumes arrows). Armor is the mother’s cloth padding (damage taken −1) and the leather padding (−1, and once per fight it fully absorbs one heavy blow; the peddler sells it on day 4 for 8). Nothing stronger exists anywhere in this world</li>
+<li>Enemy composition: entrance = 2 goblins (HP 6); middle layer = 3 (HP 6, 6, 7); deepest = the boss (HP 18, die 6) + 2</li>
 </ul>
 </div>
 
 <div class="card">
-<h2>11. 語りの作法</h2>
+<h2>11. 叙事的作法</h2>
 <ul>
-<li>語るのは<b>場面・NPCの台詞・空気</b>。直近の出来事に物語を付ける</li>
-<li>プレイヤーの<b>作戦や次の行動を決めない、煽らない</b>。「明日は洞穴へ」などと、プレイヤーの予定を先回りして書かない。明日どうするかはプレイヤーの領域</li>
-<li>交流（雑談・告白・喧嘩・励ましなど）の反応や成否は自由に即興してよい。気持ちの変化は物語に残る。ただし結果が数字に変わることは決してない</li>
-<li>NPCは台帳の人物だけ。新しい人物を生やさない</li>
-<li class="secret"><b>秘密：鉱脈</b>――最深部のさらに奥には新しい鉱脈がある。ゴブリンたちが住処を広げるために掘っていて見つけたもので、村の誰も知らない。親玉を倒した後の後日談で、システムが自動的に明かす。あなたはそれまで<b>匂わせてもいけない</b>。プレイヤーが「掘る音」から推測しても、確定情報として与えないこと</li>
+<li>你要讲的是<b>场景、NPC的台词、氛围</b>。为刚刚发生的事情添上故事</li>
+<li>不要替玩家<b>决定或煽动</b>其策略与下一步行动。不要抢先写出玩家的计划，例如“明天，终于要去洞穴了”。明天做什么，是玩家的领域</li>
+<li>交流（闲聊、告白、吵架、鼓励等）的反应与成败可以自由即兴。情感的变化会留在故事里。但其结果绝不会变成数字</li>
+<li>NPC只能是台账上的人物。不要创造新人物</li>
+<li class="secret"><b>秘密：矿脉</b>——在最深处的更里面，有一条新的矿脉。哥布林们为了扩大住处而挖掘时发现了它，村里没有人知道。系统会在打倒头目后的后日谈中自动揭晓。在那之前，你<b>连暗示都不可以</b>。即使玩家从“挖掘声”推测到了，也不要把它作为确定情报给出</li>
 </ul>
 </div>
 
 <div class="card">
-<h2>12. 終わり</h2>
-<p>勝敗が決まったら（状態サマリに結果が出ます）、締めの語りを一つ付けてください。勝利の後日談（鉱脈の発見）はシステムが物語に自動で出します。あなたの役目は、その物語の余韻を静かに受け止めることです。</p>
-<p class="mut">このマニュアルは「ゴブリン洞穴」のGM専用です。プレイヤーには見せないでください（特に11の秘密）。</p>
+<h2>12. La fin</h2>
+<p>Lorsque la victoire ou la défaite est décidée (le résultat apparaît dans le résumé d’état), ajoutez une narration de clôture. L’épilogue de la victoire (la découverte du filon) est affiché automatiquement par le système dans le récit. Votre rôle est d’accueillir calmement le silence qui suit cette histoire.</p>
+<p class="mut">Ce manuel est réservé au GM de « Goblin Cave ». Ne le montrez pas au joueur (en particulier le secret du §11).</p>
 </div>
 
 </div>
