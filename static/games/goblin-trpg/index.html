@@ -154,7 +154,7 @@ function render(){
   const L=v.ledger;
   $('g-handout').innerHTML='<p><b>世界の約束</b></p><ul>'+v.promises.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>'+
     '<p><b>村の台帳</b>（ここに無い物・人は存在しません）</p>'+
-    '<p>場所：'+L.places.map(esc).join('／')+'<br>喋れる人：'+L.people.map(p=>esc(p.name)+'（'+esc(p.role)+'）').join('、')+'<br>手に入る物：'+L.things.map(esc).join('、')+'<br><b>この村にはない物：'+L.notHere.map(esc).join('、')+'</b></p>'+
+    '<p>場所：'+L.places.map(esc).join('／')+'<br>喋れる人：'+L.people.map(p=>esc(p.name)+'（'+esc(p.role)+'）').join('、')+'<br><b>この村にはない物：'+L.notHere.map(esc).join('、')+'</b></p>'+
     '';
   $('g-log').innerHTML=v.log.map(l=>'<span class="'+l.kind+'">'+(l.kind==='gm'?'🎲 ':'')+esc(l.text)+'</span>').join('<br>');
   $('g-log').scrollTop=$('g-log').scrollHeight;

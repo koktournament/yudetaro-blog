@@ -181,6 +181,7 @@ function endDay(st, why) {
     log(st, 'sys', '8日目の朝。増えきったゴブリンが村に押し寄せた――村は守れなかった。');
   } else {
     log(st, 'sys', st.day + '日目の朝。残り' + (8 - st.day) + '日。');
+    if (st.day === 4) log(st, 'sys', '行商が村に着いた。売り物は――油の小瓶（小銭' + PRICES.oil + '）、矢束（' + PRICES.arrows + '）、薬草（' + PRICES.herb + '）、革当て（' + PRICES.leather + '）。行商がいるのは今日だけだ。');
   }
 }
 
@@ -574,7 +575,7 @@ return st.day + '日目／' + (st.phase === 'village'? '村（残り行動' + st
 }
 function playerView(st) {
 return {
-day: st.day, phase: st.phase, result: st.result, promises: PROMISES, ledger: VILLAGE_LEDGER,
+day: st.day, phase: st.phase, result: st.result, promises: PROMISES, ledger: { places: VILLAGE_LEDGER.places, people: VILLAGE_LEDGER.people, notHere: VILLAGE_LEDGER.notHere },
 intro: INTRO, mission: MISSION, epilogue: st.result === 'win'? EPILOGUE: null,
 actionsLeft: st.actionsLeft, status: statusLine(st),
 playerName: st.playerName,
