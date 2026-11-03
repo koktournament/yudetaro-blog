@@ -12,10 +12,12 @@
   },
   "durable_objects": {
     "bindings": [
-      { "name": "RAMEN_ROOM", "class_name": "RamenRoom" }
+      { "name": "RAMEN_ROOM", "class_name": "RamenRoom" },
+      { "name": "TRPG_ROOM", "class_name": "TrpgRoom" }
     ]
   },
   "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["RamenRoom"] }
+    { "tag": "v1", "new_sqlite_classes": ["RamenRoom"] },
+    { "tag": "v2", "new_sqlite_classes": ["TrpgRoom"] }
   ]
 }
