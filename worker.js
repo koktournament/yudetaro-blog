@@ -78,7 +78,25 @@ export class TrpgRoom {
     if (!st) return json({ error: '部屋が見つかりません' }, 404);
     if (u.pathname.endsWith('/state')) {
       const role = u.searchParams.get('role');
-      return json(role === 'gm' ? trpg.gmView(st) : trpg.playerView(st));
+      const sigOf = (s) => JSON.stringify([s.day, s.phase, s.result, s.log.length, s.pendingText ? 1 : 0, s.pendingFree ? 1 : 0, s.player.hp, s.ally.hp, s.actionsLeft, s.combat ? s.combat.round + ':' + s.combat.enemies.map(e => e.hp).join(',') : '']);
+      let cur = st;
+      let sig = sigOf(cur);
+      const wait = Math.min(25, Math.max(0, parseInt(u.searchParams.get('wait') || '0', 10) || 0));
+      const want = u.searchParams.get('sig');
+      if (wait > 0 && want && want === sig) {
+        const deadline = Date.now() + wait * 1000;
+        while (Date.now() < deadline) {
+          await new Promise(r => setTimeout(r, 800));
+          const fresh = await this.load();
+          if (!fresh) break;
+          cur = fresh;
+          const ns = sigOf(fresh);
+          if (ns !== sig) { sig = ns; break; }
+        }
+      }
+      const view = role === 'gm' ? trpg.gmView(cur) : trpg.playerView(cur);
+      view.sig = sig;
+      return json(view);
     }
     if (u.pathname.endsWith('/declare')) {
       const body = await req.json();

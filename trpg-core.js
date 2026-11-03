@@ -133,7 +133,17 @@ function rnd(st) {
   t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 }
-function die(st, n) { return 1 + Math.floor(rnd(st) * n); }
+function die(st, n) { const v = 1 + Math.floor(rnd(st) * n); if (st._rolls) st._rolls.push({ sides: n, value: v }); return v; }
+/* 1回の手続きで振られたダイスを、その手続きで最初に追加されたログへ付ける（画面のダイス演出用） */
+function captureRolls(st, fn) {
+  if (st._rolls) return fn();
+  const start = st.log.length;
+  st._rolls = [];
+  try { return fn(); } finally {
+    const rolls = st._rolls; st._rolls = null;
+    if (rolls && rolls.length) for (let i = start; i < st.log.length; i++) { if (!st.log[i].rolls) { st.log[i].rolls = rolls; break; } }
+  }
+}
 function log(st, kind, text) { st.log.push({ kind, text }); if (st.log.length > 300) st.log.splice(0, st.log.length - 300); }
 
 function newGame(seed) {
@@ -444,6 +454,7 @@ function playerActionInner(st, action) {
 }
 
 /* GM の手はこの2つだけ。どちらも世界の事実を直接は書き換えない */
+function gmInterpret(st, spec) { return captureRolls(st, () => gmInterpretInner(st, spec)); }
 function gmNarrate(st, text) {
 const t = String(text || '').slice(0, 1000);
 if (!t) return { ok: false, error: '文章が空です'};
@@ -505,14 +516,10 @@ if (st.phase === 'village') endDay(st, '今日の行動を使い果たした');
 else if (st.phase === 'cave') endDay(st, 'これ以上は動けないので、村へ帰って休んだ');
 }
 function playerAction(st, action) {
-const r = playerActionInner(st, action);
-if (r.ok) maybeAutoSleep(st);
-return r;
+return captureRolls(st, () => { const r = playerActionInner(st, action); if (r.ok) maybeAutoSleep(st); return r; });
 }
 function gmRule(st, tier, reward, custom) {
-const r = gmRuleInner(st, tier, reward, custom);
-if (r.ok) maybeAutoSleep(st);
-return r;
+return captureRolls(st, () => { const r = gmRuleInner(st, tier, reward, custom); if (r.ok) maybeAutoSleep(st); return r; });
 }
 
 const ITEM_NAMES = { herb: '薬草', bento: '弁当', oil: '油', trap: '罠'};
@@ -541,7 +548,7 @@ st.pendingText = { text: t, talkTo: talkTo || null};
 log(st, 'player', (talkTo? '（' + talkTo + 'へ）': '') + '「' + t + '」');
 return { ok: true};
 }
-function gmInterpret(st, spec) {
+function gmInterpretInner(st, spec) {
 if (!st.pendingText) return { ok: false, error: '解釈待ちの宣言がありません'};
 const kind = spec && spec.as;
 if (kind === 'fiction') { st.pendingText = null; log(st, 'sys', '（物語として受け取られた）'); return { ok: true};}

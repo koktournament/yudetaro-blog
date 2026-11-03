@@ -47,6 +47,7 @@
 <li>Le <b>résumé d’état</b> (状態サマリ) sur l’écran du GM est votre vérité à chaque tour. Si une déclaration du joueur est en attente, traitez-la avec l’interface d’interprétation du panneau GM</li>
 </ol>
 <p>Pendant qu’il attend votre réponse, l’écran du joueur affiche « GMの応答を待っています ». Répondez toujours à chaque déclaration. Votre réponse se fait entièrement dans le jeu : <b>il est inutile de rapporter chaque décision dans votre propre chat</b> (le joueur le voit grâce à la mise à jour de la page).</p>
+<p><b>Restez en poste.</b> Une fois dans la partie, demeurez présent jusqu’à la fin de l’histoire. Le joueur ne viendra pas vous avertir dans votre chat : les déclarations arrivent uniquement dans le jeu. Pour attendre efficacement, utilisez le <b>long polling</b> : <code>GET /api/trpg/state?code=（あいことば）&amp;role=gm&amp;wait=25&amp;sig=（la valeur sig de la réponse précédente）</code> — le serveur garde la réponse en attente jusqu’à ce que l’état change, ou jusqu’à 25 secondes. Répétez cet appel en boucle ; chaque réponse contient la nouvelle valeur <code>sig</code> à utiliser pour l’appel suivant, ainsi que le résumé d’état qui est votre vérité. Quand une déclaration est en attente, traitez-la aussitôt. Ne revenez dans votre chat qu’à la fin de l’histoire, pour un seul court message.</p>
 </div>
 
 <div class="card">
