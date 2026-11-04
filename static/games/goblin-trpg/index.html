@@ -223,7 +223,7 @@ function render(){
   $('g-title').textContent='ゴブリン洞穴（'+CODE+'） ― '+(ROLE==='gm'?'🎲 GM':'🧑 プレイヤー')+'画面';
   $('g-status').textContent=v.status;
   bgmSync(v);
-  const sk = v.result==='win' ? 'village' : v.result ? 'deep' : v.phase==='village' ? 'village' : v.phase==='cave' ? ({iriguchi:'entrance',chuso:'tunnel',saishin:'deep'})[v.zone||'iriguchi'] : null;
+  const sk = (v.result==='win' || v.result==='escape') ? 'village' : v.result ? 'deep' : v.phase==='village' ? 'village' : v.phase==='cave' ? ({iriguchi:'entrance',chuso:'tunnel',saishin:'deep'})[v.zone||'iriguchi'] : null;
   const simg = $('g-scene');
   if(sk && window.TRPG_ART && TRPG_ART[sk]){
     $('g-scenewrap').style.display='block';
@@ -231,7 +231,8 @@ function render(){
   }
   $('g-result').innerHTML = v.result==='win' ? '<p><span class="stamp">村は守られた</span></p><p class="big">🏆 親玉を倒した！ 7日間の物語は完結しました。</p>'+(v.epilogue?'<div style="background:#f7efdb;border-radius:10px;padding:10px 14px;line-height:1.9">'+v.epilogue.map(p=>'<p style="margin:6px 0">'+esc(p)+'</p>').join('')+'</div>':'')
     : v.result==='lose_raid' ? '<p><span class="stamp">村は襲われた</span></p><p class="big">💀 8日目の朝、ゴブリンが押し寄せた…物語はここまでです。</p>'
-    : v.result==='lose_dead' ? '<p><span class="stamp">二人は帰らなかった</span></p><p class="big">💀 倒れた者は、洞穴から帰らなかった…物語はここまでです。</p>' : '';
+    : v.result==='lose_dead' ? '<p><span class="stamp">二人は帰らなかった</span></p><p class="big">💀 倒れた者は、洞穴から帰らなかった…物語はここまでです。</p>'
+    : v.result==='escape' ? '<p><span class="stamp">別の結末</span></p><p class="big">🌿 物語は、別の結末を迎えました。結末は上の「物語」に記されています。</p>' : '';
   const L=v.ledger;
   $('g-handout').innerHTML='<p><b>世界の約束</b></p><ul>'+v.promises.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>'+
     '<p><b>村の台帳</b>（ここに無い物・人は存在しません）</p>'+
@@ -270,7 +271,7 @@ function render(){
       ex='例：「山刀で斬りかかる」「弓で撃つ」「薬草を使う」';
     }
     h='<p>'+ctx+'</p><p class="ask">どうする？</p><input type="text" id="in-declare" placeholder="'+ex+'"><button id="btn-declare">宣言する</button>'+
-    '<p style="margin-top:14px">💬 誰かに話す：<select id="in-talkto">'+v.ledger.people.map(p=>'<option value="'+esc(p.name)+'"'+(p.name==='行商'&&v.day!==4?' disabled':'')+'>'+esc(p.name)+(p.name==='行商'?'（4日目のみ）':'')+'</option>').join('')+'</select><input type="text" id="in-talk" style="width:55%" placeholder="何を話す？（例：昔の退治のことを教えて）"><button id="btn-talk">話す</button></p>';
+    (v.phase==='village' ? '<p style="margin-top:14px">💬 誰かに話す：<select id="in-talkto">'+v.ledger.people.map(p=>'<option value="'+esc(p.name)+'"'+(p.name==='行商'&&v.day!==4?' disabled':'')+'>'+esc(p.name)+(p.name==='行商'?'（4日目のみ）':'')+'</option>').join('')+'</select><input type="text" id="in-talk" style="width:55%" placeholder="何を話す？（例：昔の退治のことを教えて）"><button id="btn-talk">話す</button></p>' : '');
   }
   /* 直近の出来事：いま起きたことは入力のすぐ側で見えるように（全体の物語は上のカードに残す） */
   const recent='<div class="recent"><span class="ttl">直近の出来事</span><br>'+v.log.slice(-5).map(l=>'<span class="'+l.kind+'">'+(l.kind==='gm'?'🎲 ':'')+esc(l.text)+'</span>').join('<br>')+'</div>';

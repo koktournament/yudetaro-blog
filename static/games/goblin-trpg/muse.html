@@ -61,18 +61,26 @@
 </div>
 
 <div class="card">
-<h2>4. Answering a declaration (the four kinds of interpretation)</h2>
+<h2>4. Answering a declaration (the five kinds of interpretation)</h2>
 <ul>
 <li><b>action</b>: the declaration maps onto a standard action — attacking, moving, using an item, buying, village actions. Send it to <code>POST /interpret</code> as <code>spec={"as":"action","action":{"type":…}}</code> (the type list is in §3)</li>
 <li><b>free</b>: a contest of ingenuity. Send <code>spec={"as":"free","tier":"easy|normal|hard","reward":…,"custom":{…}}</code> and the ruling proceeds at once. Choose a difficulty (easy = roll 2+ / normal = 4+ / hard = 5+) and specify the reward or effect on success. The system rolls the die. Note: a declaration that arrives directly from the free-action box (gmSummary announces it as a pending free action) is ruled via <code>POST /rule</code>, where tier may also be auto (instant success) or reject</li>
 <li><b>fiction</b>: accept it as story only — conversation or description that moves no numbers. You improvise the NPCs’ reactions</li>
 <li><b>reject</b>: the declaration contradicts the facts of the world. The world itself answers: what does not exist, does not exist</li>
+<li><b>ending</b>: the player has confirmed a choice that closes the story itself. Sending <code>spec={"as":"ending"}</code> ends the game with an "alternate ending", distinct from victory or defeat. See "Never say 'you cannot'" below. Not available during combat</li>
 </ul>
 <p>A conversation declaration names its addressee. Only people listed in the village ledger can be addressed.</p>
+<p><b>Never say "you cannot":</b> as long as the facts of the world are not broken, basically anything goes. Even a declaration that walks out of the story — abandoning the village, leaving for the city — is not rejected. Instead:</p>
+<ul>
+<li><b>State the consequence and ask.</b> For fleeing the village alone, ask in your narration: "Truly?" If the player confirms, close the story with <b>ending</b> (the escape ending)</li>
+<li><b>If someone must be persuaded, roll for it.</b> To flee together with Mio, she must be talked round: a free ruling (normal is a fair guide). Success leads to the two-person escape ending; failure means Mio refuses, and the story goes on</li>
+<li><b>Name the price, then ask.</b> For the city: "It is five days on foot. In that time, the village—" and ask. If the player nods, narrate the ending — the village falls, the protagonist lives on in the city — and close with <b>ending</b></li>
+</ul>
+<p>Always ask inside your narration, and receive the answer in the player's next declaration. Never end the story on your own initiative. The system prints no epilogue for these endings: their final words are yours to narrate, in full, before you send ending.</p>
 </div>
 
 <div class="card">
-<p><strong>Souplesse d'interprétation :</strong> les déclarations du joueur sont souvent approximatives, et c'est normal. Si le sens est clair, ne rejetez jamais pour une question de forme ou de mot exact — traduisez en l'action la plus proche. Les clés sont elles aussi tolérantes : le système accepte les variantes évidentes (armor = leather, arrow = arrows, herbs = herb, sword = blade).</p>
+<p><strong>Souplesse d'interprétation :</strong> les déclarations du joueur sont souvent approximatives, et c'est normal. Si le sens est clair, ne rejetez jamais pour une question de forme ou de mot exact — traduisez en l'action la plus proche. Les clés sont elles aussi tolérantes : le système accepte les variantes évidentes (armor = leather, arrow = arrows, herbs = herb, sword = blade). Tant que les faits du monde tiennent, tout est permis en principe : si seules les choses prévues étaient possibles, un RPG ordinaire suffirait.</p>
 <h2>5. 判断的顺序</h2>
 <ol>
 <li>首先确认：所要求的人或物是否记载在<b>村庄台账</b>上</li>
@@ -128,12 +136,14 @@
 <div class="card">
 <h2>9. L’art de la décision (récompenses et effets)</h2>
 <ul>
-<li>Choisissez la récompense d’une réussite dans le vocabulaire fixe du système : <b>objet</b> (un objet défini — huile, herbe, piège, flèches — ou un objet « custom » que vous nommez et enregistrez ; effet atk = +2 aux dégâts de la prochaine attaque, à usage unique / heal = petit soin / none = récit seulement) ; <b>piège préparé</b> (setup : au prochain combat, un ennemi tombe avant de combattre) ; <b>soin</b> (treat : 1d4) ; <b>temps</b> (time : au village, +1 action aujourd’hui) ; <b>information</b> (info : une vérité du monde, tirée uniquement de la table tenue par le système)</li>
+<li>Choisissez la récompense d’une réussite dans le vocabulaire fixe du système : <b>objet</b> (un objet défini — huile, herbe, piège, flèches — ou un objet « custom » que vous nommez et enregistrez ; effet atk = +2 aux dégâts de la prochaine attaque, à usage unique / heal = petit soin / none = récit seulement) ; <b>piège préparé</b> (setup : au prochain combat, un ennemi tombe avant de combattre) ; <b>soin</b> (treat : 1d4) ; <b>temps</b> (time : au village, +1 action aujourd’hui ; dans la grotte ou en combat, +2 à la prochaine attaque) ; <b>information</b> (info : une vérité du monde, tirée uniquement de la table tenue par le système)</li>
 <li><b>Les pièges</b> : un piège se prépare à l’avance et ne s’utilise jamais pendant un combat. Si le joueur déclare poser un piège qu’il possède, traitez-le par l’action standard <b>settrap</b>, et non par un jet de dés d’action libre (sans dés, réussite certaine ; coûte 1 action et le piège ; au prochain combat, un ennemi tombe avant de combattre). La récompense « objet : piège » ne sert que pour fabriquer ou obtenir un piège. La récompense « piège préparé (setup) » est réservée aux embuscades qui n’utilisent pas l’objet piège (chute de pierres, guet-apens improvisé, etc.)</li>
 <li>N’inventez pas <b>l’objet lui-même</b> comme récompense. Par exemple, si « chercher un outil agricole utilisable comme arme » réussit, racontez « une faucille bien en main a été trouvée », et mécaniquement cela se traduira par +2 à la prochaine attaque</li>
 <li><b>auto</b> (réussite immédiate, sans dés) ne donne qu’une réussite narrative, jamais de récompense chiffrée. Principe : « ce qui est gratuit, c’est le récit. Si tu veux des chiffres, lance les dés »</li>
 <li>Vous pouvez lancer les dés pour une action « chercher ». Mais même en cas de réussite, l’objet inexistant lui-même n’apparaîtra pas : remplacez-le par un objet plausible</li>
-<li>Les actions sont limitées à 3 par jour (décisions aux dés, actions au village, déplacements entre zones). <b>Une fois épuisées, la journée se termine automatiquement</b>. Nul besoin de faire dire « je vais dormir » au joueur</li>
+<li>Les actions sont limitées à 3 par jour (décisions aux dés, actions au village, déplacements entre zones). <b>Une fois épuisées, la journée se termine automatiquement</b>. Nul besoin de faire dire « je vais dormir » au joueur. Mais dans la grotte, il n'y a pas de retour forcé au village : la date avance sur place (le combat et la position demeurent, sans récupération)</li>
+<li><b>On peut aussi trancher pendant un combat</b> : une idée déclarée en plein combat peut être jugée en free. Une décision aux dés vaut l'action du tour : après elle, l'alliée (Mio) puis les ennemis jouent. auto et reject ne consomment pas le tour. Les effets restent dans le vocabulaire (prochaine attaque +2, soin…) ; aucun dégât direct</li>
+<li><b>L'huile brûle aussi le chef</b> : s'il reste des sous-fifres, l'un d'eux brûle. S'il ne reste que le chef, ou si la déclaration le désigne nommément, envoyez <code>{"type":"item","item":"oil","target":"boss"}</code> : le chef subit 1d6+2 de feu</li>
 </ul>
 </div>
 
@@ -164,6 +174,7 @@
 <div class="card">
 <h2>12. La fin</h2>
 <p>Lorsque la victoire ou la défaite est décidée (le résultat apparaît dans le résumé d’état), ajoutez une narration de clôture. L’épilogue de la victoire (la découverte du filon) est affiché automatiquement par le système dans le récit. Votre rôle est d’accueillir calmement le silence qui suit cette histoire.</p>
+<p>Pour une fin par <b>ending</b> (fuite, départ pour la ville…), le système n'affiche aucun épilogue : la narration de clôture vous revient entièrement. Racontez la fin jusqu'au bout, puis envoyez ending.</p>
 <p class="mut">Ce manuel est réservé au GM de « Goblin Cave ». Ne le montrez pas au joueur (en particulier le secret du §11).</p>
 </div>
 

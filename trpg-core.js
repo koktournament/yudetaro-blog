@@ -446,10 +446,15 @@ function playerActionInner(st, action) {
         if (item === 'herb') { st.items.herb -= 1; const h = die(st, 6) + 2; st.player.hp = Math.min(st.player.maxHp, st.player.hp + h); log(st, 'sys', '薬草を使った（HP+' + h + '）'); }
         else if (item === 'bento') { st.items.bento -= 1; st.player.hp = Math.min(st.player.maxHp, st.player.hp + 5); if (!st.ally.out) st.ally.hp = Math.min(st.ally.maxHp, st.ally.hp + 5); log(st, 'sys', '母の弁当を分け合った（二人ともHP+5）'); }
         else if (item === 'oil') {
-          const foes = livingEnemies(st).filter(e => !e.boss);
-          if (!foes.length) { log(st, 'sys', '雑魚がいないので使わなかった'); return { ok: true }; }
-          st.items[item] -= 1; foes[0].hp = 0;
-          log(st, 'sys', '油を投げて火をつけた。ゴブリンが1匹燃え上がった');
+          const boss = livingEnemies(st).find(e => e.boss);
+          const minions = livingEnemies(st).filter(e => !e.boss);
+          if (boss && (action.target === 'boss' || !minions.length)) {
+            st.items[item] -= 1; const dmg = die(st, 6) + 2; boss.hp -= dmg;
+            log(st, 'sys', '油を投げて火をつけた。親玉が燃え上がった（' + dmg + 'ダメージ）');
+          } else if (minions.length) {
+            st.items[item] -= 1; minions[0].hp = 0;
+            log(st, 'sys', '油を投げて火をつけた。ゴブリンが1匹燃え上がった');
+          } else { log(st, 'sys', '使う相手がいないので使わなかった'); return { ok: true }; }
         } else return { ok: false, error: '戦闘では使えない' };
         afterCombatTurn(st); return { ok: true };
       }
@@ -459,7 +464,7 @@ function playerActionInner(st, action) {
   if (t === 'free') {
     const text = String(action.text || '').slice(0, 200);
     if (!text) return { ok: false, error: '行動を書いてください' };
-    if (st.combat) return { ok: false, error: '戦闘中は自由行動できません' };
+
     st.pendingFree = { text, day: st.day };
     log(st, 'player', '自由行動：「' + text + '」');
     return { ok: true };
@@ -490,8 +495,8 @@ if (!st.pendingFree) return { ok: false, error: '裁定待ちの自由行動が�
 if (tier === 'reject') { log(st, 'sys', 'GM裁定：その行動はこの世界ではできない。'); st.pendingFree = null; return { ok: true};}
 if (tier === 'auto') { log(st, 'sys', 'GM裁定：ダイスを振るまでもない――そのまま成功した（物語上の成功。数字の報酬はない）'); st.pendingFree = null; return { ok: true, auto: true, success: true};}
 const target = FREE_TARGETS[tier];
-if (target && st.actionsLeft <= 0) return { ok: false, error: '今日の行動回数はもう残っていない'};
-if (target) st.actionsLeft -= 1;
+if (target && !st.combat && st.actionsLeft <= 0) return { ok: false, error: '今日の行動回数はもう残っていない'};
+if (target && !st.combat) st.actionsLeft -= 1;
 if (!target) return { ok: false, error: '難易度は easy / normal / hard / auto / reject のいずれかです'};
 const roll = die(st, 6);
 const free = st.pendingFree; st.pendingFree = null;
@@ -523,17 +528,29 @@ return { ok: true, roll, success: roll >= target};
 
 /* 行動回数を使い果たしたら、その日は自動で終わる（プレイヤーが「寝る」を宣言する手間をなくす）。
    判定は「手番が終わって待機状態（戦闘中でなく、裁定・解釈待ちでもない）のに行動0」のとき。 */
+function rollDayInCave(st) {
+  /* 洞窟では村へ戻さない。日付だけが進み、戦闘も居場所もそのまま（本人の裁定 2026-11-04） */
+  log(st, 'sys', '洞穴の中で夜が更け、やがて明けた――' + st.day + '日目が終わった。');
+  st.day += 1;
+  st.actionsLeft = 3;
+  if (st.day > 7 && !st.result) {
+    st.result = 'lose_raid'; st.phase = 'ended'; st.combat = null;
+    log(st, 'sys', '8日目の朝。増えきったゴブリンが村に押し寄せた――村は守れなかった。');
+  } else {
+    log(st, 'sys', st.day + '日目の朝。残り' + (8 - st.day) + '日。（洞穴の中）');
+  }
+}
 function maybeAutoSleep(st) {
 if (st.result || st.combat || st.pendingFree || st.pendingText) return;
 if (st.actionsLeft > 0) return;
 if (st.phase === 'village') endDay(st, '今日の行動を使い果たした');
-else if (st.phase === 'cave') endDay(st, 'これ以上は動けないので、村へ帰って休んだ');
+else if (st.phase === 'cave') rollDayInCave(st);
 }
 function playerAction(st, action) {
 return captureRolls(st, () => { const r = playerActionInner(st, action); if (r.ok) maybeAutoSleep(st); return r; });
 }
 function gmRule(st, tier, reward, custom) {
-return captureRolls(st, () => { const r = gmRuleInner(st, tier, reward, custom); if (r.ok) maybeAutoSleep(st); return r; });
+return captureRolls(st, () => { const r = gmRuleInner(st, tier, reward, custom); if (r.ok && st.combat && r.roll !== undefined) afterCombatTurn(st); if (r.ok) maybeAutoSleep(st); return r; });
 }
 
 const ITEM_NAMES = { herb: '薬草', bento: '弁当', oil: '油', trap: '罠'};
@@ -567,6 +584,13 @@ if (!st.pendingText) return { ok: false, error: '解釈待ちの宣言があり�
 const kind = spec && spec.as;
 if (kind === 'fiction') { st.pendingText = null; log(st, 'sys', '（物語として受け取られた）'); return { ok: true};}
 if (kind === 'reject') { st.pendingText = null; log(st, 'sys', 'GM：それはこの世界ではできない'); return { ok: true};}
+if (kind === 'ending') {
+if (st.combat) return { ok: false, error: '戦闘中は物語を終わらせられない'};
+st.pendingText = null;
+st.result = 'escape'; st.phase = 'ended';
+log(st, 'sys', '―― 物語は、ここで終わった ――');
+return { ok: true};
+}
 if (kind === 'action') {
 const r = playerAction(st, (spec && spec.action) || {});
 if (!r.ok) return r;
@@ -575,7 +599,6 @@ maybeAutoSleep(st);
 return { ok: true};
 }
 if (kind === 'free') {
-if (st.combat) return { ok: false, error: '戦闘中は自由行動として裁定できません'};
 st.pendingFree = { text: st.pendingText.text, day: st.day};
 st.pendingText = null;
 return gmRule(st, spec.tier || 'normal', spec.reward, spec.custom);
@@ -617,7 +640,7 @@ v.gmSummary = 'ゲーム: ゴブリン洞穴（AI GM TRPG） / あなたはGMで
 + '## 硬いルール\n' + HARD_RULES + '\n'
 + '判断の順序・人物と世界の確定事実・世界の物理・裁定の作法・戦闘の規則・秘密は、GMマニュアルに集約されています: https://www.yudetaro.com/games/goblin-trpg/muse （まだ読んでいなければ、裁定の前に必ず読んでください）\n'
 + '\n現在: ' + statusLine(st, true)
-+ (st.pendingText? '\nプレイヤーの宣言: 「' + st.pendingText.text + '」→ 解釈してください。通常の行動（攻撃・移動・道具・装備・村の行動）に対応づくなら action、発想の勝負なら free（難易度+報酬/効果/custom）、数字の動かない交流や描写なら fiction、世界の事実に反するなら reject。': '')
++ (st.pendingText? '\nプレイヤーの宣言: 「' + st.pendingText.text + '」→ 解釈してください。通常の行動（攻撃・移動・道具・装備・村の行動）に対応づくなら action、発想の勝負なら free（難易度+報酬/効果/custom）、数字の動かない交流や描写なら fiction、世界の事実に反するなら reject。プレイヤーが確認のうえ物語を畳む選択をしたなら ending（§4「できないと言わない」参照）。': '')
 + (st.pendingFree? '\n裁定待ちの自由行動: 「' + st.pendingFree.text + '」→ 裁定を選んでください：ダイスを振るまでもなければ auto（即成功・報酬なし）、そうでなければ難易度 easy/normal/hard、世界の事実に反すれば reject。ダイスはシステムが振ります。': '\n裁定待ちの自由行動はありません。直近の出来事に物語をつけてください（narration）。')
 + '\n直近のログ:\n' + st.log.slice(-8).map(l => '[' + l.kind + '] ' + l.text).join('\n');
 v.pendingFreeText = st.pendingFree? st.pendingFree.text: null;
