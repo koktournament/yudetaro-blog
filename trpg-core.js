@@ -343,9 +343,10 @@ function playerActionInner(st, action) {
   if (t === 'equip') {
     if (st.combat) return { ok: false, error: '戦闘中は装備を変えられない' };
     if (action.slot === 'weapon' && WEAPONS[action.item]) { st.equip.weapon = action.item; log(st, 'sys', '武器を' + WEAPONS[action.item] + 'に持ち替えた。'); return { ok: true }; }
-    if (action.slot === 'armor' && ARMORS[action.item]) {
-      if (action.item === 'leather' && !st.ownLeather) return { ok: false, error: '革当てを持っていない' };
-      st.equip.armor = action.item; log(st, 'sys', '防具を「' + ARMORS[action.item] + '」にした。'); return { ok: true };
+    const armorItem = action.item === 'armor' ? 'leather' : action.item;
+    if (action.slot === 'armor' && ARMORS[armorItem]) {
+      if (armorItem === 'leather' && !st.ownLeather) return { ok: false, error: '革当てを持っていない' };
+      st.equip.armor = armorItem; log(st, 'sys', '防具を「' + ARMORS[armorItem] + '」にした。'); return { ok: true };
     }
     return { ok: false, error: 'その装備はない' };
   }
@@ -389,7 +390,7 @@ function playerActionInner(st, action) {
     }
     if (t === 'buy') {
       if (st.day !== 4) return { ok: false, error: '行商が来るのは4日目だけだ' };
-      const item = action.item; if (!(item in PRICES)) return { ok: false, error: 'その品は売っていない' };
+      const item = action.item === 'armor' ? 'leather' : action.item; if (!(item in PRICES)) return { ok: false, error: 'その品は売っていない' };
       if (st.money < PRICES[item]) return { ok: false, error: '小銭が足りない' };
       if (item === 'leather' && st.ownLeather) return { ok: false, error: '革当てはもう持っている' };
       st.money -= PRICES[item];
