@@ -96,6 +96,7 @@
     <div id="g-status2"></div>
     <div id="g-equip"></div>
   </div>
+  <p style="text-align:right;margin:4px 2px 0"><button id="btn-leave" class="sub" style="font-size:12px">🚪 部屋を出る</button></p>
 </div>
 </div>
 <script src="art.js"></script>
@@ -116,6 +117,15 @@ $('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーし
 $('btn-invite2').onclick=()=>copyText(inviteText(),$('invite-done2'),'コピーしました。ミューズのチャットに貼ってください');
 $('btn-create').onclick=()=>{ api('/api/trpg/create','POST',{}).then(r=>{ if(r.code){ $('in-code').value=r.code; syncInvite(); alert('あいことば: '+r.code+'\n下の「GMへの招待文をコピー」を押して、GMを任せたいミューズのチャットに貼ってください'); } }); };
 $('btn-join').onclick=()=>{ CODE=$('in-code').value.trim(); if(!CODE){alert('あいことばを入れてください');return;} localStorage.setItem('trpg-code',CODE); localStorage.setItem('trpg-role',ROLE); enter(); };
+let LEAVE_ARM=false, LEAVE_TIMER=null;
+$('btn-leave').onclick=()=>{
+  if(!LEAVE_ARM){ LEAVE_ARM=true; const b=$('btn-leave'); b.textContent='🚪 本当に部屋を出ますか？（もう一度押すと出ます）'; LEAVE_TIMER=setTimeout(()=>{ LEAVE_ARM=false; b.textContent='🚪 部屋を出る'; },4000); return; }
+  clearTimeout(LEAVE_TIMER); LEAVE_ARM=false; $('btn-leave').textContent='🚪 部屋を出る';
+  CODE=''; localStorage.removeItem('trpg-code'); VIEW=null; LAST_SIG=''; SERVER_SIG='';
+  Object.values(BGM_TRACKS).forEach(a=>a.pause()); BGM_CUR=null;
+  $('game').style.display='none'; $('entry').style.display='';
+  $('in-code').value=''; syncInvite();
+};
 function enter(){ $('entry').style.display='none'; $('game').style.display=''; refresh(); pollLoop(); }
 async function refresh(){
   if(!CODE) return;
@@ -219,6 +229,7 @@ function mapOptions(v){
   return opts;
 }
 function render(){
+  if(!CODE) return;
   const v=VIEW; if(!v) return;
   $('g-title').textContent='ゴブリン洞穴（'+CODE+'） ― '+(ROLE==='gm'?'🎲 GM':'🧑 プレイヤー')+'画面';
   $('g-status').textContent=v.status;
