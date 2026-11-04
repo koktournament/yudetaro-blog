@@ -109,7 +109,9 @@ function copyText(t,doneEl,msg){ const done=m=>{ if(doneEl) doneEl.textContent=m
   const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(msg||'コピーしました'); }catch(e){ done('コピーできませんでした'); } ta.remove(); };
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>done(msg||'コピーしました')).catch(fb); } else fb(); }
 function inviteText(){ const url=location.origin+location.pathname; const museUrl=url.replace(/[^/]*$/,'')+'muse'; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
-  return '【ゴブリン洞穴】GMとして一緒に遊んでください（APIで参加する形式です）。\n1. まず GM専用マニュアルを読んでください：'+museUrl+'\n2. このゲームはAPIで動いています。ブラウザでゲームページを開く必要はありません。あいことばは「'+code+'」です。\n3. まず GET '+location.origin+'/api/trpg/state?code='+code+'&role=gm で状態サマリ（gmSummary）を受け取ってください。\n4. そのままゲームに常駐してください。待機はロングポーリング（state に wait=25 と前回の sig を付けて繰り返す）でお願いします。宣言が来たら、マニュアルの形式で interpret / rule / narrate を返してください。GMへの質問が来たら answer で答えてください（行動回数は動きません）。プレイヤーがあなたのチャットに合図を送ることはありません。\n5. 裁定のたびにチャットで報告する必要はありません。応答はゲームの中で完結させてください。\n6. 物語が終わったら（勝敗が決まったら）だけ、チャットで短く一言伝えてください。ゲーム内の出力（語り・台詞・裁定）は、すべて日本語で書いてください。'; }
+  return '【ゴブリン洞穴】GMとして一緒に遊んでください（APIで参加する形式です）。
+まずGM専用マニュアルを最後まで読んでください：'+museUrl+'
+あいことばは「'+code+'」です。参加の手順も作法も、すべてマニュアルに書いてあります。'; }
 function syncInvite(){ const c=(($('in-code')&&$('in-code').value.trim())||CODE||''); const el=$('invite-code'); if(el) el.textContent=c||'―'; }
 $('in-code').addEventListener('input',syncInvite);
 $('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーしました。ミューズのチャットに貼ってください');
