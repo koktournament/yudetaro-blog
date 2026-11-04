@@ -53,6 +53,7 @@ actions の要素は次のいずれかです:
   {"api":"interpret","spec":{"as":"reject"}}
   {"api":"rule","tier":"easy|normal|hard|auto|reject","reward":"...","custom":{"name":"...","effect":"atk|heal|none"}}
   {"api":"narrate","text":"（語りやNPCの台詞。日本語で）"}
+  {"api":"answer","text":"（GMへの質問への答え。日本語で）"}
   {"api":"action","action":{"type":"..."}}
 宣言がない場面では、narrate だけ、または {"actions":[]} を返してください。
 語りの順序の目安：通常行動・移動は先に narrate で場面を描いてから interpret、自由行動は結果に合う narrate を後に。
@@ -198,7 +199,7 @@ def main():
             print(f"物語は終わりました（結果: {view['result']}）。GMランナーを終了します。")
             return 0
 
-        pending = bool(view.get("pendingTextContent") or view.get("pendingFreeText"))
+        pending = bool(view.get("pendingTextContent") or view.get("pendingFreeText") or view.get("pendingAskText"))
         combat = bool(view.get("combat"))
         day = view.get("day")
         # 宣言があるときは必ず応答。日付の変化・戦闘の開始/終了のときは、語りの機会として一度だけ起こす

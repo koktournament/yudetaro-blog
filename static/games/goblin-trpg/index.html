@@ -109,7 +109,7 @@ function copyText(t,doneEl,msg){ const done=m=>{ if(doneEl) doneEl.textContent=m
   const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(msg||'コピーしました'); }catch(e){ done('コピーできませんでした'); } ta.remove(); };
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>done(msg||'コピーしました')).catch(fb); } else fb(); }
 function inviteText(){ const url=location.origin+location.pathname; const museUrl=url.replace(/[^/]*$/,'')+'muse'; const code=(($('in-code')&&$('in-code').value.trim())||CODE||'');
-  return '【ゴブリン洞穴】GMとして一緒に遊んでください（APIで参加する形式です）。\n1. まず GM専用マニュアルを読んでください：'+museUrl+'\n2. このゲームはAPIで動いています。ブラウザでゲームページを開く必要はありません。あいことばは「'+code+'」です。\n3. まず GET '+location.origin+'/api/trpg/state?code='+code+'&role=gm で状態サマリ（gmSummary）を受け取ってください。\n4. そのままゲームに常駐してください。待機はロングポーリング（state に wait=25 と前回の sig を付けて繰り返す）でお願いします。宣言が来たら、マニュアルの形式で interpret / rule / narrate を返してください。プレイヤーがあなたのチャットに合図を送ることはありません。\n5. 裁定のたびにチャットで報告する必要はありません。応答はゲームの中で完結させてください。\n6. 物語が終わったら（勝敗が決まったら）だけ、チャットで短く一言伝えてください。ゲーム内の出力（語り・台詞・裁定）は、すべて日本語で書いてください。'; }
+  return '【ゴブリン洞穴】GMとして一緒に遊んでください（APIで参加する形式です）。\n1. まず GM専用マニュアルを読んでください：'+museUrl+'\n2. このゲームはAPIで動いています。ブラウザでゲームページを開く必要はありません。あいことばは「'+code+'」です。\n3. まず GET '+location.origin+'/api/trpg/state?code='+code+'&role=gm で状態サマリ（gmSummary）を受け取ってください。\n4. そのままゲームに常駐してください。待機はロングポーリング（state に wait=25 と前回の sig を付けて繰り返す）でお願いします。宣言が来たら、マニュアルの形式で interpret / rule / narrate を返してください。GMへの質問が来たら answer で答えてください（行動回数は動きません）。プレイヤーがあなたのチャットに合図を送ることはありません。\n5. 裁定のたびにチャットで報告する必要はありません。応答はゲームの中で完結させてください。\n6. 物語が終わったら（勝敗が決まったら）だけ、チャットで短く一言伝えてください。ゲーム内の出力（語り・台詞・裁定）は、すべて日本語で書いてください。'; }
 function syncInvite(){ const c=(($('in-code')&&$('in-code').value.trim())||CODE||''); const el=$('invite-code'); if(el) el.textContent=c||'―'; }
 $('in-code').addEventListener('input',syncInvite);
 $('btn-invite').onclick=()=>copyText(inviteText(),$('invite-done'),'コピーしました。ミューズのチャットに貼ってください');
@@ -123,7 +123,7 @@ async function refresh(){
   if(!v || v.error) return;
   if(v.sig) SERVER_SIG=v.sig;
   VIEW=v;
-  const sig=JSON.stringify([v.day,v.phase,v.result,v.log.length,v.pendingFree,v.pendingText,v.status]);
+  const sig=JSON.stringify([v.day,v.phase,v.result,v.log.length,v.pendingFree,v.pendingText,v.pendingAsk,v.status]);
   if(sig===LAST_SIG) return; LAST_SIG=sig;
   checkDice(v);
   render();
@@ -137,7 +137,7 @@ async function pollLoop(){
       if(v && !v.error){
         if(v.sig) SERVER_SIG=v.sig;
         VIEW=v;
-        const sig=JSON.stringify([v.day,v.phase,v.result,v.log.length,v.pendingFree,v.pendingText,v.status]);
+        const sig=JSON.stringify([v.day,v.phase,v.result,v.log.length,v.pendingFree,v.pendingText,v.pendingAsk,v.status]);
         if(sig!==LAST_SIG){ LAST_SIG=sig; checkDice(v); render(); }
         if(!v.sig) await new Promise(r=>setTimeout(r,1500));
       } else { await new Promise(r=>setTimeout(r,3000)); }
@@ -273,12 +273,19 @@ function render(){
     h='<p>'+ctx+'</p><p class="ask">どうする？</p><input type="text" id="in-declare" placeholder="'+ex+'"><button id="btn-declare">宣言する</button>'+
     (v.phase==='village' ? '<p style="margin-top:14px">💬 誰かに話す：<select id="in-talkto">'+v.ledger.people.map(p=>'<option value="'+esc(p.name)+'"'+(p.name==='行商'&&v.day!==4?' disabled':'')+'>'+esc(p.name)+(p.name==='行商'?'（4日目のみ）':'')+'</option>').join('')+'</select><input type="text" id="in-talk" style="width:55%" placeholder="何を話す？（例：昔の退治のことを教えて）"><button id="btn-talk">話す</button></p>' : '');
   }
+  if(v.phase!=='ended'){
+    if(v.pendingAsk){ h+='<p style="margin-top:14px">❓ GMへの質問：「'+esc(v.pendingAsk)+'」<br><span class="mut">🎲 GMの答えを待っています…（行動回数は減りません）</span></p>'; }
+    else { h+='<p style="margin-top:14px">❓ GMに聞く（行動回数は減りません）：<input type="text" id="in-ask" style="width:55%" placeholder="例：周りに何が見える？"><button id="btn-ask">聞く</button></p>'; }
+  }
   /* 直近の出来事：いま起きたことは入力のすぐ側で見えるように（全体の物語は上のカードに残す） */
   const recent='<div class="recent"><span class="ttl">直近の出来事</span><br>'+v.log.slice(-5).map(l=>'<span class="'+l.kind+'">'+(l.kind==='gm'?'🎲 ':'')+esc(l.text)+'</span>').join('<br>')+'</div>';
   $('g-actions').innerHTML=recent+h;
   const bd=$('btn-declare');
   if(bd){ const send=()=>{ const t=$('in-declare').value.trim(); if(t) declare(t); };
     bd.onclick=send; $('in-declare').addEventListener('keydown',e=>{ if(e.key==='Enter') send(); }); }
+  const ba=$('btn-ask');
+  if(ba){ const send3=()=>{ const t=$('in-ask').value.trim(); if(t) askGm(t); };
+    ba.onclick=send3; $('in-ask').addEventListener('keydown',e=>{ if(e.key==='Enter') send3(); }); }
   const bt=$('btn-talk');
   if(bt){ const send2=()=>{ const t=$('in-talk').value.trim(); if(t) declare(t, $('in-talkto').value); };
     bt.onclick=send2; $('in-talk').addEventListener('keydown',e=>{ if(e.key==='Enter') send2(); }); }
@@ -304,6 +311,7 @@ function render(){
   } else $('g-gm').style.display='none';
 }
 function declare(t, talkTo){ api('/api/trpg/declare','POST',{code:CODE,text:t,talkTo:talkTo}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); }
+function askGm(t){ api('/api/trpg/ask','POST',{code:CODE,text:t}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); }
 function doAction(a){ api('/api/trpg/action','POST',{code:CODE,action:a}).then(r=>{ if(r.error)alert(r.error); LAST_SIG=''; refresh(); }); }
 $('btn-intro-go').onclick=()=>{ const nm=$('in-name').value.trim(); const done=()=>{ localStorage.setItem('trpg-intro-'+CODE,'1'); $('intro').style.display='none'; };
   if(nm){ api('/api/trpg/action','POST',{code:CODE,action:{type:'setname',name:nm}}).then(()=>{ LAST_SIG=''; refresh(); done(); }); } else done(); };

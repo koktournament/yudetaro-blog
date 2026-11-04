@@ -78,7 +78,7 @@ export class TrpgRoom {
     if (!st) return json({ error: '部屋が見つかりません' }, 404);
     if (u.pathname.endsWith('/state')) {
       const role = u.searchParams.get('role');
-      const sigOf = (s) => JSON.stringify([s.day, s.phase, s.result, s.log.length, s.pendingText ? 1 : 0, s.pendingFree ? 1 : 0, s.player.hp, s.ally.hp, s.actionsLeft, s.combat ? s.combat.round + ':' + s.combat.enemies.map(e => e.hp).join(',') : '']);
+      const sigOf = (s) => JSON.stringify([s.day, s.phase, s.result, s.log.length, s.pendingText ? 1 : 0, s.pendingFree ? 1 : 0, s.pendingAsk ? 1 : 0, s.player.hp, s.ally.hp, s.actionsLeft, s.combat ? s.combat.round + ':' + s.combat.enemies.map(e => e.hp).join(',') : '']);
       let cur = st;
       let sig = sigOf(cur);
       const wait = Math.min(25, Math.max(0, parseInt(u.searchParams.get('wait') || '0', 10) || 0));
@@ -122,6 +122,20 @@ export class TrpgRoom {
     if (u.pathname.endsWith('/narrate')) {
       const body = await req.json();
       const r = trpg.gmNarrate(st, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/ask')) {
+      const body = await req.json();
+      const r = trpg.playerAsk(st, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/answer')) {
+      const body = await req.json();
+      const r = trpg.gmAnswer(st, body.text);
       if (!r.ok) return json({ error: r.error }, 400);
       await this.save(st);
       return json({ ok: true });

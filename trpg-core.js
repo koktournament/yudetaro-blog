@@ -165,7 +165,7 @@ function newGame(seed) {
     bossAlive: true,
     zones: { iriguchi: false, chuso: false, saishin: false }, // 制圧済みか（pool と親玉から導出して同期する）
     zone: null, combat: null,
-    pendingFree: null, pendingText: null,
+    pendingFree: null, pendingText: null, pendingAsk: null,
     result: null,
     log: [],
   };
@@ -480,6 +480,24 @@ if (!t) return { ok: false, error: '文章が空です'};
 log(st, 'gm', t);
 return { ok: true};
 }
+/* GMへの質問チャンネル：行動回数もダイスも動かない、会話のための往復（2026-11-04 本人の発案） */
+function playerAsk(st, text) {
+if (st.phase === 'ended') return { ok: false, error: '物語は終わっています'};
+const t = String(text || '').trim().slice(0, 200);
+if (!t) return { ok: false, error: '質問を書いてください'};
+if (st.pendingAsk) return { ok: false, error: '前の質問への答えを待っています'};
+st.pendingAsk = { text: t, day: st.day };
+log(st, 'player', '（GMへの質問）「' + t + '」');
+return { ok: true };
+}
+function gmAnswer(st, text) {
+if (!st.pendingAsk) return { ok: false, error: '答える質問がありません'};
+const t = String(text || '').slice(0, 1000);
+if (!t) return { ok: false, error: '文章が空です'};
+st.pendingAsk = null;
+log(st, 'gm', t);
+return { ok: true };
+}
 /* 自由行動の成功で渡せる品：村にありそうで、システムに定義済みの物だけ */
 const GRANTABLE = { oil: '油の小瓶', herb: '薬草', trap: '罠', arrows: '矢（+3）'};
 /* 自由行動の成功で選べる「効果」の語彙。入力（プレイヤーの発想）は無限、結果はこの語彙の範囲でシステムが確定する */
@@ -620,7 +638,7 @@ return st.day + '日目／' + (st.phase === 'village'? '村（残り行動' + st
 function playerView(st) {
 return {
 day: st.day, phase: st.phase, result: st.result, promises: PROMISES, ledger: { places: VILLAGE_LEDGER.places, people: VILLAGE_LEDGER.people, notHere: VILLAGE_LEDGER.notHere },
-intro: INTRO, mission: MISSION, epilogue: st.result === 'win'? EPILOGUE: null,
+intro: INTRO, mission: MISSION, epilogue: st.result === 'win'? EPILOGUE: null, pendingAsk: st.pendingAsk? st.pendingAsk.text: null,
 actionsLeft: st.actionsLeft, setup: !!st.flags.setup, status: statusLine(st),
 playerName: st.playerName,
 player: st.player, ally: { name: st.ally.name, hp: st.ally.hp, maxHp: st.ally.maxHp, out: st.ally.out},
@@ -641,12 +659,14 @@ v.gmSummary = 'ゲーム: ゴブリン洞穴（AI GM TRPG） / あなたはGMで
 + '判断の順序・人物と世界の確定事実・世界の物理・裁定の作法・戦闘の規則・秘密は、GMマニュアルに集約されています: https://www.yudetaro.com/games/goblin-trpg/muse （まだ読んでいなければ、裁定の前に必ず読んでください）\n'
 + '\n現在: ' + statusLine(st, true)
 + (st.pendingText? '\nプレイヤーの宣言: 「' + st.pendingText.text + '」→ 解釈してください。通常の行動（攻撃・移動・道具・装備・村の行動）に対応づくなら action、発想の勝負なら free（難易度+報酬/効果/custom）、数字の動かない交流や描写なら fiction、世界の事実に反するなら reject。プレイヤーが確認のうえ物語を畳む選択をしたなら ending（§4「できないと言わない」参照）。': '')
++ (st.pendingAsk? '\nGMへの質問: 「' + st.pendingAsk.text + '」→ POST /answer で答えてください。行動回数もダイスも動きません。答えは、その場で見える・聞こえる・村の若者が知っていることだけ（台帳と世界の物理が正解で、なければ「分からない」）。賭けになる質問には「それは勝負になる」と返して宣言へ誘導してください。': '')
 + (st.pendingFree? '\n裁定待ちの自由行動: 「' + st.pendingFree.text + '」→ 裁定を選んでください：ダイスを振るまでもなければ auto（即成功・報酬なし）、そうでなければ難易度 easy/normal/hard、世界の事実に反すれば reject。ダイスはシステムが振ります。': '\n裁定待ちの自由行動はありません。直近の出来事に物語をつけてください（narration）。')
 + '\n直近のログ:\n' + st.log.slice(-8).map(l => '[' + l.kind + '] ' + l.text).join('\n');
 v.pendingFreeText = st.pendingFree? st.pendingFree.text: null;
 v.pendingTextContent = st.pendingText? st.pendingText.text: null;
 v.pendingTalkTo = st.pendingText? (st.pendingText.talkTo || null): null;
+v.pendingAskText = st.pendingAsk? st.pendingAsk.text: null;
 return v;
 }
 
-module.exports = { newGame, playerAction, playerDeclare, gmInterpret, gmNarrate, gmRule, playerView, gmView, PROMISES, VILLAGE_LEDGER, WORLD_FACTS, WORLD_GUIDELINE, DECISION_ORDER, HARD_RULES, CAST_NOTES, INTRO, EPILOGUE, ZONES, ZONE_ORDER};
+module.exports = { newGame, playerAction, playerDeclare, playerAsk, gmInterpret, gmNarrate, gmAnswer, gmRule, playerView, gmView, PROMISES, VILLAGE_LEDGER, WORLD_FACTS, WORLD_GUIDELINE, DECISION_ORDER, HARD_RULES, CAST_NOTES, INTRO, EPILOGUE, ZONES, ZONE_ORDER};
