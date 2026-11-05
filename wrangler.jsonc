@@ -14,12 +14,14 @@
     "bindings": [
       { "name": "RAMEN_ROOM", "class_name": "RamenRoom" },
       { "name": "TRPG_ROOM", "class_name": "TrpgRoom" },
-      { "name": "RYU_ROOM", "class_name": "RyuRoom" }
+      { "name": "RYU_ROOM", "class_name": "RyuRoom" },
+      { "name": "JINMON_ROOM", "class_name": "JinmonRoom" }
     ]
   },
   "migrations": [
     { "tag": "v1", "new_sqlite_classes": ["RamenRoom"] },
     { "tag": "v2", "new_sqlite_classes": ["TrpgRoom"] },
-    { "tag": "v3", "new_sqlite_classes": ["RyuRoom"] }
+    { "tag": "v3", "new_sqlite_classes": ["RyuRoom"] },
+    { "tag": "v4", "new_sqlite_classes": ["JinmonRoom"] }
   ]
 }

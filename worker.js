@@ -7,10 +7,13 @@ import trpgModule from './trpg-core.js';
 const trpg = trpgModule.default || trpgModule;
 import ryuModule from './ryu-core.js';
 const ryu = ryuModule.default || ryuModule;
+import jinmonModule from './jinmon-core.js';
+const jinmon = jinmonModule.default || jinmonModule;
 
 const WORDS = ['neko', 'inu', 'tora', 'sora', 'umi', 'yama', 'kawa', 'hoshi'];
 const TRPG_WORDS = ['mura', 'hora', 'gobu', 'yama', 'hata', 'inu'];
 const RYU_WORDS = ['ryu', 'tou', 'kane', 'sato', 'kiri', 'hashi'];
+const JINMON_WORDS = ['jin', 'mon', 'kei', 'sai', 'hito'];
 function seedFromCode(code) { let h = 2166136261; for (const c of code) { h ^= c.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 function json(obj, status) { return new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json; charset=utf-8' } }); }
 
@@ -243,6 +246,89 @@ export class RyuRoom {
   }
 }
 
+/* ===== 尋問ゲーム「金庫の中身」 ===== */
+export class JinmonRoom {
+  constructor(state, env) { this.storage = state.storage; }
+  async load() { return (await this.storage.get('room')) || null; }
+  async save(st) { await this.storage.put('room', st); }
+  async fetch(req) {
+    const u = new URL(req.url);
+    const code = u.searchParams.get('code') || (await req.clone().json().catch(() => ({}))).code;
+    if (u.pathname.endsWith('/init')) {
+      if (!(await this.load())) await this.save(jinmon.newGame(seedFromCode(code)));
+      return json({ ok: true });
+    }
+    const st = await this.load();
+    if (!st) return json({ error: '部屋が見つかりません' }, 404);
+    if (u.pathname.endsWith('/state')) {
+      const role = u.searchParams.get('role');
+      const sigOf = (s) => JSON.stringify([s.result, s.totalQuestions, s.accusations.length, Object.values(s.chars).map(r => [r.log.length, r.pending ? 1 : 0, r.status])]);
+      let cur = st;
+      let sig = sigOf(cur);
+      const wait = Math.min(25, Math.max(0, parseInt(u.searchParams.get('wait') || '0', 10) || 0));
+      const want = u.searchParams.get('sig');
+      if (wait > 0 && want && want === sig) {
+        const deadline = Date.now() + wait * 1000;
+        while (Date.now() < deadline) {
+          await new Promise(r => setTimeout(r, 800));
+          const fresh = await this.load();
+          if (!fresh) break;
+          cur = fresh;
+          const ns = sigOf(fresh);
+          if (ns !== sig) { sig = ns; break; }
+        }
+      }
+      const view = role === 'actor' ? jinmon.actorView(cur, u.searchParams.get('char') || '') : jinmon.playerView(cur);
+      if (view.error) return json({ error: view.error }, 400);
+      view.sig = sig;
+      return json(view);
+    }
+    if (u.pathname.endsWith('/ask')) {
+      const body = await req.json();
+      const r = jinmon.playerAsk(st, body.char, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/askall')) {
+      const body = await req.json();
+      const r = jinmon.playerAskAll(st, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, sent: r.sent, group: r.group });
+    }
+    if (u.pathname.endsWith('/present')) {
+      const body = await req.json();
+      const r = jinmon.playerPresent(st, body.char, body.item);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/reply')) {
+      const body = await req.json();
+      const r = jinmon.actorReply(st, body.char, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/note')) {
+      const body = await req.json();
+      const r = jinmon.actorNote(st, body.char, body.status);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/accuse')) {
+      const body = await req.json();
+      const r = jinmon.playerAccuse(st, body.char);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, correct: r.correct });
+    }
+    return json({ error: 'not found' }, 404);
+  }
+}
+
 async function routeApi(req, env, prefix, binding, words) {
   const u = new URL(req.url);
   if (u.pathname === prefix + '/create') {
@@ -273,6 +359,7 @@ export default {
     if (u.pathname.startsWith('/api/ramen/')) return routeApi(req, env, '/api/ramen', env.RAMEN_ROOM, WORDS);
     if (u.pathname.startsWith('/api/trpg/')) return routeApi(req, env, '/api/trpg', env.TRPG_ROOM, TRPG_WORDS);
     if (u.pathname.startsWith('/api/ryu/')) return routeApi(req, env, '/api/ryu', env.RYU_ROOM, RYU_WORDS);
+    if (u.pathname.startsWith('/api/jinmon/')) return routeApi(req, env, '/api/jinmon', env.JINMON_ROOM, JINMON_WORDS);
     return env.ASSETS.fetch(req);
   },
 };

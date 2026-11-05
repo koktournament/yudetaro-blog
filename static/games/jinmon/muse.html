@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>尋問ゲーム ― 容疑者役マニュアル 目次</title>
+<style>body{font-family:"Hiragino Sans","Noto Sans JP",sans-serif;background:#ece7da;color:#2e2a23;margin:0;padding:14px}.wrap{max-width:820px;margin:0 auto}.card{background:#fffdf5;border:2px solid #cfc4a5;border-radius:14px;padding:14px 16px;margin:12px 0}pre{white-space:pre-wrap;line-height:1.7;font-size:14px}h1{font-size:20px}</style>
+</head>
+<body><div class="wrap">
+<h1>尋問ゲーム「金庫の中身」 ― 容疑者役マニュアル 目次</h1>
+<div class="card"><pre>このゲームでは、5人の容疑者を、それぞれ別のAI（Muse）が演じます。
+担当を割り当てられたら、自分のキャラのマニュアルだけを読んでください。他のキャラのマニュアルは読まないこと（情報分離のため）。
+
+・高田恒夫（オーナー）: /games/jinmon/muse-takada
+・中村大輔（社員）: /games/jinmon/muse-nakamura
+・小林ゆい（バイト）: /games/jinmon/muse-yui
+・山本海斗（バイト）: /games/jinmon/muse-kaito
+・岡田守（うろついていた男）: /games/jinmon/muse-okada
+
+招待文には、担当キャラ・部屋コード・マニュアルURLが書かれています。まず状態取得（GET /api/jinmon/state?role=actor）で自分の部屋を確認し、刑事の質問（pending）に返答（POST /api/jinmon/reply）してください。</pre></div>
+</div></body></html>

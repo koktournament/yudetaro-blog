@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>尋問ゲーム ― 金庫の中身</title>
+<style>
+  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;background:#ece7da;color:#2e2a23;margin:0;padding:14px}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:22px;margin:6px 0}
+  .card{background:#fffdf5;border:2px solid #cfc4a5;border-radius:14px;padding:14px 16px;margin:12px 0;box-shadow:0 3px 0 #ddd2b2}
+  button{background:#37474f;color:#fff;border:none;border-bottom:4px solid #1c282e;border-radius:10px;padding:9px 14px;font-size:15px;margin:3px;cursor:pointer}
+  button:active{transform:translateY(2px);border-bottom-width:2px}
+  button.sub{background:#ede4cd;color:#4a4232;border-bottom-color:#c9b68a}
+  button.warn{background:#b3392e;border-bottom-color:#7e241b}
+  button:disabled{opacity:.45;cursor:default}
+  input[type=text],textarea{box-sizing:border-box;padding:9px;border:2px solid #cfc4a5;border-radius:8px;font-size:15px;background:#fff;width:100%}
+  .log{max-height:420px;overflow-y:auto;font-size:14.5px;line-height:1.65}
+  .log .q{color:#205c9e;font-weight:700;margin-top:8px}
+  .log .a{background:#f1ede0;border-radius:8px;padding:2px 8px;display:block;margin:3px 0}
+  .log .present{color:#8a5a00;font-weight:700;margin-top:8px}
+  .log .sys{color:#5d5648;font-style:italic}
+  .mut{color:#8a7d63;font-size:13px}
+  .big{font-size:18px;font-weight:700}
+  .tabs{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+  .tabs button{flex:1;min-width:100px}
+  .tabs button.on{background:#b3392e;border-bottom-color:#7e241b}
+  pre{white-space:pre-wrap;background:#2e2a23;color:#f3ead8;border-radius:10px;padding:12px;font-size:13px;line-height:1.6}
+  details.card summary{cursor:pointer;font-weight:700}
+  .stamp{display:inline-block;border:3px solid #b3392e;color:#b3392e;border-radius:8px;padding:2px 14px;font-size:26px;font-weight:900;transform:rotate(-5deg)}
+  .pend{color:#b3392e;font-weight:700;font-size:13px}
+  .status{color:#6a3fa0;font-weight:700;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🕵️ 尋問ゲーム ― 金庫の中身</h1>
+
+<div id="view-entry">
+  <div class="card">
+    <p>容疑者は5人。それぞれ別の取り調べ室にいて、全員、別のAI（Muse）が演じている。刑事はあなた。質問し、資料と突き合わせ、最後に犯人を指名する推理ゲーム。</p>
+    <button id="btn-create">新しい事件を始める</button>
+    <p class="mut">すでに部屋がある場合は、合言葉（部屋コード）を入れてください。</p>
+    <input type="text" id="join-code" placeholder="部屋コード（例： jin123）">
+    <button id="btn-join" class="sub">部屋に入る</button>
+    <p id="entry-err" class="pend"></p>
+  </div>
+</div>
+
+<div id="view-game" style="display:none">
+  <div class="card">
+    <div class="big">事件の概要 <span class="mut" id="hud"></span></div>
+    <pre id="intro"></pre>
+    <div id="solved-banner"></div>
+  </div>
+
+  <details class="card">
+    <summary>📁 刑事の資料（5点）</summary>
+    <div id="docs"></div>
+  </details>
+
+  <details class="card">
+    <summary>✉️ 容疑者役への招待文（5人分）</summary>
+    <p class="mut">各容疑者は、別のMuseに演じてもらいます。下の招待文を、それぞれ別のチャットに貼ってください。</p>
+    <div id="invites"></div>
+  </details>
+
+  <div class="card">
+    <div class="tabs" id="tabs"></div>
+    <div id="room-area"></div>
+    <div id="broadcast-area" style="display:none">
+      <p class="mut">全員に同じ質問を投げます。回答は各取り調べ室に記録されます（容疑者同士は互いの回答を見ません）。</p>
+      <textarea id="bc-text" rows="2" placeholder="全員への質問"></textarea>
+      <button id="btn-broadcast">全員に聞く</button>
+      <span id="bc-note" class="mut"></span>
+    </div>
+    <div id="accuse-area" style="display:none">
+      <p>犯人だと思う人物を指名してください。消去法で絞っても、矛盾を突きつけても構いません。間違えても捜査は続きますが、指名の回数は記録されます。</p>
+      <div id="accuse-btns"></div>
+      <p id="accuse-note" class="pend"></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <button id="btn-leave" class="sub">部屋を出る</button>
+    <span class="mut">部屋コードはこの端末に保存されます。</span>
+  </div>
+</div>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+let code = localStorage.getItem('jinmon_code') || '';
+let state = null;
+let tab = 'takada';
+let polling = null;
+let leaveArm = null;
+
+async function api(path, body) {
+  const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
+  const r = await fetch('/api/jinmon/' + path, opt);
+  return r.json();
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+async function enter(c) {
+  code = c;
+  localStorage.setItem('jinmon_code', code);
+  $('view-entry').style.display = 'none';
+  $('view-game').style.display = '';
+  await refresh();
+  inviteRender();
+  if (polling) clearInterval(polling);
+  polling = setInterval(refresh, 2500);
+}
+async function refresh() {
+  if (!code) return;
+  const s = await api('state?code=' + encodeURIComponent(code) + '&role=player');
+  if (s.error) { $('entry-err').textContent = s.error; return; }
+  state = s;
+  render();
+}
+function inviteRender() {
+  $('invites').innerHTML = state.chars.map(c => {
+    const txt = '尋問ゲーム「金庫の中身」で、容疑者「' + c.name + '（' + c.role + '）」を演じてください。まず専用マニュアルを読んでください: ' + location.origin + '/games/jinmon/muse-' + c.id + ' ／ 部屋コード: ' + code + ' ／ あなたの担当は char=' + c.id + ' です。';
+    return '<p><b>' + esc(c.name) + '（' + esc(c.role) + '）</b><br><textarea rows="3" readonly>' + esc(txt) + '</textarea></p>';
+  }).join('');
+}
+function render() {
+  if (!state) return;
+  $('hud').textContent = '部屋: ' + code + ' ／ 質問数: ' + state.totalQuestions + ' ／ 指名: ' + state.accusations + '回';
+  $('intro').textContent = state.intro;
+  $('solved-banner').innerHTML = state.result === 'solved'
+    ? '<p><span class="stamp">解決</span></p><p>犯人は中村大輔だった。質問数 ' + state.totalQuestions + ' 回、指名 ' + state.accusations + ' 回で解決。</p>' : '';
+  $('docs').innerHTML = state.docs.map(d => '<p><b>' + esc(d.name) + '</b><br>' + esc(d.body) + '</p>').join('');
+  const tabs = state.chars.map(c => '<button data-tab="' + c.id + '" class="' + (tab === c.id ? 'on' : '') + '">' + esc(c.name) + (c.pending ? ' ⏳' : '') + '</button>').join('')
+    + '<button data-tab="__bc" class="' + (tab === '__bc' ? 'on' : '') + '">全員に聞く</button>'
+    + '<button data-tab="__acc" class="' + (tab === '__acc' ? 'on' : '') + '">犯人を指名</button>';
+  $('tabs').innerHTML = tabs;
+  document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => { tab = b.dataset.tab; render(); });
+  $('broadcast-area').style.display = tab === '__bc' ? '' : 'none';
+  $('accuse-area').style.display = tab === '__acc' ? '' : 'none';
+  $('room-area').style.display = (tab === '__bc' || tab === '__acc') ? 'none' : '';
+  if (tab !== '__bc' && tab !== '__acc') renderRoom();
+  if (tab === '__acc') renderAccuse();
+}
+function renderRoom() {
+  const c = state.chars.find(x => x.id === tab);
+  if (!c) return;
+  const logHtml = c.log.map(l =>
+    l.kind === 'q' ? '<div class="q">刑事：' + esc(l.text) + '</div>' :
+    l.kind === 'present' ? '<div class="present">刑事：' + esc(l.text) + 'を見せた</div>' :
+    l.kind === 'sys' ? '<div class="sys">― ' + esc(l.text) + '</div>' :
+    '<span class="a">' + esc(c.name) + '：' + esc(l.text) + '</span>').join('');
+  $('room-area').innerHTML =
+    '<p><b class="big">' + esc(c.name) + '</b>（' + esc(c.role) + (c.age ? '・' + c.age + '歳' : '') + '）'
+    + (c.status ? ' <span class="status">【' + esc(c.status) + '】</span>' : '')
+    + (c.pending ? ' <span class="pend">返答を待っています…</span>' : '') + '</p>'
+    + '<p class="mut">' + esc(c.pub) + '</p>'
+    + '<div class="log">' + (logHtml || '<span class="mut">まだ何も聞いていない。</span>') + '</div>'
+    + '<p>' + state.items.map(i => '<button class="sub" data-present="' + i.id + '"' + (c.pending || state.result ? ' disabled' : '') + '>見せる：' + esc(i.name) + '</button>').join('') + '</p>'
+    + '<textarea id="q-text" rows="2" placeholder="' + esc(c.name) + 'への質問"></textarea>'
+    + '<button id="btn-ask"' + (c.pending || state.result ? ' disabled' : '') + '>質問する</button>';
+  const logEl = document.querySelector('#room-area .log');
+  if (logEl) logEl.scrollTop = logEl.scrollHeight;
+  document.querySelectorAll('[data-present]').forEach(b => b.onclick = async () => {
+    const r = await api('present', { code, char: tab, item: b.dataset.present });
+    if (!r.ok) alert(r.error); await refresh();
+  });
+  const askBtn = $('btn-ask');
+  if (askBtn) askBtn.onclick = async () => {
+    const t = $('q-text').value.trim();
+    if (!t) return;
+    const r = await api('ask', { code, char: tab, text: t });
+    if (!r.ok) alert(r.error); await refresh();
+  };
+}
+function renderAccuse() {
+  $('accuse-btns').innerHTML = state.chars.map(c => '<button class="warn" data-acc="' + c.id + '"' + (state.result ? ' disabled' : '') + '>' + esc(c.name) + '（' + esc(c.role) + '）</button>').join('');
+  document.querySelectorAll('[data-acc]').forEach(b => b.onclick = async () => {
+    if (!confirm(b.textContent + ' を犯人として指名しますか？')) return;
+    const r = await api('accuse', { code, char: b.dataset.acc });
+    if (!r.ok) { alert(r.error); return; }
+    $('accuse-note').textContent = r.correct ? '' : '……違うようだ。捜査を続けよう。';
+    await refresh();
+  });
+}
+$('btn-broadcast').onclick = async () => {
+  const t = $('bc-text').value.trim();
+  if (!t) return;
+  const r = await api('askall', { code, text: t });
+  if (!r.ok) { alert(r.error); return; }
+  $('bc-note').textContent = r.sent + '人に投げました。各取り調べ室で回答を待ってください。';
+  $('bc-text').value = '';
+  await refresh();
+};
+$('btn-create').onclick = async () => {
+  const r = await api('create', {});
+  if (r.code) enter(r.code); else $('entry-err').textContent = r.error || '部屋を作れませんでした';
+};
+$('btn-join').onclick = async () => {
+  const c = $('join-code').value.trim();
+  if (!c) return;
+  const s = await api('state?code=' + encodeURIComponent(c) + '&role=player');
+  if (s.error) { $('entry-err').textContent = '部屋が見つかりません'; return; }
+  state = s; enter(c);
+};
+$('btn-leave').onclick = () => {
+  if (!leaveArm) {
+    $('btn-leave').textContent = '本当に部屋を出ますか？（もう一度押すと出ます）';
+    leaveArm = setTimeout(() => { leaveArm = null; $('btn-leave').textContent = '部屋を出る'; }, 4000);
+    return;
+  }
+  clearTimeout(leaveArm); leaveArm = null;
+  if (polling) clearInterval(polling);
+  localStorage.removeItem('jinmon_code');
+  code = ''; state = null;
+  $('view-game').style.display = 'none';
+  $('view-entry').style.display = '';
+  $('btn-leave').textContent = '部屋を出る';
+};
+if (code) { $('join-code').value = code; }
+})();
+</script>
+</body>
+</html>
