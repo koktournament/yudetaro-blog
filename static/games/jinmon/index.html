@@ -106,6 +106,8 @@ let tab = 'takada';
 let polling = null;
 let leaveArm = null;
 let lastSig = null;
+const drafts = {};
+const prevPending = {};
 
 async function api(path, body) {
   const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
@@ -155,6 +157,10 @@ function render() {
   $('solved-banner').innerHTML = state.result === 'solved'
     ? '<p><span class="stamp">解決</span></p><p>犯人は中村大輔だった。質問数 ' + state.totalQuestions + ' 回、指名 ' + state.accusations + ' 回で解決。</p>' : '';
   $('docs').innerHTML = state.docs.map(d => '<p><b>' + esc(d.name) + '</b><br>' + esc(d.body) + '</p>').join('');
+  for (const c of state.chars) {
+    if (prevPending[c.id] && !c.pending) delete drafts[c.id];
+    prevPending[c.id] = c.pending;
+  }
   const tabs = state.chars.map(c => '<button data-tab="' + c.id + '" class="' + (tab === c.id ? 'on' : '') + '">' + esc(c.name) + (c.pending ? ' ⏳' : '') + '</button>').join('')
     + '<button data-tab="__bc" class="' + (tab === '__bc' ? 'on' : '') + '">全員に聞く</button>'
     + '<button data-tab="__acc" class="' + (tab === '__acc' ? 'on' : '') + '">犯人を指名</button>';
@@ -170,7 +176,6 @@ function renderRoom() {
   const c = state.chars.find(x => x.id === tab);
   if (!c) return;
   const prevQ = document.getElementById('q-text');
-  const draft = prevQ ? prevQ.value : null;
   const hadFocus = prevQ && document.activeElement === prevQ;
   const logHtml = c.log.map(l =>
     l.kind === 'q' ? '<div class="q">刑事：' + esc(l.text) + '</div>' :
@@ -189,8 +194,9 @@ function renderRoom() {
   const logEl = document.querySelector('#room-area .log');
   if (logEl) logEl.scrollTop = logEl.scrollHeight;
   const newQ = document.getElementById('q-text');
-  if (newQ && draft !== null) {
-    newQ.value = draft;
+  if (newQ) {
+    if (drafts[c.id]) newQ.value = drafts[c.id];
+    newQ.oninput = () => { drafts[c.id] = newQ.value; };
     if (hadFocus) { newQ.focus(); newQ.setSelectionRange(newQ.value.length, newQ.value.length); }
   }
   document.querySelectorAll('[data-present]').forEach(b => b.onclick = async () => {
