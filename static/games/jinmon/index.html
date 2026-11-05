@@ -48,7 +48,8 @@
       <p>部屋ができました。部屋コード： <b id="entry-code"></b></p>
       <p class="mut">入室の前に、この招待文をあなたのMuseに貼ってください（容疑者役の準備）。各キャラの台帳は、招待文の中のページにまとまっています。</p>
       <textarea id="invite-text-entry" rows="4" readonly></textarea>
-      <p><button id="btn-copy-entry">招待文をコピー</button> <button id="btn-enter2" class="sub">部屋に入る</button></p>
+      <p><button id="btn-copy-entry">招待文をコピー</button></p>
+      <p class="mut">貼れたら、上の「部屋に入る」で入ってください（部屋コードは入力欄にセット済みです）。</p>
     </div>
   </div>
 </div>
@@ -217,12 +218,13 @@ $('btn-create').onclick = async () => {
   if (!r.code) { $('entry-err').textContent = r.error || '部屋を作れませんでした'; return; }
   code = r.code;
   localStorage.setItem('jinmon_code', code);
+  $('join-code').value = code;
   $('entry-code').textContent = code;
   $('invite-text-entry').value = inviteText();
   $('entry-invite').style.display = '';
 };
 $('btn-copy-entry').onclick = () => copyText($('invite-text-entry'), $('btn-copy-entry'));
-$('btn-enter2').onclick = () => enter(code);
+
 $('btn-join').onclick = async () => {
   const c = $('join-code').value.trim();
   if (!c) return;
