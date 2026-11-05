@@ -44,6 +44,12 @@
     <input type="text" id="join-code" placeholder="部屋コード（例： jin123）">
     <button id="btn-join" class="sub">部屋に入る</button>
     <p id="entry-err" class="pend"></p>
+    <div id="entry-invite" style="display:none">
+      <p>部屋ができました。部屋コード： <b id="entry-code"></b></p>
+      <p class="mut">入室の前に、この招待文をあなたのMuseに貼ってください（容疑者役の準備）。各キャラの台帳は、招待文の中のページにまとまっています。</p>
+      <textarea id="invite-text-entry" rows="4" readonly></textarea>
+      <p><button id="btn-copy-entry">招待文をコピー</button> <button id="btn-enter2" class="sub">部屋に入る</button></p>
+    </div>
   </div>
 </div>
 
@@ -61,8 +67,9 @@
 
   <details class="card">
     <summary>✉️ 容疑者役への招待文（入室時に1回だけ貼る）</summary>
-    <p class="mut">容疑者5人は、一人のMuseが演じ分けます。下の招待文を、入室のときに一度だけ貼ってください。中に各キャラのマニュアルへのリンクが入っています。</p>
+    <p class="mut">入室前に貼る招待文はこれ。貼り忘れた場合用に、ここにも置いてあります。</p>
     <div id="invites"></div>
+    <p><button id="btn-copy-game" class="sub">招待文をコピー</button></p>
   </details>
 
   <div class="card">
@@ -122,20 +129,20 @@ async function refresh() {
   state = s;
   render();
 }
+function inviteText() {
+  return '尋問ゲーム「金庫の中身」で、容疑者5人全員を演じてください。\n進め方と各キャラの台帳は、このページにまとまっています: ' + location.origin + '/games/jinmon/muse\n部屋コード: ' + code;
+}
+async function copyText(ta, btn) {
+  ta.select();
+  try { await navigator.clipboard.writeText(ta.value); }
+  catch (e) { document.execCommand('copy'); }
+  const old = btn.textContent;
+  btn.textContent = 'コピーしました';
+  setTimeout(() => { btn.textContent = old; }, 1600);
+}
 function inviteRender() {
-  const base = location.origin + '/games/jinmon/';
-  const lines = [
-    '尋問ゲーム「金庫の中身」で、容疑者5人全員を演じてください。部屋コード: ' + code,
-    '進め方の全体像: ' + base + 'muse',
-    'あなたは5人全員を演じます。あるキャラとして答えるときは、そのキャラのマニュアルだけを読んで答えてください（他のキャラの台帳は、その回答には使わないこと）。',
-    '・高田恒夫（オーナー）: ' + base + 'muse-takada',
-    '・中村大輔（社員）: ' + base + 'muse-nakamura',
-    '・小林ゆい（バイト）: ' + base + 'muse-yui',
-    '・山本海斗（バイト）: ' + base + 'muse-kaito',
-    '・岡田守（うろついていた男）: ' + base + 'muse-okada',
-    '状態は GET /api/jinmon/state?code=' + code + '&role=actor&char=<担当キャラ> で確認し、質問が来たら POST /api/jinmon/reply で答えてください。'
-  ];
-  $('invites').innerHTML = '<textarea rows="10" readonly>' + esc(lines.join('\n')) + '</textarea>';
+  $('invites').innerHTML = '<textarea id="invite-text-game" rows="4" readonly>' + esc(inviteText()) + '</textarea>';
+  $('btn-copy-game').onclick = () => copyText($('invite-text-game'), $('btn-copy-game'));
 }
 function render() {
   if (!state) return;
@@ -207,8 +214,15 @@ $('btn-broadcast').onclick = async () => {
 };
 $('btn-create').onclick = async () => {
   const r = await api('create', {});
-  if (r.code) enter(r.code); else $('entry-err').textContent = r.error || '部屋を作れませんでした';
+  if (!r.code) { $('entry-err').textContent = r.error || '部屋を作れませんでした'; return; }
+  code = r.code;
+  localStorage.setItem('jinmon_code', code);
+  $('entry-code').textContent = code;
+  $('invite-text-entry').value = inviteText();
+  $('entry-invite').style.display = '';
 };
+$('btn-copy-entry').onclick = () => copyText($('invite-text-entry'), $('btn-copy-entry'));
+$('btn-enter2').onclick = () => enter(code);
 $('btn-join').onclick = async () => {
   const c = $('join-code').value.trim();
   if (!c) return;
