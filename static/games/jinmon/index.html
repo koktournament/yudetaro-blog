@@ -105,6 +105,7 @@ let state = null;
 let tab = 'takada';
 let polling = null;
 let leaveArm = null;
+let lastSig = null;
 
 async function api(path, body) {
   const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
@@ -127,6 +128,8 @@ async function refresh() {
   if (!code) return;
   const s = await api('state?code=' + encodeURIComponent(code) + '&role=player');
   if (s.error) { $('entry-err').textContent = s.error; return; }
+  if (s.sig && s.sig === lastSig) return;
+  lastSig = s.sig || null;
   state = s;
   render();
 }
@@ -166,6 +169,9 @@ function render() {
 function renderRoom() {
   const c = state.chars.find(x => x.id === tab);
   if (!c) return;
+  const prevQ = document.getElementById('q-text');
+  const draft = prevQ ? prevQ.value : null;
+  const hadFocus = prevQ && document.activeElement === prevQ;
   const logHtml = c.log.map(l =>
     l.kind === 'q' ? '<div class="q">刑事：' + esc(l.text) + '</div>' :
     l.kind === 'present' ? '<div class="present">刑事：' + esc(l.text) + 'を見せた</div>' :
@@ -182,6 +188,11 @@ function renderRoom() {
     + '<button id="btn-ask"' + (c.pending || state.result ? ' disabled' : '') + '>質問する</button>';
   const logEl = document.querySelector('#room-area .log');
   if (logEl) logEl.scrollTop = logEl.scrollHeight;
+  const newQ = document.getElementById('q-text');
+  if (newQ && draft !== null) {
+    newQ.value = draft;
+    if (hadFocus) { newQ.focus(); newQ.setSelectionRange(newQ.value.length, newQ.value.length); }
+  }
   document.querySelectorAll('[data-present]').forEach(b => b.onclick = async () => {
     const r = await api('present', { code, char: tab, item: b.dataset.present });
     if (!r.ok) alert(r.error); await refresh();
