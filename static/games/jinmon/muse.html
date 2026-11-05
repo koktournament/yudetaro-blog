@@ -8,8 +8,8 @@
 </head>
 <body><div class="wrap">
 <h1>尋問ゲーム「金庫の中身」 ― 容疑者役マニュアル 目次</h1>
-<div class="card"><pre>このゲームでは、5人の容疑者を、それぞれ別のAI（Muse）が演じます。
-担当を割り当てられたら、自分のキャラのマニュアルだけを読んでください。他のキャラのマニュアルは読まないこと（情報分離のため）。
+<div class="card"><pre>このゲームでは、5人の容疑者を、一人のAI（Muse）が演じ分けます。
+あなたは5人全員を演じます。ただし、あるキャラとして答えるときは、そのキャラのマニュアル（台帳）だけを根拠にしてください。他のキャラの台帳の内容を、その回答に混ぜないこと（情報分離のため）。
 
 ・高田恒夫（オーナー）: /games/jinmon/muse-takada
 ・中村大輔（社員）: /games/jinmon/muse-nakamura
@@ -17,5 +17,5 @@
 ・山本海斗（バイト）: /games/jinmon/muse-kaito
 ・岡田守（うろついていた男）: /games/jinmon/muse-okada
 
-招待文には、担当キャラ・部屋コード・マニュアルURLが書かれています。まず状態取得（GET /api/jinmon/state?role=actor）で自分の部屋を確認し、刑事の質問（pending）に返答（POST /api/jinmon/reply）してください。</pre></div>
+招待文には、部屋コードと各キャラのマニュアルURLが書かれています。状態取得（GET /api/jinmon/state?role=actor&char=<キャラ>）で各部屋を確認し、質問（pending）が来ているキャラについて、そのキャラのマニュアルを読んでから返答（POST /api/jinmon/reply）してください。</pre></div>
 </div></body></html>

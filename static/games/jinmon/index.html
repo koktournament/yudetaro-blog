@@ -38,7 +38,7 @@
 
 <div id="view-entry">
   <div class="card">
-    <p>容疑者は5人。それぞれ別の取り調べ室にいて、全員、別のAI（Muse）が演じている。刑事はあなた。質問し、資料と突き合わせ、最後に犯人を指名する推理ゲーム。</p>
+    <p>容疑者は5人。それぞれ別の取り調べ室にいる。容疑者たちは、一人のAI（Muse）が演じ分ける。刑事はあなた。質問し、資料と突き合わせ、最後に犯人を指名する推理ゲーム。</p>
     <button id="btn-create">新しい事件を始める</button>
     <p class="mut">すでに部屋がある場合は、合言葉（部屋コード）を入れてください。</p>
     <input type="text" id="join-code" placeholder="部屋コード（例： jin123）">
@@ -60,8 +60,8 @@
   </details>
 
   <details class="card">
-    <summary>✉️ 容疑者役への招待文（5人分）</summary>
-    <p class="mut">各容疑者は、別のMuseに演じてもらいます。下の招待文を、それぞれ別のチャットに貼ってください。</p>
+    <summary>✉️ 容疑者役への招待文（入室時に1回だけ貼る）</summary>
+    <p class="mut">容疑者5人は、一人のMuseが演じ分けます。下の招待文を、入室のときに一度だけ貼ってください。中に各キャラのマニュアルへのリンクが入っています。</p>
     <div id="invites"></div>
   </details>
 
@@ -123,10 +123,19 @@ async function refresh() {
   render();
 }
 function inviteRender() {
-  $('invites').innerHTML = state.chars.map(c => {
-    const txt = '尋問ゲーム「金庫の中身」で、容疑者「' + c.name + '（' + c.role + '）」を演じてください。まず専用マニュアルを読んでください: ' + location.origin + '/games/jinmon/muse-' + c.id + ' ／ 部屋コード: ' + code + ' ／ あなたの担当は char=' + c.id + ' です。';
-    return '<p><b>' + esc(c.name) + '（' + esc(c.role) + '）</b><br><textarea rows="3" readonly>' + esc(txt) + '</textarea></p>';
-  }).join('');
+  const base = location.origin + '/games/jinmon/';
+  const lines = [
+    '尋問ゲーム「金庫の中身」で、容疑者5人全員を演じてください。部屋コード: ' + code,
+    '進め方の全体像: ' + base + 'muse',
+    'あなたは5人全員を演じます。あるキャラとして答えるときは、そのキャラのマニュアルだけを読んで答えてください（他のキャラの台帳は、その回答には使わないこと）。',
+    '・高田恒夫（オーナー）: ' + base + 'muse-takada',
+    '・中村大輔（社員）: ' + base + 'muse-nakamura',
+    '・小林ゆい（バイト）: ' + base + 'muse-yui',
+    '・山本海斗（バイト）: ' + base + 'muse-kaito',
+    '・岡田守（うろついていた男）: ' + base + 'muse-okada',
+    '状態は GET /api/jinmon/state?code=' + code + '&role=actor&char=<担当キャラ> で確認し、質問が来たら POST /api/jinmon/reply で答えてください。'
+  ];
+  $('invites').innerHTML = '<textarea rows="10" readonly>' + esc(lines.join('\n')) + '</textarea>';
 }
 function render() {
   if (!state) return;
