@@ -5,9 +5,12 @@ import coreModule from './ramen-core.js';
 const core = coreModule.default || coreModule;
 import trpgModule from './trpg-core.js';
 const trpg = trpgModule.default || trpgModule;
+import ryuModule from './ryu-core.js';
+const ryu = ryuModule.default || ryuModule;
 
 const WORDS = ['neko', 'inu', 'tora', 'sora', 'umi', 'yama', 'kawa', 'hoshi'];
 const TRPG_WORDS = ['mura', 'hora', 'gobu', 'yama', 'hata', 'inu'];
+const RYU_WORDS = ['ryu', 'tou', 'kane', 'sato', 'kiri', 'hashi'];
 function seedFromCode(code) { let h = 2166136261; for (const c of code) { h ^= c.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 function json(obj, status) { return new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json; charset=utf-8' } }); }
 
@@ -151,6 +154,95 @@ export class TrpgRoom {
   }
 }
 
+/* ===== AI GM TRPG「竜の眠る峠」 ===== */
+export class RyuRoom {
+  constructor(state, env) { this.storage = state.storage; }
+  async load() { return (await this.storage.get('room')) || null; }
+  async save(st) { await this.storage.put('room', st); }
+  async fetch(req) {
+    const u = new URL(req.url);
+    const code = u.searchParams.get('code') || (await req.clone().json().catch(() => ({}))).code;
+    if (u.pathname.endsWith('/init')) {
+      if (!(await this.load())) await this.save(ryu.newGame(seedFromCode(code)));
+      return json({ ok: true });
+    }
+    const st = await this.load();
+    if (!st) return json({ error: '部屋が見つかりません' }, 404);
+    if (u.pathname.endsWith('/state')) {
+      const role = u.searchParams.get('role');
+      const sigOf = (s) => JSON.stringify([s.day, s.phase, s.result, s.log.length, s.pendingText ? 1 : 0, s.pendingFree ? 1 : 0, s.pendingAsk ? 1 : 0, s.player.hp, s.ally.hp, s.actionsLeft, s.combat ? s.combat.round + ':' + s.combat.enemies.map(e => e.hp).join(',') : '']);
+      let cur = st;
+      let sig = sigOf(cur);
+      const wait = Math.min(25, Math.max(0, parseInt(u.searchParams.get('wait') || '0', 10) || 0));
+      const want = u.searchParams.get('sig');
+      if (wait > 0 && want && want === sig) {
+        const deadline = Date.now() + wait * 1000;
+        while (Date.now() < deadline) {
+          await new Promise(r => setTimeout(r, 800));
+          const fresh = await this.load();
+          if (!fresh) break;
+          cur = fresh;
+          const ns = sigOf(fresh);
+          if (ns !== sig) { sig = ns; break; }
+        }
+      }
+      const view = role === 'gm' ? ryu.gmView(cur) : ryu.playerView(cur);
+      view.sig = sig;
+      return json(view);
+    }
+    if (u.pathname.endsWith('/declare')) {
+      const body = await req.json();
+      const r = ryu.playerDeclare(st, body.text, body.talkTo);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/interpret')) {
+      const body = await req.json();
+      const r = ryu.gmInterpret(st, body.spec || {});
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/action')) {
+      const body = await req.json();
+      const r = ryu.playerAction(st, body.action || {});
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/narrate')) {
+      const body = await req.json();
+      const r = ryu.gmNarrate(st, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/ask')) {
+      const body = await req.json();
+      const r = ryu.playerAsk(st, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/answer')) {
+      const body = await req.json();
+      const r = ryu.gmAnswer(st, body.text);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/rule')) {
+      const body = await req.json();
+      const r = ryu.gmRule(st, body.tier, body.reward, body.custom);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, roll: r.roll, success: r.success });
+    }
+    return json({ error: 'not found' }, 404);
+  }
+}
+
 async function routeApi(req, env, prefix, binding, words) {
   const u = new URL(req.url);
   if (u.pathname === prefix + '/create') {
@@ -180,6 +272,7 @@ export default {
     const u = new URL(req.url);
     if (u.pathname.startsWith('/api/ramen/')) return routeApi(req, env, '/api/ramen', env.RAMEN_ROOM, WORDS);
     if (u.pathname.startsWith('/api/trpg/')) return routeApi(req, env, '/api/trpg', env.TRPG_ROOM, TRPG_WORDS);
+    if (u.pathname.startsWith('/api/ryu/')) return routeApi(req, env, '/api/ryu', env.RYU_ROOM, RYU_WORDS);
     return env.ASSETS.fetch(req);
   },
 };

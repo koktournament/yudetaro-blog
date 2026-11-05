@@ -13,11 +13,13 @@
   "durable_objects": {
     "bindings": [
       { "name": "RAMEN_ROOM", "class_name": "RamenRoom" },
-      { "name": "TRPG_ROOM", "class_name": "TrpgRoom" }
+      { "name": "TRPG_ROOM", "class_name": "TrpgRoom" },
+      { "name": "RYU_ROOM", "class_name": "RyuRoom" }
     ]
   },
   "migrations": [
     { "tag": "v1", "new_sqlite_classes": ["RamenRoom"] },
-    { "tag": "v2", "new_sqlite_classes": ["TrpgRoom"] }
+    { "tag": "v2", "new_sqlite_classes": ["TrpgRoom"] },
+    { "tag": "v3", "new_sqlite_classes": ["RyuRoom"] }
   ]
 }
