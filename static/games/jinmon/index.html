@@ -183,7 +183,7 @@ function render() {
     if (prevPending[c.id] && !c.pending) delete drafts[c.id];
     prevPending[c.id] = c.pending;
   }
-  const tabs = state.chars.map(c => '<button data-tab="' + c.id + '" class="' + (tab === c.id ? 'on' : '') + '">' + esc(c.name) + (c.pending ? ' ⏳' : '') + '</button>').join('')
+  const tabs = state.chars.map(c => '<button data-tab="' + c.id + '" class="' + (tab === c.id ? 'on' : '') + '">' + esc(c.name) + (c.id !== 'okada' ? '（' + esc(c.role) + '）' : '') + (c.pending ? ' ⏳' : '') + '</button>').join('')
     + '<button data-tab="__bc" class="' + (tab === '__bc' ? 'on' : '') + '">全員に聞く</button>'
     + '<button data-tab="__acc" class="' + (tab === '__acc' ? 'on' : '') + '">犯人を指名</button>';
   $('tabs').innerHTML = tabs;
