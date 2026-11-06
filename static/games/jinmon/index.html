@@ -30,6 +30,8 @@
   .stamp{display:inline-block;border:3px solid #b3392e;color:#b3392e;border-radius:8px;padding:2px 14px;font-size:26px;font-weight:900;transform:rotate(-5deg)}
   .pend{color:#b3392e;font-weight:700;font-size:13px}
   .status{color:#6a3fa0;font-weight:700;font-size:13px}
+  .face{width:92px;height:92px;object-fit:cover;border-radius:10px;float:right;margin:0 0 8px 10px;border:2px solid #cfc4a5}
+  .face-s{width:30px;height:30px;object-fit:cover;border-radius:50%;vertical-align:-9px;margin-right:7px}
 </style>
 </head>
 <body>
@@ -104,6 +106,7 @@
 </div>
 </div>
 
+<script src="jinmon-art.js"></script>
 <script>
 (() => {
 'use strict';
@@ -195,7 +198,8 @@ function renderRoom() {
     l.kind === 'sys' ? '<div class="sys">― ' + esc(l.text) + '</div>' :
     '<span class="a">' + esc(c.name) + '：' + esc(l.text) + '</span>').join('');
   $('room-area').innerHTML =
-    '<p><b class="big">' + esc(c.name) + '</b>（' + esc(c.role) + (c.age ? '・' + c.age + '歳' : '') + '）'
+    ((window.JINMON_ART && JINMON_ART[c.id]) ? '<img class="face" src="' + JINMON_ART[c.id] + '" alt="">' : '')
+    + '<p><b class="big">' + esc(c.name) + '</b>（' + esc(c.role) + (c.age ? '・' + c.age + '歳' : '') + '）'
     + (c.status ? ' <span class="status">【' + esc(c.status) + '】</span>' : '')
     + (c.pending ? ' <span class="pend">返答を待っています…</span>' : '') + '</p>'
     + '<p class="mut">' + esc(c.pub) + '</p>'
@@ -231,7 +235,7 @@ function renderAccuse() {
     ['バイト二人の線', cl.baito],
   ];
   $('acc-progress').innerHTML = '<p class="mut">捜査の詰め：</p>' + rows.map(r => '<p>' + (r[1] ? '✔' : '・') + ' ' + esc(r[0]) + (r[1] ? ' ― 決着' : ' ― まだ詰め切れていない') + '</p>').join('');
-  $('accuse-btns').innerHTML = state.chars.map(c => '<button class="warn" data-acc="' + c.id + '"' + (state.result ? ' disabled' : '') + '>' + esc(c.name) + '（' + esc(c.role) + '）</button>').join('');
+  $('accuse-btns').innerHTML = state.chars.map(c => '<button class="warn" data-acc="' + c.id + '"' + (state.result ? ' disabled' : '') + '>' + ((window.JINMON_ART && JINMON_ART[c.id]) ? '<img class="face-s" src="' + JINMON_ART[c.id] + '" alt="">' : '') + esc(c.name) + '（' + esc(c.role) + '）</button>').join('');
   document.querySelectorAll('[data-acc]').forEach(b => b.onclick = async () => {
     if (!confirm(b.textContent + ' を犯人として指名しますか？')) return;
     const r = await api('accuse', { code, char: b.dataset.acc });
