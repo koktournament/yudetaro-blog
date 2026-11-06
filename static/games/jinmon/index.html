@@ -32,6 +32,11 @@
   .status{color:#6a3fa0;font-weight:700;font-size:13px}
   .face{width:92px;height:92px;object-fit:cover;border-radius:10px;float:right;margin:0 0 8px 10px;border:2px solid #cfc4a5}
   .face-s{width:30px;height:30px;object-fit:cover;border-radius:50%;vertical-align:-9px;margin-right:7px}
+  .doc-img{width:150px;object-fit:cover;border-radius:8px;float:right;margin:0 0 6px 10px;border:2px solid #cfc4a5}
+  .safe-img{width:100%;max-height:230px;object-fit:cover;border-radius:10px;border:2px solid #cfc4a5}
+  .docp{overflow:hidden}
+  .item-s{width:30px;height:30px;object-fit:cover;border-radius:6px;vertical-align:-9px;margin-right:6px}
+  .item-w{width:56px;height:30px;object-fit:cover;border-radius:6px;vertical-align:-9px;margin-right:6px}
 </style>
 </head>
 <body>
@@ -171,7 +176,9 @@ function render() {
     ? '<p><span class="stamp">捜査打ち切り</span></p><p>度重なる不適切な取り調べが、同僚の刑事の知るところとなった。あなたは捜査から外され、事件は別の刑事に引き継がれた。</p>' : '';
   $('confession').innerHTML = state.confession
     ? '<p><b>中村大輔の独白</b></p><pre>' + esc(state.confession) + '</pre>' : '';
-  $('docs').innerHTML = state.docs.map(d => '<p><b>' + esc(d.name) + '</b><br>' + esc(d.body) + '</p>').join('');
+  $('docs').innerHTML =
+    ((window.JINMON_ITEMS && JINMON_ITEMS.safe) ? '<img class="safe-img" src="' + JINMON_ITEMS.safe + '" alt=""><p class="mut">現場：バックルームの金庫（投げ込み式・鍵付き）</p>' : '')
+    + state.docs.map(d => '<p class="docp">' + ((window.JINMON_ITEMS && JINMON_ITEMS[d.id]) ? '<img class="doc-img" src="' + JINMON_ITEMS[d.id] + '" alt="">' : '') + '<b>' + esc(d.name) + '</b><br>' + esc(d.body) + '</p>').join('');
   for (const c of state.chars) {
     if (prevPending[c.id] && !c.pending) delete drafts[c.id];
     prevPending[c.id] = c.pending;
@@ -204,7 +211,7 @@ function renderRoom() {
     + (c.pending ? ' <span class="pend">返答を待っています…</span>' : '') + '</p>'
     + '<p class="mut">' + esc(c.pub) + '</p>'
     + '<div class="log">' + (logHtml || '<span class="mut">まだ何も聞いていない。</span>') + '</div>'
-    + '<p>' + state.items.map(i => '<button class="sub" data-present="' + i.id + '"' + (c.pending || state.result ? ' disabled' : '') + '>見せる：' + esc(i.name) + '</button>').join('') + '</p>'
+    + '<p>' + state.items.map(i => '<button class="sub" data-present="' + i.id + '"' + (c.pending || state.result ? ' disabled' : '') + '>' + ((window.JINMON_ITEMS && JINMON_ITEMS[i.id]) ? '<img class="' + (i.id === 'photo_all' ? 'item-w' : 'item-s') + '" src="' + JINMON_ITEMS[i.id] + '" alt="">' : '') + '見せる：' + esc(i.name) + '</button>').join('') + '</p>'
     + '<textarea id="q-text" rows="2" placeholder="' + esc(c.name) + 'への質問"></textarea>'
     + '<button id="btn-ask"' + (c.pending || state.result ? ' disabled' : '') + '>質問する</button>';
   const logEl = document.querySelector('#room-area .log');
