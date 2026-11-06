@@ -148,7 +148,7 @@ h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
 <body>
 <div class="top">
   <h1 class="page-title">スマホ性能チェッカー</h1>
-  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2026年発売モデルまで、全148機種を収録</b>しています。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
+  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2026年発売モデルまで、全153機種を収録</b>しています。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
   <div class="controls">
     <label class="search">🔍 <input id="q" type="search" placeholder="機種名・SoC・メーカーで検索（例：POCO F7、レノ14、Redmi Note 15、ピクセル10、8Gen3）"></label>
     <div class="pills" id="filters">
@@ -264,7 +264,7 @@ const SOCS = {
   ex1480:{name:"Exynos 1480",maker:"Samsung",antutu:730000,cpu:62,gpu:60,process:"4nm"},
   d7200:{name:"Dimensity 7200 Pro",maker:"MediaTek",antutu:715000,cpu:64,gpu:58,process:"4nm"},
   d7300:{name:"Dimensity 7300",maker:"MediaTek",antutu:690000,cpu:60,gpu:54,process:"4nm"},
-  sd6g3:{name:"Snapdragon 6 Gen 3",maker:"Qualcomm",antutu:660000,cpu:58,gpu:50,process:"4nm"},
+  sd6g3:{name:"Snapdragon 6 Gen 3",maker:"Qualcomm",antutu:660000,cpu:58,gpu:50,process:"4nm"},sd6g4:{name:"Snapdragon 6 Gen 4",maker:"Qualcomm",antutu:750000,cpu:63,gpu:56,process:"4nm"},
   sd7s2:{name:"Snapdragon 7s Gen 2",maker:"Qualcomm",antutu:605000,cpu:56,gpu:48,process:"4nm"},
   ex1380:{name:"Exynos 1380",maker:"Samsung",antutu:600000,cpu:56,gpu:48,process:"5nm"},
   sd6g1:{name:"Snapdragon 6 Gen 1",maker:"Qualcomm",antutu:565000,cpu:54,gpu:44,process:"4nm"},
@@ -368,7 +368,7 @@ const PHONES = [
  {id:"pocoX6p",name:"POCO X6 Pro",maker:"Xiaomi",soc:"d8300",ram:8,storage:256, year:2024, emoji:"🏎️"},
  {id:"pocoX7p",name:"POCO X7 Pro",maker:"Xiaomi",soc:"d8400",ram:8,storage:256, year:2025, emoji:"🏎️"},
  {id:"edge50p",name:"motorola edge 50 pro",maker:"Motorola",soc:"sd7g3",ram:12,storage:256, year:2024, emoji:"🏍️"},
- {id:"np3a",name:"Nothing Phone (3a)",maker:"Nothing",soc:"sd7s3",ram:8,storage:128, year:2025, emoji:"💡"},
+ {id:"np3a",name:"Nothing Phone (3a)",maker:"Nothing",soc:"sd7s3",ram:8,storage:128, year:2025, emoji:"💡"},{id:"np4b",name:"Nothing Phone (4b)",maker:"Nothing",soc:"sd6g4",ram:8,storage:128, year:2026, emoji:"💡", aka:"ナッシングフォン4b"},
  {id:"a54",name:"Galaxy A54 5G",maker:"Samsung",soc:"ex1380",ram:6,storage:128, year:2023, emoji:"🌌"},
  {id:"a35",name:"Galaxy A35 5G",maker:"Samsung",soc:"ex1380",ram:6,storage:128, year:2024, emoji:"🌌"},
  {id:"a53",name:"Galaxy A53 5G",maker:"Samsung",soc:"ex1280",ram:6,storage:128, year:2022, emoji:"🌌"},
@@ -401,7 +401,7 @@ const PHONES = [
  {id:"rn13pp",name:"Redmi Note 13 Pro+ 5G",maker:"Xiaomi",soc:"d7200",ram:8,storage:256, year:2024, emoji:"📝"},
  {id:"rn12p",name:"Redmi Note 12 Pro 5G",maker:"Xiaomi",soc:"d1080",ram:6,storage:128, year:2023, emoji:"📝"},
  {id:"sense6",name:"AQUOS sense6",maker:"SHARP",soc:"sd690",ram:4,storage:64, year:2021, emoji:"💧"},
- {id:"ip18pm",name:"iPhone 18 Pro Max",maker:"Apple",soc:"a20pro",ram:12,storage:256, year:2026, emoji:"🍎"},
+ {id:"ip18pm",name:"iPhone 18 Pro Max",maker:"Apple",soc:"a20pro",ram:12,storage:256, year:2026, emoji:"🍎"},{id:"ipduo",name:"iPhone Duo",maker:"Apple",soc:"a20pro",ram:12,storage:256, year:2026, emoji:"📖", aka:"アイフォンデュオ 折りたたみ"},
  {id:"ip18p",name:"iPhone 18 Pro",maker:"Apple",soc:"a20pro",ram:12,storage:256, year:2026, emoji:"🍎"},
  {id:"ip17pm",name:"iPhone 17 Pro Max",maker:"Apple",soc:"a19pro",ram:12,storage:256, year:2025, emoji:"🍎"},
  {id:"ip17p",name:"iPhone 17 Pro",maker:"Apple",soc:"a19pro",ram:12,storage:256, year:2025, emoji:"🍎"},
@@ -441,8 +441,8 @@ const PHONES = [
  {id:"pocoF7",name:"POCO F7",maker:"Xiaomi",soc:"sd8s4",ram:12,storage:256, year:2025, emoji:"🏎️", aka:"ポコF7 ポコエフセブン poco"},
  {id:"pocoX8p",name:"POCO X8 Pro",maker:"Xiaomi",soc:"d8500",ram:12,storage:256, year:2026, emoji:"🏎️", aka:"ポコX8プロ ポコエックスエイトプロ poco"},
  {id:"reno14",name:"OPPO Reno14 5G",maker:"OPPO",soc:"d8350",ram:12,storage:256, year:2025, emoji:"🌿", aka:"オッポ レノ14 レノ14 reno14 リノ14"},
- {id:"zfold7",name:"Galaxy Z Fold7",maker:"Samsung",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"📖", aka:"ギャラクシーZフォールド7 折りたたみ"},
- {id:"zflip7",name:"Galaxy Z Flip7",maker:"Samsung",soc:"ex2500",ram:12,storage:256, year:2025, emoji:"🪞", aka:"ギャラクシーZフリップ7 折りたたみ"},
+ {id:"zfold7",name:"Galaxy Z Fold7",maker:"Samsung",soc:"sd8e",ram:12,storage:256, year:2025, emoji:"📖", aka:"ギャラクシーZフォールド7 折りたたみ"},{id:"zfold8",name:"Galaxy Z Fold8",maker:"Samsung",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"📖", aka:"ギャラクシーZフォールド8 折りたたみ"},{id:"zfold8u",name:"Galaxy Z Fold8 Ultra",maker:"Samsung",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"📖", aka:"ギャラクシーZフォールド8ウルトラ 折りたたみ"},
+ {id:"zflip7",name:"Galaxy Z Flip7",maker:"Samsung",soc:"ex2500",ram:12,storage:256, year:2025, emoji:"🪞", aka:"ギャラクシーZフリップ7 折りたたみ"},{id:"zflip8",name:"Galaxy Z Flip8",maker:"Samsung",soc:"sd8e5",ram:12,storage:256, year:2026, emoji:"🪞", aka:"ギャラクシーZフリップ8 折りたたみ"},
  {id:"edge60p",name:"motorola edge 60 pro",maker:"Motorola",soc:"d8350",ram:12,storage:256, year:2025, emoji:"🏍️", aka:"モトローラエッジ60プロ モトエッジ"},
 ];
 
@@ -490,7 +490,7 @@ const KANA_TO_EN = [
   ["レノ","reno"],["ポコ","poco"],["アルファ","alpha"],["フォン","phone"],["フォーン","phone"]
 ].sort((a,b)=>b[0].length-a[0].length);
 
-const NEW_IDS = new Set(["p10pxl","p10pf","np3","x10vii","reno13a","reno14","mi15tp","mi15t","a57","a56","arrowsAlpha","g66","rn15p","rn15","zfold7","zflip7","edge60p","pocoF7u","pocoF7p","pocoF7","pocoX8p"]);
+const NEW_IDS = new Set(["p10pxl","p10pf","np3","x10vii","reno13a","reno14","mi15tp","mi15t","a57","a56","arrowsAlpha","g66","rn15p","rn15","zfold8","zfold8u","zflip8","ipduo","np4b","edge60p","pocoF7u","pocoF7p","pocoF7","pocoX8p"]);
 function isLatest(p){ return NEW_IDS.has(p.id) || p.year>=2026; }
 
 function normalizeSearch(s){
