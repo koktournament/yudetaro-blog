@@ -119,6 +119,10 @@ function actorNote(st, charId, status) {
   if (!s) return { ok: false, error: '状態が空です' };
   st.chars[charId].status = s;
   pushLog(st, charId, { kind: 'sys', text: s });
+  if (charId === 'okada' && /痴漢/.test(s) && /(確定|退場|除外)/.test(s) && !st.okadaCleared) {
+    st.okadaCleared = true;
+    pushLog(st, charId, { kind: 'sys', text: '岡田守の自宅なども調べられたが、本件（金庫の盗難）とは全く関係がないことが判明した。' });
+  }
   return { ok: true };
 }
 
