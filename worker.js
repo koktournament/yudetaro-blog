@@ -370,7 +370,7 @@ async function routeApi(req, env, prefix, binding, words) {
 export default {
   async fetch(req, env) {
     const u = new URL(req.url);
-    if (u.pathname.startsWith('/api/ramen/')) return routeApi(req, env, '/api/ramen', env.RAMEN_ROOM, WORDS);
+    if (u.pathname.startsWith('/api/ramen/')) return new Response('not found', { status: 404 });
     if (u.pathname.startsWith('/api/trpg/')) return routeApi(req, env, '/api/trpg', env.TRPG_ROOM, TRPG_WORDS);
     if (u.pathname.startsWith('/api/ryu/')) return routeApi(req, env, '/api/ryu', env.RYU_ROOM, RYU_WORDS);
     if (u.pathname.startsWith('/api/jinmon/')) return routeApi(req, env, '/api/jinmon', env.JINMON_ROOM, JINMON_WORDS);
