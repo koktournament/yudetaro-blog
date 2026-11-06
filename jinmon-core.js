@@ -123,6 +123,16 @@ function actorNote(st, charId, status) {
     st.okadaCleared = true;
     pushLog(st, charId, { kind: 'sys', text: '岡田守の自宅なども調べられたが、本件（金庫の盗難）とは全く関係がないことが判明した。' });
   }
+  if (charId === 'takada' && /自作自演/.test(s) && /(晴|否定|潔白)/.test(s) && !st.takadaCleared) {
+    st.takadaCleared = true;
+    pushLog(st, charId, { kind: 'sys', text: 'その後の調べで、高田には金を持ち出す機会がなく、店内に金が隠されていた形跡もなかった。自作自演の可能性は否定された。' });
+  }
+  if (charId === 'takada' && /袋/.test(s) && /(空|なし|無)/.test(s) && !st.baitoCleared) {
+    st.baitoCleared = true;
+    const msg = '金庫には袋すら残っていなかった。袋詰めの段階で金を抜いたのなら、袋は金庫に残るはずだ。バイト二人の犯行は成り立たない。';
+    pushLog(st, 'yui', { kind: 'sys', text: msg });
+    pushLog(st, 'kaito', { kind: 'sys', text: msg });
+  }
   return { ok: true };
 }
 
