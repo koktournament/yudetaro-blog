@@ -59,6 +59,13 @@
     <div class="big">事件の概要 <span class="mut" id="hud"></span></div>
     <pre id="intro"></pre>
     <div id="solved-banner"></div>
+    <div id="confession"></div>
+  </div>
+
+  <div class="card">
+    <button id="btn-hint" class="sub">ベテラン刑事に相談する</button>
+    <span class="mut">行き詰まったら、先輩刑事の助言を聞けます（質問数には数えません）。</span>
+    <div id="hints"></div>
   </div>
 
   <details class="card">
@@ -83,7 +90,8 @@
       <span id="bc-note" class="mut"></span>
     </div>
     <div id="accuse-area" style="display:none">
-      <p>犯人だと思う人物を指名してください。消去法で絞っても、矛盾を突きつけても構いません。間違えても捜査は続きますが、指名の回数は記録されます。</p>
+      <p>犯人だと思う人物を指名してください。ただし、捜査が詰め切れていない段階では断定できません。間違えても捜査は続きますが、指名の回数は記録されます。</p>
+      <div id="acc-progress"></div>
       <div id="accuse-btns"></div>
       <p id="accuse-note" class="pend"></p>
     </div>
@@ -155,7 +163,11 @@ function render() {
   $('hud').textContent = '部屋: ' + code + ' ／ 質問数: ' + state.totalQuestions + ' ／ 指名: ' + state.accusations + '回';
   $('intro').textContent = state.intro;
   $('solved-banner').innerHTML = state.result === 'solved'
-    ? '<p><span class="stamp">解決</span></p><p>犯人は中村大輔だった。質問数 ' + state.totalQuestions + ' 回、指名 ' + state.accusations + ' 回で解決。</p>' : '';
+    ? '<p><span class="stamp">解決</span></p><p>犯人は中村大輔だった。質問数 ' + state.totalQuestions + ' 回、指名 ' + state.accusations + ' 回で解決。</p>'
+    : state.result === 'gameover'
+    ? '<p><span class="stamp">捜査打ち切り</span></p><p>度重なる不適切な取り調べが、同僚の刑事の知るところとなった。あなたは捜査から外され、事件は別の刑事に引き継がれた。</p>' : '';
+  $('confession').innerHTML = state.confession
+    ? '<p><b>中村大輔の独白</b></p><pre>' + esc(state.confession) + '</pre>' : '';
   $('docs').innerHTML = state.docs.map(d => '<p><b>' + esc(d.name) + '</b><br>' + esc(d.body) + '</p>').join('');
   for (const c of state.chars) {
     if (prevPending[c.id] && !c.pending) delete drafts[c.id];
@@ -212,15 +224,30 @@ function renderRoom() {
   };
 }
 function renderAccuse() {
+  const cl = state.cleared || {};
+  const rows = [
+    ['うろついていた男の件', cl.okada],
+    ['オーナーの自作自演の線', cl.takada],
+    ['バイト二人の線', cl.baito],
+  ];
+  $('acc-progress').innerHTML = '<p class="mut">捜査の詰め：</p>' + rows.map(r => '<p>' + (r[1] ? '✔' : '・') + ' ' + esc(r[0]) + (r[1] ? ' ― 決着' : ' ― まだ詰め切れていない') + '</p>').join('');
   $('accuse-btns').innerHTML = state.chars.map(c => '<button class="warn" data-acc="' + c.id + '"' + (state.result ? ' disabled' : '') + '>' + esc(c.name) + '（' + esc(c.role) + '）</button>').join('');
   document.querySelectorAll('[data-acc]').forEach(b => b.onclick = async () => {
     if (!confirm(b.textContent + ' を犯人として指名しますか？')) return;
     const r = await api('accuse', { code, char: b.dataset.acc });
     if (!r.ok) { alert(r.error); return; }
-    $('accuse-note').textContent = r.correct ? '' : '……違うようだ。捜査を続けよう。';
+    $('accuse-note').textContent = r.correct ? '' : r.insufficient ? 'まだ断定できない。……捜査が詰め切れていない。' : '……違うようだ。捜査を続けよう。';
     await refresh();
   });
 }
+$('btn-hint').onclick = async () => {
+  const r = await api('hint', { code });
+  if (!r.ok) { alert(r.error); return; }
+  const d = document.createElement('p');
+  d.className = 'sys';
+  d.textContent = '先輩刑事： ' + r.text;
+  $('hints').appendChild(d);
+};
 $('btn-broadcast').onclick = async () => {
   const t = $('bc-text').value.trim();
   if (!t) return;

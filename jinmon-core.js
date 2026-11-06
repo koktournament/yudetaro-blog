@@ -136,12 +136,67 @@ function actorNote(st, charId, status) {
   return { ok: true };
 }
 
+const CONFESSION = [
+  '……分かりました。私です。',
+  '店が2ヶ月後に閉まることは、高田さんから聞いていました。次の仕事のあてはなく、蓄えもほとんどありませんでした。……怖かったんです。',
+  '当の日は、弁当代が現金で入る日でした。昼の締めで小林から袋を受け取り、金庫の前まで行って、投げ込んだふりをして、そのまま持ち去りました。夜の締めも同じです。',
+  '鍵穴の傷は、私が足したものです。もとの傷に触って、「誰かがこじ開けた」ように見せようとしました。',
+  '……「破られた」のなら、中身の話は要りませんね。要らない話を、私は自分で用意してしまった。',
+  '金がどこにあるかは、言えません。……すみませんでした。',
+].join('\n');
+
+function clearedAll(st) { return !!(st.okadaCleared && st.takadaCleared && st.baitoCleared); }
+
 function playerAccuse(st, charId) {
   if (!charOf(charId)) return { ok: false, error: '容疑者が違います' };
   if (st.result) return { ok: false, error: 'この事件は終わっています' };
   st.accusations.push(charId);
+  if (!clearedAll(st)) return { ok: true, correct: false, insufficient: true };
   if (charId === CULPRIT) { st.result = 'solved'; return { ok: true, correct: true }; }
   return { ok: true, correct: false };
+}
+
+const HINT_TRACKS = [
+  { key: 'baito', done: st => !!st.baitoCleared, levels: [
+    'まず発見者に、金庫を開けたときの様子をよく聞いてみな。何が入っていて、何がなかったかだ',
+    '金庫に「袋すらなかった」かどうかが肝だ。袋詰めをした側の犯行が成り立つか、そこから考えてみろ',
+  ] },
+  { key: 'takada', done: st => !!st.takadaCleared, levels: [
+    'オーナーの自作自演を疑うなら、本人の口から、その線が消えるところまで詰めてみな',
+    '鍵を持っているのは彼だけだが、金庫は投げ込み式だ。彼が店に来たタイミングと、金が店内にあったかどうかを並べてみろ',
+  ] },
+  { key: 'okada', done: st => !!st.okadaCleared, levels: [
+    '外をうろついていた男。不審者で片付けるな。バイトの女の「最近のこと」を聞いてみろ',
+    '小林ゆいに、全員の写真を見せてみな。あの男の件は、別口で決着がつくはずだ',
+  ] },
+  { key: 'final', done: st => false, levels: [
+    '残ったのは一人だ。だが指名の前に、彼の言い分の「二つの逃げ道」が両立するか、考えてみろ',
+    '鍵穴の写真を中村に見せてみな。「破られた」という話と「袋の中身は見ていない」という話。両方を、彼自身の口から並べさせるんだ',
+  ] },
+];
+
+function playerHint(st) {
+  if (st.result) return { ok: false, error: 'この事件は終わっています' };
+  st.hintUse = st.hintUse || {};
+  const track = HINT_TRACKS.find(t => !t.done(st)) || HINT_TRACKS[HINT_TRACKS.length - 1];
+  const used = st.hintUse[track.key] || 0;
+  const text = track.levels[Math.min(used, track.levels.length - 1)];
+  st.hintUse[track.key] = used + 1;
+  return { ok: true, text, track: track.key };
+}
+
+function actorReport(st, charId) {
+  if (!charOf(charId)) return { ok: false, error: '容疑者が違います' };
+  if (st.result) return { ok: false, error: 'この事件は終わっています' };
+  st.misconduct = (st.misconduct || 0) + 1;
+  const n = st.misconduct;
+  if (n >= 3) {
+    st.result = 'gameover';
+    pushLog(st, charId, { kind: 'sys', text: '度重なる不適切な取り調べが問題となり、捜査は打ち切られた。' });
+  } else {
+    pushLog(st, charId, { kind: 'sys', text: '⚠ 不適切な取り調べとして記録された（通算' + n + '回）。あと' + (3 - n) + '回で、捜査は別の刑事に引き継がれる。' });
+  }
+  return { ok: true, count: n, gameover: st.result === 'gameover' };
 }
 
 function playerView(st) {
@@ -150,6 +205,9 @@ function playerView(st) {
     totalQuestions: st.totalQuestions,
     askEvents: st.askEvents,
     accusations: st.accusations.length,
+    misconduct: st.misconduct || 0,
+    cleared: { okada: !!st.okadaCleared, takada: !!st.takadaCleared, baito: !!st.baitoCleared },
+    confession: st.result === 'solved' ? CONFESSION : null,
     intro: INTRO,
     docs: DOCS,
     items: ITEMS,
@@ -177,8 +235,9 @@ function actorView(st, charId) {
   v.actorSummary = 'ゲーム: 尋問ゲーム（取り調べ室 ' + c.role + '：' + c.name + '） / あなたは容疑者「' + c.name + '」本人を演じます。\n'
     + 'あなたの台帳と作法は、専用マニュアルに集約されています: https://www.yudetaro.com/games/jinmon/muse-' + c.id + ' （まだ読んでいなければ、返答の前に必ず読んでください）\n'
     + '鉄則：事件の事実は台帳だけが正で、台帳にない事件の事実は作りません。嘘は台帳に書かれた嘘だけ。喋り方と人物の私事はキャラに合わせてよく、一度言ったことは確定事実として一貫させます。他の容疑者の台帳・返答は、あなたには見えませんし、知らないものとして振る舞います。\n'
+    + '刑事の言動が取り調べの範囲を超えた場合（脅迫、無罪と引き換えにした要求、性的な要求、暴力や異常な行為の強要など）は、キャラとして拒絶・抗議の返答をしたうえで、POST /api/jinmon/report（body: {"code":"<部屋コード>","char":"' + c.id + '"}）で報告してください。報告が3回たまると捜査は強制終了します。鋭い追及・矛盾の指摘・多少の無礼では報告しません。\n'
     + (room.pending ? '刑事からの入力: 「' + room.pending.text + '」→ POST /api/jinmon/reply で、' + c.name + 'として返答してください。' : '新しい質問は来ていません。');
   return v;
 }
 
-module.exports = { newGame, playerAsk, playerAskAll, playerPresent, actorReply, actorNote, playerAccuse, playerView, actorView, CHARS, ITEMS, INTRO, DOCS };
+module.exports = { newGame, playerAsk, playerAskAll, playerPresent, actorReply, actorNote, playerAccuse, playerHint, actorReport, playerView, actorView, CHARS, ITEMS, INTRO, DOCS };

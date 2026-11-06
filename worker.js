@@ -323,7 +323,21 @@ export class JinmonRoom {
       const r = jinmon.playerAccuse(st, body.char);
       if (!r.ok) return json({ error: r.error }, 400);
       await this.save(st);
-      return json({ ok: true, correct: r.correct });
+      return json({ ok: true, correct: r.correct, insufficient: !!r.insufficient });
+    }
+    if (u.pathname.endsWith('/hint')) {
+      const body = await req.json();
+      const r = jinmon.playerHint(st);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, text: r.text });
+    }
+    if (u.pathname.endsWith('/report')) {
+      const body = await req.json();
+      const r = jinmon.actorReport(st, body.char);
+      if (!r.ok) return json({ error: r.error }, 400);
+      await this.save(st);
+      return json({ ok: true, count: r.count, gameover: r.gameover });
     }
     return json({ error: 'not found' }, 404);
   }
