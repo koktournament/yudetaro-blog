@@ -80,7 +80,7 @@
 
 <div id="view-game" style="display:none">
   <div class="card">
-    <div class="big">事件の概要 <span class="mut" id="hud"></span></div>
+    <div class="big">事件の概要 <span class="mut" id="hud"></span> <button id="btn-mute" class="sub" style="float:right">🔊 音あり</button></div>
     <pre id="intro"></pre>
     <div id="solved-banner"></div>
     <div id="confession"></div>
@@ -133,6 +133,52 @@
 (() => {
 'use strict';
 if (window.JINMON_ITEMS && JINMON_ITEMS.safe) { const ta = document.getElementById('title-art'); if (ta) ta.src = JINMON_ITEMS.safe; }
+
+// ===== 音（BGM・効果音）=====
+let muted = false;
+let bgmAudio = null, culpritAudio = null, prevResult = null;
+const seCache = {};
+function loadScript(src) { return new Promise(res => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = res; document.head.appendChild(s); }); }
+function dataToUrl(data) { const b = atob(data.split(',')[1]); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return URL.createObjectURL(new Blob([u], { type: 'audio/mpeg' })); }
+loadScript('jinmon-se.js');
+async function se(name, vol) {
+  if (muted) return;
+  if (!window.JINMON_SE) await loadScript('jinmon-se.js');
+  if (!window.JINMON_SE || !JINMON_SE[name]) return;
+  if (!seCache[name]) seCache[name] = new Audio(dataToUrl(JINMON_SE[name]));
+  const a = seCache[name];
+  try { a.pause(); a.currentTime = 0; a.volume = vol == null ? 0.7 : vol; a.play(); } catch (e) {}
+}
+async function startBgm() {
+  if (muted) return;
+  if (bgmAudio) { try { bgmAudio.play(); } catch (e) {} return; }
+  if (!window.JINMON_BGM_MAIN) await loadScript('jinmon-bgm-main.js');
+  if (!window.JINMON_BGM_MAIN) return;
+  bgmAudio = new Audio(dataToUrl(JINMON_BGM_MAIN));
+  bgmAudio.loop = true; bgmAudio.volume = 0.3;
+  try { await bgmAudio.play(); } catch (e) {}
+}
+function stopAllBgm() { [bgmAudio, culpritAudio].forEach(a => { if (a) { try { a.pause(); } catch (e) {} } }); }
+async function startCulprit() {
+  stopAllBgm();
+  if (culpritAudio) { if (!muted) { try { culpritAudio.currentTime = 0; culpritAudio.play(); } catch (e) {} } return; }
+  if (!window.JINMON_BGM_CULPRIT) await loadScript('jinmon-bgm-culprit.js');
+  if (!window.JINMON_BGM_CULPRIT) return;
+  culpritAudio = new Audio(dataToUrl(JINMON_BGM_CULPRIT));
+  culpritAudio.volume = 0.5;
+  if (!muted) { try { culpritAudio.play(); } catch (e) {} }
+}
+function onResultChange() {
+  if (!state || state.result === prevResult) return;
+  if (state.result === 'solved') startCulprit();
+  if (state.result === 'gameover') { stopAllBgm(); se('buzzer', 0.8); }
+  prevResult = state.result;
+}
+document.addEventListener('pointerdown', () => {
+  if (muted || !state) return;
+  if (state.result === 'solved') { if (culpritAudio && culpritAudio.paused) { try { culpritAudio.play(); } catch (e) {} } }
+  else if (!state.result && bgmAudio && bgmAudio.paused) { try { bgmAudio.play(); } catch (e) {} }
+});
 const $ = id => document.getElementById(id);
 let code = localStorage.getItem('jinmon_code') || '';
 let state = null;
@@ -155,6 +201,7 @@ async function enter(c) {
   localStorage.setItem('jinmon_code', code);
   $('view-entry').style.display = 'none';
   $('view-game').style.display = '';
+  startBgm();
   await refresh();
   inviteRender();
   if (polling) clearInterval(polling);
@@ -168,6 +215,7 @@ async function refresh() {
   lastSig = s.sig || null;
   state = s;
   render();
+  onResultChange();
 }
 function inviteText() {
   return '尋問ゲーム「金庫の中身」で、容疑者5人全員を演じてください。\n進め方と各キャラの台帳は、このページにまとまっています: ' + location.origin + '/games/jinmon/muse\n部屋コード: ' + code;
@@ -242,14 +290,14 @@ function renderRoom() {
   }
   document.querySelectorAll('[data-present]').forEach(b => b.onclick = async () => {
     const r = await api('present', { code, char: tab, item: b.dataset.present });
-    if (!r.ok) alert(r.error); await refresh();
+    if (!r.ok) alert(r.error); else se('paper', 0.7); await refresh();
   });
   const askBtn = $('btn-ask');
   if (askBtn) askBtn.onclick = async () => {
     const t = $('q-text').value.trim();
     if (!t) return;
     const r = await api('ask', { code, char: tab, text: t });
-    if (!r.ok) alert(r.error); await refresh();
+    if (!r.ok) alert(r.error); else se('pen', 0.45); await refresh();
   };
 }
 function renderAccuse() {
@@ -263,15 +311,24 @@ function renderAccuse() {
   $('accuse-btns').innerHTML = state.chars.map(c => '<button class="warn" data-acc="' + c.id + '"' + (state.result ? ' disabled' : '') + '>' + ((window.JINMON_ART && JINMON_ART[c.id]) ? '<img class="face-s" src="' + JINMON_ART[c.id] + '" alt="">' : '') + esc(c.name) + '（' + esc(c.role) + '）</button>').join('');
   document.querySelectorAll('[data-acc]').forEach(b => b.onclick = async () => {
     if (!confirm(b.textContent + ' を犯人として指名しますか？')) return;
+    se('impact', 0.9);
     const r = await api('accuse', { code, char: b.dataset.acc });
     if (!r.ok) { alert(r.error); return; }
     $('accuse-note').textContent = r.correct ? '' : r.insufficient ? 'まだ断定できない。……捜査が詰め切れていない。' : '……違うようだ。捜査を続けよう。';
     await refresh();
   });
 }
+$('btn-mute').onclick = () => {
+  muted = !muted;
+  $('btn-mute').textContent = muted ? '🔇 消音中' : '🔊 音あり';
+  if (muted) stopAllBgm();
+  else if (state && state.result === 'solved') startCulprit();
+  else if (state && !state.result) startBgm();
+};
 $('btn-hint').onclick = async () => {
   const r = await api('hint', { code });
   if (!r.ok) { alert(r.error); return; }
+  se('bell', 0.7);
   const d = document.createElement('p');
   d.className = 'sys';
   d.textContent = '先輩刑事： ' + r.text;
@@ -282,6 +339,7 @@ $('btn-broadcast').onclick = async () => {
   if (!t) return;
   const r = await api('askall', { code, text: t });
   if (!r.ok) { alert(r.error); return; }
+  se('pen', 0.45);
   $('bc-note').textContent = r.sent + '人に投げました。各取り調べ室で回答を待ってください。';
   $('bc-text').value = '';
   await refresh();
@@ -313,6 +371,7 @@ $('btn-leave').onclick = () => {
   }
   clearTimeout(leaveArm); leaveArm = null;
   if (polling) clearInterval(polling);
+  stopAllBgm(); prevResult = null;
   localStorage.removeItem('jinmon_code');
   code = ''; state = null;
   $('view-game').style.display = 'none';
