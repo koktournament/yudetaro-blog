@@ -6,7 +6,7 @@
   };
   var CONF = {
     jinmon: { sel: ".art-jinmon", ov: "linear-gradient(100deg, rgba(8,10,14,.78) 25%, rgba(8,10,14,.35) 65%, rgba(8,10,14,.45))", pos: "center" },
-    mahjong: { sel: ".art-mahjong", ov: "linear-gradient(rgba(8,26,19,.52), rgba(8,26,19,.30) 55%, rgba(8,26,19,.55))", pos: "center" }
+    mahjong: { sel: ".art-mahjong", ov: "linear-gradient(rgba(8,26,19,.58), rgba(8,26,19,.30) 55%, rgba(8,26,19,.55))", pos: "50% 88%" }
   };
   Object.keys(CONF).forEach(function (k) {
     var el = document.querySelector(CONF[k].sel);
