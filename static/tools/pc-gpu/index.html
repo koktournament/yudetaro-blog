@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>GPU性能チェッカー（グラボ） | yudetaro.com</title>
+<meta name="description" content="GeForce RTX 5090／5070／4060、Radeon RX 9070 XT、Intel Arcなど33種のグラフィックボードの性能指数と、モンハンワイルズ・原神・Apexなど人気ゲームがどの解像度で快適に動くかを判定。同性能帯のグラボも比較できます。"/>
+<meta name="keywords" content="グラボ 性能 比較,GPU ベンチマーク,RTX 4060 性能,RTX 5060 性能,モンハンワイルズ 動く グラボ,RX 9070 XT 性能"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="GPU性能チェッカー（グラボ） | yudetaro.com"/>
+<meta property="og:description" content="GeForce RTX 5090／5070／4060、Radeon RX 9070 XT、Intel Arcなど33種のグラフィックボードの性能指数と、モンハンワイルズ・原神・Apexなど人気ゲームがどの解像度で快適に動くかを判定。同性能帯のグラボも比較できます。"/>
+<meta name="twitter:card" content="summary"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"GPU性能チェッカー","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"GeForce RTX 5090／5070／4060、Radeon RX 9070 XT、Intel Arcなど33種のグラフィックボードの性能指数と、モンハンワイルズ・原神・Apexなど人気ゲームがどの解像度で快適に動くかを判定。同性能帯のグラボも比較できます。"}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --text:#121826; --sub:#5b6474; --line:#e2e6ec;
+  --accent:#ff6a00; --accent2:#00917c; --good:#00917c; --ok:#eab308; --bad:#ef4444;
+  --chip:#eef1f4;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1219; --card:#171d29; --card2:#1e2636; --text:#eef2f7; --sub:#9aa4b5; --line:#263041; --chip:#222b3d; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP",system-ui,sans-serif}
+a{color:inherit}
+.top{max-width:1180px;margin:0 auto;padding:18px 16px 8px}
+.lead{font-size:14px;line-height:1.7;color:var(--sub);max-width:720px}
+.lead b{color:var(--text)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px}
+.search input{flex:1;border:0;outline:0;background:transparent;font-size:15px;color:var(--text)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.layout{max-width:1180px;margin:0 auto;padding:12px 16px 28px;display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr} .detail{order:-1} .layout.searching .list{order:-1} .layout.searching .detail{order:0}}
+.list{display:grid;gap:8px}
+.phone-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 10px;display:flex;gap:12px;cursor:pointer;text-align:left;width:100%}
+.phone-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 22%,transparent)}
+.phone-card:hover{border-color:#cbd2dc}
+.thumb{width:48px;height:64px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.pc-main{flex:1;min-width:0}
+.pc-name{font-weight:900;font-size:14.5px;line-height:1.3}
+.pc-meta{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar{height:6px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:8px}
+.mini-bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.pc-score{font-family:Inter,sans-serif;font-weight:800;font-size:13px;text-align:right;line-height:1}
+.pc-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px;margin-top:3px}
+.tier{font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;background:#fff1e6;color:#9a3d00;border:1px solid #ffd9bd}
+@media(prefers-color-scheme:dark){.tier{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;scroll-margin-top:12px}
+/* PC幅では詳細パネルを画面に固定し、スクロールの成否に依存せず常に見えるようにする。
+   パネルが画面より高い場合はパネル内スクロールで全体を読める。 */
+@media(min-width:861px){.detail{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}}
+.detail.flash{animation:detailFlash .45s ease}
+@keyframes detailFlash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion: reduce){.detail.flash{animation:none}}
+.detail-head{padding:18px 18px 0;display:flex;gap:16px;flex-wrap:wrap}
+.d-title{flex:1;min-width:220px}
+.d-maker{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.d-name{font-size:26px;font-weight:900;line-height:1.15;margin:4px 0 6px}
+.d-sub{font-size:13px;color:var(--sub);line-height:1.6}
+.specs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.spec{background:var(--card2);border-radius:10px;padding:8px 10px;min-width:104px}
+.spec label{display:block;font-size:10px;letter-spacing:.06em;color:var(--sub);font-weight:700}
+.spec b{font-size:13.5px}
+.score-box{text-align:center;background:var(--card2);border-radius:14px;padding:12px 16px;min-width:132px}
+.score-num{font-family:Inter,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.score-num span{font-size:13px;color:var(--sub)}
+.score-label{font-size:11px;color:var(--sub);margin-top:4px}
+.progress{height:10px;background:var(--chip);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff6a00,#ffb020)}
+.bars{padding:14px 18px 4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.bars{grid-template-columns:1fr}}
+.bar-row label{font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar-track i{display:block;height:100%;background:var(--text)}
+.bar-track i.gpu{background:var(--accent2)} .bar-track i.game{background:var(--accent)}
+.section{padding:16px 18px 18px;border-top:1px solid var(--line);margin-top:14px}
+.section h3{margin:0 0 4px;font-size:15px;font-weight:900}
+.section p.desc{margin:0 0 12px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.games{grid-template-columns:1fr}}
+.game{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px}
+.game-emoji{font-size:20px;width:36px;height:36px;background:var(--card);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
+.game b{font-size:13.5px;display:block}
+.game span{font-size:11.5px;color:var(--sub)}
+.badge{margin-left:auto;font-size:20px;font-weight:900;width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex-shrink:0}
+.badge.ex{background:#dcf5e9;color:#006b4f}.badge.gd{background:#e0f2fe;color:#075985}.badge.pl{background:#fef9c3;color:#854d0e}.badge.ng{background:#fee2e2;color:#991b1b}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.chipbtn:hover{border-color:var(--accent)}
+.soc-block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.soc-block-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.soc-block-head b{font-size:13.5px}
+.soc-block-head span{font-size:12px;color:var(--sub)}
+.rel-list{display:grid;gap:8px}
+.rel-item{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:10px 12px;cursor:pointer;border:1px solid transparent}
+.rel-item:hover{border-color:var(--line)}
+.rel-item b{font-size:13.5px} .rel-item span{font-size:12px;color:var(--sub);display:block}
+.rel-score{margin-left:auto;text-align:right;font-family:Inter,sans-serif;font-weight:800;font-size:13px}
+.rel-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px}
+.amazon{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-amazon{background:#ff9900;color:#111;text-decoration:none;font-weight:900;font-size:14px;padding:12px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{border:1px solid var(--line);background:var(--card);padding:12px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.note{font-size:11.5px;color:var(--sub);line-height:1.7;padding:0 18px 16px}
+.compare{padding:0 18px 6px}
+.compare-row{display:grid;grid-template-columns:118px 1fr 62px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}
+.compare-row .track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden}
+.compare-row .track i{display:block;height:100%;background:#cbd5e1}
+.compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
+.rank{font-size:11px;color:var(--sub)}
+.empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
+</style>
+<link rel="canonical" href="https://www.yudetaro.com/tools/pc-gpu/">
+<meta property="og:url" content="https://www.yudetaro.com/tools/pc-gpu/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LK203PMLXD');</script>
+</head>
+<body>
+<div class="top">
+  <h1 class="page-title">GPU性能チェッカー</h1>
+  <p class="lead">グラフィックボードを選ぶだけで <b>性能指数・VRAM・人気ゲームの動作判定</b> が一目でわかるチェッカー。<b>現行〜定番の全33 GPUを収録</b>しています。スコアは PassMark G3D Mark の目安値です。判定は「どの解像度で60fpsが狙えるか」を基準にしています。</p>
+  <div class="controls">
+    <label class="search">🔍 <input id="q" type="search" placeholder="グラボ名・メーカーで検索（例：RTX 4060、9070、ラデオン、5060 Ti）"></label>
+    <div class="pills" id="filters">
+      <button class="pill active" data-f="all">すべて</button>
+      <button class="pill" data-f="latest">🆕 最新モデル</button>
+      <button class="pill" data-f="S">ハイエンド</button>
+      <button class="pill" data-f="A">ミドルハイ</button>
+      <button class="pill" data-f="B">ミドル</button>
+      <button class="pill" data-f="C">エントリー</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--sub)">
+    <span>🎮 <b id="count" style="color:var(--text)"></b> GPU収録</span>
+    <span>⚡ スコア順に並んでいます</span>
+    <span>🛒 各パーツに Amazon 検索リンク付き</span>
+  </div>
+</div>
+
+<div class="layout" id="layout">
+  <div class="list" id="list"></div>
+  <article class="detail" id="detail"></article>
+</div>
+
+<div class="seo-wrap">
+
+  <section class="seo-card" aria-labelledby="gpu-guide">
+    <h2 id="gpu-guide">性能ランクの見方ガイド</h2>
+    <p>グラフィックボード（GPU／グラボ）は、ゲームの画質とフレームレートをほぼ決めるパーツです。解像度ごとに必要な性能が大きく変わるので、「どの解像度で遊ぶか」から逆算して選ぶのが基本です。</p>
+    <h3>ハイエンド ― 4Kや高リフレッシュに余裕があるライン</h3>
+    <p>RTX 5090・5080、RX 9070 XT などが属します。4K高画質や、フルHDで高リフレッシュレート（144Hz超）を狙う人向け。モンハンワイルズのような重量級タイトルでも、アップスケーリングと組み合わせて快適に遊べます。</p>
+    <h3>ミドルハイ〜ミドル ― フルHD〜WQHDの主戦場</h3>
+    <p>RTX 4060・5060 系や RX 7600 などが中心。フルHDなら大抵のゲームが高画質で快適に動きます。価格と性能のバランスが一番いい帯で、迷ったらこの辺りから検討するのがおすすめです。VRAM 8GB のモデルは、重いゲームの高画質テクスチャでは不足気味になることがあります。</p>
+    <h3>エントリー ― 軽いゲームとフルHD低〜中画質のライン</h3>
+    <p>VALORANT やマインクラフトのような軽いゲーム、eスポーツタイトル中心なら十分です。重量級の新作は画質を下げる前提で考えてください。中古で出回る GTX 10 系は、今買うなら価格との相談です。</p>
+  </section>
+
+
+  <section class="seo-card" aria-labelledby="gpu-faq">
+    <h2 id="gpu-faq">よくある検索・質問</h2>
+    <details>
+      <summary>RTX 4060 でモンハンワイルズは動きますか？</summary>
+      <p>動きますが、フルHDの中画質＋フレーム生成が前提のラインです。最高画質で遊びたいなら RTX 4070 SUPER や RX 9070 以上が目安。上のチェッカーで GPU を選ぶと、ゲームごとの判定を確認できます。</p>
+    </details>
+    <details>
+      <summary>RTX 5060 と RTX 4060 はどちらが速いですか？</summary>
+      <p>ベンチマークでは RTX 5060 が RTX 4060 を小幅に上回ります（G3D Mark で約 +6%）。世代が新しい分、フレーム生成などの機能面でも 5060 が有利です。価格が大きく違う場合は 4060 も候補になります。</p>
+    </details>
+    <details>
+      <summary>VRAM 8GB では足りませんか？</summary>
+      <p>フルHDの中〜高画質なら多くのゲームで足りますが、モンハンワイルズや黒神話：悟空のような重量級では、最高画質テクスチャで 8GB を超えることがあります。長く使うなら 12GB 以上のモデルが安心です。</p>
+    </details>
+    <details>
+      <summary>RX 9070 XT はどの GeForce と同じくらいですか？</summary>
+      <p>G3D Mark では RTX 4070 とほぼ同等、RTX 4070 SUPER に少し届かない位置です。ただしゲームによって得意・不得意が入れ替わるので、遊びたいゲームの判定もあわせて確認してください。</p>
+    </details>
+  </section>
+
+</div>
+
+<p style="max-width:1180px;margin:0 auto;padding:0 16px 28px;font-size:11.5px;color:var(--sub);line-height:1.7">※ 性能スコアは公開ベンチマーク（PassMark G3D Mark）の目安です。実際のfpsはCPU・メモリ・冷却・画面解像度でも変わります。ゲーム判定は60fpsを目標にした目安で、設定やアップスケーリング次第で判定より快適に遊べる場合があります。Amazonリンクは該当パーツの検索結果へ移動します。価格・在庫はAmazon側でご確認ください。</p>
+
+<script>
+const PARTS = [{"id": "rtx5090", "name": "GeForce RTX 5090", "maker": "NVIDIA", "emoji": "🟢", "year": 2025, "tier": "S", "score": 39031, "index": 100, "cardScore": 39031, "vram": "32GB", "vramGB": 32}, {"id": "rtx4090", "name": "GeForce RTX 4090", "maker": "NVIDIA", "emoji": "🟢", "year": 2022, "tier": "S", "score": 38014, "index": 97, "cardScore": 38014, "vram": "24GB", "vramGB": 24}, {"id": "rtx5080", "name": "GeForce RTX 5080", "maker": "NVIDIA", "emoji": "🟢", "year": 2025, "tier": "S", "score": 35658, "index": 91, "cardScore": 35658, "vram": "16GB", "vramGB": 16}, {"id": "rtx4080s", "name": "GeForce RTX 4080 SUPER", "maker": "NVIDIA", "emoji": "🟢", "year": 2024, "tier": "S", "score": 34210, "index": 88, "cardScore": 34210, "vram": "16GB", "vramGB": 16}, {"id": "rtx5070ti", "name": "GeForce RTX 5070 Ti", "maker": "NVIDIA", "emoji": "🟢", "year": 2025, "tier": "S", "score": 32336, "index": 83, "cardScore": 32336, "vram": "16GB", "vramGB": 16}, {"id": "rtx4070tis", "name": "GeForce RTX 4070 Ti SUPER", "maker": "NVIDIA", "emoji": "🟢", "year": 2024, "tier": "S", "score": 31851, "index": 82, "cardScore": 31851, "vram": "16GB", "vramGB": 16}, {"id": "rx7900xtx", "name": "Radeon RX 7900 XTX", "maker": "AMD", "emoji": "🔴", "year": 2022, "tier": "S", "score": 31475, "index": 81, "cardScore": 31475, "vram": "24GB", "vramGB": 24}, {"id": "rtx4070s", "name": "GeForce RTX 4070 SUPER", "maker": "NVIDIA", "emoji": "🟢", "year": 2024, "tier": "S", "score": 29938, "index": 77, "cardScore": 29938, "vram": "12GB", "vramGB": 12}, {"id": "rtx5070", "name": "GeForce RTX 5070", "maker": "NVIDIA", "emoji": "🟢", "year": 2025, "tier": "S", "score": 28682, "index": 73, "cardScore": 28682, "vram": "12GB", "vramGB": 12}, {"id": "rx9070xt", "name": "Radeon RX 9070 XT", "maker": "AMD", "emoji": "🔴", "year": 2025, "tier": "S", "score": 26926, "index": 69, "cardScore": 26926, "vram": "16GB", "vramGB": 16}, {"id": "rtx4070", "name": "GeForce RTX 4070", "maker": "NVIDIA", "emoji": "🟢", "year": 2023, "tier": "S", "score": 26854, "index": 69, "cardScore": 26854, "vram": "12GB", "vramGB": 12}, {"id": "rtx3090", "name": "GeForce RTX 3090", "maker": "NVIDIA", "emoji": "🟢", "year": 2020, "tier": "S", "score": 26459, "index": 68, "cardScore": 26459, "vram": "24GB", "vramGB": 24}, {"id": "rx9070", "name": "Radeon RX 9070", "maker": "AMD", "emoji": "🔴", "year": 2025, "tier": "A", "score": 25373, "index": 65, "cardScore": 25373, "vram": "16GB", "vramGB": 16}, {"id": "rtx3080", "name": "GeForce RTX 3080", "maker": "NVIDIA", "emoji": "🟢", "year": 2020, "tier": "A", "score": 24970, "index": 64, "cardScore": 24970, "vram": "10GB", "vramGB": 10}, {"id": "rx7800xt", "name": "Radeon RX 7800 XT", "maker": "AMD", "emoji": "🔴", "year": 2023, "tier": "A", "score": 24478, "index": 63, "cardScore": 24478, "vram": "16GB", "vramGB": 16}, {"id": "rx7700xt", "name": "Radeon RX 7700 XT", "maker": "AMD", "emoji": "🔴", "year": 2023, "tier": "A", "score": 22795, "index": 58, "cardScore": 22795, "vram": "12GB", "vramGB": 12}, {"id": "rtx5060ti", "name": "GeForce RTX 5060 Ti", "maker": "NVIDIA", "emoji": "🟢", "year": 2025, "tier": "A", "score": 22635, "index": 58, "cardScore": 22635, "vram": "8GB / 16GB", "vramGB": 16}, {"id": "rtx4060ti", "name": "GeForce RTX 4060 Ti", "maker": "NVIDIA", "emoji": "🟢", "year": 2023, "tier": "A", "score": 22597, "index": 58, "cardScore": 22597, "vram": "8GB / 16GB", "vramGB": 16}, {"id": "rtx3070", "name": "GeForce RTX 3070", "maker": "NVIDIA", "emoji": "🟢", "year": 2020, "tier": "A", "score": 22058, "index": 57, "cardScore": 22058, "vram": "8GB", "vramGB": 8}, {"id": "rtx5060", "name": "GeForce RTX 5060", "maker": "NVIDIA", "emoji": "🟢", "year": 2025, "tier": "A", "score": 20581, "index": 53, "cardScore": 20581, "vram": "8GB", "vramGB": 8}, {"id": "rtx3060ti", "name": "GeForce RTX 3060 Ti", "maker": "NVIDIA", "emoji": "🟢", "year": 2020, "tier": "A", "score": 20207, "index": 52, "cardScore": 20207, "vram": "8GB", "vramGB": 8}, {"id": "rtx4060", "name": "GeForce RTX 4060", "maker": "NVIDIA", "emoji": "🟢", "year": 2023, "tier": "A", "score": 19476, "index": 50, "cardScore": 19476, "vram": "8GB", "vramGB": 8}, {"id": "rtx3060", "name": "GeForce RTX 3060", "maker": "NVIDIA", "emoji": "🟢", "year": 2021, "tier": "B", "score": 16869, "index": 43, "cardScore": 16869, "vram": "12GB", "vramGB": 12}, {"id": "rtx2060s", "name": "GeForce RTX 2060 SUPER", "maker": "NVIDIA", "emoji": "🟢", "year": 2019, "tier": "B", "score": 16452, "index": 42, "cardScore": 16452, "vram": "8GB", "vramGB": 8}, {"id": "rx6600xt", "name": "Radeon RX 6600 XT", "maker": "AMD", "emoji": "🔴", "year": 2021, "tier": "B", "score": 16448, "index": 42, "cardScore": 16448, "vram": "8GB", "vramGB": 8}, {"id": "rx7600", "name": "Radeon RX 7600", "maker": "AMD", "emoji": "🔴", "year": 2023, "tier": "B", "score": 16425, "index": 42, "cardScore": 16425, "vram": "8GB", "vramGB": 8}, {"id": "arcb580", "name": "Intel Arc B580", "maker": "Intel", "emoji": "🔵", "year": 2024, "tier": "B", "score": 16102, "index": 41, "cardScore": 16102, "vram": "12GB", "vramGB": 12}, {"id": "rx6600", "name": "Radeon RX 6600", "maker": "AMD", "emoji": "🔴", "year": 2021, "tier": "B", "score": 15033, "index": 39, "cardScore": 15033, "vram": "8GB", "vramGB": 8}, {"id": "gtx1660s", "name": "GeForce GTX 1660 SUPER", "maker": "NVIDIA", "emoji": "🟢", "year": 2019, "tier": "B", "score": 12655, "index": 32, "cardScore": 12655, "vram": "6GB", "vramGB": 6}, {"id": "rtx3050", "name": "GeForce RTX 3050", "maker": "NVIDIA", "emoji": "🟢", "year": 2022, "tier": "B", "score": 12452, "index": 32, "cardScore": 12452, "vram": "8GB", "vramGB": 8}, {"id": "gtx1060", "name": "GeForce GTX 1060 6GB", "maker": "NVIDIA", "emoji": "🟢", "year": 2016, "tier": "C", "score": 10010, "index": 26, "cardScore": 10010, "vram": "6GB", "vramGB": 6}, {"id": "gtx1650", "name": "GeForce GTX 1650", "maker": "NVIDIA", "emoji": "🟢", "year": 2019, "tier": "C", "score": 7862, "index": 20, "cardScore": 7862, "vram": "4GB", "vramGB": 4}, {"id": "gtx1050ti", "name": "GeForce GTX 1050 Ti", "maker": "NVIDIA", "emoji": "🟢", "year": 2016, "tier": "C", "score": 6369, "index": 16, "cardScore": 6369, "vram": "4GB", "vramGB": 4}];
+const GAMES = [{"name": "モンスターハンターワイルズ", "emoji": "🐉", "ex": 31000, "gd": 23000, "pl": 16000, "noteEx": "4Kはアップスケーリング併用で快適", "noteGd": "WQHD高画質〜フルHD最高画質", "notePl": "フルHD中画質＋フレーム生成で60fps級", "noteNg": "フルHDでも設定をかなり下げる必要あり"}, {"name": "黒神話：悟空", "emoji": "🐒", "ex": 30000, "gd": 20000, "pl": 11000, "noteEx": "4K高画質（アップスケーリング併用）", "noteGd": "WQHD〜フルHD高画質", "notePl": "フルHD中画質", "noteNg": "画質を大きく下げる必要あり"}, {"name": "パルワールド", "emoji": "🐣", "ex": 24000, "gd": 15000, "pl": 8000, "noteEx": "4K最高画質でも快適", "noteGd": "WQHD〜フルHD最高画質", "notePl": "フルHD中画質", "noteNg": "フルHD低画質が前提"}, {"name": "FF14（黄金のレガシー）", "emoji": "🌅", "ex": 25000, "gd": 15000, "pl": 8500, "noteEx": "4K最高画質でも快適", "noteGd": "WQHD〜フルHD最高画質", "notePl": "フルHD標準画質", "noteNg": "画質を下げる必要あり"}, {"name": "フォートナイト", "emoji": "🏗️", "ex": 22000, "gd": 11000, "pl": 5500, "noteEx": "高画質（Nanite有効）でも快適", "noteGd": "フルHD高画質", "notePl": "フルHD中画質／パフォーマンスモード", "noteNg": "パフォーマンスモード前提"}, {"name": "Apex Legends", "emoji": "🔫", "ex": 21000, "gd": 10000, "pl": 5000, "noteEx": "フルHD 144fps超も狙える", "noteGd": "フルHD高画質 60fps超", "notePl": "フルHD中画質", "noteNg": "画質を下げる必要あり"}, {"name": "原神", "emoji": "🌿", "ex": 15000, "gd": 8500, "pl": 4000, "noteEx": "4K最高画質でも快適", "noteGd": "フルHD最高画質", "notePl": "フルHD中画質", "noteNg": "画質を下げる必要あり"}, {"name": "ストリートファイター6", "emoji": "👊", "ex": 13000, "gd": 7500, "pl": 4000, "noteEx": "4Kでも快適", "noteGd": "フルHD最高画質", "notePl": "フルHD中画質", "noteNg": "対戦は画質を下げて安定させるのが無難"}, {"name": "VALORANT", "emoji": "🎯", "ex": 7500, "gd": 3500, "pl": 1800, "noteEx": "フルHD 240fps級も狙える", "noteGd": "フルHD高fps", "notePl": "フルHD 60fps超", "noteNg": "設定を下げる必要あり"}, {"name": "マインクラフト", "emoji": "⛏️", "ex": 6000, "gd": 3000, "pl": 1500, "noteEx": "バニラは余裕（影MODは別物）", "noteGd": "バニラ快適", "notePl": "バニラならOK", "noteNg": "描画距離を下げる必要あり"}];
+const CFG = 
+{
+  latestYear: 2025,
+  cardLabel: "G3D Mark",
+  indexLabel: "性能指数（最上位を100）",
+  scoreLabel: "PassMark G3D Mark",
+  detailSub: "この1枚の速さがすぐわかるまとめ。遊びたいゲームがどの解像度で快適に動くか、判断材料に。",
+  gamesDesc: "◎ サクサク ／ ○ 快適 ／ △ 設定を下げればOK ／ × 厳しい ― 60fpsを目標にした目安です。解像度感は各ゲームの注記に書いてあります。",
+  note: "性能スコアは PassMark G3D Mark（公開ベンチマーク）の目安です。実際のfpsはCPU・メモリ・冷却・ドライバでも変わります。ゲーム判定は60fpsを目標にした概算で、アップスケーリング（DLSS／FSR等）を使うと判定より快適に遊べる場合があります。",
+  amazonQ: p => p.name,
+  metaLine: p => p.maker + " ・ VRAM " + p.vram,
+  specBoxes: p => `
+    <div class="spec"><label>メーカー</label><b>${p.maker}</b></div>
+    <div class="spec"><label>VRAM</label><b>${p.vram}</b></div>
+    <div class="spec"><label>発売年</label><b>${p.year}年</b></div>
+    <div class="spec"><label>G3D Mark</label><b>${fmt(p.score)}</b></div>`,
+  bars: p => {
+    const okCount = GAMES.filter(g=>p.score>=g.gd).length;
+    const apt = Math.round(okCount / GAMES.length * 100);
+    return `
+    <div class="bar-row"><label><span>3D性能</span><span>${p.index}</span></label><div class="bar-track"><i class="gpu" style="width:${p.index}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">ベンチマークの速さ</div></div>
+    <div class="bar-row"><label><span>VRAM</span><span>${p.vram}</span></label><div class="bar-track"><i style="width:${Math.min(100, Math.round(p.vramGB/32*100))}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">高解像度・高画質テクスチャの余裕</div></div>
+    <div class="bar-row"><label><span>ゲーム適性</span><span>${apt}</span></label><div class="bar-track"><i class="game" style="width:${apt}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">収録ゲームのうち「快適」以上の割合</div></div>`;
+  },
+  extraSections: null
+}
+;
+function tierLabel(t){ return {S:"ハイエンド",A:"ミドルハイ",B:"ミドル",C:"エントリー"}[t]; }
+function fmt(n){ return n.toLocaleString('ja-JP'); }
+function amazonUrl(p){ return "https://www.amazon.co.jp/s?k=" + encodeURIComponent(CFG.amazonQ(p)) + "&tag=udonyudetaro-22"; }
+function gameJudge(score,g){
+  if(score>=g.ex) return {mark:"◎",cls:"ex",label:"サクサク",note:g.noteEx};
+  if(score>=g.gd) return {mark:"○",cls:"gd",label:"快適",note:g.noteGd};
+  if(score>=g.pl) return {mark:"△",cls:"pl",label:"設定次第",note:g.notePl};
+  return {mark:"×",cls:"ng",label:"厳しい",note:g.noteNg};
+}
+let selectedId = PARTS[0].id;
+let filterTier = "all"; let query = "";
+const KANA_TO_EN = [
+  ["ジーフォース","geforce"],["ラデオン","radeon"],["ライゼン","ryzen"],
+  ["インテル","intel"],["コアウルトラ","coreultra"],["コア","core"],["アーク","arc"]
+].sort((a,b)=>b[0].length-a[0].length);
+function normalizeSearch(s){
+  if(!s) return "";
+  let t = String(s).normalize('NFKC');
+  t = t.replace(/[\u3041-\u3096]/g, ch=>String.fromCharCode(ch.charCodeAt(0)+0x60));
+  for(const [kana,en] of KANA_TO_EN){ t = t.split(kana).join(en); }
+  t = t.toLowerCase();
+  t = t.replace(/[^a-z0-9\u30a0-\u30ff\u4e00-\u9faf]/g,"");
+  return t;
+}
+function queryTokens(){
+  if(!query) return [];
+  return query.split(/[\s\u3000]+/).map(normalizeSearch).filter(Boolean);
+}
+function isLatest(p){ return p.year >= CFG.latestYear; }
+function haystackOf(p){
+  return normalizeSearch(p.name+" "+p.maker+" "+tierLabel(p.tier)+" "+p.year+" "+(p.aka||"")+" "+(isLatest(p)?"最新 新モデル new latest":""));
+}
+function renderList(){
+  const list = document.getElementById('list');
+  const tokens = queryTokens();
+  const searching = tokens.length>0 || filterTier!=="all";
+  document.getElementById('layout').classList.toggle('searching', searching);
+  const filtered = PARTS.filter(p=>{
+    if(filterTier==="latest"){ if(!isLatest(p)) return false; }
+    else if(filterTier!=="all" && p.tier!==filterTier) return false;
+    if(!tokens.length) return true;
+    const hay = haystackOf(p);
+    return tokens.every(tok=>hay.includes(tok));
+  });
+  document.getElementById('count').textContent = filtered.length + " / " + PARTS.length;
+  if(!filtered.length){ list.innerHTML = '<div class="empty">該当するパーツがありません。<br>検索ワードを変えてみてください。</div>'; return; }
+  list.innerHTML = filtered.map(p=>`
+    <div class="phone-card ${p.id===selectedId?'selected':''}" role="button" tabindex="0" data-select="${p.id}" aria-label="${p.name} の詳細を表示">
+      <div class="thumb">${p.emoji}</div>
+      <div class="pc-main">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="tier">${p.tier} ・ ${tierLabel(p.tier)}</span><span style="font-size:11px;color:var(--sub)">${p.year}年</span>${isLatest(p)?'<span class="new-badge">NEW 最新</span>':''}</div>
+        <div class="pc-name" style="margin-top:4px">${p.name}</div>
+        <div class="pc-meta">${CFG.metaLine(p)}</div>
+        <div class="mini-bar"><i style="width:${p.index}%"></i></div>
+      </div>
+      <div class="pc-score">${fmt(p.cardScore)}<small>${CFG.cardLabel}</small><small style="margin-top:6px"><a href="${amazonUrl(p)}" target="_blank" rel="noopener" style="text-decoration:none;background:#ff9900;color:#111;padding:4px 7px;border-radius:999px;font-weight:800;font-size:11px">Amazon ↗</a></small></div>
+    </div>`).join('');
+}
+function relItem(x){
+  return `<div class="rel-item" role="button" tabindex="0" data-select="${x.id}"><span style="font-size:20px">${x.emoji}</span><div><b>${x.name}</b><span>${CFG.metaLine(x)} ・ ${x.maker}</span></div><div class="rel-score">${fmt(x.score)}<small>指数 ${x.index}</small><a href="${amazonUrl(x)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:4px;background:#ff9900;color:#111;text-decoration:none;padding:3px 7px;border-radius:999px;font-size:11px;font-family:'Noto Sans JP'">Amazon ↗</a></div></div>`;
+}
+function renderDetail(){
+  const p = PARTS.find(x=>x.id===selectedId) || PARTS[0];
+  const near = PARTS.filter(x=>x.id!==p.id).map(x=>({...x,diff:Math.abs(x.score-p.score)/p.score})).filter(x=>x.diff<=0.22).sort((a,b)=>a.diff-b.diff).slice(0,6);
+  const topCompare = [...PARTS].sort((a,b)=>b.score-a.score).slice(0,7);
+  const compareSet = topCompare.some(x=>x.id===p.id) ? topCompare : [...topCompare.slice(0,6), p].sort((a,b)=>b.score-a.score);
+  document.getElementById('detail').innerHTML = `
+    <div class="detail-head">
+      <div class="d-title">
+        <div class="d-maker">${p.maker} ・ ${p.year}年 ・ ${tierLabel(p.tier)} ${isLatest(p)?'・ 🆕 最新モデル':''}</div>
+        <div class="d-name">${p.emoji} ${p.name}</div>
+        <div class="d-sub">${CFG.detailSub}</div>
+        <div class="specs">${CFG.specBoxes(p)}</div>
+        <div class="amazon">
+          <a class="btn-amazon" href="${amazonUrl(p)}" target="_blank" rel="noopener">🛒 Amazonで ${p.name} を探す ↗</a>
+          <a class="btn-ghost" href="models/${p.id}/" style="text-decoration:none;color:inherit">このパーツの専用ページ</a>
+        </div>
+      </div>
+      <div class="score-box">
+        <div class="score-num">${p.index}<span> / 100</span></div>
+        <div class="score-label">${CFG.indexLabel}</div>
+        <div style="font-family:Inter,sans-serif;font-weight:800;font-size:18px;margin-top:10px">${fmt(p.score)}</div>
+        <div class="score-label">${CFG.scoreLabel}</div>
+        <div style="margin-top:8px"><span class="tier" style="font-size:12px;padding:5px 9px">性能ランク ${p.tier}</span></div>
+      </div>
+    </div>
+    <div class="progress"><i style="width:${p.index}%"></i></div>
+    <div class="bars">${CFG.bars(p)}</div>
+    ${CFG.extraSections ? CFG.extraSections(p) : ''}
+    <div class="section" style="border-top:0;margin-top:6px;padding-top:8px">
+      <h3>🏆 性能ランキングの中での位置</h3>
+      <p class="desc">収録パーツの上位と比べると、どこにいるか一目でわかります。</p>
+      <div class="compare">
+        ${compareSet.map((x,i)=>`<div class="compare-row ${x.id===p.id?'active':''}"><span><span class="rank">${i+1}.</span> ${x.name}</span><span class="track"><i style="width:${x.index}%"></i></span><span style="text-align:right;font-family:Inter,sans-serif">${fmt(x.score)}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <h3>🎮 どのゲームが快適に動く？</h3>
+      <p class="desc">${CFG.gamesDesc}</p>
+      <div class="games">
+        ${GAMES.map(g=>{const j=gameJudge(p.score,g);return `<div class="game"><div class="game-emoji">${g.emoji}</div><div><b>${g.name}</b><span>${j.label} ・ ${j.note}</span></div><div class="badge ${j.cls}">${j.mark}</div></div>`}).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <h3>📍 近い性能のパーツ</h3>
+      <p class="desc">スコアが近い順。買い替え・乗り換え候補として見比べてください。各パーツからAmazonへ飛べます。</p>
+      <div class="rel-list">${near.map(x=>relItem(x)).join('') || '<p class="desc">近い性能のパーツはありません。</p>'}</div>
+    </div>
+    <p class="note">${CFG.note}</p>`;
+}
+function selectPart(id){
+  selectedId = id;
+  renderList(); renderDetail();
+  var detail = document.getElementById('detail');
+  if(!detail) return;
+  detail.scrollTop = 0;
+  detail.classList.remove('flash');
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      try{ void detail.offsetWidth; }catch(e){}
+      detail.classList.add('flash');
+      var rect = detail.getBoundingClientRect();
+      var inView = rect.top>=-8 && rect.top < window.innerHeight*0.6;
+      if(!inView){
+        var reduced = false; try{ reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+        detail.scrollIntoView({behavior:reduced?'auto':'smooth', block:'start'});
+        setTimeout(function(){
+          var r2 = detail.getBoundingClientRect();
+          if(r2.top>80 || r2.top<-80){ detail.scrollIntoView({block:'start'}); }
+        }, 380);
+      }
+    });
+  });
+}
+function activateFromEvent(e){
+  if(e.target.closest && e.target.closest('a')) return;
+  const sel = e.target.closest ? e.target.closest('[data-select]') : null;
+  if(sel) selectPart(sel.getAttribute('data-select'));
+}
+function keyActivate(e){
+  if(e.key!=='Enter' && e.key!==' ') return;
+  if(e.target.closest && e.target.closest('a')) return;
+  const sel = e.target.closest ? e.target.closest('[data-select]') : null;
+  if(sel){ e.preventDefault(); selectPart(sel.getAttribute('data-select')); }
+}
+document.getElementById('list').addEventListener('click', activateFromEvent);
+document.getElementById('detail').addEventListener('click', activateFromEvent);
+document.getElementById('list').addEventListener('keydown', keyActivate);
+document.getElementById('detail').addEventListener('keydown', keyActivate);
+document.getElementById('q').addEventListener('input', e=>{ query = e.target.value.trim(); renderList(); });
+document.getElementById('filters').addEventListener('click', e=>{
+  const b = e.target.closest('.pill'); if(!b) return;
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterTier = b.dataset.f; renderList();
+});
+renderList(); renderDetail();
+</script>
+
+<section style="max-width:860px;margin:24px auto;padding:20px;line-height:1.9;font-size:14px;color:#444;">
+
+<h2 style="font-size:18px;">このツールについて</h2>
+<p>GPU性能チェッカーは、グラフィックボードを選ぶだけで性能指数・VRAM・発売年と、人気ゲームの動作判定が一目でわかるツールです。同性能帯のグラボもあわせて表示するので、買い替えや自作PCのパーツ選びの比較に使えます。</p>
+<p>性能指数は公開ベンチマーク（PassMark G3D Mark）をもとにした概算で、実機の動作を保証するものではありません。ゲームの動作判定もベンチマーク帯からの目安です。</p>
+<p><a href="/tools/pc-gpu/models/">パーツ別ページ一覧</a>では、収録グラボごとの性能・ゲーム動作を1パーツ1ページでまとめています。「グラボ名＋ゲーム名」で探したい方はこちらからどうぞ。</p>
+<p>各パーツのAmazonリンクはアフィリエイトリンクです（Amazonアソシエイト・プログラムを利用しています）。</p>
+<p><a href="/tools/">ツール一覧へ戻る</a> ／ <a href="/tools/pc-cpu/">CPU性能チェッカー</a> ／ <a href="/tools/sumaho-seinou/">スマホ性能チェッカー</a> ／ <a href="/games/">自作ゲーム</a> ／ <a href="/">ブログ</a></p>
+
+</section>
+</body>
+</html>

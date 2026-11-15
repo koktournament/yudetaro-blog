@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>CPU性能チェッカー | yudetaro.com</title>
+<meta name="description" content="Ryzen 7 9800X3D／Ryzen 9 9950X／Core Ultra 9 285Kなど22種のCPUのゲーム性能・マルチ性能の指数と、人気ゲームでの頭打ちのなさ、組み合わせるグラボの目安を表示。同性能帯のCPUも比較できます。"/>
+<meta name="keywords" content="CPU 性能 比較,CPU ベンチマーク,9800X3D 性能,Ryzen 比較,Core Ultra 性能,ゲーム CPU おすすめ"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="CPU性能チェッカー | yudetaro.com"/>
+<meta property="og:description" content="Ryzen 7 9800X3D／Ryzen 9 9950X／Core Ultra 9 285Kなど22種のCPUのゲーム性能・マルチ性能の指数と、人気ゲームでの頭打ちのなさ、組み合わせるグラボの目安を表示。同性能帯のCPUも比較できます。"/>
+<meta name="twitter:card" content="summary"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"CPU性能チェッカー","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"Ryzen 7 9800X3D／Ryzen 9 9950X／Core Ultra 9 285Kなど22種のCPUのゲーム性能・マルチ性能の指数と、人気ゲームでの頭打ちのなさ、組み合わせるグラボの目安を表示。同性能帯のCPUも比較できます。"}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --text:#121826; --sub:#5b6474; --line:#e2e6ec;
+  --accent:#ff6a00; --accent2:#00917c; --good:#00917c; --ok:#eab308; --bad:#ef4444;
+  --chip:#eef1f4;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1219; --card:#171d29; --card2:#1e2636; --text:#eef2f7; --sub:#9aa4b5; --line:#263041; --chip:#222b3d; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP",system-ui,sans-serif}
+a{color:inherit}
+.top{max-width:1180px;margin:0 auto;padding:18px 16px 8px}
+.lead{font-size:14px;line-height:1.7;color:var(--sub);max-width:720px}
+.lead b{color:var(--text)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px}
+.search input{flex:1;border:0;outline:0;background:transparent;font-size:15px;color:var(--text)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.layout{max-width:1180px;margin:0 auto;padding:12px 16px 28px;display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr} .detail{order:-1} .layout.searching .list{order:-1} .layout.searching .detail{order:0}}
+.list{display:grid;gap:8px}
+.phone-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 10px;display:flex;gap:12px;cursor:pointer;text-align:left;width:100%}
+.phone-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 22%,transparent)}
+.phone-card:hover{border-color:#cbd2dc}
+.thumb{width:48px;height:64px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.pc-main{flex:1;min-width:0}
+.pc-name{font-weight:900;font-size:14.5px;line-height:1.3}
+.pc-meta{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar{height:6px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:8px}
+.mini-bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.pc-score{font-family:Inter,sans-serif;font-weight:800;font-size:13px;text-align:right;line-height:1}
+.pc-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px;margin-top:3px}
+.tier{font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;background:#fff1e6;color:#9a3d00;border:1px solid #ffd9bd}
+@media(prefers-color-scheme:dark){.tier{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;scroll-margin-top:12px}
+/* PC幅では詳細パネルを画面に固定し、スクロールの成否に依存せず常に見えるようにする。
+   パネルが画面より高い場合はパネル内スクロールで全体を読める。 */
+@media(min-width:861px){.detail{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}}
+.detail.flash{animation:detailFlash .45s ease}
+@keyframes detailFlash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion: reduce){.detail.flash{animation:none}}
+.detail-head{padding:18px 18px 0;display:flex;gap:16px;flex-wrap:wrap}
+.d-title{flex:1;min-width:220px}
+.d-maker{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.d-name{font-size:26px;font-weight:900;line-height:1.15;margin:4px 0 6px}
+.d-sub{font-size:13px;color:var(--sub);line-height:1.6}
+.specs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.spec{background:var(--card2);border-radius:10px;padding:8px 10px;min-width:104px}
+.spec label{display:block;font-size:10px;letter-spacing:.06em;color:var(--sub);font-weight:700}
+.spec b{font-size:13.5px}
+.score-box{text-align:center;background:var(--card2);border-radius:14px;padding:12px 16px;min-width:132px}
+.score-num{font-family:Inter,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.score-num span{font-size:13px;color:var(--sub)}
+.score-label{font-size:11px;color:var(--sub);margin-top:4px}
+.progress{height:10px;background:var(--chip);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff6a00,#ffb020)}
+.bars{padding:14px 18px 4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.bars{grid-template-columns:1fr}}
+.bar-row label{font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar-track i{display:block;height:100%;background:var(--text)}
+.bar-track i.gpu{background:var(--accent2)} .bar-track i.game{background:var(--accent)}
+.section{padding:16px 18px 18px;border-top:1px solid var(--line);margin-top:14px}
+.section h3{margin:0 0 4px;font-size:15px;font-weight:900}
+.section p.desc{margin:0 0 12px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.games{grid-template-columns:1fr}}
+.game{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px}
+.game-emoji{font-size:20px;width:36px;height:36px;background:var(--card);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
+.game b{font-size:13.5px;display:block}
+.game span{font-size:11.5px;color:var(--sub)}
+.badge{margin-left:auto;font-size:20px;font-weight:900;width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex-shrink:0}
+.badge.ex{background:#dcf5e9;color:#006b4f}.badge.gd{background:#e0f2fe;color:#075985}.badge.pl{background:#fef9c3;color:#854d0e}.badge.ng{background:#fee2e2;color:#991b1b}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.chipbtn:hover{border-color:var(--accent)}
+.soc-block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.soc-block-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.soc-block-head b{font-size:13.5px}
+.soc-block-head span{font-size:12px;color:var(--sub)}
+.rel-list{display:grid;gap:8px}
+.rel-item{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:10px 12px;cursor:pointer;border:1px solid transparent}
+.rel-item:hover{border-color:var(--line)}
+.rel-item b{font-size:13.5px} .rel-item span{font-size:12px;color:var(--sub);display:block}
+.rel-score{margin-left:auto;text-align:right;font-family:Inter,sans-serif;font-weight:800;font-size:13px}
+.rel-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px}
+.amazon{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-amazon{background:#ff9900;color:#111;text-decoration:none;font-weight:900;font-size:14px;padding:12px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{border:1px solid var(--line);background:var(--card);padding:12px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.note{font-size:11.5px;color:var(--sub);line-height:1.7;padding:0 18px 16px}
+.compare{padding:0 18px 6px}
+.compare-row{display:grid;grid-template-columns:118px 1fr 62px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}
+.compare-row .track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden}
+.compare-row .track i{display:block;height:100%;background:#cbd5e1}
+.compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
+.rank{font-size:11px;color:var(--sub)}
+.empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
+</style>
+<link rel="canonical" href="https://www.yudetaro.com/tools/pc-cpu/">
+<meta property="og:url" content="https://www.yudetaro.com/tools/pc-cpu/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LK203PMLXD');</script>
+</head>
+<body>
+<div class="top">
+  <h1 class="page-title">CPU性能チェッカー</h1>
+  <p class="lead">CPUを選ぶだけで <b>ゲーム性能・マルチ性能の指数と、組み合わせるグラボの目安</b> が一目でわかるチェッカー。<b>現行〜定番の全22 CPUを収録</b>しています。ゲーム指数は PassMark のシングルスレッド性能、マルチ指数は CPU Mark がもとです。</p>
+  <div class="controls">
+    <label class="search">🔍 <input id="q" type="search" placeholder="CPU名・メーカーで検索（例：9800X3D、ライゼン、Core Ultra、5600）"></label>
+    <div class="pills" id="filters">
+      <button class="pill active" data-f="all">すべて</button>
+      <button class="pill" data-f="latest">🆕 最新モデル</button>
+      <button class="pill" data-f="S">ハイエンド</button>
+      <button class="pill" data-f="A">ミドルハイ</button>
+      <button class="pill" data-f="B">ミドル</button>
+      <button class="pill" data-f="C">エントリー</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--sub)">
+    <span>🎮 <b id="count" style="color:var(--text)"></b> CPU収録</span>
+    <span>⚡ スコア順に並んでいます</span>
+    <span>🛒 各パーツに Amazon 検索リンク付き</span>
+  </div>
+</div>
+
+<div class="layout" id="layout">
+  <div class="list" id="list"></div>
+  <article class="detail" id="detail"></article>
+</div>
+
+<div class="seo-wrap">
+
+  <section class="seo-card" aria-labelledby="cpu-guide">
+    <h2 id="cpu-guide">性能ランクの見方ガイド</h2>
+    <p>CPUの性能は「ゲーム性能（シングルスレッド）」と「マルチ性能（コア全体）」の2つで見ます。ゲームはシングルスレッド性能の影響が大きく、動画編集・配信・重い作業はマルチ性能が効きます。</p>
+    <h3>ハイエンド ― マルチ性能が桁違いのライン</h3>
+    <p>Core Ultra 9 285K、Ryzen 9 9950X などが属します。ゲームも作業も余裕で、配信しながらゲーム、動画編集も速い。ただしゲームだけなら下の帯でも十分なことが多いです。</p>
+    <h3>ミドルハイ ― ゲーム性能の主戦場</h3>
+    <p>Ryzen 7 9800X3D、Core Ultra 5 245K、Ryzen 7 9700X など。シングルスレッド性能が高く、強いグラボと組んでも頭打ちになりにくい帯です。とくに X3D モデルは 3D V-Cache のおかげで実ゲーム性能がベンチマーク以上に出ます。</p>
+    <h3>ミドル〜エントリー ― コスパ重視のライン</h3>
+    <p>Ryzen 5 5600、Core i5-12400F など。ミドル帯までのグラボと組むならゲーム性能は十分です。グラボを上位に換える予定があるなら、将来の頭打ちも考えて1ランク上を見ておくと安心です。</p>
+  </section>
+
+
+  <section class="seo-card" aria-labelledby="cpu-faq">
+    <h2 id="cpu-faq">よくある検索・質問</h2>
+    <details>
+      <summary>ゲーム用なら Ryzen 7 9800X3D と Core Ultra 7 265K のどちらですか？</summary>
+      <p>ゲームだけなら 9800X3D が定番です。シングルスレッドの指数では 265K が上ですが、3D V-Cache の効果で実ゲームでは 9800X3D が上回るタイトルが多いです。動画編集などマルチ性能も要るなら 265K に分があります。</p>
+    </details>
+    <details>
+      <summary>RTX 4070 SUPER に合わせるCPUは？</summary>
+      <p>ゲーム指数で 85 前後が目安です。Ryzen 7 9700X、Core i5-14600K、Ryzen 7 7800X3D あたりなら頭打ちを気にせず使えます。各CPUの詳細にある「組み合わせるグラボの目安」も参考にしてください。</p>
+    </details>
+    <details>
+      <summary>コア数が多いほどゲームは速くなりますか？</summary>
+      <p>基本的にはなりません。ゲームの速さはシングルスレッド性能とキャッシュで決まる部分が大きく、コア数は配信・録画・編集など同時作業で効きます。このチェッカーではゲーム指数（シングル基準）とマルチ指数を分けて表示しています。</p>
+    </details>
+    <details>
+      <summary>Ryzen 5 5600 は今でもゲームに使えますか？</summary>
+      <p>使えます。RTX 4060 や RX 7600 クラスのグラボとなら、フルHDゲームは十分快適です。RTX 4070 以上のグラボと組むと、タイトルによってはCPUが頭打ちになり始めます。</p>
+    </details>
+  </section>
+
+</div>
+
+<p style="max-width:1180px;margin:0 auto;padding:0 16px 28px;font-size:11.5px;color:var(--sub);line-height:1.7">※ 指数は公開ベンチマーク（PassMark）の目安です。実際のfpsはグラボ・メモリ・冷却でも変わります。X3Dモデルは実ゲームで指数以上の性能が出ることがあります。Amazonリンクは該当パーツの検索結果へ移動します。価格・在庫はAmazon側でご確認ください。</p>
+
+<script>
+const PARTS = [{"id": "u9-285k", "name": "Core Ultra 9 285K", "maker": "Intel", "emoji": "🔵", "year": 2024, "tier": "S", "score": 5087, "index": 100, "cardScore": 67231, "mark": 67231, "st": 5087, "gidx": 100, "midx": 100, "cores": 24, "threads": 24, "x3d": false}, {"id": "r9-9950x", "name": "Ryzen 9 9950X", "maker": "AMD", "emoji": "🔴", "year": 2024, "tier": "S", "score": 4726, "index": 93, "cardScore": 65681, "mark": 65681, "st": 4726, "gidx": 93, "midx": 98, "cores": 16, "threads": 32, "x3d": false}, {"id": "r9-7950x", "name": "Ryzen 9 7950X", "maker": "AMD", "emoji": "🔴", "year": 2022, "tier": "S", "score": 4251, "index": 84, "cardScore": 62116, "mark": 62116, "st": 4251, "gidx": 84, "midx": 92, "cores": 16, "threads": 32, "x3d": false}, {"id": "u7-265k", "name": "Core Ultra 7 265K", "maker": "Intel", "emoji": "🔵", "year": 2024, "tier": "S", "score": 4929, "index": 97, "cardScore": 58568, "mark": 58568, "st": 4929, "gidx": 97, "midx": 87, "cores": 20, "threads": 20, "x3d": false}, {"id": "i9-14900k", "name": "Core i9-14900K", "maker": "Intel", "emoji": "🔵", "year": 2023, "tier": "S", "score": 4689, "index": 92, "cardScore": 58149, "mark": 58149, "st": 4689, "gidx": 92, "midx": 86, "cores": 24, "threads": 32, "x3d": false}, {"id": "r9-9900x", "name": "Ryzen 9 9900X", "maker": "AMD", "emoji": "🔴", "year": 2024, "tier": "S", "score": 4670, "index": 92, "cardScore": 54277, "mark": 54277, "st": 4670, "gidx": 92, "midx": 81, "cores": 12, "threads": 24, "x3d": false}, {"id": "i7-14700k", "name": "Core i7-14700K", "maker": "Intel", "emoji": "🔵", "year": 2023, "tier": "S", "score": 4453, "index": 88, "cardScore": 51889, "mark": 51889, "st": 4453, "gidx": 88, "midx": 77, "cores": 20, "threads": 28, "x3d": false}, {"id": "u5-245k", "name": "Core Ultra 5 245K", "maker": "Intel", "emoji": "🔵", "year": 2024, "tier": "A", "score": 4709, "index": 93, "cardScore": 42968, "mark": 42968, "st": 4709, "gidx": 93, "midx": 64, "cores": 14, "threads": 14, "x3d": false}, {"id": "r7-9800x3d", "name": "Ryzen 7 9800X3D", "maker": "AMD", "emoji": "🔴", "year": 2024, "tier": "A", "score": 4420, "index": 87, "cardScore": 39911, "mark": 39911, "st": 4420, "gidx": 87, "midx": 59, "cores": 8, "threads": 16, "x3d": true}, {"id": "i5-14600k", "name": "Core i5-14600K", "maker": "Intel", "emoji": "🔵", "year": 2023, "tier": "A", "score": 4263, "index": 84, "cardScore": 38342, "mark": 38342, "st": 4263, "gidx": 84, "midx": 57, "cores": 14, "threads": 20, "x3d": false}, {"id": "r7-9700x", "name": "Ryzen 7 9700X", "maker": "AMD", "emoji": "🔴", "year": 2024, "tier": "A", "score": 4642, "index": 91, "cardScore": 36914, "mark": 36914, "st": 4642, "gidx": 91, "midx": 55, "cores": 8, "threads": 16, "x3d": false}, {"id": "r7-7700x", "name": "Ryzen 7 7700X", "maker": "AMD", "emoji": "🔴", "year": 2022, "tier": "A", "score": 4175, "index": 82, "cardScore": 35472, "mark": 35472, "st": 4175, "gidx": 82, "midx": 53, "cores": 8, "threads": 16, "x3d": false}, {"id": "r7-7800x3d", "name": "Ryzen 7 7800X3D", "maker": "AMD", "emoji": "🔴", "year": 2023, "tier": "A", "score": 3759, "index": 74, "cardScore": 34280, "mark": 34280, "st": 3759, "gidx": 74, "midx": 51, "cores": 8, "threads": 16, "x3d": true}, {"id": "r5-9600x", "name": "Ryzen 5 9600X", "maker": "AMD", "emoji": "🔴", "year": 2024, "tier": "B", "score": 4569, "index": 90, "cardScore": 30011, "mark": 30011, "st": 4569, "gidx": 90, "midx": 45, "cores": 6, "threads": 12, "x3d": false}, {"id": "r5-7600x", "name": "Ryzen 5 7600X", "maker": "AMD", "emoji": "🔴", "year": 2022, "tier": "B", "score": 4127, "index": 81, "cardScore": 28254, "mark": 28254, "st": 4127, "gidx": 81, "midx": 42, "cores": 6, "threads": 12, "x3d": false}, {"id": "r5-7600", "name": "Ryzen 5 7600", "maker": "AMD", "emoji": "🔴", "year": 2023, "tier": "B", "score": 3907, "index": 77, "cardScore": 26964, "mark": 26964, "st": 3907, "gidx": 77, "midx": 40, "cores": 6, "threads": 12, "x3d": false}, {"id": "r7-5700x3d", "name": "Ryzen 7 5700X3D", "maker": "AMD", "emoji": "🔴", "year": 2024, "tier": "B", "score": 2969, "index": 58, "cardScore": 26307, "mark": 26307, "st": 2969, "gidx": 58, "midx": 39, "cores": 8, "threads": 16, "x3d": true}, {"id": "i5-14400f", "name": "Core i5-14400F", "maker": "Intel", "emoji": "🔵", "year": 2024, "tier": "B", "score": 3700, "index": 73, "cardScore": 25385, "mark": 25385, "st": 3700, "gidx": 73, "midx": 38, "cores": 10, "threads": 16, "x3d": false}, {"id": "r5-5600", "name": "Ryzen 5 5600", "maker": "AMD", "emoji": "🔴", "year": 2022, "tier": "B", "score": 3254, "index": 64, "cardScore": 21490, "mark": 21490, "st": 3254, "gidx": 64, "midx": 32, "cores": 6, "threads": 12, "x3d": false}, {"id": "i5-12400f", "name": "Core i5-12400F", "maker": "Intel", "emoji": "🔵", "year": 2022, "tier": "C", "score": 3483, "index": 68, "cardScore": 19520, "mark": 19520, "st": 3483, "gidx": 68, "midx": 29, "cores": 6, "threads": 12, "x3d": false}, {"id": "r5-5500", "name": "Ryzen 5 5500", "maker": "AMD", "emoji": "🔴", "year": 2022, "tier": "C", "score": 3245, "index": 64, "cardScore": 19247, "mark": 19247, "st": 3245, "gidx": 64, "midx": 29, "cores": 6, "threads": 12, "x3d": false}, {"id": "i3-12100f", "name": "Core i3-12100F", "maker": "Intel", "emoji": "🔵", "year": 2022, "tier": "C", "score": 3431, "index": 67, "cardScore": 13949, "mark": 13949, "st": 3431, "gidx": 67, "midx": 21, "cores": 4, "threads": 8, "x3d": false}];
+const GAMES = [{"name": "モンスターハンターワイルズ", "emoji": "🐉", "ex": 4400, "gd": 3800, "pl": 3200, "noteEx": "強いGPUと組んでも頭打ちなし", "noteGd": "上位GPUでもほぼ問題なし", "notePl": "ミドル帯GPUまでならOK", "noteNg": "GPU側より先にCPUが頭打ちになりやすい"}, {"name": "FF14（黄金のレガシー）", "emoji": "🌅", "ex": 4200, "gd": 3600, "pl": 3000, "noteEx": "混雑エリアでも余裕", "noteGd": "ほぼ問題なし", "notePl": "ミドル帯GPUまでならOK", "noteNg": "人の多い場所でfpsが伸びにくい"}, {"name": "Apex Legends", "emoji": "🔫", "ex": 4400, "gd": 3800, "pl": 3100, "noteEx": "高リフレッシュ狙いでも余裕", "noteGd": "144Hz級まで問題なし", "notePl": "60〜120fps級ならOK", "noteNg": "高fps狙いでは頭打ちになりやすい"}, {"name": "VALORANT", "emoji": "🎯", "ex": 4000, "gd": 3300, "pl": 2700, "noteEx": "240fps級でも余裕", "noteGd": "高fps問題なし", "notePl": "通常プレイは問題なし", "noteNg": "高fps狙いでは頭打ちになりやすい"}, {"name": "マインクラフト", "emoji": "⛏️", "ex": 4000, "gd": 3400, "pl": 2800, "noteEx": "Java版でも余裕", "noteGd": "ほぼ問題なし", "notePl": "バニラならOK", "noteNg": "MOD盛りでは重くなりやすい"}, {"name": "原神", "emoji": "🌿", "ex": 3800, "gd": 3200, "pl": 2600, "noteEx": "余裕", "noteGd": "問題なし", "notePl": "問題なし", "noteNg": "重い場面で引っかかる場合あり"}];
+const CFG = 
+{
+  latestYear: 2024,
+  cardLabel: "CPU Mark",
+  indexLabel: "ゲーム指数（最速シングルを100）",
+  scoreLabel: "シングルスレッド性能（PassMark）",
+  detailSub: "ゲーム性能とマルチ性能の両面から見たまとめ。グラボの足を引っ張らないかの判断材料に。",
+  gamesDesc: "CPU側の余裕の目安です。◎ 余裕 ／ ○ 問題なし ／ △ 組むグラボ次第 ／ × 頭打ちになりやすい ― 実際のfpsはグラボとの組み合わせで決まります。",
+  note: "ゲーム指数は PassMark のシングルスレッド性能をもとにした目安、マルチ指数は CPU Mark がもとです。Ryzen の X3D モデルは 3D V-Cache の効果で、実ゲームではシングルスレッド指数以上の性能が出ることが多いです。実際のfpsはグラボ・メモリ・冷却でも変わります。",
+  amazonQ: p => p.name,
+  metaLine: p => p.maker + " ・ " + p.cores + "コア" + p.threads + "スレッド",
+  specBoxes: p => `
+    <div class="spec"><label>メーカー</label><b>${p.maker}</b></div>
+    <div class="spec"><label>コア / スレッド</label><b>${p.cores} / ${p.threads}</b></div>
+    <div class="spec"><label>発売年</label><b>${p.year}年</b></div>
+    <div class="spec"><label>CPU Mark</label><b>${fmt(p.mark)}</b></div>`,
+  bars: p => `
+    <div class="bar-row"><label><span>ゲーム性能</span><span>${p.gidx}</span></label><div class="bar-track"><i class="game" style="width:${p.gidx}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">シングルスレッド性能がもと</div></div>
+    <div class="bar-row"><label><span>マルチ性能</span><span>${p.midx}</span></label><div class="bar-track"><i style="width:${p.midx}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">動画編集・配信・作業の速さ</div></div>
+    <div class="bar-row"><label><span>コア数</span><span>${p.cores}コア</span></label><div class="bar-track"><i class="gpu" style="width:${Math.round(p.cores/24*100)}%"></i></div><div style="font-size:11px;color:var(--sub);margin-top:4px">${p.threads}スレッド</div></div>`,
+  extraSections: p => {
+    const eff = p.gidx + (p.x3d ? 12 : 0);
+    const pair = eff>=95 ? "RTX 5090 / 5080 クラスまで余裕で受け止められます"
+      : eff>=85 ? "RTX 5070 Ti / 4070 Ti SUPER クラスまで受け止められます"
+      : eff>=75 ? "RTX 5060 Ti / 4070 クラスまで受け止められます"
+      : eff>=65 ? "RTX 5060 / 4060 クラスまで受け止められます"
+      : "RTX 3050 〜 4060 クラスが無難です";
+    return `<div class="section" style="border-top:0;margin-top:6px;padding-top:8px">
+      <h3>🧩 組み合わせるグラボの目安</h3>
+      <p class="desc">このCPUがボトルネックになりにくいグラボの上限の目安です（フルHD〜WQHD想定）。</p>
+      <p style="font-size:15px;font-weight:800;margin:0">${pair}</p>
+      ${p.x3d ? '<p class="desc" style="margin-top:8px">※ 3D V-Cache 搭載モデルなので、実ゲーム性能はゲーム指数の表示より上です。組み合わせ目安はその分を考慮しています。</p>' : ''}
+    </div>`;
+  }
+}
+;
+function tierLabel(t){ return {S:"ハイエンド",A:"ミドルハイ",B:"ミドル",C:"エントリー"}[t]; }
+function fmt(n){ return n.toLocaleString('ja-JP'); }
+function amazonUrl(p){ return "https://www.amazon.co.jp/s?k=" + encodeURIComponent(CFG.amazonQ(p)) + "&tag=udonyudetaro-22"; }
+function gameJudge(score,g){
+  if(score>=g.ex) return {mark:"◎",cls:"ex",label:"サクサク",note:g.noteEx};
+  if(score>=g.gd) return {mark:"○",cls:"gd",label:"快適",note:g.noteGd};
+  if(score>=g.pl) return {mark:"△",cls:"pl",label:"設定次第",note:g.notePl};
+  return {mark:"×",cls:"ng",label:"厳しい",note:g.noteNg};
+}
+let selectedId = PARTS[0].id;
+let filterTier = "all"; let query = "";
+const KANA_TO_EN = [
+  ["ジーフォース","geforce"],["ラデオン","radeon"],["ライゼン","ryzen"],
+  ["インテル","intel"],["コアウルトラ","coreultra"],["コア","core"],["アーク","arc"]
+].sort((a,b)=>b[0].length-a[0].length);
+function normalizeSearch(s){
+  if(!s) return "";
+  let t = String(s).normalize('NFKC');
+  t = t.replace(/[\u3041-\u3096]/g, ch=>String.fromCharCode(ch.charCodeAt(0)+0x60));
+  for(const [kana,en] of KANA_TO_EN){ t = t.split(kana).join(en); }
+  t = t.toLowerCase();
+  t = t.replace(/[^a-z0-9\u30a0-\u30ff\u4e00-\u9faf]/g,"");
+  return t;
+}
+function queryTokens(){
+  if(!query) return [];
+  return query.split(/[\s\u3000]+/).map(normalizeSearch).filter(Boolean);
+}
+function isLatest(p){ return p.year >= CFG.latestYear; }
+function haystackOf(p){
+  return normalizeSearch(p.name+" "+p.maker+" "+tierLabel(p.tier)+" "+p.year+" "+(p.aka||"")+" "+(isLatest(p)?"最新 新モデル new latest":""));
+}
+function renderList(){
+  const list = document.getElementById('list');
+  const tokens = queryTokens();
+  const searching = tokens.length>0 || filterTier!=="all";
+  document.getElementById('layout').classList.toggle('searching', searching);
+  const filtered = PARTS.filter(p=>{
+    if(filterTier==="latest"){ if(!isLatest(p)) return false; }
+    else if(filterTier!=="all" && p.tier!==filterTier) return false;
+    if(!tokens.length) return true;
+    const hay = haystackOf(p);
+    return tokens.every(tok=>hay.includes(tok));
+  });
+  document.getElementById('count').textContent = filtered.length + " / " + PARTS.length;
+  if(!filtered.length){ list.innerHTML = '<div class="empty">該当するパーツがありません。<br>検索ワードを変えてみてください。</div>'; return; }
+  list.innerHTML = filtered.map(p=>`
+    <div class="phone-card ${p.id===selectedId?'selected':''}" role="button" tabindex="0" data-select="${p.id}" aria-label="${p.name} の詳細を表示">
+      <div class="thumb">${p.emoji}</div>
+      <div class="pc-main">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="tier">${p.tier} ・ ${tierLabel(p.tier)}</span><span style="font-size:11px;color:var(--sub)">${p.year}年</span>${isLatest(p)?'<span class="new-badge">NEW 最新</span>':''}</div>
+        <div class="pc-name" style="margin-top:4px">${p.name}</div>
+        <div class="pc-meta">${CFG.metaLine(p)}</div>
+        <div class="mini-bar"><i style="width:${p.index}%"></i></div>
+      </div>
+      <div class="pc-score">${fmt(p.cardScore)}<small>${CFG.cardLabel}</small><small style="margin-top:6px"><a href="${amazonUrl(p)}" target="_blank" rel="noopener" style="text-decoration:none;background:#ff9900;color:#111;padding:4px 7px;border-radius:999px;font-weight:800;font-size:11px">Amazon ↗</a></small></div>
+    </div>`).join('');
+}
+function relItem(x){
+  return `<div class="rel-item" role="button" tabindex="0" data-select="${x.id}"><span style="font-size:20px">${x.emoji}</span><div><b>${x.name}</b><span>${CFG.metaLine(x)} ・ ${x.maker}</span></div><div class="rel-score">${fmt(x.score)}<small>指数 ${x.index}</small><a href="${amazonUrl(x)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:4px;background:#ff9900;color:#111;text-decoration:none;padding:3px 7px;border-radius:999px;font-size:11px;font-family:'Noto Sans JP'">Amazon ↗</a></div></div>`;
+}
+function renderDetail(){
+  const p = PARTS.find(x=>x.id===selectedId) || PARTS[0];
+  const near = PARTS.filter(x=>x.id!==p.id).map(x=>({...x,diff:Math.abs(x.score-p.score)/p.score})).filter(x=>x.diff<=0.22).sort((a,b)=>a.diff-b.diff).slice(0,6);
+  const topCompare = [...PARTS].sort((a,b)=>b.score-a.score).slice(0,7);
+  const compareSet = topCompare.some(x=>x.id===p.id) ? topCompare : [...topCompare.slice(0,6), p].sort((a,b)=>b.score-a.score);
+  document.getElementById('detail').innerHTML = `
+    <div class="detail-head">
+      <div class="d-title">
+        <div class="d-maker">${p.maker} ・ ${p.year}年 ・ ${tierLabel(p.tier)} ${isLatest(p)?'・ 🆕 最新モデル':''}</div>
+        <div class="d-name">${p.emoji} ${p.name}</div>
+        <div class="d-sub">${CFG.detailSub}</div>
+        <div class="specs">${CFG.specBoxes(p)}</div>
+        <div class="amazon">
+          <a class="btn-amazon" href="${amazonUrl(p)}" target="_blank" rel="noopener">🛒 Amazonで ${p.name} を探す ↗</a>
+          <a class="btn-ghost" href="models/${p.id}/" style="text-decoration:none;color:inherit">このパーツの専用ページ</a>
+        </div>
+      </div>
+      <div class="score-box">
+        <div class="score-num">${p.index}<span> / 100</span></div>
+        <div class="score-label">${CFG.indexLabel}</div>
+        <div style="font-family:Inter,sans-serif;font-weight:800;font-size:18px;margin-top:10px">${fmt(p.score)}</div>
+        <div class="score-label">${CFG.scoreLabel}</div>
+        <div style="margin-top:8px"><span class="tier" style="font-size:12px;padding:5px 9px">性能ランク ${p.tier}</span></div>
+      </div>
+    </div>
+    <div class="progress"><i style="width:${p.index}%"></i></div>
+    <div class="bars">${CFG.bars(p)}</div>
+    ${CFG.extraSections ? CFG.extraSections(p) : ''}
+    <div class="section" style="border-top:0;margin-top:6px;padding-top:8px">
+      <h3>🏆 性能ランキングの中での位置</h3>
+      <p class="desc">収録パーツの上位と比べると、どこにいるか一目でわかります。</p>
+      <div class="compare">
+        ${compareSet.map((x,i)=>`<div class="compare-row ${x.id===p.id?'active':''}"><span><span class="rank">${i+1}.</span> ${x.name}</span><span class="track"><i style="width:${x.index}%"></i></span><span style="text-align:right;font-family:Inter,sans-serif">${fmt(x.score)}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <h3>🎮 どのゲームが快適に動く？</h3>
+      <p class="desc">${CFG.gamesDesc}</p>
+      <div class="games">
+        ${GAMES.map(g=>{const j=gameJudge(p.score,g);return `<div class="game"><div class="game-emoji">${g.emoji}</div><div><b>${g.name}</b><span>${j.label} ・ ${j.note}</span></div><div class="badge ${j.cls}">${j.mark}</div></div>`}).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <h3>📍 近い性能のパーツ</h3>
+      <p class="desc">スコアが近い順。買い替え・乗り換え候補として見比べてください。各パーツからAmazonへ飛べます。</p>
+      <div class="rel-list">${near.map(x=>relItem(x)).join('') || '<p class="desc">近い性能のパーツはありません。</p>'}</div>
+    </div>
+    <p class="note">${CFG.note}</p>`;
+}
+function selectPart(id){
+  selectedId = id;
+  renderList(); renderDetail();
+  var detail = document.getElementById('detail');
+  if(!detail) return;
+  detail.scrollTop = 0;
+  detail.classList.remove('flash');
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      try{ void detail.offsetWidth; }catch(e){}
+      detail.classList.add('flash');
+      var rect = detail.getBoundingClientRect();
+      var inView = rect.top>=-8 && rect.top < window.innerHeight*0.6;
+      if(!inView){
+        var reduced = false; try{ reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+        detail.scrollIntoView({behavior:reduced?'auto':'smooth', block:'start'});
+        setTimeout(function(){
+          var r2 = detail.getBoundingClientRect();
+          if(r2.top>80 || r2.top<-80){ detail.scrollIntoView({block:'start'}); }
+        }, 380);
+      }
+    });
+  });
+}
+function activateFromEvent(e){
+  if(e.target.closest && e.target.closest('a')) return;
+  const sel = e.target.closest ? e.target.closest('[data-select]') : null;
+  if(sel) selectPart(sel.getAttribute('data-select'));
+}
+function keyActivate(e){
+  if(e.key!=='Enter' && e.key!==' ') return;
+  if(e.target.closest && e.target.closest('a')) return;
+  const sel = e.target.closest ? e.target.closest('[data-select]') : null;
+  if(sel){ e.preventDefault(); selectPart(sel.getAttribute('data-select')); }
+}
+document.getElementById('list').addEventListener('click', activateFromEvent);
+document.getElementById('detail').addEventListener('click', activateFromEvent);
+document.getElementById('list').addEventListener('keydown', keyActivate);
+document.getElementById('detail').addEventListener('keydown', keyActivate);
+document.getElementById('q').addEventListener('input', e=>{ query = e.target.value.trim(); renderList(); });
+document.getElementById('filters').addEventListener('click', e=>{
+  const b = e.target.closest('.pill'); if(!b) return;
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterTier = b.dataset.f; renderList();
+});
+renderList(); renderDetail();
+</script>
+
+<section style="max-width:860px;margin:24px auto;padding:20px;line-height:1.9;font-size:14px;color:#444;">
+
+<h2 style="font-size:18px;">このツールについて</h2>
+<p>CPU性能チェッカーは、CPUを選ぶだけでゲーム性能・マルチ性能の指数と、人気ゲームでの頭打ちのなさ、組み合わせるグラボの目安が一目でわかるツールです。同性能帯のCPUもあわせて表示するので、自作PCや買い替えの比較に使えます。</p>
+<p>指数は公開ベンチマーク（PassMark）をもとにした概算で、実機の動作を保証するものではありません。ゲーム判定はシングルスレッド性能からの目安で、実際のfpsはグラボとの組み合わせで決まります。</p>
+<p><a href="/tools/pc-cpu/models/">パーツ別ページ一覧</a>では、収録CPUごとの性能を1パーツ1ページでまとめています。</p>
+<p>各パーツのAmazonリンクはアフィリエイトリンクです（Amazonアソシエイト・プログラムを利用しています）。</p>
+<p><a href="/tools/">ツール一覧へ戻る</a> ／ <a href="/tools/pc-gpu/">GPU性能チェッカー</a> ／ <a href="/tools/sumaho-seinou/">スマホ性能チェッカー</a> ／ <a href="/games/">自作ゲーム</a> ／ <a href="/">ブログ</a></p>
+
+</section>
+</body>
+</html>
