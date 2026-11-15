@@ -18,7 +18,7 @@ categories: ["美容", "日常"]
     <li><a href="#エイト-ザ-タラソモイストシャンプー">エイト ザ タラソ　モイストシャンプー</a></li>
     <li><a href="#治った理由と他の方法">治った理由と他の方法</a></li>
 </ul>
-<h4 id="若い頃からフケ症だった">若い頃からフケ症だった</h4>
+<h2 id="若い頃からフケ症だった">若い頃からフケ症だった</h2>
 <p>私はオジサンであり、美容については疎い。</p>
 <p>オジサンだから疎いのでなく、若い頃から気にしていなかったのだけど。</p>
 <p>そんな私でも唯一気にしている事があった。</p>
@@ -27,20 +27,17 @@ categories: ["美容", "日常"]
 <p><strong>ちゃんと洗ってるのに！</strong></p>
 <p>洗って乾かすとその直後からフケが出るからね！</p>
 <p>なんだよ！って思っていました。</p>
-<p> </p>
-<h4 id="最近フケが治った">最近フケが治った</h4>
+<h2 id="最近フケが治った">最近フケが治った</h2>
 <p>若い頃から気にしていたフケが治った？のだ。</p>
 <p>加齢のせいではない。ちゃんとした理由があるのだ。</p>
 <p>今まで何もしてこなかった訳ではなく、色々してきて駄目だったのが、最近ふとしたことで、治った、というか出なくなる方法がわかった、と言う感じか。</p>
 <p>なんで今頃！若い頃の自分に教えてあげたいね！</p>
-<p> </p>
-<h4 id="今まで試してきた方法">今まで試してきた方法</h4>
+<h2 id="今まで試してきた方法">今まで試してきた方法</h2>
 <p>最初、中学生の頃、ちょっと気になりだしてやることと言えば</p>
 <p><strong>よく洗う</strong>、だ。洗い方が足りないと思うもんね。</p>
 <p><strong>当然駄目！</strong></p>
 <p>次、</p>
-<h5 id="シャンプーを洗浄力の高い物にしてみる"><strong>シャンプーを洗浄力の高い物にしてみる</strong></h5>
-<p> </p>
+<h3 id="シャンプーを洗浄力の高い物にしてみる">シャンプーを洗浄力の高い物にしてみる</h3>
 <p><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B00M7KV5O6/udonyudetaro-22/" class="asin"><img src="https://m.media-amazon.com/images/I/41ZElsZbBZL.jpg" alt="サクセス薬用シャンプー 本体 380ml" title="サクセス薬用シャンプー 本体 380ml" class="asin" width="512" /></a></p>
 
 <script type="text/javascript">// <![CDATA[
@@ -56,7 +53,7 @@ msmaflink({"n":"サクセス薬用シャンプー 本体 380ml","b":"サクセ�
 <p>これ系の奴ね。油をとにかく落とすぜ！ってヤツ</p>
 <p>これで治る人も居るんだろうケド、<strong>駄目でした</strong>。</p>
 <p>次、</p>
-<h5 id="フケ専用のシャンプーを使う"><strong>フケ専用のシャンプーを使う</strong></h5>
+<h3 id="フケ専用のシャンプーを使う">フケ専用のシャンプーを使う</h3>
 <p>これね、もう見つけた時には解決だと思いましたよ。</p>
 <p>ドンピシャやん。ちゃんと専用品があるやん。と</p>
 <p><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B01BEQUXC8/udonyudetaro-22/" class="asin"><img src="https://m.media-amazon.com/images/I/51BDZr7gWzL.jpg" alt="【まとめ買い】オクト シャンプー (医薬部外品) 320ml×2個セット" title="【まとめ買い】オクト シャンプー (医薬部外品) 320ml×2個セット" class="asin" width="668" /></a></p>
@@ -65,7 +62,7 @@ msmaflink({"n":"サクセス薬用シャンプー 本体 380ml","b":"サクセ�
 <p>そしたら高いのがあったからそれも試しました。</p>
 <p>でも<strong>駄目</strong></p>
 <p>次、</p>
-<h5 id="湯シャンって方法を試しました"><strong>湯シャン</strong>って方法を試しました。</h5>
+<h3 id="湯シャンって方法を試しました">湯シャンって方法を試しました。</h3>
 <p>次に目にしたのは、むしろ洗いすぎが良くないって意見でした。</p>
 <p>確かに洗うのは昔から毎日洗っていたわけですよ。そして自分は皮膚が弱いわけですよ。</p>
 <p><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B0175WWDJ6/udonyudetaro-22/" class="asin"><img src="https://m.media-amazon.com/images/I/51FM-a1sNPL.jpg" alt="マンガで分かる肉体改造 湯シャン編 (ヤングキングコミックス)" title="マンガで分かる肉体改造 湯シャン編 (ヤングキングコミックス)" class="asin" width="543" /></a></p>
@@ -78,26 +75,21 @@ msmaflink({"n":"サクセス薬用シャンプー 本体 380ml","b":"サクセ�
 <p>それでもすっかり治らず</p>
 <p>もういいやと諦めていました。</p>
 <p>20代の半ばぐらいですかね。諦めたの。</p>
-<p> </p>
-<h4 id="今更治ったフケ頭">今更治ったフケ頭</h4>
+<h2 id="今更治ったフケ頭">今更治ったフケ頭</h2>
 <p>そして40を超えた今、うっかり治ったのです。</p>
 <p>別になおそうとしていなかったのに、完全に偶然です。</p>
-<p> </p>
-<p> </p>
-<h4 id="エイト-ザ-タラソモイストシャンプー">エイト ザ タラソ　モイストシャンプー</h4>
+<h2 id="エイト-ザ-タラソモイストシャンプー">エイト ザ タラソ　モイストシャンプー</h2>
 <div class="freezed">
 <div class="hatena-asin-detail"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B0814M725R/udonyudetaro-22/"><img src="https://m.media-amazon.com/images/I/31odFnqkc7L._SL160_.jpg" class="hatena-asin-detail-image" alt="エイト ザ タラソ エイトザタラソ モイストシャンプー 475ml" title="エイト ザ タラソ エイトザタラソ モイストシャンプー 475ml" /></a>
 <div class="hatena-asin-detail-info">
 <p class="hatena-asin-detail-title"><a href="https://www.amazon.co.jp/exec/obidos/ASIN/B0814M725R/udonyudetaro-22/">エイト ザ タラソ エイトザタラソ モイストシャンプー 475ml</a></p>
 <ul>
-<li><span class="hatena-asin-detail-label">メディア:</span></li>
 </ul>
 </div>
 <div class="hatena-asin-detail-foot"> </div>
 </div>
 </div>
-<p> <div class="hatena-asin-detail hatena-rakuten-detail"><a href="https://hb.afl.rakuten.co.jp/hgc/06bf4010.368ab05d.06bf4011.e4516496/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstellaseed%2F8thethalasso_04%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fstellaseed%2Fi%2F10000086%2F"><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/stellaseed/cabinet/8thethalasso/8t_05_new.jpg?_ex=128x128" class="hatena-asin-detail-image" alt="【最大1,000円OFFクーポン！3/19(木)10:00〜3/30(月)13:59迄】エイト ザ タラソ 1DAY トライアル ノンシリコン モイスト シャンプー トリートメント10ml×10ml お試し ノンシリコンシャンプー 8 THE THALASSO [3個セット][s]" title="【最大1,000円OFFクーポン！3/19(木)10:00〜3/30(月)13:59迄】エイト ザ タラソ 1DAY トライアル ノンシリコン モイスト シャンプー トリートメント10ml×10ml お試し ノンシリコンシャンプー 8 THE THALASSO [3個セット][s]"></a><div class="hatena-asin-detail-info"><p class="hatena-asin-detail-title"><a href="https://hb.afl.rakuten.co.jp/hgc/06bf4010.368ab05d.06bf4011.e4516496/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstellaseed%2F8thethalasso_04%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fstellaseed%2Fi%2F10000086%2F">【最大1,000円OFFクーポン！3/19(木)10:00〜3/30(月)13:59迄】エイト ザ タラソ 1DAY トライアル ノンシリコン モイスト シャンプー トリートメント10ml×10ml お試し ノンシリコンシャンプー 8 THE THALASSO [3個セット][s]</a></p><ul><li><span class="hatena-asin-detail-label">価格:</span> 330 円</li><li><a href="https://hb.afl.rakuten.co.jp/hgc/06bf4010.368ab05d.06bf4011.e4516496/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstellaseed%2F8thethalasso_04%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fstellaseed%2Fi%2F10000086%2F" target="_blank">楽天で詳細を見る</a></li></ul></div><div class="hatena-asin-detail-foot"></div></div></p>
-<p> </p>
+<div class="hatena-asin-detail hatena-rakuten-detail"><a href="https://hb.afl.rakuten.co.jp/hgc/06bf4010.368ab05d.06bf4011.e4516496/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstellaseed%2F8thethalasso_04%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fstellaseed%2Fi%2F10000086%2F"><img src="https://thumbnail.image.rakuten.co.jp/@0_mall/stellaseed/cabinet/8thethalasso/8t_05_new.jpg?_ex=128x128" class="hatena-asin-detail-image" alt="【最大1,000円OFFクーポン！3/19(木)10:00〜3/30(月)13:59迄】エイト ザ タラソ 1DAY トライアル ノンシリコン モイスト シャンプー トリートメント10ml×10ml お試し ノンシリコンシャンプー 8 THE THALASSO [3個セット][s]" title="【最大1,000円OFFクーポン！3/19(木)10:00〜3/30(月)13:59迄】エイト ザ タラソ 1DAY トライアル ノンシリコン モイスト シャンプー トリートメント10ml×10ml お試し ノンシリコンシャンプー 8 THE THALASSO [3個セット][s]"></a><div class="hatena-asin-detail-info"><p class="hatena-asin-detail-title"><a href="https://hb.afl.rakuten.co.jp/hgc/06bf4010.368ab05d.06bf4011.e4516496/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstellaseed%2F8thethalasso_04%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fstellaseed%2Fi%2F10000086%2F">【最大1,000円OFFクーポン！3/19(木)10:00〜3/30(月)13:59迄】エイト ザ タラソ 1DAY トライアル ノンシリコン モイスト シャンプー トリートメント10ml×10ml お試し ノンシリコンシャンプー 8 THE THALASSO [3個セット][s]</a></p><ul><li><span class="hatena-asin-detail-label">価格:</span> 330 円</li><li><a href="https://hb.afl.rakuten.co.jp/hgc/06bf4010.368ab05d.06bf4011.e4516496/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstellaseed%2F8thethalasso_04%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fstellaseed%2Fi%2F10000086%2F" target="_blank">楽天で詳細を見る</a></li></ul></div><div class="hatena-asin-detail-foot"></div></div>
 <p>コレで治ってしまったのだ。</p>
 <p>上の楽天の広告に貼ってあるお試し版を嫁さんがなんとなく買ってきて</p>
 <p>普通だったら嫁さんが使うはずのものをなんとなく私が使ったのだ。</p>
@@ -107,8 +99,7 @@ msmaflink({"n":"サクセス薬用シャンプー 本体 380ml","b":"サクセ�
 <p>アレッ？！フケが出てない！</p>
 <p>何時もなら乾いた瞬間から出るはずのフケが出ない！</p>
 <p>翌朝も出ない！相当にパサパサしてようやく、ちょっとフケらしきものが出たかな？って感じだ。</p>
-<p> </p>
-<h4 id="治った理由と他の方法">治った理由と他の方法</h4>
+<h2 id="治った理由と他の方法">治った理由と他の方法</h2>
 <p>多分、乾燥かな？と</p>
 <p>このシャンプーはそのヌルヌルの洗いあがりから、頭皮も保水してるっぽいのだ。</p>
 <p>私に必要だったのは、潤い！（何故か湯シャンでは駄目だったね）</p>
@@ -131,7 +122,5 @@ msmaflink({"n":"サクセス薬用シャンプー 本体 380ml","b":"サクセ�
 <p>こんなんをシャンプーしてドライヤーした後に頭皮に塗っとけばきっと同じ効果だ。</p>
 <p>頭皮に潤いを与えれば解決する系のフケ症もある。</p>
 <p>とりあえず一度エイトザタラソのお試し版を買ってみてもいいだろう。</p>
-<p> </p>
-<p> </p>
 <p>それにしても今更だ。</p>
 <p>今更、対策が完了するとは。 </p>
