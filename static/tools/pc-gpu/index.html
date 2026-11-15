@@ -216,6 +216,7 @@ const CFG =
   note: "性能スコアは PassMark G3D Mark（公開ベンチマーク）の目安です。実際のfpsはCPU・メモリ・冷却・ドライバでも変わります。ゲーム判定は60fpsを目標にした概算で、アップスケーリング（DLSS／FSR等）を使うと判定より快適に遊べる場合があります。",
   amazonQ: p => p.name,
   metaLine: p => p.maker + " ・ VRAM " + p.vram,
+  cardBadge: p => '',
   specBoxes: p => `
     <div class="spec"><label>メーカー</label><b>${p.maker}</b></div>
     <div class="spec"><label>VRAM</label><b>${p.vram}</b></div>
@@ -284,7 +285,7 @@ function renderList(){
       <div class="pc-main">
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="tier">${p.tier} ・ ${tierLabel(p.tier)}</span><span style="font-size:11px;color:var(--sub)">${p.year}年</span>${isLatest(p)?'<span class="new-badge">NEW 最新</span>':''}</div>
         <div class="pc-name" style="margin-top:4px">${p.name}</div>
-        <div class="pc-meta">${CFG.metaLine(p)}</div>
+        <div class="pc-meta">${CFG.metaLine(p)}</div>${CFG.cardBadge ? CFG.cardBadge(p) : ''}
         <div class="mini-bar"><i style="width:${p.index}%"></i></div>
       </div>
       <div class="pc-score">${fmt(p.cardScore)}<small>${CFG.cardLabel}</small><small style="margin-top:6px"><a href="${amazonUrl(p)}" target="_blank" rel="noopener" style="text-decoration:none;background:#ff9900;color:#111;padding:4px 7px;border-radius:999px;font-weight:800;font-size:11px">Amazon ↗</a></small></div>
