@@ -1,5 +1,6 @@
 ---
 title: "異常な高評価 Victure MP3 Music Player M5 の実態とは 製品レビュー"
+description: "Amazonで異常な高評価の格安MP3プレーヤー、Victure M5の実態を検証する製品レビュー。値段・性能・操作性・サポート体制をチェック。"
 date: 2018-07-01T11:36:44+09:00
 draft: false
 url: "/entry/victure/"

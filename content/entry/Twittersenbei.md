@@ -1,5 +1,6 @@
 ---
-title: "Twitterと、お煎餅"
+title: "SNSが嫌いだった理由と匿名掲示板の時代（Twitterと、お煎餅）"
+description: "SNSは嫌いだった。パソコン通信時代の教えと、あめぞう・2chに代表される匿名掲示板の隆盛を見てきた世代が、SNSと匿名性について考えるエッセイ。"
 date: 2018-05-08T23:24:57+09:00
 draft: false
 url: "/entry/Twittersenbei/"
