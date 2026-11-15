@@ -1,5 +1,7 @@
 baseURL = 'https://yudetaro.com/'
 locale = 'ja'
+languageCode = 'ja-JP'
+defaultContentLanguage = 'ja'
 title = 'yudetaro.com'
 theme = 'PaperMod'
 [params]
