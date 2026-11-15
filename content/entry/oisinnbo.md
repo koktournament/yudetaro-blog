@@ -1,5 +1,6 @@
 ---
-title: "美味しんぼ 山岡士郎を断罪する！"
+title: "美味しんぼ 山岡士郎を断罪する！七光りなのにクビにならない男"
+description: "美味しんぼの主人公・山岡士郎。七光り、父・海原雄山への反抗、やりたい放題でもクビにならない。嫌われる理由を並べて断罪しつつ、それでも憎めない魅力を語ります。"
 date: 2019-02-03T16:44:02+09:00
 draft: false
 url: "/entry/oisinnbo/"
@@ -66,7 +67,7 @@ categories: ["漫画"]
 </figure>
 <p>仕事中に資料室で寝ているのだ。アイマスクまでしてガチンコで眠る気満々である。</p>
 <p>ウトウトしてたなんてかわいいもんじゃない。この男、本気である。</p>
-<p>奥でしゃがみこんで資料を探しているであろう仕事中の人などお構いないなしに、椅子を8個も占領して寝てしまうのだ。後姿が悲しいなあ、資料探しの人。</p>
+<p>奥でしゃがみこんで資料を探しているであろう仕事中の人などお構いなしに、椅子を8個も占領して寝てしまうのだ。後姿が悲しいなあ、資料探しの人。</p>
 <p><strong>挑む！！</strong>なんてカッコよく締めくくってるけど、このだらしない寝姿である。</p>
 <p>挑む！！なんて勇ましい言葉とはまったく似つかわしくない絵である。口開いてますよ。</p>
 <p>それにしても寝てばっかりいるのだ。<span style="color: #0000cc;">初登場シーンも寝ていて、ラストも寝ている。</span></p>
@@ -128,8 +129,8 @@ categories: ["漫画"]
 <p>そしてたまたま究極のメニューの仕事が来たので、ばっちり適材適所になったが、本来なにもない社員なら、実力を発揮する前にクビですよ。寝てんだもん。</p>
 <p>山岡さんと同じ能力をもった人が社内に居たとしても、あの勤務態度ならクビです。</p>
 <p><span style="text-decoration: underline;">ちなみに山岡さんは三流大学に浪人して入り、更に留年までしている。</span></p>
-<p>一流企業である新聞社に入社できたのこと自体がちょっとおかしいのです。</p>
-<p>もしかしら入社できたこと自体が<span style="color: #ff0000;">七光り</span>かもね。</p>
+<p>一流企業である新聞社に入社できたこと自体がちょっとおかしいのです。</p>
+<p>もしかしたら入社できたこと自体が<span style="color: #ff0000;">七光り</span>かもね。</p>
 <p>毎日仕事しなくて寝てばっかりいたら</p>
 <p><span style="font-size: 150%;"><strong><span style="color: #ff0000;">俺やお前らならクビだかんな！！</span></strong></span></p>
 <p>もしあなたの親が大物なら許されるかも知れないけどな！</p>
@@ -291,7 +292,7 @@ categories: ["漫画"]
 <p><img class="hatena-fotolife" title="f:id:udonyudetaro:20190203161305j:plain" src="/images/fotolife/u/udonyudetaro/20190203/20190203161305.jpg" alt="f:id:udonyudetaro:20190203161305j:plain" /></p>
 <figcaption>1巻4話</figcaption>
 </figure>
-<p>ホームレスの知り合い。競馬と酒浸りの日々を送っていた山岡さんならではの魅力。これは山岡さんならではの魅力といえる</p>
+<p>ホームレスの知り合い。競馬と酒浸りの日々を送っていた山岡さんならではの魅力だ</p>
 <figure class="figure-image figure-image-fotolife mceNonEditable" title="1巻4話">
 <p><img class="hatena-fotolife" title="f:id:udonyudetaro:20190203161635j:plain" src="/images/fotolife/u/udonyudetaro/20190203/20190203161635.jpg" alt="f:id:udonyudetaro:20190203161635j:plain" /></p>
 <figcaption>1巻4話</figcaption>
