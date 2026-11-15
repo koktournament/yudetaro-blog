@@ -16,7 +16,7 @@ categories: ["漫画"]
     </li>
     <li><a href="#愛すべき山岡士郎その魅力">愛すべき山岡士郎、その魅力</a></li>
 </ul>
-<h5 id="山岡士郎とは">山岡士郎とは</h5>
+<h2 id="山岡士郎とは">山岡士郎とは</h2>
 <figure class="figure-image figure-image-fotolife mceNonEditable" title="第一巻より">
 <p><img class="hatena-fotolife" title="f:id:udonyudetaro:20190131181548j:plain" src="/images/fotolife/u/udonyudetaro/20190131/20190131181548.jpg" alt="f:id:udonyudetaro:20190131181548j:plain" /></p>
 <figcaption>第一巻より</figcaption>
@@ -40,21 +40,18 @@ categories: ["漫画"]
 <div class="hatena-asin-detail-foot"> </div>
 </div>
 </div>
-<h5 id="山岡士郎を告発したい"> 山岡士郎を告発したい</h5>
+<h2 id="山岡士郎を告発したい"> 山岡士郎を告発したい</h2>
 <p>その山岡さんを告発したい。かっこよくて大好きな山岡さんだが、本当にそうだろうか？と思うことも多いのだ。</p>
 <p>そもそも父親を憎んでいるっていうのも、大好きな母親が亡くなったことに対しての<strong>逆恨み</strong>だ。</p>
 <p><span style="font-size: 150%; color: #ff0000;">エディプスコンプレックス丸出し</span>の<span style="font-size: 150%; color: #ff0000;">マザコン野郎</span>と言えなくも無い。</p>
 <p>山岡さんはその食に対する圧倒的な知識や技量で、様々な問題を解決していくのだが、大嫌いで、関係を絶ったはずの父親<span style="font-size: 150%; color: #0000cc;">海原雄山の七光り</span>を使いまくる場面もよく目にするのだ。</p>
 <p>そこで、とりあえず<span style="font-size: 150%;"><strong>1巻から3巻まで</strong></span>にて検証していきたいと思う。</p>
-<p> </p>
-<h3 id="山岡士郎を断罪していこう">山岡士郎を断罪していこう</h3>
-<h5 id="そもそもなんでクビにならないのか">そもそもなんでクビにならないのか？</h5>
+<h2 id="山岡士郎を断罪していこう">山岡士郎を断罪していこう</h2>
+<h3 id="そもそもなんでクビにならないのか">そもそもなんでクビにならないのか？</h3>
 <p>東西新聞社に務める駄目サラリーマン、山岡士郎。</p>
 <p>その駄目っぷりが散々に描かれた後で、<span style="text-decoration: underline;">圧倒的な味覚の鋭さを見せつける。</span></p>
 <p>只者じゃない感たっぷりでカッコいい！普段とのギャップがいい。</p>
-<p> </p>
 <p>でも、ちょっと待って欲しい。</p>
-<p> </p>
 <p><span style="text-decoration: underline;">この画像が、この漫画、美味しんぼにおける主役である山岡士郎の初登場シーンである</span></p>
 <figure class="figure-image figure-image-fotolife mceNonEditable" title="1話より山岡初登場シーン">
 <p><img class="hatena-fotolife" title="f:id:udonyudetaro:20190131223038j:plain" src="/images/fotolife/u/udonyudetaro/20190131/20190131223038.jpg" alt="f:id:udonyudetaro:20190131223038j:plain" /></p>
@@ -89,7 +86,6 @@ categories: ["漫画"]
 <figcaption>１巻6話より</figcaption>
 </figure>
 <p>ごもっともです！</p>
-<p> </p>
 <p>でも、クビにならない。</p>
 <p>そう、このクビにならなかった理由こそが<span style="color: #0000cc; font-size: 150%;">親の七光り</span>なのである。</p>
 <p>なぜ首にならないかの理由がお父さんの存在なのだ。</p>
@@ -100,7 +96,6 @@ categories: ["漫画"]
 </figure>
 <p>彼こそ、山岡が所属する東西新聞社、文化部のトップである<span style="text-decoration: underline;">谷村部長</span>だ。</p>
 <p>そして彼こそが、あの駄目社員を首に出来る人物なのだ。見た目からもなかなかに仕事の出来そうな男だ。そんな男がなぜ、あんな駄目社員を首にしないのか？</p>
-<p> </p>
 <p>豆腐と水、あまり味のしないこの二つを見分けろという難問を出したシーン。</p>
 <figure class="figure-image figure-image-fotolife mceNonEditable" title="1話より">
 <p><img class="hatena-fotolife" title="f:id:udonyudetaro:20190131223158j:plain" src="/images/fotolife/u/udonyudetaro/20190131/20190131223158.jpg" alt="f:id:udonyudetaro:20190131223158j:plain" /></p>
@@ -123,9 +118,7 @@ categories: ["漫画"]
 <p><span style="color: #ff0000;"><strong>うちの谷村は承知しておったようですが</strong></span></p>
 <p><span style="color: #0000cc;"><strong>うちの谷村は承知しておったようですが</strong></span></p>
 <p>そう彼だけは知っていた。山岡が大物の息子だと言うことを</p>
-<p> </p>
 <p><span style="font-size: 150%;"><strong><span style="color: #ff0000;">七光り炸裂</span>！</strong></span></p>
-<p> </p>
 <p>そりゃ、味覚や料理の知識などは、山岡さんの実力です。すごいモンです。</p>
 <p>味覚や料理の知識を見せ付けた後なら、クビにしないのもわかります。</p>
 <p>しかし、それを発揮していない状態です。普段駄目でも実力があるから置いておく。それならいいんですが、そもそも、実力があることを見せていない。だーれも知らないんです。東西新聞社でぶっちぎりの駄目社員で有名なんです。仕事をしない。寝ている。競馬場に行ってしまう。クビにしないほうがおかしい。</p>
@@ -140,8 +133,7 @@ categories: ["漫画"]
 <p>毎日仕事しなくて寝てばっかりいたら</p>
 <p><span style="font-size: 150%;"><strong><span style="color: #ff0000;">俺やお前らならクビだかんな！！</span></strong></span></p>
 <p>もしあなたの親が大物なら許されるかも知れないけどな！</p>
-<p> </p>
-<h5 id="海原雄山を嫌うリトル海原こと山岡士郎">海原雄山を嫌う、リトル海原こと山岡士郎</h5>
+<h3 id="海原雄山を嫌うリトル海原こと山岡士郎">海原雄山を嫌う、リトル海原こと山岡士郎</h3>
 <p>さてさて、山岡さんと言えば父親、海原雄山との確執である。</p>
 <p>どんな理由で確執に至ったか、山岡さんの主張をちょっと見てみよう。</p>
 <figure class="figure-image figure-image-fotolife mceNonEditable" title="1巻6話より">
@@ -186,7 +178,6 @@ categories: ["漫画"]
 <figcaption>1巻2話より</figcaption>
 </figure>
 <p>つい意地になったけど、食い物のことなんてどうでもいいのさ！</p>
-<p> </p>
 <p><span style="font-size: 150%;"><strong>しかし、山岡さんはサイコパス野郎だった。</strong></span></p>
 <p><span style="font-size: 150%;"><strong>断罪せざるを得ない。</strong></span></p>
 <p>ほぼ親父と同じ行動を繰り広げる山岡さん。</p>
@@ -234,7 +225,7 @@ categories: ["漫画"]
 </figure>
 <p>肉には醤油！！！味覚もそっくり！やっぱりあんた息子だよ！</p>
 <p>嫌ってる親父にそっくりすぎる山岡さん。<strong>有罪でしょ？</strong></p>
-<h5 id="七光り野郎山岡">七光り野郎山岡</h5>
+<h3 id="七光り野郎山岡">七光り野郎山岡</h3>
 <p>まあ同じ事をやってしまってはいる。</p>
 <p>やってしまってはいるが、やっぱりお父さんは嫌いな山岡さん。</p>
 <p>母方の姓を名乗り、もう親父の世話にはならん！！といった意気込みである。</p>
@@ -283,7 +274,7 @@ categories: ["漫画"]
 </figure>
 <p>海原雄山の名こそでないが、高級店にやたら顔が利き、けっこうな無茶を引き受けてくれる場面は、めちゃくちゃ出てくる。</p>
 <p>これっておかしいよね。<strong>海原のぼっちゃん！</strong>とは言われてなくても、そういうことでしょ？　有罪です。</p>
-<h3 id="愛すべき山岡士郎その魅力">愛すべき山岡士郎、その魅力</h3>
+<h2 id="愛すべき山岡士郎その魅力">愛すべき山岡士郎、その魅力</h2>
 <p>しかし、やっぱり山岡さんが好きだ。</p>
 <p>海原雄山に似てる所も多いけど、山岡士郎オリジナル。山岡さんだからこそ・・ってのも多いのだ。上記の有罪案件を一気に帳消しにする山岡さんの魅力だ。</p>
 <figure class="figure-image figure-image-fotolife mceNonEditable" title="1巻2話">
@@ -345,11 +336,9 @@ categories: ["漫画"]
 </figure>
 <p>大物を掌で転がす山岡さん。あっという間に気に入られちゃう。</p>
 <p>ふっふっふ・・・</p>
-<p> </p>
 <p><strong>結局、美味しんぼ読者も山岡士郎に夢中なのであった。</strong></p>
 <p>有罪案件多いけど、陪審員は山岡さんに夢中になるから</p>
 <p><span style="font-size: 200%;">無罪だね！</span></p>
-<p> </p>
 <p>↓ちなみにアニメの出来もサイコーだ。</p>
 <p>　たまにやってた実写ドラマもどの役者のバージョンも全部面白かったし</p>
 <p>　優秀なコンテンツなんだな！</p>
@@ -365,7 +354,6 @@ categories: ["漫画"]
 <div class="hatena-asin-detail-foot"> </div>
 </div>
 </div>
-<p> </p>
 <div class="freezed">
 <div class="hatena-asin-detail"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B01M7OS0HS/udonyudetaro-22/"><img class="hatena-asin-detail-image" title="美味しんぼ DVD BOX1" src="https://images-fe.ssl-images-amazon.com/images/I/51A2ucU0soL._SL160_.jpg" alt="美味しんぼ DVD BOX1" /></a>
 <div class="hatena-asin-detail-info">
@@ -380,7 +368,6 @@ categories: ["漫画"]
 <div class="hatena-asin-detail-foot"> </div>
 </div>
 </div>
-<p> </p>
 <div class="freezed">
 <div class="hatena-asin-detail"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4091863191/udonyudetaro-22/"><img class="hatena-asin-detail-image" title="美味しんぼ 111 (ビッグコミックス)" src="https://images-fe.ssl-images-amazon.com/images/I/61XDN3P2yOL._SL160_.jpg" alt="美味しんぼ 111 (ビッグコミックス)" /></a>
 <div class="hatena-asin-detail-info">

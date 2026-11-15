@@ -17,7 +17,7 @@ categories: ["日常", "食", "レビュー"]
     <li><a href="#ここまでの工程を全てやると">ここまでの工程を全てやると</a></li>
     <li><a href="#４最終対策お香">４、最終対策　お香</a></li>
 </ul>
-<h4 id="１煙が少ないロースターを使う">１、煙が少ないロースターを使う！ </h4>
+<h2 id="１煙が少ないロースターを使う">１、煙が少ないロースターを使う！ </h2>
 <div class="freezed">
 <div class="hatena-asin-detail"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B01JYSXB2W/udonyudetaro-22/"><img class="hatena-asin-detail-image" title="イワタニ スモークレス焼肉グリル やきまる CB-SLG-1" src="https://images-fe.ssl-images-amazon.com/images/I/51Yq4GlsPmL._SL160_.jpg" alt="イワタニ スモークレス焼肉グリル やきまる CB-SLG-1" /></a>
 <div class="hatena-asin-detail-info">
@@ -75,7 +75,7 @@ categories: ["日常", "食", "レビュー"]
 <p>しかし<strong>煙が完全に抑えられる訳ではない</strong>し、<strong>臭いはやっぱり付くのだ。</strong></p>
 <p>だが、間違いなく減る。<span style="text-decoration: underline;">臭いレベルが１０から８になる</span>って感じかな。</p>
 <p>それ以上に煙がでないメリットはあるのでよく焼肉する人なら買っておいて損はない。やきまるは安いしね。</p>
-<h4 id="２消臭スプレーを使おう事前に">２、消臭スプレーを使おう（事前に）！</h4>
+<h2 id="２消臭スプレーを使おう事前に">２、消臭スプレーを使おう（事前に）！</h2>
 <p><a href="http://d.hatena.ne.jp/asin/B0074YFNSE/udonyudetaro-22" class="asin"><img class="asin" title="ファブリーズ 消臭スプレー 布用 W除菌 本体 370mL" src="https://images-fe.ssl-images-amazon.com/images/I/41Cb%2BTyF2BL.jpg" alt="ファブリーズ 消臭スプレー 布用 W除菌 本体 370mL" /></a></p>
 <p>ファブリーズなどに代表される消臭スプレーだ。</p>
 <p> 色々な製品が出ているが、これが良いよ！って言う話はしないので、各自家にあるものを使えばよろしい。</p>
@@ -128,7 +128,7 @@ categories: ["日常", "食", "レビュー"]
 <p>事前に行うことで効果が増す！</p>
 <p><strong>焼肉前に消臭スプレーだ！</strong></p>
 <p><span style="text-decoration: underline;">臭いレベルが８から６になる</span>イメージだ。</p>
-<h4 id="３フローリングモップを準備しといて">３、フローリングモップを準備しといて！</h4>
+<h2 id="３フローリングモップを準備しといて">３、フローリングモップを準備しといて！</h2>
 <p><a href="http://d.hatena.ne.jp/asin/B00O7AJ83E/udonyudetaro-22" class="asin"><img class="asin" title="花王 クイックルワイパー 本体 ワイド" src="https://images-fe.ssl-images-amazon.com/images/I/21dvGuKoisL.jpg" alt="花王 クイックルワイパー 本体 ワイド" /></a></p>
 <p>フローリングモップっていうとピンと来ない人には</p>
 <div class="freezed">
@@ -154,12 +154,12 @@ categories: ["日常", "食", "レビュー"]
 <p>焼肉が終わったら即モップをかけましょう。</p>
 <p>ツルツル滑って危ないのも防止できるし、においの防止にもなる。</p>
 <p>食べ終わったら即！行おう。臭いレベルが６から５になるイメージだ。</p>
-<h4 id="ここまでの工程を全てやると">ここまでの工程を全てやると</h4>
+<h2 id="ここまでの工程を全てやると">ここまでの工程を全てやると</h2>
 <p>臭いレベルが１０から５　半分にまで減るイメージだ。</p>
 <p>だいぶマシになる。しかし一旦焼肉の部屋から出てまた戻ると少し気になる。</p>
 <p>同じ部屋に居て慣れてしまっていると平気だが、人間少しでもニオイを感じると気になるものだ。窓を開けたりなどで完全に消えてしまえばここまででよいでしょう。</p>
 <p>家の環境にも拠るから難しいこともあるが、事前の換気対策で空気の流れを上手く作っていればここまででOKだろう。</p>
-<h3 id="４最終対策お香">４、最終対策　お香</h3>
+<h2 id="４最終対策お香">４、最終対策　お香</h2>
 <p><a href="http://d.hatena.ne.jp/asin/B07S77R1Y4/udonyudetaro-22" class="asin"><img class="asin" title="線香立 香炉皿 陶磁器香炉 お香立て 陶製香炉 日本香対応 線香 お香 スティック香 渦巻香 コイル香 コーンタイプ香 円錐型お香 面白い 観賞性 光沢感 料亭 喫茶店 仏檀 瞑坐 瞑想 睡眠 ヨーガ インテリア 部屋飾り 落ち着け リラックス 癒やし フリーサイズ (割紋-グリーン・お香立て付き)" src="https://images-fe.ssl-images-amazon.com/images/I/41Y-UdRHuGL.jpg" alt="線香立 香炉皿 陶磁器香炉 お香立て 陶製香炉 日本香対応 線香 お香 スティック香 渦巻香 コイル香 コーンタイプ香 円錐型お香 面白い 観賞性 光沢感 料亭 喫茶店 仏檀 瞑坐 瞑想 睡眠 ヨーガ インテリア 部屋飾り 落ち着け リラックス 癒やし フリーサイズ (割紋-グリーン・お香立て付き)" /></a></p>
 <p><span style="font-size: 150%;"><span style="color: #ff0000;"><strong>煙</strong></span>には<span style="color: #0000cc;"><strong>煙</strong></span>ぶつけんだよ！</span></p>
 <p><strong>お香</strong>である。<strong>線香</strong>でもいい。正直言うと<strong>蚊取り線香</strong>でも効果はあった。</p>
@@ -185,7 +185,6 @@ categories: ["日常", "食", "レビュー"]
 <div class="hatena-asin-detail-foot"> </div>
 </div>
 </div>
-<p> </p>
 <div class="freezed">
 <div class="hatena-asin-detail"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/B079K63R3C/udonyudetaro-22/"><img class="hatena-asin-detail-image" title="バスルームの脱臭、天然の草の香り、4時間盤香48盤/箱 (養生ヨモギ)" src="https://images-fe.ssl-images-amazon.com/images/I/51zoyYmo68L._SL160_.jpg" alt="バスルームの脱臭、天然の草の香り、4時間盤香48盤/箱 (養生ヨモギ)" /></a>
 <div class="hatena-asin-detail-info">
@@ -258,4 +257,3 @@ categories: ["日常", "食", "レビュー"]
 <div class="hatena-asin-detail-foot"> </div>
 </div>
 </div>
-<p> </p>
