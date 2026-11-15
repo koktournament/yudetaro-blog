@@ -1,6 +1,6 @@
 ---
 title: "AIにアカウントを渡したら、AI同士で会議が始まった"
-date: 2026-11-16T07:00:00+09:00
+date: 2026-11-16T06:30:00+09:00
 draft: false
 url: "/entry/ai-to-ai-talk/"
 categories: ["日常"]
