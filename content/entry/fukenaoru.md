@@ -51,7 +51,7 @@ c.getElementById(a)||(d=c.createElement(f),d.src=g,
 d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
 (window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js","msmaflink");
 msmaflink({"n":"サクセス薬用シャンプー 本体 380ml","b":"サクセス","t":"4901301289735","d":"https:\/\/m.media-amazon.com","c_p":"\/images\/I","p":["\/41ZElsZbBZL.jpg","\/41LBbbBeHKL.jpg","\/31-x9eWM5WL.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B00M7KV5O6","t":"amazon","r_v":""},"aid":{"amazon":"1501153","rakuten":"1501142","yahoo":"1501154"},"eid":"uuxAH","s":"s"});
-// ]]></script>
+// ] ]></script>
 
 <p>これ系の奴ね。油をとにかく落とすぜ！ってヤツ</p>
 <p>これで治る人も居るんだろうケド、<strong>駄目でした</strong>。</p>
