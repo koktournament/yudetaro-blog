@@ -38,7 +38,7 @@ c.getElementById(a)||(d=c.createElement(f),d.src=g,
 d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
 (window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js","msmaflink");
 msmaflink({"n":"【第1類医薬品】リアップX5 60mL","b":"リアップ","t":"","d":"https:\/\/m.media-amazon.com","c_p":"\/images\/I","p":["\/5190rZnNU7L.jpg","\/51PFFox7R7L.jpg","\/61KIYJJ8vBL.jpg","\/616dhH2p-0L.jpg","\/61jhBBodxNL.jpg","\/61SNQo9vQiL.jpg","\/61hb4REdmML.jpg","\/51TjSEHR42L.jpg","\/51IqzBIy0HL.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B075GCCMQT","t":"amazon","r_v":""},"aid":{"amazon":"1501153","rakuten":"1501142","yahoo":"1501154"},"eid":"o1Cg0","s":"s"});
-// ]]></script>
+// ] ]></script>
 <div id="msmaflink-o1Cg0">リンク</div>
 
 <p> </p>

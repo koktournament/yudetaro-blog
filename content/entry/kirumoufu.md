@@ -13,7 +13,7 @@ c.getElementById(a)||(d=c.createElement(f),d.src=g,
 d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
 (window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js","msmaflink");
 msmaflink({"n":"mofua ( モフア ) 着る毛布 プレミアムマイクロファイバー ルームウェア フード付き 着丈110cm グレー 48476413","b":"ナイスデイ","t":"48476413","d":"https:\/\/m.media-amazon.com","c_p":"\/images\/I","p":["\/31FEiWs6YAL.jpg","\/51KXFnenTjL.jpg","\/51RHRBoz-2L.jpg","\/61m4VcvGeHL.jpg","\/51H0INnVDOL.jpg","\/51IEaateprL.jpg","\/51yGSruTqaL.jpg","\/51q7MhSHd6L.jpg","\/51YcJSWsAJL.jpg","\/51l9QNf2V0L.jpg","\/51UzXY7tGoL.jpg","\/51dIs5VIM4L.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B00N3PQE6S","t":"amazon","r_v":""},"aid":{"amazon":"1501153","rakuten":"1501142","yahoo":"1501154"},"eid":"tj0bT","s":"s"});
-// ]]></script>
+// ] ]></script>
 
 <div>ちょっと恐ろしい思いつき、いや発明と言っても良いかもしれない。</div>
 <div>その発明を実践して数週間たつが、圧倒的であった。</div>
@@ -43,7 +43,7 @@ c.getElementById(a)||(d=c.createElement(f),d.src=g,
 d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
 (window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js","msmaflink");
 msmaflink({"n":"刺し子絣柄 干せば膨らむ 女性用 本場久留米袢纏はんてん・半纏・半天ちゃんちゃんこ・丹前","b":"綿の郷(ワタノサト)","t":"18004","d":"https:\/\/m.media-amazon.com","c_p":"\/images\/I","p":["\/41RamKu873L.jpg","\/31IpdEAVVuL.jpg","\/41BV7cxGQSL.jpg","\/51j3qbImy9L.jpg","\/61m7FZC3pxL.jpg","\/4102JqxCVVL.jpg","\/51ghilP3RSL.jpg","\/51M6LidZVVL.jpg","\/61fOLlMd4ML.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B0031FIQ2A","t":"amazon","r_v":""},"aid":{"amazon":"1501153","rakuten":"1501142","yahoo":"1501154"},"eid":"zJzLL","s":"s"});
-// ]]></script>
+// ] ]></script>
 <div id="msmaflink-zJzLL">リンク</div>
 
 <p> </p>

@@ -41,7 +41,7 @@ c.getElementById(a)||(d=c.createElement(f),d.src=g,
 d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
 (window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js","msmaflink");
 msmaflink({"n":"イワタニ スモークレス焼肉グリル やきまる CB-SLG-1","b":"Iwatani(イワタニ)","t":"CB-SLG-1","d":"https:\/\/images-fe.ssl-images-amazon.com","c_p":"\/images\/I","p":["\/51Yq4GlsPmL.jpg","\/510NTt6AE1L.jpg","\/51KyQVHU%2BeL.jpg","\/61xQf1VTOiL.jpg","\/618iZys1ShL.jpg","\/51opaKR233L.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/Iwatani-%E3%82%A4%E3%83%AF%E3%82%BF%E3%83%8B-CB-SLG-1-%E3%82%B9%E3%83%A2%E3%83%BC%E3%82%AF%E3%83%AC%E3%82%B9%E7%84%BC%E8%82%89%E3%82%B0%E3%83%AA%E3%83%AB-%E3%82%84%E3%81%8D%E3%81%BE%E3%82%8B\/dp\/B01JYSXB2W","t":"amazon","r_v":""},"aid":{"amazon":"1501153","rakuten":"1501142","yahoo":"1501154"},"eid":"aJdDT"});
-// ]]></script>
+// ] ]></script>
 <div id="msmaflink-aJdDT">リンク</div>
 
 <p> </p>

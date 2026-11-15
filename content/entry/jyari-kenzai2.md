@@ -28,7 +28,7 @@ categories: ["日常"]
 <p><ins class="adsbygoogle" style="display: block;" data-ad-client="ca-pub-8038476275209869" data-ad-slot="1057148843" data-ad-format="auto"> </ins></p>
 <script>// <![CDATA[
 (adsbygoogle = window.adsbygoogle || []).push({});
-// ]]></script>
+// ] ]></script>
 <p> </p>
 <p><span style="font-size: 150%;">そこで役に立ったのが</span></p>
 <p><span style="font-size: 150%;">インターネットタウンページ　<a href="https://itp.ne.jp/">https://itp.ne.jp/</a>　</span></p>
