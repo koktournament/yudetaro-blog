@@ -3,7 +3,7 @@
   <h2>コメント</h2>
   <div class="bc-list"></div>
   <form class="bc-form">
-    <p class="bc-note">名前だけで投稿できます（アカウント不要）。コメントは承認後に表示されます。</p>
+    <p class="bc-note">名前だけで投稿できます（アカウント不要）。投稿するとそのまま表示されます。</p>
     <input type="text" name="name" maxlength="40" placeholder="名前" required>
     <textarea name="body" rows="4" maxlength="2000" placeholder="コメント" required></textarea>
     <input type="text" name="website" class="bc-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -59,7 +59,7 @@
     var payload = { page: page, name: fd.get('name'), body: fd.get('body'), hp: fd.get('website') };
     fetch('/api/comments', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then(function (r) { return r.json(); }).then(function (d) {
-        if (d.ok) { msg.textContent = '投稿ありがとうございます。承認後に表示されます。'; form.reset(); }
+        if (d.ok) { msg.textContent = '投稿ありがとうございます。'; form.reset(); load(); }
         else { msg.textContent = d.error || '投稿できませんでした'; }
       }).catch(function () { msg.textContent = '投稿できませんでした'; });
   });

@@ -343,7 +343,7 @@ export class JinmonRoom {
   }
 }
 
-/* ===== ブログのコメント（名前だけで投稿可・承認制） ===== */
+/* ===== ブログのコメント（名前だけで投稿可・即時表示。管理画面で事後削除可） ===== */
 export class CommentStore {
   constructor(state, env) { this.storage = state.storage; }
   async pages() { return (await this.storage.get('pages')) || []; }
@@ -369,7 +369,7 @@ export class CommentStore {
         await this.storage.put('ip:' + b.iph, Date.now());
       }
       const arr = (await this.storage.get('c:' + page)) || [];
-      arr.push({ id: Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36), name: name, body: body, ts: Date.now(), status: 'pending' });
+      arr.push({ id: Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36), name: name, body: body, ts: Date.now(), status: 'approved' });
       await this.storage.put('c:' + page, arr);
       const pages = await this.pages();
       if (!pages.includes(page)) { pages.push(page); await this.storage.put('pages', pages); }
