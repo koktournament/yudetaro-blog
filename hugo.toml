@@ -6,6 +6,7 @@ title = 'yudetaro.com'
 theme = 'PaperMod'
 [params]
   disableSpecial1stPost = true
+  comments = true
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

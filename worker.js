@@ -343,6 +343,144 @@ export class JinmonRoom {
   }
 }
 
+/* ===== ブログのコメント（名前だけで投稿可・承認制） ===== */
+export class CommentStore {
+  constructor(state, env) { this.storage = state.storage; }
+  async pages() { return (await this.storage.get('pages')) || []; }
+  async fetch(req) {
+    const u = new URL(req.url);
+    if (u.pathname.endsWith('/list')) {
+      const page = u.searchParams.get('page') || '';
+      if (!page.startsWith('/entry/')) return json({ comments: [] });
+      const arr = (await this.storage.get('c:' + page)) || [];
+      return json({ comments: arr.filter(c => c.status === 'approved').map(c => ({ id: c.id, name: c.name, body: c.body, ts: c.ts })) });
+    }
+    if (u.pathname.endsWith('/post')) {
+      const b = await req.json().catch(() => ({}));
+      if (b.hp) return json({ ok: true });
+      const page = String(b.page || '');
+      const name = String(b.name || '').trim().slice(0, 40);
+      const body = String(b.body || '').trim().slice(0, 2000);
+      if (!page.startsWith('/entry/')) return json({ error: 'ページが不正です' }, 400);
+      if (!name || !body) return json({ error: '名前とコメントを入力してください' }, 400);
+      if (b.iph) {
+        const last = (await this.storage.get('ip:' + b.iph)) || 0;
+        if (Date.now() - last < 10000) return json({ error: '少し間隔をあけて投稿してください' }, 429);
+        await this.storage.put('ip:' + b.iph, Date.now());
+      }
+      const arr = (await this.storage.get('c:' + page)) || [];
+      arr.push({ id: Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36), name: name, body: body, ts: Date.now(), status: 'pending' });
+      await this.storage.put('c:' + page, arr);
+      const pages = await this.pages();
+      if (!pages.includes(page)) { pages.push(page); await this.storage.put('pages', pages); }
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/admin-list')) {
+      const out = [];
+      for (const page of await this.pages()) {
+        const arr = (await this.storage.get('c:' + page)) || [];
+        for (const c of arr) out.push({ page: page, id: c.id, name: c.name, body: c.body, ts: c.ts, status: c.status });
+      }
+      out.sort((a, b) => b.ts - a.ts);
+      return json({ comments: out.slice(0, 200) });
+    }
+    if (u.pathname.endsWith('/moderate')) {
+      const b = await req.json().catch(() => ({}));
+      const arr = (await this.storage.get('c:' + b.page)) || [];
+      const i = arr.findIndex(c => c.id === b.id);
+      if (i < 0) return json({ error: '見つかりません' }, 404);
+      if (b.action === 'approve') arr[i].status = 'approved';
+      else if (b.action === 'delete') arr.splice(i, 1);
+      else return json({ error: 'action が不正です' }, 400);
+      await this.storage.put('c:' + b.page, arr);
+      return json({ ok: true });
+    }
+    return json({ error: 'not found' }, 404);
+  }
+}
+
+async function routeComments(req, env) {
+  const u = new URL(req.url);
+  const stub = env.COMMENTS.get(env.COMMENTS.idFromName('blog-comments'));
+  if (u.pathname === '/api/comments' && req.method === 'GET') {
+    return stub.fetch('https://do/list?page=' + encodeURIComponent(u.searchParams.get('page') || ''));
+  }
+  if (u.pathname === '/api/comments' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const ip = req.headers.get('CF-Connecting-IP') || '';
+    return stub.fetch('https://do/post', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ page: body.page, name: body.name, body: body.body, hp: body.hp, iph: ip ? String(seedFromCode(ip)) : '' }) });
+  }
+  if (u.pathname.startsWith('/api/comments/admin/')) {
+    if (!env.COMMENT_ADMIN_KEY) return json({ error: '管理キーが未設定です' }, 503);
+    if (req.headers.get('X-Admin-Key') !== env.COMMENT_ADMIN_KEY) return json({ error: 'キーが違います' }, 401);
+    if (u.pathname.endsWith('/list')) return stub.fetch('https://do/admin-list');
+    if (u.pathname.endsWith('/moderate')) return stub.fetch('https://do/moderate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: await req.text() });
+    return json({ error: 'not found' }, 404);
+  }
+  return json({ error: 'not found' }, 404);
+}
+
+const ADMIN_HTML = `<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>コメント管理 | yudetaro.com</title>
+<style>
+body{font-family:sans-serif;max-width:760px;margin:2em auto;padding:0 1em;color:#222}
+input[type=password]{padding:.4em;width:16em}
+button{padding:.4em 1em;margin-right:.5em;cursor:pointer}
+.item{border:1px solid #ccc;border-radius:6px;padding:.8em 1em;margin:.8em 0}
+.item .meta{color:#666;font-size:.85em}
+.item .body{white-space:pre-wrap;margin:.5em 0}
+.pend{border-color:#d90}
+</style></head><body>
+<h1>コメント管理</h1>
+<p>管理キーを入力して「読み込む」を押してください。キーはこのブラウザにだけ保存されます。</p>
+<input type="password" id="key" placeholder="管理キー"> <button id="load">読み込む</button>
+<p id="msg"></p>
+<h2>承認待ち</h2><div id="pending"></div>
+<h2>表示中</h2><div id="approved"></div>
+<script>
+var keyEl = document.getElementById('key');
+keyEl.value = localStorage.getItem('ck') || '';
+function key() { return keyEl.value.trim(); }
+function fmt(ts) { return new Date(ts).toLocaleString('ja-JP'); }
+function moderate(page, id, action) {
+  fetch('/api/comments/admin/moderate', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key() }, body: JSON.stringify({ page: page, id: id, action: action }) })
+    .then(function(r) { return r.json(); }).then(function(d) { if (d.ok) load(); else document.getElementById('msg').textContent = d.error || '失敗しました'; });
+}
+function makeItem(c) {
+  var div = document.createElement('div'); div.className = 'item' + (c.status === 'pending' ? ' pend' : '');
+  var meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = c.page + ' / ' + fmt(c.ts);
+  var head = document.createElement('div'); var nm = document.createElement('strong'); nm.textContent = c.name; head.appendChild(nm);
+  var body = document.createElement('div'); body.className = 'body'; body.textContent = c.body;
+  div.appendChild(meta); div.appendChild(head); div.appendChild(body);
+  if (c.status === 'pending') {
+    var ab = document.createElement('button'); ab.textContent = '承認する';
+    ab.addEventListener('click', function() { moderate(c.page, c.id, 'approve'); });
+    div.appendChild(ab);
+  }
+  var db = document.createElement('button'); db.textContent = '削除する';
+  db.addEventListener('click', function() { if (confirm('削除しますか？')) moderate(c.page, c.id, 'delete'); });
+  div.appendChild(db);
+  return div;
+}
+function load() {
+  localStorage.setItem('ck', key());
+  fetch('/api/comments/admin/list', { headers: { 'X-Admin-Key': key() } }).then(function(r) { return r.json(); }).then(function(d) {
+    var msg = document.getElementById('msg');
+    if (d.error) { msg.textContent = d.error; return; }
+    msg.textContent = '';
+    var p = document.getElementById('pending'); var a = document.getElementById('approved');
+    p.textContent = ''; a.textContent = '';
+    var np = 0, na = 0;
+    d.comments.forEach(function(c) { if (c.status === 'pending') { p.appendChild(makeItem(c)); np++; } else { a.appendChild(makeItem(c)); na++; } });
+    if (!np) p.textContent = '承認待ちはありません。';
+    if (!na) a.textContent = '表示中のコメントはありません。';
+  }).catch(function() { document.getElementById('msg').textContent = '読み込みに失敗しました'; });
+}
+document.getElementById('load').addEventListener('click', load);
+</script>
+</body></html>`;
+
 async function routeApi(req, env, prefix, binding, words) {
   const u = new URL(req.url);
   if (u.pathname === prefix + '/create') {
@@ -374,6 +512,8 @@ export default {
     if (u.pathname.startsWith('/api/trpg/')) return routeApi(req, env, '/api/trpg', env.TRPG_ROOM, TRPG_WORDS);
     if (u.pathname.startsWith('/api/ryu/')) return routeApi(req, env, '/api/ryu', env.RYU_ROOM, RYU_WORDS);
     if (u.pathname.startsWith('/api/jinmon/')) return routeApi(req, env, '/api/jinmon', env.JINMON_ROOM, JINMON_WORDS);
+    if (u.pathname === '/api/comments' || u.pathname.startsWith('/api/comments/')) return routeComments(req, env);
+    if (u.pathname === '/comments-admin') return new Response(ADMIN_HTML, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
     return env.ASSETS.fetch(req);
   },
 };
