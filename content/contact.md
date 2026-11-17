@@ -11,11 +11,11 @@ description: "yudetaro.comへのお問い合わせフォーム。記事への感
 返信が必要な場合は、メールアドレスも入力してください。
 
 <form id="contact-form">
-  <p><label>お名前（任意）<br><input type="text" id="cf-name" maxlength="40" style="width:100%;padding:.5em;box-sizing:border-box"></label></p>
-  <p><label>メールアドレス（返信が必要な場合）<br><input type="email" id="cf-email" maxlength="120" style="width:100%;padding:.5em;box-sizing:border-box"></label></p>
-  <p><label>本文<br><textarea id="cf-body" rows="8" style="width:100%;padding:.5em;box-sizing:border-box"></textarea></label></p>
+  <p><label>お名前（任意）<br><input type="text" id="cf-name" maxlength="40" style="width:100%;padding:.5em;box-sizing:border-box;border:1px solid var(--border);border-radius:6px;background:var(--theme);color:var(--primary);font:inherit"></label></p>
+  <p><label>メールアドレス（返信が必要な場合）<br><input type="email" id="cf-email" maxlength="120" style="width:100%;padding:.5em;box-sizing:border-box;border:1px solid var(--border);border-radius:6px;background:var(--theme);color:var(--primary);font:inherit"></label></p>
+  <p><label>本文<br><textarea id="cf-body" rows="8" style="width:100%;padding:.5em;box-sizing:border-box;border:1px solid var(--border);border-radius:6px;background:var(--theme);color:var(--primary);font:inherit"></textarea></label></p>
   <input type="text" id="cf-hp" name="hp" style="display:none" tabindex="-1" autocomplete="off">
-  <p><button type="submit" style="padding:.6em 2em;cursor:pointer">送信する</button></p>
+  <p><button type="submit" style="padding:.6em 2em;cursor:pointer;border:1px solid var(--border);border-radius:6px;background:var(--entry);color:var(--primary);font:inherit">送信する</button></p>
   <p id="cf-msg"></p>
 </form>
 
