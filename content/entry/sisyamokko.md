@@ -1,5 +1,6 @@
 ---
 title: "悲しみの ”ししゃもっこ”"
+description: "はま寿司の「ししゃもっこ」を食べに行った話。とびっこ一番おいしい説に触発された記録。"
 date: 2018-10-28T23:53:49+09:00
 draft: false
 url: "/entry/sisyamokko/"

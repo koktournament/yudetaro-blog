@@ -1,5 +1,6 @@
 ---
 title: "クロワッサン入りプリンの謎うまさについて"
+description: "クロワッサン入りプリンの謎のうまさについて。製造メーカーや買える場所、味の感想。"
 date: 2019-03-26T21:54:26+09:00
 draft: false
 url: "/entry/kurowassanpurin/"

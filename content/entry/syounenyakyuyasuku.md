@@ -1,5 +1,6 @@
 ---
 title: "少年野球を安く済ます為に 安い消耗品を紹介しよう"
+description: "少年野球を安く済ますための、安い消耗品の紹介。バットやスパイク、膝パットなど、金のかかる少年野球の節約術。"
 date: 2019-03-25T10:31:51+09:00
 draft: false
 url: "/entry/syounenyakyuyasuku/"

@@ -1,5 +1,6 @@
 ---
 title: "安いBluetooth対応イヤホンが欲しいなら・・・ マクセル MXH-BTC110 レビュー"
+description: "安いBluetoothイヤホン、マクセル MXH-BTC110のレビュー。音質より安さ重視の人向け。"
 date: 2019-07-03T21:25:51+09:00
 draft: false
 url: "/entry/maxellearphone/"

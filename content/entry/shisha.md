@@ -1,5 +1,6 @@
 ---
 title: "シーシャを初体験してきた。"
+description: "シーシャ（水たばこ）を初体験してきた記録。器具や味、試せる店について。"
 date: 2019-07-14T09:30:53+09:00
 draft: false
 url: "/entry/shisha/"

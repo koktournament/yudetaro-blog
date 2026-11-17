@@ -1,5 +1,6 @@
 ---
 title: "行ったことがない沖縄と、食べたことがない牛丼が好き"
+description: "行ったことがない沖縄と、食べたことがない牛丼が好き、という話。沖縄への憧れについて。"
 date: 2018-10-03T17:19:21+09:00
 draft: false
 url: "/entry/okinawagyuudon/"

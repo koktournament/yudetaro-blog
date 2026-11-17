@@ -1,5 +1,6 @@
 ---
 title: "あなたの知らない名物（愛知編 好来系について）"
+description: "愛知の知られざる名物「好来系ラーメン」について。総本家好来道場と暖簾分け店、松竹梅のメニューの読み方を紹介。"
 date: 2018-03-31T22:56:02+09:00
 draft: false
 url: "/entry/meibutunagoyakourai/"
