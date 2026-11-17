@@ -1,5 +1,6 @@
 ---
 title: "だれでも簡単に株で大金持ちになる方法"
+description: "株で一財産を築いたエヌ氏に聞いた「だれでも簡単に株で大金持ちになる方法」。その秘訣とは。"
 date: 2018-04-24T19:35:37+09:00
 draft: false
 url: "/entry/kabukanemoti/"

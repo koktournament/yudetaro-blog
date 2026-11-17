@@ -1,5 +1,6 @@
 ---
 title: "検索エンジンはDuckDuckGoと使うという選択肢"
+description: "検索エンジンDuckDuckGoという選択肢。GoogleやYahoo!との違いと、実際に使ってみた感想。"
 date: 2019-05-31T08:35:44+09:00
 draft: false
 url: "/entry/duckduckgo/"

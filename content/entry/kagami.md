@@ -1,5 +1,6 @@
 ---
 title: "欲望の鏡 (Googleアドセンス)"
+description: "Googleアドセンスは欲望の鏡。アクセスの無いブログがアドセンスを申請してみた話。"
 date: 2018-03-22T21:41:40+09:00
 draft: false
 url: "/entry/kagami/"

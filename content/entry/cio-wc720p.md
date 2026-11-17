@@ -1,5 +1,6 @@
 ---
 title: "品薄の今でもすぐ手に入るWEBカメラ CIO-WC720P レビュー"
+description: "WEBカメラが品薄だった時期にすぐ手に入った、CIO-WC720Pのレビュー。サイズ感、映像、音声の使用感。"
 date: 2020-05-26T18:48:06+09:00
 draft: false
 url: "/entry/cio-wc720p/"

@@ -1,5 +1,6 @@
 ---
 title: "ベストキッドの正統続編 コブラ会（CobraKai）が面白すぎる！"
+description: "映画「ベスト・キッド」の正統続編ドラマ「コブラ会（Cobra Kai）」の紹介と見どころ。おっさんの心に刺さる作品。"
 date: 2019-09-29T11:52:15+09:00
 draft: false
 url: "/entry/cobrakai/"

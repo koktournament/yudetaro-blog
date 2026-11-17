@@ -1,5 +1,6 @@
 ---
 title: "amazonベーシック ゲーミングヘッドセット レビュー"
+description: "Amazonベーシック ゲーミングヘッドセットのレビュー。何を買えばいいか分からない人向けの、安くて使えるヘッドセット探し。"
 date: 2020-07-31T10:37:59+09:00
 draft: false
 url: "/entry/amazonheadset/"

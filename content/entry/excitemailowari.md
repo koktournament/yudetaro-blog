@@ -1,5 +1,6 @@
 ---
 title: "エキサイトメールの代わりはコレしかない！ProtonMail！！最高のフリーメール"
+description: "サービス終了したエキサイトメールの代わりに、ProtonMailを選んだ話。代替フリーメールの検討と登録方法。"
 date: 2018-05-21T16:26:47+09:00
 draft: false
 url: "/entry/excitemailowari/"

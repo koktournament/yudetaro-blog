@@ -1,5 +1,6 @@
 ---
 title: "唐揚げの衣だけを焼いたり、揚げたりしてみたぞ！"
+description: "唐揚げの衣だけを焼いたり揚げたりしてみた実験。衣こそ唐揚げの本体ではないか、という検証。"
 date: 2019-02-19T21:56:48+09:00
 draft: false
 url: "/entry/karaagesonomama/"

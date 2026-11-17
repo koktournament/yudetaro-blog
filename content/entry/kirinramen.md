@@ -1,5 +1,6 @@
 ---
 title: "キリンラーメン名称変更！！について（KIRIN不使用取消審決取消訴訟事件）"
+description: "キリンラーメンの名称変更について。小笠原製粉とキリンビールの商標訴訟（KIRIN不使用取消審決取消訴訟）の話。"
 date: 2018-05-29T22:52:55+09:00
 draft: false
 url: "/entry/kirinramen/"

@@ -1,5 +1,6 @@
 ---
 title: "ココイチの頂点 ONE（ワン）カレーは ハードルが高すぎる！"
+description: "ココイチの頂点「ONEカレー」について。店では食べられない最高級カレーの値段や入手方法、味の感想。"
 date: 2019-07-23T21:21:28+09:00
 draft: false
 url: "/entry/cocoichione/"
