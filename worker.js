@@ -505,9 +505,34 @@ async function routeApi(req, env, prefix, binding, words) {
   return stub.fetch('https://do' + path + '?' + qs.toString(), req);
 }
 
+
+// はてなブログ時代のURLからの移行リダイレクト（2026-11-17）
+function legacyRedirect(u) {
+  const p = u.pathname;
+  let m;
+  if (p === '/archive') return u.origin + '/';
+  if ((m = p.match(/^\/archive\/category\/(.+?)\/?$/))) {
+    let name = m[1];
+    try { name = decodeURIComponent(name); } catch (e) {}
+    return u.origin + '/categories/' + encodeURIComponent(name.toLowerCase()) + '/';
+  }
+  if (/^\/archive\/\d{4}(\/\d{2}){0,2}\/?$/.test(p)) return u.origin + '/';
+  if ((m = p.match(/^\/feed\/category\/(.+?)\/?$/))) {
+    let name = m[1];
+    try { name = decodeURIComponent(name); } catch (e) {}
+    return u.origin + '/categories/' + encodeURIComponent(name.toLowerCase()) + '/index.xml';
+  }
+  if (p.startsWith('/entry/') && !p.endsWith('/') && !/\.[a-z0-9]+$/i.test(p)) {
+    return u.origin + p + '/';
+  }
+  return null;
+}
+
 export default {
   async fetch(req, env) {
     const u = new URL(req.url);
+    const legacy = legacyRedirect(u);
+    if (legacy) return Response.redirect(legacy, 301);
     if (u.pathname.startsWith('/api/ramen/')) return new Response('not found', { status: 404 });
     if (u.pathname.startsWith('/api/trpg/')) return routeApi(req, env, '/api/trpg', env.TRPG_ROOM, TRPG_WORDS);
     if (u.pathname.startsWith('/api/ryu/')) return routeApi(req, env, '/api/ryu', env.RYU_ROOM, RYU_WORDS);
