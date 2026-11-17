@@ -395,6 +395,37 @@ export class CommentStore {
       await this.storage.put('c:' + b.page, arr);
       return json({ ok: true });
     }
+    if (u.pathname.endsWith('/contact-post')) {
+      const b = await req.json().catch(() => ({}));
+      if (b.hp) return json({ ok: true });
+      const name = String(b.name || '').trim().slice(0, 40) || '（名前なし）';
+      const email = String(b.email || '').trim().slice(0, 120);
+      const body = String(b.body || '').trim().slice(0, 4000);
+      if (!body) return json({ error: '本文を入力してください' }, 400);
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'メールアドレスの形式が正しくありません' }, 400);
+      if (b.iph) {
+        const last = (await this.storage.get('cip:' + b.iph)) || 0;
+        if (Date.now() - last < 10000) return json({ error: '少し間隔をあけて送信してください' }, 429);
+        await this.storage.put('cip:' + b.iph, Date.now());
+      }
+      const arr = (await this.storage.get('contacts')) || [];
+      arr.push({ id: Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36), name: name, email: email, body: body, ts: Date.now() });
+      await this.storage.put('contacts', arr);
+      return json({ ok: true });
+    }
+    if (u.pathname.endsWith('/contact-list')) {
+      const arr = (await this.storage.get('contacts')) || [];
+      return json({ contacts: arr.slice().sort((a, b) => b.ts - a.ts).slice(0, 200) });
+    }
+    if (u.pathname.endsWith('/contact-delete')) {
+      const b = await req.json().catch(() => ({}));
+      const arr = (await this.storage.get('contacts')) || [];
+      const i = arr.findIndex(c => c.id === b.id);
+      if (i < 0) return json({ error: '見つかりません' }, 404);
+      arr.splice(i, 1);
+      await this.storage.put('contacts', arr);
+      return json({ ok: true });
+    }
     return json({ error: 'not found' }, 404);
   }
 }
@@ -438,6 +469,7 @@ button{padding:.4em 1em;margin-right:.5em;cursor:pointer}
 <p id="msg"></p>
 <h2>承認待ち</h2><div id="pending"></div>
 <h2>表示中</h2><div id="approved"></div>
+<h2>お問い合わせ</h2><div id="contacts"></div>
 <script>
 var keyEl = document.getElementById('key');
 keyEl.value = localStorage.getItem('ck') || '';
@@ -463,6 +495,21 @@ function makeItem(c) {
   div.appendChild(db);
   return div;
 }
+function deleteContact(id) {
+  fetch('/api/contact/admin/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key() }, body: JSON.stringify({ id: id }) })
+    .then(function(r) { return r.json(); }).then(function(d) { if (d.ok) load(); else document.getElementById('msg').textContent = d.error || '失敗しました'; });
+}
+function makeContact(c) {
+  var div = document.createElement('div'); div.className = 'item';
+  var meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = fmt(c.ts) + (c.email ? ' / ' + c.email : ' / メールなし');
+  var head = document.createElement('div'); var nm = document.createElement('strong'); nm.textContent = c.name; head.appendChild(nm);
+  var body = document.createElement('div'); body.className = 'body'; body.textContent = c.body;
+  div.appendChild(meta); div.appendChild(head); div.appendChild(body);
+  var db = document.createElement('button'); db.textContent = '削除する';
+  db.addEventListener('click', function() { if (confirm('削除しますか？')) deleteContact(c.id); });
+  div.appendChild(db);
+  return div;
+}
 function load() {
   localStorage.setItem('ck', key());
   fetch('/api/comments/admin/list', { headers: { 'X-Admin-Key': key() } }).then(function(r) { return r.json(); }).then(function(d) {
@@ -475,11 +522,34 @@ function load() {
     d.comments.forEach(function(c) { if (c.status === 'pending') { p.appendChild(makeItem(c)); np++; } else { a.appendChild(makeItem(c)); na++; } });
     if (!np) p.textContent = '承認待ちはありません。';
     if (!na) a.textContent = '表示中のコメントはありません。';
+    fetch('/api/contact/admin/list', { headers: { 'X-Admin-Key': key() } }).then(function(r) { return r.json(); }).then(function(cd) {
+      var ct = document.getElementById('contacts'); ct.textContent = '';
+      if (!cd.contacts || !cd.contacts.length) { ct.textContent = 'お問い合わせはありません。'; return; }
+      cd.contacts.forEach(function(c) { ct.appendChild(makeContact(c)); });
+    }).catch(function() {});
   }).catch(function() { document.getElementById('msg').textContent = '読み込みに失敗しました'; });
 }
 document.getElementById('load').addEventListener('click', load);
 </script>
 </body></html>`;
+
+async function routeContact(req, env) {
+  const u = new URL(req.url);
+  const stub = env.COMMENTS.get(env.COMMENTS.idFromName('blog-comments'));
+  if (u.pathname === '/api/contact' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const ip = req.headers.get('CF-Connecting-IP') || '';
+    return stub.fetch('https://do/contact-post', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: body.name, email: body.email, body: body.body, hp: body.hp, iph: ip ? String(seedFromCode(ip)) : '' }) });
+  }
+  if (u.pathname.startsWith('/api/contact/admin/')) {
+    if (!env.COMMENT_ADMIN_KEY) return json({ error: '管理キーが未設定です' }, 503);
+    if (req.headers.get('X-Admin-Key') !== env.COMMENT_ADMIN_KEY) return json({ error: 'キーが違います' }, 401);
+    if (u.pathname.endsWith('/list')) return stub.fetch('https://do/contact-list');
+    if (u.pathname.endsWith('/delete')) return stub.fetch('https://do/contact-delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: await req.text() });
+    return json({ error: 'not found' }, 404);
+  }
+  return json({ error: 'not found' }, 404);
+}
 
 async function routeApi(req, env, prefix, binding, words) {
   const u = new URL(req.url);
@@ -537,6 +607,7 @@ export default {
     if (u.pathname.startsWith('/api/trpg/')) return routeApi(req, env, '/api/trpg', env.TRPG_ROOM, TRPG_WORDS);
     if (u.pathname.startsWith('/api/ryu/')) return routeApi(req, env, '/api/ryu', env.RYU_ROOM, RYU_WORDS);
     if (u.pathname.startsWith('/api/jinmon/')) return routeApi(req, env, '/api/jinmon', env.JINMON_ROOM, JINMON_WORDS);
+    if (u.pathname === '/api/contact' || u.pathname.startsWith('/api/contact/')) return routeContact(req, env);
     if (u.pathname === '/api/comments' || u.pathname.startsWith('/api/comments/')) return routeComments(req, env);
     if (u.pathname === '/comments-admin') return new Response(ADMIN_HTML, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
     return env.ASSETS.fetch(req);
