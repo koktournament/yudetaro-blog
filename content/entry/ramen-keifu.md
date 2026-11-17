@@ -244,3 +244,10 @@ cover:
 - Wikipedia「ベトコンラーメン」 https://ja.wikipedia.org/wiki/ベトコンラーメン
 - 鳥居式らーめん塾「卒業生のラーメン店」 https://tokyo-ramen.co.jp/jyuku/sotugyousei_tenpo.html
 - ぎふのススメ「麺屋白神から独立したお店まとめ」 https://brunogen.com/gifuninkiramenshirakami
+
+---
+
+## 関連記事
+
+- [あなたの知らない名物（愛知編 好来系について）](/entry/meibutunagoyakourai/) ― 好来系だけを掘り下げた元記事
+- [愛知・岐阜のケーキ屋 暖簾分け系譜まとめ](/entry/cake-keifu/) ― 姉妹編のケーキ版

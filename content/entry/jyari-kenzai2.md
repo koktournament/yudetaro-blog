@@ -3,6 +3,8 @@ title: "砂利は地元の建材屋で買え！！その２"
 date: 2018-02-27T22:52:02+09:00
 draft: false
 url: "/entry/jyari-kenzai2/"
+aliases:
+  - "/entry/2018/02/27/225202/"
 categories: ["日常"]
 ---
 <p>はてなブログの機能であるアクセス解析を見て驚いた。</p>
