@@ -1,5 +1,6 @@
 ---
 title: "Hara Chair(ハラ チェア)の修理、補修をする"
+description: "中古で買ったHara Chair（ハラチェア）の座面の故障を、自分で修理・補修した記録。部品取り寄せができない場合の直し方。"
 date: 2020-08-12T21:37:23+09:00
 draft: false
 url: "/entry/HaraChairRepair/"
