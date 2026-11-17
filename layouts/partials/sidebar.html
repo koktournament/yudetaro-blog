@@ -18,6 +18,18 @@
     </ul>
   </div>
 
+  <div class="sidebar-section">
+    <h3 class="sidebar-heading">人気記事</h3>
+    <ul class="sidebar-list">
+      {{- range slice "entry/ayashimassage" "entry/nikuyaki" "entry/ramen-keifu" "entry/2017-09-03-131236" }}
+      {{- with site.GetPage . }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end }}
+      {{- end }}
+      <li><a href="/tools/sumaho-seinou/">スマホ性能チェッカー</a></li>
+    </ul>
+  </div>
+
   {{- with site.Taxonomies.categories }}
   <div class="sidebar-section">
     <h3 class="sidebar-heading">カテゴリー</h3>
