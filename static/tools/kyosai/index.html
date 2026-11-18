@@ -161,7 +161,8 @@ table.spec{width:100%;border-collapse:collapse} table.spec th,table.spec td{bord
     <option value="outpatient">ケガで10日通院したら</option>
   </select></div>
 </div>
-<p style="font-size:12px">年齢を変えると、60歳以降の減額後の保障と、その年齢の掛金（年齢で変わる商品）で計算し直します。加入できない商品は薄く表示します（消しません）。埼玉は県民共済が独自型、神奈川は「全国共済」の呼称で制度が違う場合があります。</p>
+<p><button id="go" class="bigbtn" style="border:none;cursor:pointer;font-size:16px">この条件で比較する</button></p>
+<p style="font-size:12px">年齢を変えると、60歳以降の減額後の保障と、その年齢の掛金（年齢で変わる商品）で計算し直します。予算を超えた商品は表示されません。加入できない商品は薄く表示します。埼玉は県民共済が独自型、神奈川は「全国共済」の呼称で制度が違う場合があります。</p>
 <div class="tabs"><button class="tab on" data-cat="all">ぜんぶ</button><button class="tab" data-cat="sogo">総合</button><button class="tab" data-cat="iryo">医療特化</button><button class="tab" data-cat="shibou">死亡特化</button><button class="tab" data-cat="kodomo">子ども</button><button class="tab" data-cat="gan">がん</button><button class="tab" data-cat="kega">ケガのみ</button><button class="tab" data-cat="kasai">火災・地震</button><button class="tab" data-cat="senior">シニア</button><button class="tab" data-cat="shokui">職域</button><button class="tab" data-cat="minkan">民間と比べる</button></div>
 <div id="count"></div>
 <div id="list"></div>
@@ -217,11 +218,11 @@ function render(){
     if(cat!=='all' && p.cat!==cat) continue;
     const prem = premiumOf(p, age, sex);
     const ok = eligOK(p, job);
-    const over = prem!=null && prem>budget;
+    if(prem!=null && prem>budget) continue;
     const b = bandOf(p, age);
     const sv = scenarioVal(p, age, sc);
     const card = document.createElement('div');
-    card.className = 'card' + (ok?'':' card-ng') + (over?' card-over':'');
+    card.className = 'card' + (ok?'':' card-ng');
     card.innerHTML = `
       <div class="card-head"><span class="pname">${p.name}</span><span class="prov">${p.provider}</span></div>
       <div class="prem">月 ${prem==null?'―（設計型・下記参照）':fmt(prem)+'円'}</div>
@@ -233,7 +234,6 @@ function render(){
       <div class="scenario">もしも（${age}歳時点）： <b>${sv==null?'対象外／該当なし':fmt(sv)+'円'}</b></div>
       <div class="point">${p.point}</div>
       ${ok?'':'<div class="ng">あなたの職業では加入できません（対象：'+p.elig_label+'）</div>'}
-      ${over?'<div class="ng">予算オーバー</div>':''}
       <div class="links"><a href="./${p.id}/">この商品の詳細ページ</a> ／ <a href="${p.url}" target="_blank" rel="noopener">公式サイト</a></div>`;
     list.appendChild(card); shown++;
   }
@@ -243,13 +243,14 @@ function render(){
 function totalNote(age){
   if(age>=65) return '';
   const years = 65-age;
-  let items = PRODUCTS.filter(p=>p.premium && eligOK(p, document.getElementById('job').value) && (cat==='all'||p.cat===cat))
+  const budget = parseInt(document.getElementById('budget').value)||999999;
+  let items = PRODUCTS.filter(p=>p.premium && p.premium<=budget && eligOK(p, document.getElementById('job').value) && (cat==='all'||p.cat===cat))
     .map(p=>({n:p.name, t:p.premium*12*years})).sort((a,b)=>a.t-b.t).slice(0,5);
   if(!items.length) return '';
   return '<h3>65歳までの総支払額（固定掛金の上位ではない安い順・抜粋）</h3>' + items.map(i=>`<div>${i.n}：約${fmt(Math.round(i.t/10000))}万円</div>`).join('');
 }
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); t.classList.add('on'); cat=t.dataset.cat; render(); }));
-['age','sex','job','budget','scenario'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+document.getElementById('go').addEventListener('click',render);
 render();
 </script>
 </body></html>
