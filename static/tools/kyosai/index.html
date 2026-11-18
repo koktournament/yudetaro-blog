@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>共済かんたん比較 | yudetaro.com</title>
+<meta name="description" content="県民共済・コープ共済・こくみん共済・JA共済などの安い掛け捨て共済を、公式データだけで横並び比較。年齢を入れると60歳以降の減額や「もしも」の受取額までその場で計算。アフィリエイトリンクなし。">
+<link rel="canonical" href="https://www.yudetaro.com/tools/kyosai/">
+<meta property="og:title" content="共済かんたん比較 | yudetaro.com">
+<meta property="og:description" content="県民共済・コープ共済・こくみん共済・JA共済などの安い掛け捨て共済を、公式データだけで横並び比較。年齢を入れると60歳以降の減額や「もしも」の受取額までその場で計算。アフィリエイトリンクなし。">
+<meta property="og:url" content="https://www.yudetaro.com/tools/kyosai/">
+<meta property="og:type" content="website">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LK203PMLXD');</script>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --text:#121826; --sub:#5b6474; --line:#e2e6ec;
+  --accent:#ff6a00; --accent2:#00917c; --good:#00917c; --ok:#eab308; --bad:#ef4444;
+  --chip:#eef1f4;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1219; --card:#171d29; --card2:#1e2636; --text:#eef2f7; --sub:#9aa4b5; --line:#263041; --chip:#222b3d; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP",system-ui,sans-serif}
+a{color:inherit}
+.top{max-width:1180px;margin:0 auto;padding:18px 16px 8px}
+.lead{font-size:14px;line-height:1.7;color:var(--sub);max-width:720px}
+.lead b{color:var(--text)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px}
+.search input{flex:1;border:0;outline:0;background:transparent;font-size:15px;color:var(--text)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.layout{max-width:1180px;margin:0 auto;padding:12px 16px 28px;display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr} .detail{order:-1} .layout.searching .list{order:-1} .layout.searching .detail{order:0}}
+.list{display:grid;gap:8px}
+.phone-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 10px;display:flex;gap:12px;cursor:pointer;text-align:left;width:100%}
+.phone-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 22%,transparent)}
+.phone-card:hover{border-color:#cbd2dc}
+.thumb{width:48px;height:64px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.pc-main{flex:1;min-width:0}
+.pc-name{font-weight:900;font-size:14.5px;line-height:1.3}
+.pc-meta{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar{height:6px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:8px}
+.mini-bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.pc-score{font-family:Inter,sans-serif;font-weight:800;font-size:13px;text-align:right;line-height:1}
+.pc-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px;margin-top:3px}
+.tier{font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;background:#fff1e6;color:#9a3d00;border:1px solid #ffd9bd}
+@media(prefers-color-scheme:dark){.tier{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;scroll-margin-top:12px}
+/* PC幅では詳細パネルを画面に固定し、スクロールの成否に依存せず常に見えるようにする。
+   パネルが画面より高い場合はパネル内スクロールで全体を読める。 */
+@media(min-width:861px){.detail{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}}
+.detail.flash{animation:detailFlash .45s ease}
+@keyframes detailFlash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion: reduce){.detail.flash{animation:none}}
+.detail-head{padding:18px 18px 0;display:flex;gap:16px;flex-wrap:wrap}
+.d-title{flex:1;min-width:220px}
+.d-maker{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.d-name{font-size:26px;font-weight:900;line-height:1.15;margin:4px 0 6px}
+.d-sub{font-size:13px;color:var(--sub);line-height:1.6}
+.specs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.spec{background:var(--card2);border-radius:10px;padding:8px 10px;min-width:104px}
+.spec label{display:block;font-size:10px;letter-spacing:.06em;color:var(--sub);font-weight:700}
+.spec b{font-size:13.5px}
+.score-box{text-align:center;background:var(--card2);border-radius:14px;padding:12px 16px;min-width:132px}
+.score-num{font-family:Inter,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.score-num span{font-size:13px;color:var(--sub)}
+.score-label{font-size:11px;color:var(--sub);margin-top:4px}
+.progress{height:10px;background:var(--chip);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff6a00,#ffb020)}
+.bars{padding:14px 18px 4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.bars{grid-template-columns:1fr}}
+.bar-row label{font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar-track i{display:block;height:100%;background:var(--text)}
+.bar-track i.gpu{background:var(--accent2)} .bar-track i.game{background:var(--accent)}
+.section{padding:16px 18px 18px;border-top:1px solid var(--line);margin-top:14px}
+.section h3{margin:0 0 4px;font-size:15px;font-weight:900}
+.section p.desc{margin:0 0 12px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.games{grid-template-columns:1fr}}
+.game{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px}
+.game-emoji{font-size:20px;width:36px;height:36px;background:var(--card);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
+.game b{font-size:13.5px;display:block}
+.game span{font-size:11.5px;color:var(--sub)}
+.badge{margin-left:auto;font-size:20px;font-weight:900;width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex-shrink:0}
+.badge.ex{background:#dcf5e9;color:#006b4f}.badge.gd{background:#e0f2fe;color:#075985}.badge.pl{background:#fef9c3;color:#854d0e}.badge.ng{background:#fee2e2;color:#991b1b}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.chipbtn:hover{border-color:var(--accent)}
+.soc-block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.soc-block-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.soc-block-head b{font-size:13.5px}
+.soc-block-head span{font-size:12px;color:var(--sub)}
+.rel-list{display:grid;gap:8px}
+.rel-item{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:10px 12px;cursor:pointer;border:1px solid transparent}
+.rel-item:hover{border-color:var(--line)}
+.rel-item b{font-size:13.5px} .rel-item span{font-size:12px;color:var(--sub);display:block}
+.rel-score{margin-left:auto;text-align:right;font-family:Inter,sans-serif;font-weight:800;font-size:13px}
+.rel-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px}
+.amazon{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-amazon{background:#ff9900;color:#111;text-decoration:none;font-weight:900;font-size:14px;padding:12px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{border:1px solid var(--line);background:var(--card);padding:12px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.note{font-size:11.5px;color:var(--sub);line-height:1.7;padding:0 18px 16px}
+.compare{padding:0 18px 6px}
+.compare-row{display:grid;grid-template-columns:118px 1fr 62px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}
+.compare-row .track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden}
+.compare-row .track i{display:block;height:100%;background:#cbd5e1}
+.compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
+.rank{font-size:11px;color:var(--sub)}
+.empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
+
+.card{background:var(--card,#fff);border:1px solid #ddd;border-radius:10px;padding:14px;margin:10px 0}
+.card-ng{opacity:.55} .card-over{outline:2px dashed #c66}
+.pname{font-weight:700;font-size:17px} .prov{color:#888;font-size:12px;margin-left:8px}
+.prem{font-size:20px;font-weight:700;margin:6px 0}
+table.mini{width:100%;border-collapse:collapse;font-size:13px} table.mini th,table.mini td{border:1px solid #e3e3e3;padding:4px 6px;text-align:left}
+.scenario{margin:8px 0;font-size:14px} .point{font-size:13px;color:#444} .ng{color:#b00;font-size:12px;margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0} .tab{padding:6px 10px;border:1px solid #bbb;border-radius:999px;background:#fff;cursor:pointer;font-size:13px} .tab.on{background:#2b6cb0;color:#fff}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0} .ctrl label{font-size:12px;display:block}
+select,input[type=number]{font-size:16px;padding:6px}
+table.spec{width:100%;border-collapse:collapse} table.spec th,table.spec td{border:1px solid #ddd;padding:8px;text-align:left;vertical-align:top} table.spec th{width:32%;background:#f6f6f6}
+.bigbtn{display:inline-block;background:#2b6cb0;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:700;margin:12px 0}
+</style></head>
+<body><main style="max-width:860px;margin:0 auto;padding:12px">
+<h1>共済かんたん比較</h1>
+<p>県民共済・コープ共済・こくみん共済・JA共済などの「安い掛け捨て」を、公式サイトの数字だけで横並びにした比較ツールです。このページにはアフィリエイトリンクがありません（共済にはそもそも儲かる紹介料がないので、忖度なしで並べられます）。</p>
+<div class="ctrl">
+  <div><label>あなたの年齢</label><input type="number" id="age" value="35" min="0" max="90" style="width:80px"></div>
+  <div><label>性別</label><select id="sex"><option value="M">男性</option><option value="F">女性</option></select></div>
+  <div><label>職業</label><select id="job">
+    <option value="general">会社員・自営業など（一般）</option>
+    <option value="teacher">教職員</option><option value="local">自治体職員</option>
+    <option value="postal">日本郵政グループ</option><option value="jr">JR関係</option>
+    <option value="seikatsu">生活クラブ生協の組合員</option>
+  </select></div>
+  <div><label>月の予算（円まで）</label><input type="number" id="budget" value="999999" min="0" step="500" style="width:110px"></div>
+  <div><label>もしもの場面</label><select id="scenario">
+    <option value="hosp7">病気で7日入院したら</option>
+    <option value="hosp30">病気で30日入院したら</option>
+    <option value="death_sick">病気で死亡したら</option>
+    <option value="death_acc">事故で死亡したら</option>
+    <option value="outpatient">ケガで10日通院したら</option>
+  </select></div>
+</div>
+<p style="font-size:12px;color:#666">年齢を変えると、60歳以降の減額後の保障と、その年齢の掛金（年齢で変わる商品）で計算し直します。加入できない商品は薄く表示します（消しません）。埼玉は県民共済が独自型、神奈川は「全国共済」の呼称で制度が違う場合があります。</p>
+<div class="tabs"><button class="tab on" data-cat="all">ぜんぶ</button><button class="tab" data-cat="sogo">総合</button><button class="tab" data-cat="iryo">医療特化</button><button class="tab" data-cat="shibou">死亡特化</button><button class="tab" data-cat="kodomo">子ども</button><button class="tab" data-cat="gan">がん</button><button class="tab" data-cat="kega">ケガのみ</button><button class="tab" data-cat="kasai">火災・地震</button><button class="tab" data-cat="senior">シニア</button><button class="tab" data-cat="shokui">職域</button><button class="tab" data-cat="minkan">民間と比べる</button></div>
+<div id="count"></div>
+<div id="list"></div>
+<div id="total65"></div>
+<section style="line-height:1.9;font-size:14px;color:#444;margin-top:28px">
+<h2>このツールについて</h2>
+<p>数字はすべて各団体の公式サイトで確認したものです（確認日：2026年11月19日）。共済の制度は毎年4月に変わることが多いので、加入の最終確認は必ず公式サイトでお願いします。このツールは比較のためのもので、加入の勧誘ではありません。</p>
+<p>大事な見方を3つだけ。①共済の多くは「掛金は上がらないが、60歳を過ぎると保障が下がる」設計です。年齢を60歳・70歳に変えて見てください。②若い人の死亡保障は、民間のネット定期保険のほうが安いことがあります（「民間と比べる」タブ）。年齢が上がると逆転します。③火災共済の地震・風水害は、民間保険の地震保険と違って「見舞金」レベルが普通です。JAのむてきプラスだけは損害の50%まで出ます。</p>
+<p><a href="/tools/">ツール一覧へ戻る</a> ／ <a href="/">ブログ</a></p>
+</section>
+</main>
+<script>
+const PRODUCTS = [{"id": "kenmin-sogo1", "name": "総合保障1型", "provider": "都道府県民共済", "cat": "sogo", "elig": "all", "premium": 1000, "age": "満18〜59歳", "period": "65歳まで（継続なし）", "hosp_sick": 2500, "hosp_acc": 2500, "hosp_days": "病気124日／事故184日", "outpatient": 750, "surgery": "なし（特約で追加可）", "death_sick": 200, "death_acc": 500, "death_note": "交通事故500万円／不慮の事故400万円／病気200万円", "reduction": "減額なし（65歳で終了）", "warimodoshi": "36.32%（2025年度実績・県で変動）", "point": "一番安い総合型。入院も死亡も最低限だけ欲しい人向け。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/total/security.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-sogo2", "name": "総合保障2型", "provider": "都道府県民共済", "cat": "sogo", "elig": "all", "premium": 2000, "age": "満18〜64歳", "period": "65歳まで→熟年2型で85歳まで", "hosp_sick": 5000, "hosp_acc": 5000, "hosp_days": "病気124日／事故184日", "outpatient": 1500, "surgery": "なし（特約で追加可）", "death_sick": 400, "death_acc": 1000, "death_note": "交通事故1,000万円／不慮の事故800万円／病気400万円", "reduction": "60歳から病気死亡400万→230万円、事故死亡1,000万→700万円。入院日額は5,000円のまま", "bands": [[60, 5000, 230, 700]], "warimodoshi": "36.32%（2025年度実績・県で変動）", "point": "県民共済の人気No.1。バランス型の代表。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/total/security.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-sogo4", "name": "総合保障4型", "provider": "都道府県民共済", "cat": "sogo", "elig": "all", "premium": 4000, "age": "満18〜64歳", "period": "65歳まで→熟年4型で85歳まで", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "病気124日／事故184日", "outpatient": 3000, "surgery": "なし（特約で追加可）", "death_sick": 800, "death_acc": 2000, "death_note": "交通事故2,000万円／不慮の事故1,600万円／病気800万円", "reduction": "60歳から病気死亡800万→460万円、事故死亡2,000万→1,400万円。入院日額は10,000円のまま", "bands": [[60, 10000, 460, 1400]], "warimodoshi": "36.32%（2025年度実績・県で変動）", "point": "総合保障2型の全部2倍。共済で死亡800万円まで届く数少ない型。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/total/security.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-nyuin2", "name": "入院保障2型", "provider": "都道府県民共済", "cat": "iryo", "elig": "all", "premium": 2000, "age": "満18〜64歳", "period": "65歳まで→熟年入院型で85歳まで", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "病気124日／事故184日", "outpatient": 1500, "surgery": "1万・2.5万・5万・10万円", "death_sick": 10, "death_acc": 10, "death_note": "死亡・重度障害は全原因10万円のみ（死亡保障はほぼなし）", "reduction": "60歳から入院日額10,000→7,500円、手術・先進医療も減額", "bands": [[60, 7500, 5, 5]], "warimodoshi": "36.32%（2025年度実績・県で変動）", "point": "月2,000円で入院日額1万円は共済最強クラス。その代わり死亡は10万円だけ。", "url": "https://ibaraki.kyosai-cc.or.jp/think/life/hospital/security.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-combo1", "name": "総合保障1型＋入院保障2型", "provider": "都道府県民共済", "cat": "sogo", "elig": "all", "premium": 3000, "age": "満18〜59歳", "period": "65歳まで→熟年入院型のみ継続", "hosp_sick": 12500, "hosp_acc": 12500, "hosp_days": "病気124日／事故184日", "outpatient": 2250, "surgery": "1万・2.5万・5万・10万円", "death_sick": 210, "death_acc": 510, "death_note": "交通事故510万円／不慮の事故410万円／病気210万円", "reduction": "60歳から入院日額12,500→10,000円", "bands": [[60, 10000, 205, 505]], "warimodoshi": "36.32%（2025年度実績・県で変動）", "point": "入院日額12,500円と死亡保障の両取りセット。", "url": "https://ibaraki.kyosai-cc.or.jp/think/life/combo/security.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-combo2", "name": "総合保障2型＋入院保障2型", "provider": "都道府県民共済", "cat": "sogo", "elig": "all", "premium": 4000, "age": "満18〜64歳", "period": "65歳まで→熟年2型＋熟年入院2型で85歳まで", "hosp_sick": 15000, "hosp_acc": 15000, "hosp_days": "病気124日／事故184日", "outpatient": 3000, "surgery": "1万・2.5万・5万・10万円", "death_sick": 410, "death_acc": 1010, "death_note": "交通事故1,010万円／不慮の事故810万円／病気410万円", "reduction": "60歳から入院日額15,000→12,500円、病気死亡410万→235万円", "bands": [[60, 12500, 235, 705]], "warimodoshi": "36.32%（2025年度実績・県で変動）", "point": "県民共済の全部入り。入院日額15,000円は破格。", "url": "https://ibaraki.kyosai-cc.or.jp/think/life/combo/security.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-kodomo1", "name": "こども1型", "provider": "都道府県民共済", "cat": "kodomo", "elig": "child", "premium": 1000, "age": "0歳〜満17歳", "period": "18歳まで→総合保障1型へ自動継続", "hosp_sick": 5000, "hosp_acc": 5000, "hosp_days": "病気・事故とも360日", "outpatient": 2000, "surgery": "2万・5万・10万・20万円", "death_sick": 200, "death_acc": 500, "death_note": "交通事故500万円／不慮の事故400万円／病気200万円。がん診断50万円、契約者死亡・第三者賠償（限度100万円）もあり", "reduction": "年齢による減額なし", "warimodoshi": "15.48%（2025年度実績・県で変動）", "point": "月1,000円で入院5,000円＋ケガ通院2,000円。子どもの共済の基準。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/child/security.html", "elig_label": "お子さま向け"}, {"id": "kenmin-kodomo2", "name": "こども2型", "provider": "都道府県民共済", "cat": "kodomo", "elig": "child", "premium": 2000, "age": "0歳〜満17歳", "period": "18歳まで→総合保障1型へ自動継続", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "病気・事故とも360日", "outpatient": 4000, "surgery": "4万・10万・20万・40万円", "death_sick": 400, "death_acc": 1000, "death_note": "交通事故1,000万円／不慮の事故800万円／病気400万円。がん診断100万円", "reduction": "年齢による減額なし", "warimodoshi": "15.48%（2025年度実績・県で変動）", "point": "こども1型の全部2倍。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/child/security.html", "elig_label": "お子さま向け"}, {"id": "kenmin-jukunen2", "name": "熟年2型", "provider": "都道府県民共済", "cat": "senior", "elig": "senior", "premium": 2000, "age": "満65〜69歳", "period": "85歳まで", "hosp_sick": 2500, "hosp_acc": 2500, "hosp_days": "病気は70歳から44日に短縮", "outpatient": null, "surgery": "なし（特約で追加可）", "death_sick": 100, "death_acc": 200, "death_note": "65〜70歳：事故200万円／病気100万円", "reduction": "70歳から病気死亡100万→50万円、80歳から入院日額2,500→1,000円・病気死亡30万円", "bands": [[70, 2500, 50, 150], [80, 1000, 30, 50]], "warimodoshi": "27.21%（2025年度実績・県で変動）", "point": "65歳から入れる総合型。保障は小さくなるが掛金は据え置き。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/senior/security.html", "elig_label": "65歳前後から"}, {"id": "kenmin-jukunen-nyuin", "name": "熟年入院2型", "provider": "都道府県民共済", "cat": "senior", "elig": "senior", "premium": 2000, "age": "満65〜69歳", "period": "85歳まで", "hosp_sick": 5000, "hosp_acc": 5000, "hosp_days": "病気は70歳から44日に短縮", "outpatient": null, "surgery": "0.4万・1万・2万・4万円", "death_sick": 5, "death_acc": 5, "death_note": "死亡・重度障害は全原因5万円のみ", "reduction": "70歳から入院日額5,000→3,500円、80歳から2,000円で手術・先進医療は対象外に", "bands": [[70, 3500, 5, 5], [80, 2000, 5, 5]], "warimodoshi": "27.21%（2025年度実績・県で変動）", "point": "65歳からの入院特化。日額5,000円から始まる。", "url": "https://ibaraki.kyosai-cc.or.jp/311_ibaraki/think/life/seniorhospital/security.html", "elig_label": "65歳前後から"}, {"id": "kenmin-shogai", "name": "傷害保障型共済", "provider": "都道府県民共済", "cat": "kega", "elig": "all", "premium": 1000, "age": "満18〜69歳", "period": "85歳まで", "hosp_sick": null, "hosp_acc": 10000, "hosp_days": "ケガ入院184日（病気は対象外）", "outpatient": null, "surgery": "2万・5万・10万・20万円", "death_sick": null, "death_acc": 1000, "death_note": "事故死亡・重度障害1,000万円（病気は対象外）", "reduction": "65歳からケガ入院日額10,000→5,000円、事故死亡1,000万→250万円", "bands": [[65, null, null, 250]], "warimodoshi": "38.57%（2025年度実績・県で変動）", "point": "病気は一切なし、ケガだけ。月1,000円でケガ入院1万円。", "url": "https://ibaraki.kyosai-cc.or.jp/think/injury.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kenmin-kasai", "name": "新型火災共済", "provider": "都道府県民共済", "cat": "kasai", "elig": "all", "premium": null, "premium_note": "木造：保障額1万円あたり月0.7円（例：木造30坪・保障3,300万円で年26,400円）", "age": "住宅・家財の所有者等", "period": "1年更新", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": null, "death_acc": null, "death_note": "火災等は損害額（全焼で加入額全額）＋臨時費用20%。風水害は見舞金（最高600万円）。地震は基本で加入額の5%（上限300万円）、特約で合計20%まで", "reduction": "―", "warimodoshi": "20.00%（2025年度実績・県で変動、地震部分は対象外）", "point": "掛金は安いが、地震・風水害は「見舞金」レベル。火災そのものは実損。", "url": "https://ibaraki.kyosai-cc.or.jp/think/fire.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "coop-tasukeai2000", "name": "《たすけあい》大人向け2000円コース", "provider": "コープ共済", "cat": "sogo", "elig": "coop", "premium": 2000, "age": "満20〜64歳", "period": "満65歳まで→プラチナ85で85歳まで継続可", "hosp_sick": 6000, "hosp_acc": 6000, "hosp_days": "病気・事故とも184日", "outpatient": 1500, "surgery": "1万・2万・4万・8万円", "death_sick": 100, "death_acc": 200, "death_note": "病気死亡100万円／事故死亡は＋100万円で200万円。女性は入院に諸費用サポート日額2,000円が上乗せ（実質8,000円）", "reduction": "65歳満期まで減額なし", "warimodoshi": "制度あり（率は公式未掲載）", "point": "入院6,000円（女性8,000円）と手厚いのに死亡は100万円。入院寄りの設計がはっきり出ている。", "url": "https://coopkyosai.coop/member/lineup/tasukeai/adult/guarantee.html", "elig_label": "生協の組合員（加入時に組合員になれる）"}, {"id": "coop-tasukeai3000", "name": "《たすけあい》大人向け3000円コース", "provider": "コープ共済", "cat": "sogo", "elig": "coop", "premium": 3000, "age": "満20〜64歳", "period": "満65歳まで→プラチナ85で85歳まで継続可", "hosp_sick": 8000, "hosp_acc": 8000, "hosp_days": "病気・事故とも184日", "outpatient": 1750, "surgery": "1.5万・3万・6万・12万円", "death_sick": 300, "death_acc": 500, "death_note": "病気死亡300万円／事故死亡は＋200万円で500万円。女性は入院サポート＋2,500円（実質10,500円）", "reduction": "65歳満期まで減額なし", "warimodoshi": "制度あり（率は公式未掲載）", "point": "入院・死亡のバランスが一番取れるコープの真ん中。", "url": "https://coopkyosai.coop/member/lineup/tasukeai/adult/guarantee.html", "elig_label": "生協の組合員（加入時に組合員になれる）"}, {"id": "coop-tasukeai4000", "name": "《たすけあい》大人向け4000円コース", "provider": "コープ共済", "cat": "sogo", "elig": "coop", "premium": 4000, "age": "満20〜64歳", "period": "満65歳まで→プラチナ85で85歳まで継続可", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "病気・事故とも184日", "outpatient": 2000, "surgery": "3万・6万・12万・24万円", "death_sick": 400, "death_acc": 700, "death_note": "病気死亡400万円／事故死亡は＋300万円で700万円。女性は入院サポート＋3,000円（実質13,000円）", "reduction": "65歳満期まで減額なし", "warimodoshi": "制度あり（率は公式未掲載）", "point": "コープの全部入り。入院日額1万円＋手術最大24万円。", "url": "https://coopkyosai.coop/member/lineup/tasukeai/adult/guarantee.html", "elig_label": "生協の組合員（加入時に組合員になれる）"}, {"id": "coop-kokuchi", "name": "《たすけあい》告知緩やか1000円コース", "provider": "コープ共済", "cat": "sogo", "elig": "coop", "premium": 1000, "age": "0歳〜満64歳", "period": "満65歳まで→プラチナ85で85歳まで継続可", "hosp_sick": 2000, "hosp_acc": 2000, "hosp_days": "20歳から184日（19歳まで360日）", "outpatient": 1000, "surgery": "0.5万・1万・2万・4万円", "death_sick": 10, "death_acc": 60, "death_note": "病気死亡10万円／事故死亡は＋50万円。持病があっても告知が緩く入れる代わりに保障は小さめ。申込前発病の病気は1年以内の事由が削減対象", "reduction": "減額なし", "warimodoshi": "制度あり（率は公式未掲載）", "point": "健康告知で落ちる人の受け皿。保障より「入れること」が価値。", "url": "https://coopkyosai.coop/thinking/lineup/tasukeai/relief/guarantee.html", "elig_label": "生協の組合員（加入時に組合員になれる）"}, {"id": "coop-junior1000", "name": "《たすけあい》ジュニア J1000円コース", "provider": "コープ共済", "cat": "kodomo", "elig": "child", "premium": 1000, "age": "0歳〜満19歳", "period": "満30歳まで", "hosp_sick": 6000, "hosp_acc": 6000, "hosp_days": "病気・事故とも360日", "outpatient": 2000, "surgery": "1万・5万・10万・20万円", "death_sick": 100, "death_acc": 150, "death_note": "病気死亡100万円／事故死亡は＋50万円。扶養者の事故死亡700万円ではなく100万円（J1000）", "reduction": "減額なし（30歳まで続くのが強み）", "warimodoshi": "制度あり（率は公式未掲載）", "point": "満30歳まで続くのが最大の特徴。県民こども型（18歳まで）との違いはここ。", "url": "https://coopkyosai.coop/thinking/lineup/tasukeai/jr/guarantee.html", "elig_label": "お子さま向け"}, {"id": "coop-junior2000", "name": "《たすけあい》ジュニア J2000円コース", "provider": "コープ共済", "cat": "kodomo", "elig": "child", "premium": 2000, "age": "0歳〜満19歳", "period": "満30歳まで", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "病気・事故とも360日", "outpatient": 3000, "surgery": "2万・10万・20万・40万円", "death_sick": 500, "death_acc": 800, "death_note": "病気死亡500万円／事故死亡は＋300万円。扶養者事故死亡700万円", "reduction": "減額なし（30歳まで）", "warimodoshi": "制度あり（率は公式未掲載）", "point": "子どもの共済では最厚クラス。入院1万円が30歳まで。", "url": "https://coopkyosai.coop/thinking/lineup/tasukeai/jr/guarantee.html", "elig_label": "お子さま向け"}, {"id": "coop-aiplus", "name": "《あいぷらす》定期生命（死亡1,000万円）", "provider": "コープ共済", "cat": "shibou", "elig": "coop", "premium": null, "premium_note": "年齢・性別で変動（10年間同額）。死亡1,000万円：30歳 男1,200円／女1,000円、40歳 男2,700円／女1,700円、50歳 男5,500円／女3,100円", "premium_table": {"M": {"18": 1000, "30": 1200, "40": 2700, "50": 5500, "60": 15200}, "F": {"18": 700, "30": 1000, "40": 1700, "50": 3100, "60": 5800}}, "age": "満18〜60歳", "period": "10年定期（更新で85歳まで可）", "hosp_sick": null, "hosp_acc": null, "hosp_days": "入院特約は任意（日額5,000円／10,000円）", "outpatient": null, "surgery": "入院特約に手術あり", "death_sick": 1000, "death_acc": 1000, "death_note": "死亡・重度障害1,000万円（病気・事故とも同額）。300万円〜3,000万円まで選べる", "reduction": "10年ごとの更新でその時の年齢の掛金になる", "warimodoshi": "制度あり（率は公式未掲載）", "point": "共済なのに民間型の設計。死亡保障だけ大きく買える。民間の定期保険と直接比べられる商品。", "url": "https://coopkyosai.coop/modal/aiplus/05.html", "elig_label": "生協の組合員（加入時に組合員になれる）"}, {"id": "coop-platinum85", "name": "《あいぷらす》プラチナ85", "provider": "コープ共済", "cat": "senior", "elig": "senior", "premium": 2000, "premium_note": "2型2,000円〜5型5,000円（男女・型で入院日額が違う）", "age": "満65〜70歳（《たすけあい》等の継続先）", "period": "満85歳まで（保障は加入時から変わらない）", "hosp_sick": 3000, "hosp_acc": 3000, "hosp_days": "184日（通算1,000日限度）", "outpatient": null, "surgery": "特約で手術サポート（1回2万円）", "death_sick": 6, "death_acc": 6, "death_note": "女性2型：入院日額3,000円・死亡6万円／男性2型：日額2,000円・死亡4万円（表は女性2型の値）", "reduction": "加入後は減額なし", "warimodoshi": "あり", "point": "65歳以降の継続先。保障は小さいが、85歳まで内容が変わらない珍しい型。", "url": "https://coopkyosai.coop/thinking/lineup/pdf/platinum.pdf", "elig_label": "65歳前後から"}, {"id": "coop-kasai", "name": "CO・OP火災共済＋自然災害共済", "provider": "コープ共済", "cat": "kasai", "elig": "coop", "premium": null, "premium_note": "実体はこくみん共済 coop の「住まいる共済」と同じ制度（コープ共済連が窓口）。掛金は住まいる共済のページ参照", "age": "住宅・家財の所有者等", "period": "1年更新", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": null, "death_acc": null, "death_note": "火災は実損（全焼で契約金額全額）。風水害・地震は自然災害共済の上乗せで、地震は程度別の定額（ベーシックで全損1口3万円、限度1,800万円）", "reduction": "―", "warimodoshi": "制度あり（率は公式未掲載）", "point": "コープの火災はこくみん共済と中身が同じ。窓口が違うだけ。", "url": "https://www.zenrosai.coop/kyousai/kasai/campaign/smile/smile_kyousai.html", "elig_label": "生協の組合員（加入時に組合員になれる）"}, {"id": "kokumin-sogo2", "name": "総合保障タイプ 2口", "provider": "こくみん共済 coop", "cat": "sogo", "elig": "all", "premium": 1800, "age": "満18〜64歳", "period": "最高85歳まで（年齢でタイプ移行）", "hosp_sick": 2000, "hosp_acc": 5000, "hosp_days": "最高180日（原因で日額が違う）", "outpatient": 1000, "surgery": "保障表に手術の単独項目なし（入院・死亡・障害が中心）", "death_sick": 400, "death_acc": 1200, "death_note": "交通事故1,200万円／不慮の事故等800万円／病気400万円。通院は交通事故のみ", "reduction": "60歳タイプで病気死亡400万→100万円・病気入院2,000→1,500円。65歳タイプで病気死亡50万円、70歳タイプで病気入院はなくなる", "bands": [[60, 1500, 100, 300], [65, 1500, 50, 200], [70, null, 50, 100], [80, null, 20, 20]], "warimodoshi": "商品別の率は公式未掲載", "point": "事故の死亡は厚いが病気入院は日額2,000円だけ。県民との性格の違いが一番出る商品。", "url": "https://www.zenrosai.coop/kyousai/kokumin/sougou.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kokumin-sogo4", "name": "総合保障タイプ 4口", "provider": "こくみん共済 coop", "cat": "sogo", "elig": "all", "premium": 3600, "age": "満18〜49歳", "period": "最高85歳まで（年齢でタイプ移行）", "hosp_sick": 4000, "hosp_acc": 10000, "hosp_days": "最高180日", "outpatient": 2000, "surgery": "保障表に手術の単独項目なし", "death_sick": 800, "death_acc": 2400, "death_note": "交通事故2,400万円／不慮の事故等1,600万円／病気800万円", "reduction": "60歳タイプで半分以下、65歳タイプで病気死亡100万円まで低下", "bands": [[60, 3000, 200, 600], [65, 3000, 100, 400], [70, null, 100, 200], [80, null, 40, 40]], "warimodoshi": "商品別の率は公式未掲載", "point": "2口の全部2倍。事故死亡2,400万円は共済最大級。", "url": "https://www.zenrosai.coop/kyousai/kokumin/sougou.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kokumin-iryo2", "name": "医療保障タイプ 2口", "provider": "こくみん共済 coop", "cat": "iryo", "elig": "all", "premium": 2300, "age": "満18〜64歳", "period": "最高80歳まで（年齢でタイプ移行）", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "最高180日（原因を問わず同額）", "outpatient": 2000, "surgery": "6万円", "death_sick": 50, "death_acc": 50, "death_note": "死亡・重度障害50万円（一律）。先進医療は技術料実費・最高1,000万円、放射線治療6万円、通院は事故のみ日額2,000円", "reduction": "60歳タイプで入院日額10,000→6,000円、65歳タイプで3,000円、70歳タイプで1,500円・手術なし", "bands": [[60, 6000, 20, 20], [65, 3000, 15, 15], [70, 1500, 10, 10]], "warimodoshi": "商品別の率は公式未掲載", "point": "月2,300円で入院1万円＋先進医療1,000万円。県民の入院保障2型（2,000円）と真っ向勝負の相手。", "url": "https://www.zenrosai.coop/kyousai/kokumin/iryou_s.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kokumin-iryo1", "name": "医療保障タイプ 1口", "provider": "こくみん共済 coop", "cat": "iryo", "elig": "all", "premium": 1150, "age": "満18〜64歳", "period": "最高80歳まで（年齢でタイプ移行）", "hosp_sick": 5000, "hosp_acc": 5000, "hosp_days": "最高180日", "outpatient": 1000, "surgery": "3万円", "death_sick": 25, "death_acc": 25, "death_note": "死亡・重度障害25万円。先進医療は最高500万円（2口の半額として公式明記）", "reduction": "60歳以降は2口と同様の割合で低下", "bands": [[60, 3000, 10, 10], [65, 1500, 8, 8], [70, 750, 5, 5]], "warimodoshi": "商品別の率は公式未掲載", "point": "月1,150円の医療特化。2口の半額・半分の保障。", "url": "https://www.zenrosai.coop/kyousai/kokumin/iryou_s.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kokumin-ganplus", "name": "がん保障プラス", "provider": "こくみん共済 coop", "cat": "gan", "elig": "all", "premium": 1400, "age": "満18〜49歳", "period": "最高65歳まで（他のタイプとのセット加入が条件）", "hosp_sick": 5000, "hosp_acc": null, "hosp_days": "がん入院は日数無制限（条件あり）", "outpatient": null, "surgery": "がん手術25万円", "death_sick": 10, "death_acc": 10, "death_note": "がん診断100万円（初回・悪性）、上皮内がん10万円、がん放射線治療25万円。単独加入はできない", "reduction": "60歳プラスで診断100万→30万円、がん入院5,000→1,500円", "bands": [[60, 1500, 3, 3]], "warimodoshi": "商品別の率は公式未掲載", "point": "がんだけの上乗せ専用。診断100万円が核。", "url": "https://www.zenrosai.coop/kyousai/kokumin/ganplus.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "kokumin-kodomo", "name": "こども保障タイプ", "provider": "こくみん共済 coop", "cat": "kodomo", "elig": "child", "premium": 1200, "age": "0歳〜満17歳", "period": "満18歳まで", "hosp_sick": 10000, "hosp_acc": 10000, "hosp_days": "最高365日（入院5,000円＋諸費用サポート5,000円）", "outpatient": 2000, "surgery": "入院中5万円／外来2.5万円", "death_sick": 100, "death_acc": 200, "death_note": "お子さまの死亡：不慮の事故等200万円／病気100万円。骨折等5万円、扶養者の事故死亡300万円", "reduction": "減額なし", "warimodoshi": "商品別の率は公式未掲載", "point": "月1,200円で入院実質1万円は子ども共済で一番安い部類。", "url": "https://www.zenrosai.coop/kyousai/kokumin/kodomo.html", "elig_label": "お子さま向け"}, {"id": "kokumin-senior-sogo", "name": "シニア総合保障タイプ", "provider": "こくみん共済 coop", "cat": "senior", "elig": "senior", "premium": 2000, "age": "満65〜69歳", "period": "最高85歳まで", "hosp_sick": 1500, "hosp_acc": 1500, "hosp_days": "最高180日（病気入院は70歳まで）", "outpatient": null, "surgery": "保障表に手術の単独項目なし", "death_sick": 70, "death_acc": 170, "death_note": "不慮の事故等170万円／病気70万円（65〜70歳）", "reduction": "70歳タイプで病気入院がなくなり病気死亡50万円、80歳タイプで死亡20万円・入院は事故のみ1,250円", "bands": [[70, null, 50, 150], [80, null, 20, 20]], "warimodoshi": "商品別の率は公式未掲載", "point": "65歳から入れる総合型。入院日額は1,500円と小さめ。", "url": "https://www.zenrosai.coop/kyousai/kokumin/seniorsougou_s.html", "elig_label": "65歳前後から"}, {"id": "kokumin-sumairu", "name": "住まいる共済（火災＋自然災害）", "provider": "こくみん共済 coop", "cat": "kasai", "elig": "all", "premium": null, "premium_note": "1口＝保障10万円。火災共済のみ木造1口年70円（例：火災保障1,000万円・木造で年7,000円）。自然災害共済を足すと地震・風水害が手厚くなる", "age": "住宅・家財の所有者等", "period": "1年更新", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": null, "death_acc": null, "death_note": "火災は実損（全焼で契約金額全額）＋臨時費用15%。風水害は火災分だけだと限度300万円、自然災害共済で大幅拡大。地震は自然災害共済の定額払い（ベーシック全損1口3万円、限度1,800万円）", "reduction": "―", "warimodoshi": "商品別の率は公式未掲載", "point": "地震をどうするかで姿が変わる火災共済。自然災害共済なしだと風水害・地震は薄い。", "url": "https://www.zenrosai.coop/kyousai/kasai/campaign/smile/smile_kyousai.html", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "ja-medifull", "name": "医療共済 メディフル", "provider": "JA共済", "cat": "iryo", "elig": "all", "premium": null, "premium_note": "設計型（年齢・性別・設計で変動）。公式契約例：共済金額30万円・終身・4回型・先進医療ありで男6,357円／女6,268円（月払）", "age": "0歳〜75歳", "period": "終身／80歳満了／10年更新から選択", "hosp_sick": null, "hosp_acc": null, "hosp_days": "日額方式ではなく一時金方式：入院が1日・30日・60日・90日の節目に達するごとに共済金額（例30万円）を支払い", "outpatient": null, "surgery": "手術・放射線は保障を付加した場合（率は公式で確認できず）", "death_sick": null, "death_acc": null, "death_note": "死亡保障はなし（公式明記）。先進医療は付加可（技術料の額）", "reduction": "終身型は減額なし（掛金は加入時で確定）", "warimodoshi": "公式で確認できず", "point": "共済なのに民間の終身医療に近い設計。安さではなく「一生変わらない」を買う商品。", "url": "https://www.ja-kyosai.or.jp/okangae/person/iryo/", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "ja-teiki", "name": "定期生命共済（1,000万円）", "provider": "JA共済", "cat": "shibou", "elig": "all", "premium": null, "premium_note": "設計型。公式契約例（1,000万円）：15年タイプ 男2,000円／女1,470円、65歳満了タイプ 男3,680円／女2,240円（月払、加入年齢は公式ページ本文で確認できず）", "age": "15歳〜（期間による）", "period": "5年・10年・15年・満了型（最長99歳）", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": 1000, "death_acc": 1000, "death_note": "死亡・第1級後遺障害・重度要介護で1,000万円（原因で金額差なし）", "reduction": "更新時はその時の年齢の掛金に再計算", "warimodoshi": "公式で確認できず", "point": "JAの定期生命。共済の一律型と違い、年齢で掛金が変わる民間型。", "url": "https://www.ja-kyosai.or.jp/okangae/person/teikiseimei/", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "ja-muteki", "name": "建物更生共済 むてきプラス", "provider": "JA共済", "cat": "kasai", "elig": "all", "premium": null, "premium_note": "貯蓄型（満期共済金あり）。公式契約例：火災共済金額1,500万円・30年・満期50万円で、木・防火造 月6,710円／耐火造A 月3,666円（当初10年間）", "age": "住宅・家財の所有者等", "period": "長期（例：30年）", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": null, "death_acc": null, "death_note": "火災・風水害は実損（条件を満たせば損害額）。地震は損害額の50%が限度（損害割合5%以上）。掛け捨てではなく満期金がある", "reduction": "―", "warimodoshi": "割りもどし金の制度あり（商品による）", "point": "地震の支払い（損害の50%まで）は共済で一番手厚い部類。その分掛金は高い貯蓄型。", "url": "https://www.ja-kyosai.or.jp/okangae/home/building/", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "seikatsu-hagukumi", "name": "生活クラブ共済 ハグくみ", "provider": "生活クラブ共済", "cat": "sogo", "elig": "seikatsu", "premium": 1000, "age": "0歳〜満64歳（組合員と家族のみ）", "period": "満期：男性67歳／女性70歳（減額なし）", "hosp_sick": 3000, "hosp_acc": 3000, "hosp_days": "1共済期間45日分まで", "outpatient": 2000, "surgery": "2.5万・5万・10万円", "death_sick": 50, "death_acc": 100, "death_note": "病気死亡50万円／事故死亡100万円。退院後サポート金13,000円、出産祝金5,000円・産後サポート金10,000円が独自", "reduction": "満期まで減額なし", "warimodoshi": "公式で確認できず", "point": "死亡保障を抑えて生活の細かい給付（退院後・出産）に寄せた、組合員が作った共済。", "url": "https://seikatsuclub-kyosai.coop/kyosai/hugkumi/hosyo.html", "elig_label": "生活クラブ生協の組合員と家族のみ"}, {"id": "shoku-kyoshokuin", "name": "総合共済（教職員共済）", "provider": "教職員共済", "cat": "shokui", "elig": "teacher", "premium": 900, "age": "教職員（学校・教育機関等に勤務）", "period": "現職中（退職後は総合共済は利用不可）", "hosp_sick": null, "hosp_acc": null, "hosp_days": "日額制ではない：30日以上連続の入院・休業で年度1回2.5万円", "outpatient": null, "surgery": "―", "death_sick": 20, "death_acc": 120, "death_note": "ケガ死亡120万円／ケガ以外20万円。12種の保障セット（教職員賠償最高3,000万円・個人賠償最高1億円・住宅災害・退職見舞金など）", "reduction": "―", "warimodoshi": "―", "point": "月900円で賠償責任まで入った職域の包括セット。入院は日額ではなく見舞金方式。", "url": "https://www.kyousyokuin.or.jp/", "elig_label": "教職員のみ"}, {"id": "shoku-jichiro", "name": "総合（慶弔）共済（自治労共済）", "provider": "自治労共済", "cat": "shokui", "elig": "local", "premium": 600, "premium_note": "基本型300円＋追加型300円", "age": "自治体職員等（自治労組合員）", "period": "組合員期間", "hosp_sick": null, "hosp_acc": null, "hosp_days": "入院日額の制度はなし（慶弔・見舞型）", "outpatient": null, "surgery": "―", "death_sick": 50, "death_acc": 50, "death_note": "死亡弔慰金：組合員50万円。生命・医療の本体は2013年にこくみん共済 coop へ移転済みで、そちらの制度を使う", "reduction": "―", "warimodoshi": "―", "point": "自治体職員の生命・医療は実質こくみん共済。これは慶弔の上乗せ。", "url": "https://www.jichiro-kyosai.jp/", "elig_label": "自治体職員等のみ"}, {"id": "shoku-jp", "name": "総合共済（JP共済生協）", "provider": "JP共済生協", "cat": "shokui", "elig": "postal", "premium": 750, "age": "日本郵政グループで働く方", "period": "満66歳未満・現職", "hosp_sick": null, "hosp_acc": null, "hosp_days": "日額給付は公式で確認できず（連続30日以上療養で3万円の一時金あり）", "outpatient": null, "surgery": "―", "death_sick": 50, "death_acc": 50, "death_note": "死亡：組合員50万円／配偶者20万円／子10万円。慶弔・見舞系が中心", "reduction": "―", "warimodoshi": "―", "point": "月750円の慶弔・見舞セット。医療の本体は別商品で補う前提。", "url": "https://www.postlife.or.jp", "elig_label": "日本郵政グループのみ"}, {"id": "shoku-koun", "name": "JR連合総合共済（交運共済）", "provider": "交運共済", "cat": "shokui", "elig": "jr", "premium": 1000, "age": "JR各社・JR関連企業で働く方", "period": "現職中", "hosp_sick": 1000, "hosp_acc": 1000, "hosp_days": "1日目から180日限度", "outpatient": null, "surgery": "―", "death_sick": 100, "death_acc": 200, "death_note": "病気死亡100万円／不慮の事故等200万円（2025年4月改定後。慶弔部分と団体定期生命のセット）", "reduction": "―", "warimodoshi": "―", "point": "月1,000円・健康状態にかかわらず加入可。職域では珍しく入院日額がある。", "url": "https://www.kouun.or.jp", "elig_label": "JR関係のみ"}, {"id": "minkan-lifenet-term", "name": "定期死亡保険（ライフネット生命）", "provider": "民間・ライフネット生命", "cat": "minkan", "elig": "all", "premium": null, "premium_note": "保険金額1,000万円・保険期間10年。掛金は年齢・性別で変動", "premium_table": {"M": {"20": 920, "30": 1068, "40": 1925, "50": 4217, "60": 9740}, "F": {"20": 547, "30": 846, "40": 1463, "50": 2686, "60": 4768}}, "age": "18歳〜80歳", "period": "10年（更新・歳満了も選択可）", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": 1000, "death_acc": 1000, "death_note": "死亡・高度障害1,000万円（500万円〜1億円まで選べる）", "reduction": "更新時はその時の年齢の保険料に再計算", "warimodoshi": "なし", "point": "民間の基準線。若いうちは共済より安く、年齢とともに高くなる。保険料は2026年6月1日現在（公式）", "url": "https://www.lifenet-seimei.co.jp/product/life/", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "minkan-sbi-term", "name": "クリック定期！Neo（SBI生命）", "provider": "民間・SBI生命", "cat": "minkan", "elig": "all", "premium": null, "premium_note": "保険金額1,000万円・保険期間10年・インターネット申込専用。掛金は年齢・性別で変動", "premium_table": {"M": {"20": 860, "30": 990, "40": 1860, "50": 3990, "60": 8940}, "F": {"20": 520, "30": 790, "40": 1390, "50": 2580, "60": 4460}}, "age": "20歳〜69歳", "period": "10年（歳満了も選択可）", "hosp_sick": null, "hosp_acc": null, "hosp_days": "", "outpatient": null, "surgery": "", "death_sick": 1000, "death_acc": 1000, "death_note": "死亡・高度障害1,000万円（300万円〜1億円まで選べる）", "reduction": "更新時はその時の年齢の保険料に再計算", "warimodoshi": "なし", "point": "ネット定期の最安水準の基準線。数字は公式パンフレット2025年4月版の保険料表", "url": "https://www.sbilife.co.jp/products/term-click/", "elig_label": "誰でも（組合員手続き等は必要）"}, {"id": "minkan-lifenet-medical", "name": "定期医療保険（ライフネット生命）", "provider": "民間・ライフネット生命", "cat": "minkan", "elig": "all", "premium": null, "premium_note": "エコノミーコース・入院給付金日額5,000円・保険期間10年。掛金は年齢・性別で変動", "premium_table": {"M": {"20": 610, "30": 765, "40": 1097, "50": 1811, "60": 3001}, "F": {"20": 865, "30": 1275, "40": 1308, "50": 1647, "60": 2416}}, "age": "18歳〜70歳", "period": "10年（終身型もあり）", "hosp_sick": 5000, "hosp_acc": 5000, "hosp_days": "入院給付金日額5,000円", "outpatient": null, "surgery": "手術給付金あり（コースによる）", "death_sick": null, "death_acc": null, "death_note": "医療専用（死亡保障はなし）", "reduction": "更新時はその時の年齢の保険料に再計算", "warimodoshi": "なし", "point": "民間の医療の基準線。30歳男性なら月765円と共済より安いが、10年ごとに上がる。保険料は2026年6月1日現在（公式）", "url": "https://www.lifenet-seimei.co.jp/product/medical/", "elig_label": "誰でも（組合員手続き等は必要）"}];
+const fmt = n => n==null ? "―" : n.toLocaleString('ja-JP');
+let cat = 'all';
+function bandOf(p, age){
+  let b = {hosp:p.hosp_sick, ds:p.death_sick, da:p.death_acc};
+  if(p.bands){ for(const [from,h,ds,da] of p.bands){ if(age>=from){ b={hosp:h, ds:ds, da:da}; } } }
+  return b;
+}
+function premiumOf(p, age, sex){
+  if(p.premium) return p.premium;
+  if(p.premium_table){
+    const t = p.premium_table[sex]; const keys = Object.keys(t).map(Number).sort((a,b)=>a-b);
+    let k = keys[0]; for(const kk of keys){ if(age>=kk) k = kk; }
+    return t[k];
+  }
+  return null;
+}
+function eligOK(p, job){
+  if(['teacher','local','postal','jr','seikatsu'].includes(p.elig)) return p.elig===job;
+  return true;
+}
+function scenarioVal(p, age, sc){
+  const b = bandOf(p, age);
+  if(sc==='hosp7') return b.hosp==null?null:b.hosp*7;
+  if(sc==='hosp30') return b.hosp==null?null:b.hosp*30;
+  if(sc==='death_sick') return b.ds==null?null:b.ds*10000;
+  if(sc==='death_acc') return b.da==null?null:b.da*10000;
+  if(sc==='outpatient') return p.outpatient==null?null:p.outpatient*10;
+  return null;
+}
+function render(){
+  const age = parseInt(document.getElementById('age').value)||35;
+  const sex = document.getElementById('sex').value;
+  const job = document.getElementById('job').value;
+  const budget = parseInt(document.getElementById('budget').value)||999999;
+  const sc = document.getElementById('scenario').value;
+  const list = document.getElementById('list'); list.innerHTML='';
+  let shown=0;
+  for(const p of PRODUCTS){
+    if(cat!=='all' && p.cat!==cat) continue;
+    const prem = premiumOf(p, age, sex);
+    const ok = eligOK(p, job);
+    const over = prem!=null && prem>budget;
+    const b = bandOf(p, age);
+    const sv = scenarioVal(p, age, sc);
+    const card = document.createElement('div');
+    card.className = 'card' + (ok?'':' card-ng') + (over?' card-over':'');
+    card.innerHTML = `
+      <div class="card-head"><span class="pname">${p.name}</span><span class="prov">${p.provider}</span></div>
+      <div class="prem">月 ${prem==null?'―（設計型・下記参照）':fmt(prem)+'円'}</div>
+      ${p.premium_note?`<div class="note">${p.premium_note}</div>`:''}
+      <table class="mini">
+        <tr><th>病気入院</th><td>${b.hosp==null?'―':'日額'+fmt(b.hosp)+'円'}</td><th>病気死亡</th><td>${b.ds==null?'―':fmt(b.ds)+'万円'}</td></tr>
+        <tr><th>事故死亡</th><td>${b.da==null?'―':fmt(b.da)+'万円'}</td><th>通院</th><td>${p.outpatient==null?'―':'日額'+fmt(p.outpatient)+'円'}</td></tr>
+      </table>
+      <div class="scenario">もしも（${age}歳時点）： <b>${sv==null?'対象外／該当なし':fmt(sv)+'円'}</b></div>
+      <div class="point">${p.point}</div>
+      ${ok?'':'<div class="ng">あなたの職業では加入できません（対象：'+p.elig_label+'）</div>'}
+      ${over?'<div class="ng">予算オーバー</div>':''}
+      <div class="links"><a href="./${p.id}/">この商品の詳細ページ</a> ／ <a href="${p.url}" target="_blank" rel="noopener">公式サイト</a></div>`;
+    list.appendChild(card); shown++;
+  }
+  document.getElementById('count').textContent = shown + '件';
+  document.getElementById('total65').innerHTML = totalNote(age);
+}
+function totalNote(age){
+  if(age>=65) return '';
+  const years = 65-age;
+  let items = PRODUCTS.filter(p=>p.premium && eligOK(p, document.getElementById('job').value) && (cat==='all'||p.cat===cat))
+    .map(p=>({n:p.name, t:p.premium*12*years})).sort((a,b)=>a.t-b.t).slice(0,5);
+  if(!items.length) return '';
+  return '<h3>65歳までの総支払額（固定掛金の上位ではない安い順・抜粋）</h3>' + items.map(i=>`<div>${i.n}：約${fmt(Math.round(i.t/10000))}万円</div>`).join('');
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); t.classList.add('on'); cat=t.dataset.cat; render(); }));
+['age','sex','job','budget','scenario'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+render();
+</script>
+</body></html>
