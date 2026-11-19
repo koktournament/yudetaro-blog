@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物価タイムマシン｜牛丼・ビッグマックの値段を初任給・金・ドルで見直す</title>
+<meta name="description" content="品物を選ぶと値段の歴史がグラフに。しかも物差しを変えられます：ドル換算・金換算・初任給で何個買えるか・最低賃金で何時間分か。「実は今のほうが安い」が見える物価ツール。">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-LK203PMLXD');</script>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --text:#121826; --sub:#5b6474; --line:#e2e6ec;
+  --accent:#ff6a00; --accent2:#00917c; --good:#00917c; --ok:#eab308; --bad:#ef4444;
+  --chip:#eef1f4;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1219; --card:#171d29; --card2:#1e2636; --text:#eef2f7; --sub:#9aa4b5; --line:#263041; --chip:#222b3d; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP",system-ui,sans-serif}
+a{color:inherit}
+.top{max-width:1180px;margin:0 auto;padding:18px 16px 8px}
+.lead{font-size:14px;line-height:1.7;color:var(--sub);max-width:720px}
+.lead b{color:var(--text)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px}
+.search input{flex:1;border:0;outline:0;background:transparent;font-size:15px;color:var(--text)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.layout{max-width:1180px;margin:0 auto;padding:12px 16px 28px;display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr} .detail{order:-1} .layout.searching .list{order:-1} .layout.searching .detail{order:0}}
+.list{display:grid;gap:8px}
+.phone-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 10px;display:flex;gap:12px;cursor:pointer;text-align:left;width:100%}
+.phone-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 22%,transparent)}
+.phone-card:hover{border-color:#cbd2dc}
+.thumb{width:48px;height:64px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.pc-main{flex:1;min-width:0}
+.pc-name{font-weight:900;font-size:14.5px;line-height:1.3}
+.pc-meta{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar{height:6px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:8px}
+.mini-bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.pc-score{font-family:Inter,sans-serif;font-weight:800;font-size:13px;text-align:right;line-height:1}
+.pc-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px;margin-top:3px}
+.tier{font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;background:#fff1e6;color:#9a3d00;border:1px solid #ffd9bd}
+@media(prefers-color-scheme:dark){.tier{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;scroll-margin-top:12px}
+/* PC幅では詳細パネルを画面に固定し、スクロールの成否に依存せず常に見えるようにする。
+   パネルが画面より高い場合はパネル内スクロールで全体を読める。 */
+@media(min-width:861px){.detail{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}}
+.detail.flash{animation:detailFlash .45s ease}
+@keyframes detailFlash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion: reduce){.detail.flash{animation:none}}
+.detail-head{padding:18px 18px 0;display:flex;gap:16px;flex-wrap:wrap}
+.d-title{flex:1;min-width:220px}
+.d-maker{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.d-name{font-size:26px;font-weight:900;line-height:1.15;margin:4px 0 6px}
+.d-sub{font-size:13px;color:var(--sub);line-height:1.6}
+.specs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.spec{background:var(--card2);border-radius:10px;padding:8px 10px;min-width:104px}
+.spec label{display:block;font-size:10px;letter-spacing:.06em;color:var(--sub);font-weight:700}
+.spec b{font-size:13.5px}
+.score-box{text-align:center;background:var(--card2);border-radius:14px;padding:12px 16px;min-width:132px}
+.score-num{font-family:Inter,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.score-num span{font-size:13px;color:var(--sub)}
+.score-label{font-size:11px;color:var(--sub);margin-top:4px}
+.progress{height:10px;background:var(--chip);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff6a00,#ffb020)}
+.bars{padding:14px 18px 4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.bars{grid-template-columns:1fr}}
+.bar-row label{font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar-track i{display:block;height:100%;background:var(--text)}
+.bar-track i.gpu{background:var(--accent2)} .bar-track i.game{background:var(--accent)}
+.section{padding:16px 18px 18px;border-top:1px solid var(--line);margin-top:14px}
+.section h3{margin:0 0 4px;font-size:15px;font-weight:900}
+.section p.desc{margin:0 0 12px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.games{grid-template-columns:1fr}}
+.game{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px}
+.game-emoji{font-size:20px;width:36px;height:36px;background:var(--card);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
+.game b{font-size:13.5px;display:block}
+.game span{font-size:11.5px;color:var(--sub)}
+.badge{margin-left:auto;font-size:20px;font-weight:900;width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex-shrink:0}
+.badge.ex{background:#dcf5e9;color:#006b4f}.badge.gd{background:#e0f2fe;color:#075985}.badge.pl{background:#fef9c3;color:#854d0e}.badge.ng{background:#fee2e2;color:#991b1b}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.chipbtn:hover{border-color:var(--accent)}
+.soc-block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.soc-block-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.soc-block-head b{font-size:13.5px}
+.soc-block-head span{font-size:12px;color:var(--sub)}
+.rel-list{display:grid;gap:8px}
+.rel-item{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:10px 12px;cursor:pointer;border:1px solid transparent}
+.rel-item:hover{border-color:var(--line)}
+.rel-item b{font-size:13.5px} .rel-item span{font-size:12px;color:var(--sub);display:block}
+.rel-score{margin-left:auto;text-align:right;font-family:Inter,sans-serif;font-weight:800;font-size:13px}
+.rel-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px}
+.amazon{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-amazon{background:#ff9900;color:#111;text-decoration:none;font-weight:900;font-size:14px;padding:12px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{border:1px solid var(--line);background:var(--card);padding:12px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.note{font-size:11.5px;color:var(--sub);line-height:1.7;padding:0 18px 16px}
+.compare{padding:0 18px 6px}
+.compare-row{display:grid;grid-template-columns:118px 1fr 62px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}
+.compare-row .track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden}
+.compare-row .track i{display:block;height:100%;background:#cbd5e1}
+.compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
+.rank{font-size:11px;color:var(--sub)}
+.empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
+
+.card{background:var(--card,#fff);border:1px solid var(--line,#ddd);border-radius:10px;padding:14px;margin:10px 0}
+.card-ng{opacity:.55} .card-over{outline:2px dashed #c66}
+.pname{font-weight:700;font-size:17px} .prov{color:var(--sub,#888);font-size:12px;margin-left:8px}
+.prem{font-size:20px;font-weight:700;margin:6px 0}
+table.mini{width:100%;border-collapse:collapse;font-size:13px} table.mini th,table.mini td{border:1px solid var(--line,#e3e3e3);padding:4px 6px;text-align:left}
+.scenario{margin:8px 0;font-size:14px} .point{font-size:13px;color:var(--sub,#444)} .ng{color:#e57373;font-size:12px;margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0} .tab{padding:6px 10px;border:1px solid var(--line,#bbb);border-radius:999px;background:var(--card,#fff);color:var(--text,#222);cursor:pointer;font-size:13px} .tab.on{background:#2b6cb0;color:#fff}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0} .ctrl label{font-size:12px;display:block}
+select,input[type=number]{font-size:16px;padding:6px;background:var(--card,#fff);color:var(--text,#222);border:1px solid var(--line,#bbb);border-radius:6px}
+table.spec{width:100%;border-collapse:collapse} table.spec th,table.spec td{border:1px solid var(--line,#ddd);padding:8px;text-align:left;vertical-align:top} table.spec th{width:32%;background:var(--card2,#f6f6f6);color:var(--text,#222)}
+.sub{color:var(--sub,#888)}
+table.cmp{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;font-size:14px}
+table.cmp td:first-child{min-width:190px}
+table.cmp td:nth-child(2){min-width:150px}
+table.cmp td:nth-child(3),table.cmp td:nth-child(4),table.cmp td:nth-child(5){white-space:nowrap}
+table.cmp td:nth-child(6),table.cmp td:nth-child(7){white-space:nowrap}
+#stickybar{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--card2,#f6f6f6);color:var(--text,#222);border-bottom:1px solid var(--line,#ccc);font-size:12px;padding:7px 10px;display:none;white-space:nowrap;overflow-x:auto}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line,#ddd);padding:10px 8px;text-align:left;vertical-align:top}
+table.cmp thead th{position:sticky;top:0;background:var(--card2,#f6f6f6);color:var(--text,#222);z-index:2;font-size:13px;white-space:nowrap}
+table.cmp tbody tr:nth-child(even){background:var(--card2,#fafafa)}
+.cmp-name{font-size:16px;font-weight:700;line-height:1.4}
+.bigbtn{display:inline-block;background:#2b6cb0;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:700;margin:12px 0}
+
+.camp-card{border:1px solid var(--line,#ddd);border-radius:10px;padding:12px;margin:10px 0;background:var(--card,#fff)}
+.camp-card h3{margin:0 0 4px;font-size:17px}
+.badge{display:inline-block;font-size:11px;border:1px solid var(--line,#bbb);border-radius:20px;padding:1px 8px;margin:2px 2px 2px 0;color:var(--sub,#666)}
+.fee-big{font-size:19px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+#stickybar{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--card2,#f6f6f6);color:var(--text,#222);border-bottom:1px solid var(--line,#ccc);font-size:12px;padding:7px 10px;display:none;white-space:nowrap;overflow-x:auto}
+table.cmp{width:100%;min-width:720px;border-collapse:separate;border-spacing:0;font-size:14px}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line,#ddd);padding:10px 8px;text-align:left;vertical-align:top}
+table.cmp td:first-child{min-width:180px}
+table.cmp tbody tr:nth-child(even){background:var(--card2,#fafafa)}
+.cmp-name{font-size:16px;font-weight:700;line-height:1.4}
+main a{color:#0b5ed7;text-decoration:underline}
+@media (prefers-color-scheme: dark){main a{color:#6db3ff}}
+.btn{display:block;width:100%;box-sizing:border-box;background:var(--accent,#ff6a00);color:#fff !important;border:none;border-radius:10px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none !important}
+a.offbtn{display:inline-block;border:1.5px solid #0b5ed7;color:#0b5ed7 !important;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:700;text-decoration:none !important;white-space:nowrap;margin-top:6px}
+@media (prefers-color-scheme: dark){a.offbtn{border-color:#6db3ff;color:#6db3ff !important}}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1.5px solid var(--line,#bbb);background:var(--card,#fff);color:var(--text,#222);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:700;cursor:pointer}
+.chip.on{background:var(--accent,#ff6a00);border-color:var(--accent,#ff6a00);color:#fff}
+.modes{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.mode{border:1.5px solid var(--line,#bbb);background:var(--card2,#f6f6f6);color:var(--text,#222);border-radius:8px;padding:7px 11px;font-size:13px;font-weight:700;cursor:pointer}
+.mode.on{background:#2b6cb0;border-color:#2b6cb0;color:#fff}
+#chart{width:100%;height:auto;display:block}
+.jitsuwa{border:2px solid var(--accent,#ff6a00);border-radius:10px;padding:12px;margin:12px 0;font-size:16px}
+.yearcard{font-size:15px}
+input[type=range]{width:100%}
+</style></head><body><main>
+<h1>物価タイムマシン</h1>
+<p>品物を選ぶと、値段の歴史がグラフになります。面白いのはここからで、<strong>物差しを変える</strong>と景色が逆転します。円では上がって見えるのに、初任給や金で見ると「実は今のほうが安い」――そういう裏返しを探すツールです。</p>
+<div class="chips" id="chips"></div>
+<h2 id="item-name" style="margin-bottom:2px"></h2>
+<p class="sub" id="item-note"></p>
+<div class="modes" id="modes">
+<button class="mode on" data-m="yen">円（そのまま）</button>
+<button class="mode" data-m="usd">ドル換算</button>
+<button class="mode" data-m="gold">金（グラム）</button>
+<button class="mode" data-m="salary">初任給で買える数</button>
+<button class="mode" data-m="minwage">最低賃金の労働時間</button>
+</div>
+<svg id="chart" viewBox="0 0 640 300" role="img"></svg>
+<div class="jitsuwa" id="jitsuwa"></div>
+<div class="card yearcard">
+<label>年を選ぶ：<strong id="y-label"></strong><input type="range" id="y-slider" step="1"></label>
+<div id="y-detail"></div>
+</div>
+<div class="card">
+<h2>データについて</h2>
+<p>価格は企業公式の発表・公的統計などで裏が取れた年だけを載せています（データ取得日：2026年11月19日）。裏が取れない年は推測で埋めず、グラフは「最後に確認できた価格が続く」ものとして描いています。初任給は厚労省「賃金構造基本統計調査」（大卒・男。2020年から定義変更があり単純接続できません）、金は田中貴金属の年平均（税抜）、ドル円は年平均、最低賃金は全国加重平均（年度）です。</p>
+<p id="src-note"></p>
+<p><a href="/tools/">ツール一覧へ戻る</a></p>
+</div>
+<script>
+const DATA = {"items": [{"id": "gyudon", "name": "吉野家 牛丼（並盛）", "unit": "1杯", "points": [{"y": 1990, "p": 400}, {"y": 2001, "p": 280}, {"y": 2006, "p": 380}, {"y": 2013, "p": 280}, {"y": 2014, "p": 300}, {"y": 2014, "p": 380}, {"y": 2019, "p": 387}, {"y": 2021, "p": 426}, {"y": 2022, "p": 448}, {"y": 2023, "p": 468}, {"y": 2024, "p": 498}], "note": "店頭価格（税込表示、1989年の消費税導入前は税なし）。2014年は4月に300円（消費税8%時）、12月に380円と2回改定。2004年2月〜2006年9月はBSE問題で販売休止のため価格なし。2019年は店内飲食価格。2024年7月の498円が2026年現在も継続。1970〜80年代の価格は一次情報で確認できず未収録。", "source": "企業公式発表（吉野家）・新聞報道"}, {"id": "bigmac", "name": "ビッグマック", "unit": "1個", "points": [{"y": 1971, "p": 200}, {"y": 1990, "p": 380}, {"y": 1995, "p": 280}, {"y": 2007, "p": 290}, {"y": 2014, "p": 400}, {"y": 2015, "p": 370}, {"y": 2019, "p": 390}, {"y": 2022, "p": 410}, {"y": 2023, "p": 450}, {"y": 2024, "p": 480}, {"y": 2026, "p": 500}], "note": "単品の店頭価格（税込）。時期・店舗により価格が異なる時代があり、2007年の290円・2014年の400円は一部地域・店舗での価格。1980年代は資料により食い違いが大きく未収録。1995〜2006年は250〜280円の範囲で推移したとされるが個別の改定年は未確定のため未収録。", "source": "新聞報道（日本マクドナルド提供の価格推移データに基づく）・企業公式発表"}, {"id": "cupnoodle", "name": "カップヌードル（レギュラー）", "unit": "1個", "points": [{"y": 1971, "p": 100}, {"y": 1974, "p": 130}, {"y": 1974, "p": 120}, {"y": 2000, "p": 155}, {"y": 2008, "p": 170}, {"y": 2015, "p": 180}, {"y": 2019, "p": 193}, {"y": 2022, "p": 214}, {"y": 2023, "p": 236}, {"y": 2026, "p": 248}], "note": "メーカー希望小売価格（税別）。1974年は1月に130円へ値上げ後、行政指導により2月に120円へ引き下げ。内容量は発売時84g→現在78g。1974〜2000年の中間改定は金額を一次情報で確定できず未収録（155円は2000年時点の価格として記録）。", "source": "企業公式発表（日清食品ニュースリリース）・新聞報道"}, {"id": "umaibo", "name": "うまい棒", "unit": "1本", "points": [{"y": 1979, "p": 10}, {"y": 2022, "p": 12}, {"y": 2024, "p": 15}], "note": "希望小売価格（税抜）。1979年の発売以来10円を維持し、改定は2022年（12円）と2024年（15円）の2回のみで全改定を収録。2024年の15円が2026年現在も継続。", "source": "企業公式発表（やおきん）"}, {"id": "jump", "name": "週刊少年ジャンプ", "unit": "1冊", "points": [{"y": 1968, "p": 90}, {"y": 1973, "p": 120}, {"y": 1974, "p": 130}, {"y": 1984, "p": 170}, {"y": 1989, "p": 180}, {"y": 1990, "p": 190}, {"y": 1996, "p": 200}, {"y": 1997, "p": 210}, {"y": 2012, "p": 250}, {"y": 2014, "p": 260}, {"y": 2019, "p": 270}, {"y": 2023, "p": 290}, {"y": 2025, "p": 300}, {"y": 2026, "p": 320}], "note": "通常号の定価（税込、1989年の消費税導入前は税なし）。合併号・特別定価の号は通常号より高い場合があり、年ごとの代表価格（通常号定価）で記録。2014年は号により270円の場合あり。1974〜1984年・1997〜2012年の細かい改定年は一次情報で確定できず未収録。", "source": "出版報道・企業公式（集英社）・書誌情報"}, {"id": "gasoline", "name": "ガソリン（レギュラー・全国平均）", "unit": "1L", "points": [{"y": 1990, "p": 131.2}, {"y": 1995, "p": 115.3}, {"y": 1998, "p": 93.7}, {"y": 1999, "p": 93.6}, {"y": 2000, "p": 101.2}, {"y": 2005, "p": 124.6}, {"y": 2008, "p": 155.8}, {"y": 2009, "p": 120.1}, {"y": 2010, "p": 133.0}, {"y": 2014, "p": 162.9}, {"y": 2015, "p": 137.5}, {"y": 2016, "p": 120.7}, {"y": 2020, "p": 136.2}, {"y": 2022, "p": 170.5}, {"y": 2023, "p": 172.8}, {"y": 2024, "p": 175.0}, {"y": 2025, "p": 176.8}, {"y": 2026, "p": 167.3}], "note": "週次全国平均を年平均化した値。資源エネルギー庁の調査は1990年8月開始のため全国平均の年次系列は1990年以降のみ。1990年は8〜12月の5か月平均。2004年3月以前の公表値は消費税抜き、2004年4月以降は消費税込み（段差を含む）。2026年は1〜11月の11か月平均。", "source": "公的統計（資源エネルギー庁「石油製品価格調査」の年平均集計）"}, {"id": "gasoline_tokyo", "name": "ガソリン（レギュラー・東京都区部）", "unit": "1L", "points": [{"y": 1970, "p": 55}, {"y": 1974, "p": 97}, {"y": 1975, "p": 112}, {"y": 1979, "p": 125}, {"y": 1980, "p": 155}, {"y": 1982, "p": 172}, {"y": 1985, "p": 146}, {"y": 1990, "p": 131}], "note": "参考系列：1990年以前は全国平均の年次系列が存在しないため、東京都区部の年平均を別系列として収録。全国平均とは混ぜないこと。", "source": "公的統計（総務省統計局「小売物価統計調査」東京都区部・年平均）"}, {"id": "hagaki", "name": "はがき", "unit": "1枚", "points": [{"y": 1951, "p": 5}, {"y": 1966, "p": 7}, {"y": 1972, "p": 10}, {"y": 1976, "p": 20}, {"y": 1981, "p": 30}, {"y": 1981, "p": 40}, {"y": 1989, "p": 41}, {"y": 1994, "p": 50}, {"y": 2014, "p": 52}, {"y": 2017, "p": 62}, {"y": 2019, "p": 63}, {"y": 2024, "p": 85}], "note": "通常はがき1枚の料金（改定点のみ収録）。1951年改定の5円が1960年代を通じて継続。1981年は1月に30円、4月に40円と2回改定。1989年・2014年・2019年は消費税改定に伴う改定。", "source": "日本郵便公式発表・総務省資料"}, {"id": "jr", "name": "JR初乗り運賃（幹線1〜3km）", "unit": "1乗車", "points": [{"y": 1970, "p": 30}, {"y": 1975, "p": 30}, {"y": 1976, "p": 60}, {"y": 1978, "p": 80}, {"y": 1979, "p": 100}, {"y": 1981, "p": 110}, {"y": 1982, "p": 120}, {"y": 1985, "p": 130}, {"y": 1986, "p": 140}, {"y": 1989, "p": 140}, {"y": 1997, "p": 140}, {"y": 2014, "p": 150}, {"y": 2019, "p": 150}, {"y": 2026, "p": 160}], "note": "普通運賃・幹線1〜3kmのきっぷ価格。全国一律時代は国鉄の最低運賃、民営化後は本州3社共通だった幹線運賃。東京の電車特定区間／山手線内はより安い別体系のため含まない。2014年以降はIC運賃が別途あり（2014年：IC144円、2019年：IC147円）。1989年・1997年は消費税導入・引き上げ後も据置。2026年3月の160円はJR東日本のみの改定で、JR東海・JR西日本は150円のまま分岐した。", "source": "旅客営業規則（旅規）改定履歴・JR東日本公表運賃表・報道"}, {"id": "tuition", "name": "国立大学授業料", "unit": "年額", "points": [{"y": 1975, "p": 36000}, {"y": 1976, "p": 96000}, {"y": 1978, "p": 144000}, {"y": 1980, "p": 180000}, {"y": 1982, "p": 216000}, {"y": 1984, "p": 252000}, {"y": 1987, "p": 300000}, {"y": 1989, "p": 339600}, {"y": 1991, "p": 375600}, {"y": 1993, "p": 411600}, {"y": 1995, "p": 447600}, {"y": 1997, "p": 469200}, {"y": 1999, "p": 478800}, {"y": 2001, "p": 496800}, {"y": 2003, "p": 520800}, {"y": 2005, "p": 535800}, {"y": 2026, "p": 535800}], "note": "年額。改定された年度のみ収録（据置年度は省略）。2004年度の法人化以降は文部科学省令の「標準額」。2005年度の535,800円から標準額は据置が続き、2026年度も同額。", "source": "文部科学省公表資料（「国公私立大学の授業料等の推移」）"}, {"id": "sevenstar", "name": "セブンスター", "unit": "1箱（20本入り）", "points": [{"y": 1969, "p": 100}, {"y": 1975, "p": 150}, {"y": 1980, "p": 180}, {"y": 1983, "p": 200}, {"y": 1986, "p": 220}, {"y": 1997, "p": 240}, {"y": 1998, "p": 260}, {"y": 2003, "p": 280}, {"y": 2006, "p": 300}, {"y": 2010, "p": 440}, {"y": 2014, "p": 460}, {"y": 2018, "p": 500}, {"y": 2019, "p": 510}, {"y": 2020, "p": 560}, {"y": 2021, "p": 600}, {"y": 2026, "p": 600}], "note": "20本入り1箱の小売定価。1969年の発売時100円（1970年時点も100円）。2010年10月の440円は過去最大幅の値上げ。2021年10月の600円が2026年現在も据置。1970〜2014年分は当時の一次発表をWeb上で直接確認できなかったため二次資料の価格史年表に依拠し、2018年以降はJTの改定公表と整合する。", "source": "JT公式発表（2018年以降）・二次資料の価格史年表（1970〜2014年）"}], "yardsticks": {"salary_male": [{"y": 1976, "v": 94300}, {"y": 1977, "v": 101000}, {"y": 1978, "v": 105500}, {"y": 1979, "v": 109500}, {"y": 1980, "v": 114500}, {"y": 1981, "v": 120800}, {"y": 1982, "v": 127200}, {"y": 1983, "v": 132200}, {"y": 1984, "v": 135800}, {"y": 1985, "v": 140000}, {"y": 1986, "v": 144500}, {"y": 1987, "v": 148200}, {"y": 1988, "v": 153100}, {"y": 1989, "v": 160900}, {"y": 1990, "v": 169900}, {"y": 1991, "v": 179400}, {"y": 1992, "v": 186900}, {"y": 1993, "v": 190300}, {"y": 1994, "v": 192400}, {"y": 1995, "v": 194200}, {"y": 1996, "v": 193200}, {"y": 1997, "v": 193900}, {"y": 1998, "v": 195500}, {"y": 1999, "v": 196600}, {"y": 2000, "v": 196900}, {"y": 2001, "v": 198300}, {"y": 2002, "v": 198500}, {"y": 2003, "v": 201300}, {"y": 2004, "v": 198300}, {"y": 2005, "v": 196700}, {"y": 2006, "v": 199800}, {"y": 2007, "v": 198800}, {"y": 2008, "v": 201300}, {"y": 2009, "v": 201400}, {"y": 2010, "v": 200300}, {"y": 2011, "v": 205000}, {"y": 2012, "v": 201800}, {"y": 2013, "v": 200200}, {"y": 2014, "v": 202900}, {"y": 2015, "v": 204500}, {"y": 2016, "v": 205900}, {"y": 2017, "v": 207800}, {"y": 2018, "v": 210100}, {"y": 2019, "v": 212800}, {"y": 2020, "v": 227200}, {"y": 2021, "v": 226700}, {"y": 2022, "v": 229700}, {"y": 2023, "v": 240300}, {"y": 2024, "v": 251300}, {"y": 2025, "v": 264900}], "gold": [{"y": 1973, "v": 958}, {"y": 1974, "v": 1598}, {"y": 1975, "v": 1616}, {"y": 1976, "v": 1257}, {"y": 1977, "v": 1341}, {"y": 1978, "v": 1343}, {"y": 1979, "v": 2218}, {"y": 1980, "v": 4499}, {"y": 1981, "v": 3311}, {"y": 1982, "v": 3068}, {"y": 1983, "v": 3296}, {"y": 1984, "v": 2808}, {"y": 1985, "v": 2490}, {"y": 1986, "v": 2044}, {"y": 1987, "v": 2133}, {"y": 1988, "v": 1845}, {"y": 1989, "v": 1725}, {"y": 1990, "v": 1826}, {"y": 1991, "v": 1609}, {"y": 1992, "v": 1446}, {"y": 1993, "v": 1328}, {"y": 1994, "v": 1312}, {"y": 1995, "v": 1209}, {"y": 1996, "v": 1405}, {"y": 1997, "v": 1337}, {"y": 1998, "v": 1287}, {"y": 1999, "v": 1069}, {"y": 2000, "v": 1014}, {"y": 2001, "v": 1105}, {"y": 2002, "v": 1296}, {"y": 2003, "v": 1399}, {"y": 2004, "v": 1472}, {"y": 2005, "v": 1619}, {"y": 2006, "v": 2287}, {"y": 2007, "v": 2659}, {"y": 2008, "v": 2937}, {"y": 2009, "v": 2951}, {"y": 2010, "v": 3477}, {"y": 2011, "v": 4060}, {"y": 2012, "v": 4321}, {"y": 2013, "v": 4453}, {"y": 2014, "v": 4340}, {"y": 2015, "v": 4564}, {"y": 2016, "v": 4396}, {"y": 2017, "v": 4576}, {"y": 2018, "v": 4543}, {"y": 2019, "v": 4918}, {"y": 2020, "v": 6122}, {"y": 2021, "v": 6402}, {"y": 2022, "v": 7649}, {"y": 2023, "v": 8834}, {"y": 2024, "v": 11718}, {"y": 2025, "v": 17302}, {"y": 2026, "v": 23180, "partial": true}], "usd": [{"y": 1970, "v": 360.0}, {"y": 1971, "v": 347.79}, {"y": 1972, "v": 303.13}, {"y": 1973, "v": 271.31}, {"y": 1974, "v": 291.84}, {"y": 1975, "v": 296.78}, {"y": 1976, "v": 296.45}, {"y": 1977, "v": 268.62}, {"y": 1978, "v": 210.39}, {"y": 1979, "v": 219.02}, {"y": 1980, "v": 226.63}, {"y": 1981, "v": 220.63}, {"y": 1982, "v": 249.06}, {"y": 1983, "v": 237.55}, {"y": 1984, "v": 237.46}, {"y": 1985, "v": 238.47}, {"y": 1986, "v": 168.35}, {"y": 1987, "v": 144.6}, {"y": 1988, "v": 128.17}, {"y": 1989, "v": 138.07}, {"y": 1990, "v": 145.0}, {"y": 1991, "v": 134.59}, {"y": 1992, "v": 126.78}, {"y": 1993, "v": 111.08}, {"y": 1994, "v": 102.18}, {"y": 1995, "v": 93.96}, {"y": 1996, "v": 108.78}, {"y": 1997, "v": 121.06}, {"y": 1998, "v": 130.99}, {"y": 1999, "v": 113.73}, {"y": 2000, "v": 107.8}, {"y": 2001, "v": 121.57}, {"y": 2002, "v": 125.22}, {"y": 2003, "v": 115.94}, {"y": 2004, "v": 108.15}, {"y": 2005, "v": 110.11}, {"y": 2006, "v": 116.31}, {"y": 2007, "v": 117.76}, {"y": 2008, "v": 103.39}, {"y": 2009, "v": 93.68}, {"y": 2010, "v": 87.78}, {"y": 2011, "v": 79.7}, {"y": 2012, "v": 79.82}, {"y": 2013, "v": 97.6}, {"y": 2014, "v": 105.74}, {"y": 2015, "v": 121.05}, {"y": 2016, "v": 108.66}, {"y": 2017, "v": 112.1}, {"y": 2018, "v": 110.4}, {"y": 2019, "v": 109.02}, {"y": 2020, "v": 106.78}, {"y": 2021, "v": 109.84}, {"y": 2022, "v": 131.46}, {"y": 2023, "v": 140.5}, {"y": 2024, "v": 151.46}, {"y": 2025, "v": 149.57}, {"y": 2026, "v": 158.51, "partial": true}], "minwage": [{"y": 1978, "v": 315}, {"y": 1979, "v": 334}, {"y": 1980, "v": 357}, {"y": 1981, "v": 379}, {"y": 1982, "v": 399}, {"y": 1983, "v": 411}, {"y": 1984, "v": 423}, {"y": 1985, "v": 438}, {"y": 1986, "v": 451}, {"y": 1987, "v": 461}, {"y": 1988, "v": 474}, {"y": 1989, "v": 492}, {"y": 1990, "v": 516}, {"y": 1991, "v": 542}, {"y": 1992, "v": 565}, {"y": 1993, "v": 583}, {"y": 1994, "v": 597}, {"y": 1995, "v": 611}, {"y": 1996, "v": 623}, {"y": 1997, "v": 637}, {"y": 1998, "v": 649}, {"y": 1999, "v": 654}, {"y": 2000, "v": 659}, {"y": 2001, "v": 663}, {"y": 2002, "v": 663}, {"y": 2003, "v": 664}, {"y": 2004, "v": 665}, {"y": 2005, "v": 668}, {"y": 2006, "v": 673}, {"y": 2007, "v": 687}, {"y": 2008, "v": 703}, {"y": 2009, "v": 713}, {"y": 2010, "v": 730}, {"y": 2011, "v": 737}, {"y": 2012, "v": 749}, {"y": 2013, "v": 764}, {"y": 2014, "v": 780}, {"y": 2015, "v": 798}, {"y": 2016, "v": 823}, {"y": 2017, "v": 848}, {"y": 2018, "v": 874}, {"y": 2019, "v": 901}, {"y": 2020, "v": 902}, {"y": 2021, "v": 930}, {"y": 2022, "v": 961}, {"y": 2023, "v": 1004}, {"y": 2024, "v": 1055}, {"y": 2025, "v": 1121}, {"y": 2026, "v": 1177}]}, "yardstick_notes": {"salary": "厚生労働省「賃金構造基本統計調査」による大卒初任給（男、企業規模計・月額）。系列は1976年開始で1976〜2025年の全年度を収録（2026年調査は2026年11月時点で未公表）。重要な定義変更：1976〜2019年は通勤手当を除いた額、2020年以降は通勤手当を含む額となり調査方法も個人単位の集計に変更されたため、2019年以前と2020年以降は単純に接続できない。", "gold": "田中貴金属工業「年次金価格推移」による参考小売価格（税抜）・1gあたり年平均。1973年（金の輸入自由化）〜2025年の全年度を収録。2026年の23,180円は年平均ではなく1〜10月の月平均の平均による参考値（partial）。店頭の税込価格とは異なる。1970年の690円は年平均ではない時期価格のため系列には含めていない。", "usd": "米連邦準備制度（FRB）H.10（ニューヨーク正午買いレート、FRED系列DEXJPUS）の年平均。1970年のみIMFによる固定相場360円。1970〜2025年の全年度を収録。2026年の158.51円は1月1日〜10月16日の平均による参考値（partial）。日本銀行の東京市場レートとは取得時刻・市場が異なるため僅差がある。", "minwage": "厚生労働省公表の地域別最低賃金の全国加重平均（円/時）。年度ベース（各年度の改定後の額、発効は例年10月頃）で、公表系列は1978年度開始、1978〜2026年度の全年度を収録。2001年度までは日額が主表記で時間額は日額を8時間で換算した参考値、2002年度から時間額表示に一本化された。"}};
+const YS = {};
+for(const k in DATA.yardsticks){ YS[k] = {}; DATA.yardsticks[k].forEach(pt => YS[k][pt.y] = pt.v); }
+let curItem = DATA.items[0], curMode = 'yen', curYear = null;
+
+function priceAt(item, y){
+  let p = null;
+  for(const pt of item.points){ if(pt.y <= y) p = pt.p; else break; }
+  return p;
+}
+function series(item, mode){
+  const ys = item.points.map(p => p.y);
+  const y0 = Math.min(...ys), y1 = Math.max(...ys, 2026);
+  const out = [];
+  for(let y = y0; y <= y1; y++){
+    const price = priceAt(item, y);
+    if(price === null) continue;
+    let v = null, unit = '';
+    if(mode === 'yen'){ v = price; unit = '円'; }
+    else if(mode === 'usd'){ if(YS.usd[y]){ v = price / YS.usd[y]; unit = 'ドル'; } }
+    else if(mode === 'gold'){ if(YS.gold[y]){ v = price / YS.gold[y]; unit = 'g'; } }
+    else if(mode === 'salary'){ if(YS.salary_male[y]){ v = YS.salary_male[y] / price; unit = '個'; } }
+    else if(mode === 'minwage'){ if(YS.minwage[y]){ v = price / YS.minwage[y] * 60; unit = '分'; } }
+    if(v !== null) out.push({y, v, price});
+  }
+  return out;
+}
+function fmt(v, mode){
+  if(mode === 'yen') return Math.round(v).toLocaleString() + '円';
+  if(mode === 'usd') return '$' + v.toFixed(2);
+  if(mode === 'gold') return v.toFixed(2) + 'g';
+  if(mode === 'salary') return Math.round(v).toLocaleString() + '個';
+  if(mode === 'minwage') return v >= 120 ? (v/60).toFixed(1) + '時間' : Math.round(v) + '分';
+}
+function draw(){
+  const s = series(curItem, curMode);
+  const svg = document.getElementById('chart');
+  if(!s.length){ svg.innerHTML = ''; return; }
+  const W = 640, H = 300, L = 56, R = 14, T = 16, B = 30;
+  const xs = s.map(p => p.y), vs = s.map(p => p.v);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs);
+  let vmin = Math.min(...vs), vmax = Math.max(...vs);
+  if(vmin === vmax){ vmin *= 0.9; vmax *= 1.1; }
+  const pad = (vmax - vmin) * 0.08; vmin -= pad; vmax += pad;
+  const X = y => L + (y - x0) / Math.max(1, (x1 - x0)) * (W - L - R);
+  const Y = v => T + (vmax - v) / (vmax - vmin) * (H - T - B);
+  let g = '';
+  for(let i = 0; i <= 4; i++){
+    const v = vmin + (vmax - vmin) * i / 4, yy = Y(v);
+    g += `<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="var(--line,#ccc)" stroke-width="1"/>`;
+    g += `<text x="${L-6}" y="${yy+4}" font-size="11" text-anchor="end" fill="var(--sub,#888)">${fmt(v, curMode)}</text>`;
+  }
+  g += `<text x="${L}" y="${H-8}" font-size="11" fill="var(--sub,#888)">${x0}年</text>`;
+  g += `<text x="${W-R}" y="${H-8}" font-size="11" text-anchor="end" fill="var(--sub,#888)">${x1}年</text>`;
+  const pts = s.map(p => X(p.y).toFixed(1) + ',' + Y(p.v).toFixed(1)).join(' ');
+  g += `<polyline points="${pts}" fill="none" stroke="var(--accent,#ff6a00)" stroke-width="2.5"/>`;
+  const f = s[0], l = s[s.length-1];
+  g += `<circle cx="${X(f.y)}" cy="${Y(f.v)}" r="4" fill="var(--accent,#ff6a00)"/>`;
+  g += `<circle cx="${X(l.y)}" cy="${Y(l.v)}" r="4" fill="var(--accent,#ff6a00)"/>`;
+  g += `<text x="${X(f.y)+6}" y="${Y(f.v)-8}" font-size="12" font-weight="700" fill="var(--text,#222)">${fmt(f.v, curMode)}</text>`;
+  g += `<text x="${X(l.y)-6}" y="${Y(l.v)-8}" font-size="12" font-weight="700" text-anchor="end" fill="var(--text,#222)">${fmt(l.v, curMode)}</text>`;
+  if(curYear !== null){
+    const sp = s.find(p => p.y === curYear);
+    if(sp) g += `<circle cx="${X(sp.y)}" cy="${Y(sp.v)}" r="6" fill="none" stroke="#2b6cb0" stroke-width="2.5"/>`;
+  }
+  svg.innerHTML = g;
+  // 実は？ボックス
+  const jw = document.getElementById('jitsuwa');
+  if(s.length > 1){
+    const ratio = l.v / f.v;
+    let txt = '';
+    if(curMode === 'yen') txt = `円で見ると、${f.y}年の${fmt(f.v,curMode)}から${l.y}年の${fmt(l.v,curMode)}へ、約${ratio.toFixed(1)}倍。でも物差しを変えると……？ 上のボタンで「初任給」や「金」に切り替えてみてください。`;
+    else {
+      const yenS = series(curItem, 'yen');
+      const yenRatio = yenS[yenS.length-1].v / yenS[0].v;
+      const dir = ratio >= 1 ? '増えた（＝実質的に重くなった）' : '減った（＝実質的に軽くなった）';
+      txt = `実は？ 円だと約${yenRatio.toFixed(1)}倍なのに、この物差しでは ${fmt(f.v,curMode)} → ${fmt(l.v,curMode)} と約${ratio.toFixed(2)}倍に${dir}。`;
+    }
+    jw.innerHTML = txt;
+  }
+  // 年スライダー
+  const sl = document.getElementById('y-slider');
+  sl.min = x0; sl.max = x1;
+  if(curYear === null || curYear < x0 || curYear > x1) curYear = x1;
+  sl.value = curYear;
+  showYear();
+}
+function showYear(){
+  const y = curYear;
+  document.getElementById('y-label').textContent = y + '年';
+  const price = priceAt(curItem, y);
+  let h = `<p>${y}年の${curItem.name}：<strong>${price !== null ? price.toLocaleString() + '円' : '―'}</strong></p>`;
+  h += '<table class="spec">';
+  if(YS.salary_male[y]) h += `<tr><th>大卒初任給</th><td>${YS.salary_male[y].toLocaleString()}円 → ${curItem.unit}が約${Math.round(YS.salary_male[y]/price).toLocaleString()}個買える</td></tr>`;
+  if(YS.gold[y]) h += `<tr><th>金 1g</th><td>${YS.gold[y].toLocaleString()}円 → ${curItem.unit}は約${(price/YS.gold[y]).toFixed(2)}g分</td></tr>`;
+  if(YS.usd[y]) h += `<tr><th>ドル円</th><td>${YS.usd[y]}円 → ${curItem.unit}は約${(price/YS.usd[y]).toFixed(2)}ドル</td></tr>`;
+  if(YS.minwage[y]) h += `<tr><th>最低賃金</th><td>${YS.minwage[y].toLocaleString()}円/時 → ${curItem.unit}は約${fmt(price/YS.minwage[y]*60,'minwage')}の労働分</td></tr>`;
+  h += '</table>';
+  document.getElementById('y-detail').innerHTML = h;
+}
+const chips = document.getElementById('chips');
+DATA.items.forEach((it, i) => {
+  const b = document.createElement('button');
+  b.className = 'chip' + (i === 0 ? ' on' : '');
+  b.textContent = it.name;
+  b.addEventListener('click', () => {
+    curItem = it; curYear = null;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById('item-name').textContent = it.name;
+    document.getElementById('item-note').textContent = it.note || '';
+    document.getElementById('src-note').textContent = it.source ? 'この品目の出典：' + it.source : '';
+    draw();
+  });
+  chips.appendChild(b);
+});
+document.querySelectorAll('.mode').forEach(b => {
+  b.addEventListener('click', () => {
+    curMode = b.dataset.m;
+    document.querySelectorAll('.mode').forEach(c => c.classList.remove('on'));
+    b.classList.add('on');
+    draw();
+  });
+});
+document.getElementById('y-slider').addEventListener('input', e => { curYear = parseInt(e.target.value, 10); draw(); });
+document.getElementById('item-name').textContent = curItem.name;
+document.getElementById('item-note').textContent = curItem.note || '';
+document.getElementById('src-note').textContent = curItem.source ? 'この品目の出典：' + curItem.source : '';
+draw();
+</script>
+</main></body></html>
