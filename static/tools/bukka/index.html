@@ -334,15 +334,7 @@ ALL_ITEMS.forEach((it, i) => {
   const b = document.createElement('button');
   b.className = 'chip' + (i === 0 ? ' on' : '');
   b.textContent = it.name;
-  b.addEventListener('click', () => {
-    curItem = it; curYear = null;
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-    b.classList.add('on');
-    document.getElementById('item-name').textContent = it.name;
-    document.getElementById('item-note').textContent = it.note || '';
-    document.getElementById('src-note').textContent = it.source ? 'この品目の出典：' + it.source : '';
-    draw();
-  });
+  b.addEventListener('click', () => selectItem(it, b));
   chips.appendChild(b);
 });
 document.querySelectorAll('.mode').forEach(b => {
