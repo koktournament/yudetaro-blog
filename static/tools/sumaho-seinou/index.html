@@ -148,7 +148,7 @@ h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
 <body>
 <div class="top">
   <h1 class="page-title">スマホ性能チェッカー</h1>
-  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2026年発売モデルまで、全156機種を収録</b>しています。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
+  <p class="lead">機種を選ぶだけで <b>SoC・メモリ・性能スコア・ゲームの快適さ</b> が一目でわかるチェッカー。<b>2026年発売モデルまで、全158機種を収録</b>しています。性能を比べて買う人が多いPOCO・Reno・Redmi系を厚めに、iPhoneは比較の基準として収録。同じSoCの機種、同性能帯のSoCとその搭載機までまとめて辿れます。スコアは AnTuTu v10 の目安値です。機種名は<b>カタカナ読みでも検索できます</b>（例：レッドミノート15、レノ14、ポコF7）。</p>
   <div class="controls">
     <label class="search">🔍 <input id="q" type="search" placeholder="機種名・SoC・メーカーで検索（例：POCO F7、レノ14、Redmi Note 15、ピクセル10、8Gen3）"></label>
     <div class="pills" id="filters">
@@ -294,6 +294,8 @@ const SOCS = {
   d7400:{name:"Dimensity 7400 Ultra",maker:"MediaTek",antutu:900000,cpu:69,gpu:63,process:"4nm"},
   d8500:{name:"Dimensity 8500 Ultra",maker:"MediaTek",antutu:1840000,cpu:88,gpu:88,process:"4nm"},
   d7060:{name:"Dimensity 7060",maker:"MediaTek",antutu:550000,cpu:54,gpu:44,process:"6nm"},
+  d9600m:{name:"Dimensity 9600M",maker:"MediaTek",antutu:3290000,cpu:99,gpu:99,process:"3nm"},
+  d9600p:{name:"Dimensity 9600 Pro",maker:"MediaTek",antutu:4250000,cpu:100,gpu:100,process:"2nm"},
 };
 const MAX_ANTUTU = Math.max(...Object.values(SOCS).map(s=>s.antutu));
 
@@ -449,6 +451,8 @@ const PHONES = [
  {id:"mi18p",name:"Xiaomi 18 Pro",maker:"Xiaomi",soc:"sd8e6",ram:12,storage:256, year:2026, emoji:"⚡", aka:"シャオミ18プロ シャオミー"},
  {id:"mi18pm",name:"Xiaomi 18 Pro Max",maker:"Xiaomi",soc:"sd8e6x",ram:12,storage:256, year:2026, emoji:"⚡", aka:"シャオミ18プロマックス シャオミー"},
  {id:"sense11",name:"AQUOS sense11",maker:"SHARP",soc:"sd7s3",ram:8,storage:128, year:2026, emoji:"💧", aka:"アクオスセンス11 アクオス センスイレブン"},
+ {id:"findx10",name:"OPPO Find X10",maker:"OPPO",soc:"d9600m",ram:12,storage:256, year:2026, emoji:"🌿", aka:"オッポファインドエックステン オッポ ファインドエックステン"},
+ {id:"findx10pm",name:"OPPO Find X10 Pro Max",maker:"OPPO",soc:"d9600p",ram:12,storage:512, year:2026, emoji:"🌿", aka:"オッポファインドエックステンプロマックス オッポ ファインドエックステン プロマックス"},
 ];
 
 const GAMES = [
@@ -495,7 +499,7 @@ const KANA_TO_EN = [
   ["レノ","reno"],["ポコ","poco"],["アルファ","alpha"],["フォン","phone"],["フォーン","phone"]
 ].sort((a,b)=>b[0].length-a[0].length);
 
-const NEW_IDS = new Set(["a57","rn15p","rn15","zfold8","zfold8u","zflip8","ipduo","np4b","pocoX8p","mi18p","mi18pm","sense11"]);
+const NEW_IDS = new Set(["a57","rn15p","rn15","zfold8","zfold8u","zflip8","ipduo","np4b","pocoX8p","mi18p","mi18pm","sense11","findx10","findx10pm"]);
 function isLatest(p){ return NEW_IDS.has(p.id) || p.year>=2026; }
 
 function normalizeSearch(s){
