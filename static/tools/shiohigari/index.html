@@ -165,8 +165,8 @@ a.offbtn{display:inline-block;border:1.5px solid #0b5ed7;color:#0b5ed7 !importan
 .badge-bad{border-color:var(--bad,#c0392b);color:var(--bad,#c0392b);font-weight:700}
 </style></head><body><main>
 <h1>潮干狩り場さがし（愛知・三重）</h1>
-<p>行きたい日付を選ぶと、その時期に開催していた浜だけが出ます。料金は2026年年シーズンの公式実績です。</p>
-<p class='warn'>このページの期間・料金は<strong>2026年年シーズンの実績</strong>です。2027年分は例年2〜3月に漁協・自治体から発表されるので、発表され次第ここを更新します。行く前に必ず公式サイトで最新情報を確認してください。</p>
+<p>行きたい日付を選ぶと、その時期に開催していた浜だけが出ます。料金は2026年シーズンの公式実績です。</p>
+<p class='warn'>このページの期間・料金は<strong>2026年シーズンの実績</strong>です。2027年分は例年2〜3月に漁協・自治体から発表されるので、発表され次第ここを更新します。行く前に必ず公式サイトで最新情報を確認してください。</p>
 <p><a class="btn" href="ichiran/" style="text-align:center;text-decoration:none">まず一覧表でざっと見る（全21か所）</a></p>
 <div class="card">
 <label>行きたい日付（任意）<input type="date" id="f-date"></label>
@@ -180,11 +180,11 @@ a.offbtn{display:inline-block;border:1.5px solid #0b5ed7;color:#0b5ed7 !importan
 <div id="results"></div>
 <div class="card">
 <h2>行ってはいけない・今年中止の場所</h2>
-<p>ネットには古い情報が残っています。<a href="ichiran/">2026年年に開催中止だった場所・採貝が禁止されているエリアの一覧</a>も必ず見てください（松阪市の松名瀬・五主は「無料でできる」と書いた古い情報がありますが、2021年から全面禁止です）。</p>
+<p>ネットには古い情報が残っています。<a href="ichiran/">2026年に開催中止だった場所・採貝が禁止されているエリアの一覧</a>も必ず見てください（松阪市の松名瀬・五主は「無料でできる」と書いた古い情報がありますが、2021年から全面禁止です）。</p>
 </div>
 <div class="card">
 <h2>このツールについて</h2>
-<p>収録は愛知・三重の潮干狩り場21か所＋中止・禁止11か所。期間・料金は漁協・自治体・観光協会の公式発表（2026年年シーズン実績、データ取得日：2026年11月19日）のみを使い、分からない項目は推測で埋めず「公式で確認できず」と書いています。潮干狩りは潮の関係で開催日が限られる場所がほとんどです。日付だけでなく、当日の開催有無と干潮時刻を公式で必ず確認してください。</p>
+<p>収録は愛知・三重の潮干狩り場21か所＋中止・禁止11か所。期間・料金は漁協・自治体・観光協会の公式発表（2026年シーズン実績、データ取得日：2026年11月19日）のみを使い、分からない項目は推測で埋めず「公式で確認できず」と書いています。潮干狩りは潮の関係で開催日が限られる場所がほとんどです。日付だけでなく、当日の開催有無と干潮時刻を公式で必ず確認してください。</p>
 <p><a href="/tools/">ツール一覧へ戻る</a></p>
 </div>
 <script>
@@ -220,7 +220,7 @@ function render(){
     return '<div class="camp-card"><h3><a href="' + x.id + '/">' + x.name + '</a></h3>' +
       '<div class="sub">' + x.pref + '・' + x.area + '（' + x.city + '）</div>' +
       '<div><span class="fee-big">' + fee + '</span></div>' +
-      '<div class="sub">2026年年実績：' + period + (x.limit_note ? '／' + x.limit_note : '') + '</div>' +
+      '<div class="sub">2026年実績：' + period + (x.limit_note ? '／' + x.limit_note : '') + '</div>' +
       '<div>' + badges + '</div>' +
       '<a class="offbtn" href="' + x.url + '" target="_blank" rel="noopener">公式サイトを見る ↗</a></div>';
   }).join('');
