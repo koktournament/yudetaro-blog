@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>潮干狩り場 一覧比較表（愛知・三重／2026年実績）｜潮干狩り場さがし</title>
+<meta name="description" content="愛知・三重の潮干狩り場を大人料金の安い順に一覧比較。中止・採貝禁止の場所も明示。2026年年シーズン公式実績、データ取得日：2026年11月19日。">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038476275209869" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LK203PMLXD"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-LK203PMLXD');</script>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --card2:#f0f2f5; --text:#121826; --sub:#5b6474; --line:#e2e6ec;
+  --accent:#ff6a00; --accent2:#00917c; --good:#00917c; --ok:#eab308; --bad:#ef4444;
+  --chip:#eef1f4;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1219; --card:#171d29; --card2:#1e2636; --text:#eef2f7; --sub:#9aa4b5; --line:#263041; --chip:#222b3d; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans JP",system-ui,sans-serif}
+a{color:inherit}
+.top{max-width:1180px;margin:0 auto;padding:18px 16px 8px}
+.lead{font-size:14px;line-height:1.7;color:var(--sub);max-width:720px}
+.lead b{color:var(--text)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px}
+.search input{flex:1;border:0;outline:0;background:transparent;font-size:15px;color:var(--text)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--card);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.pill.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.layout{max-width:1180px;margin:0 auto;padding:12px 16px 28px;display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr} .detail{order:-1} .layout.searching .list{order:-1} .layout.searching .detail{order:0}}
+.list{display:grid;gap:8px}
+.phone-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 10px;display:flex;gap:12px;cursor:pointer;text-align:left;width:100%}
+.phone-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 22%,transparent)}
+.phone-card:hover{border-color:#cbd2dc}
+.thumb{width:48px;height:64px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.pc-main{flex:1;min-width:0}
+.pc-name{font-weight:900;font-size:14.5px;line-height:1.3}
+.pc-meta{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar{height:6px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:8px}
+.mini-bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.pc-score{font-family:Inter,sans-serif;font-weight:800;font-size:13px;text-align:right;line-height:1}
+.pc-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px;margin-top:3px}
+.tier{font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;background:#fff1e6;color:#9a3d00;border:1px solid #ffd9bd}
+@media(prefers-color-scheme:dark){.tier{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;scroll-margin-top:12px}
+/* PC幅では詳細パネルを画面に固定し、スクロールの成否に依存せず常に見えるようにする。
+   パネルが画面より高い場合はパネル内スクロールで全体を読める。 */
+@media(min-width:861px){.detail{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}}
+.detail.flash{animation:detailFlash .45s ease}
+@keyframes detailFlash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion: reduce){.detail.flash{animation:none}}
+.detail-head{padding:18px 18px 0;display:flex;gap:16px;flex-wrap:wrap}
+.d-title{flex:1;min-width:220px}
+.d-maker{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.d-name{font-size:26px;font-weight:900;line-height:1.15;margin:4px 0 6px}
+.d-sub{font-size:13px;color:var(--sub);line-height:1.6}
+.specs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.spec{background:var(--card2);border-radius:10px;padding:8px 10px;min-width:104px}
+.spec label{display:block;font-size:10px;letter-spacing:.06em;color:var(--sub);font-weight:700}
+.spec b{font-size:13.5px}
+.score-box{text-align:center;background:var(--card2);border-radius:14px;padding:12px 16px;min-width:132px}
+.score-num{font-family:Inter,sans-serif;font-size:32px;font-weight:800;line-height:1}
+.score-num span{font-size:13px;color:var(--sub)}
+.score-label{font-size:11px;color:var(--sub);margin-top:4px}
+.progress{height:10px;background:var(--chip);border-radius:999px;overflow:hidden;margin:14px 18px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff6a00,#ffb020)}
+.bars{padding:14px 18px 4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:520px){.bars{grid-template-columns:1fr}}
+.bar-row label{font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.bar-track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar-track i{display:block;height:100%;background:var(--text)}
+.bar-track i.gpu{background:var(--accent2)} .bar-track i.game{background:var(--accent)}
+.section{padding:16px 18px 18px;border-top:1px solid var(--line);margin-top:14px}
+.section h3{margin:0 0 4px;font-size:15px;font-weight:900}
+.section p.desc{margin:0 0 12px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.games{grid-template-columns:1fr}}
+.game{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px}
+.game-emoji{font-size:20px;width:36px;height:36px;background:var(--card);border-radius:9px;display:grid;place-items:center;flex-shrink:0}
+.game b{font-size:13.5px;display:block}
+.game span{font-size:11.5px;color:var(--sub)}
+.badge{margin-left:auto;font-size:20px;font-weight:900;width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex-shrink:0}
+.badge.ex{background:#dcf5e9;color:#006b4f}.badge.gd{background:#e0f2fe;color:#075985}.badge.pl{background:#fef9c3;color:#854d0e}.badge.ng{background:#fee2e2;color:#991b1b}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.chipbtn:hover{border-color:var(--accent)}
+.soc-block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.soc-block-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.soc-block-head b{font-size:13.5px}
+.soc-block-head span{font-size:12px;color:var(--sub)}
+.rel-list{display:grid;gap:8px}
+.rel-item{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:10px 12px;cursor:pointer;border:1px solid transparent}
+.rel-item:hover{border-color:var(--line)}
+.rel-item b{font-size:13.5px} .rel-item span{font-size:12px;color:var(--sub);display:block}
+.rel-score{margin-left:auto;text-align:right;font-family:Inter,sans-serif;font-weight:800;font-size:13px}
+.rel-score small{display:block;font-family:"Noto Sans JP";font-weight:500;color:var(--sub);font-size:10px}
+.amazon{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn-amazon{background:#ff9900;color:#111;text-decoration:none;font-weight:900;font-size:14px;padding:12px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{border:1px solid var(--line);background:var(--card);padding:12px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.note{font-size:11.5px;color:var(--sub);line-height:1.7;padding:0 18px 16px}
+.compare{padding:0 18px 6px}
+.compare-row{display:grid;grid-template-columns:118px 1fr 62px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}
+.compare-row .track{height:8px;background:var(--chip);border-radius:999px;overflow:hidden}
+.compare-row .track i{display:block;height:100%;background:#cbd5e1}
+.compare-row.active{font-weight:900}.compare-row.active .track i{background:var(--accent)}
+.rank{font-size:11px;color:var(--sub)}
+.empty{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+h1.page-title{font-size:24px;font-weight:900;line-height:1.3;margin:0 0 6px}
+@media(max-width:560px){h1.page-title{font-size:20px}}
+.new-badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.04em;background:var(--accent);color:#fff;padding:2px 6px;border-radius:999px;vertical-align:2px}
+.seo-wrap{max-width:1180px;margin:0 auto;padding:6px 16px 34px;display:grid;gap:14px}
+.seo-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seo-card h2{font-size:17px;font-weight:900;margin:0 0 8px;line-height:1.4}
+.seo-card h3{font-size:14px;font-weight:900;margin:16px 0 6px}
+.seo-card p{font-size:13px;line-height:1.8;color:var(--sub);margin:0 0 8px}
+.seo-card p b,.seo-card li b{color:var(--text)}
+.seo-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--sub)}
+.seo-card details{border-top:1px solid var(--line);padding:10px 0}
+.seo-card details:first-of-type{border-top:0}
+.seo-card summary{font-size:13.5px;font-weight:700;cursor:pointer;line-height:1.6}
+.seo-card details p{margin-top:6px}
+
+.card{background:var(--card,#fff);border:1px solid var(--line,#ddd);border-radius:10px;padding:14px;margin:10px 0}
+.card-ng{opacity:.55} .card-over{outline:2px dashed #c66}
+.pname{font-weight:700;font-size:17px} .prov{color:var(--sub,#888);font-size:12px;margin-left:8px}
+.prem{font-size:20px;font-weight:700;margin:6px 0}
+table.mini{width:100%;border-collapse:collapse;font-size:13px} table.mini th,table.mini td{border:1px solid var(--line,#e3e3e3);padding:4px 6px;text-align:left}
+.scenario{margin:8px 0;font-size:14px} .point{font-size:13px;color:var(--sub,#444)} .ng{color:#e57373;font-size:12px;margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0} .tab{padding:6px 10px;border:1px solid var(--line,#bbb);border-radius:999px;background:var(--card,#fff);color:var(--text,#222);cursor:pointer;font-size:13px} .tab.on{background:#2b6cb0;color:#fff}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0} .ctrl label{font-size:12px;display:block}
+select,input[type=number]{font-size:16px;padding:6px;background:var(--card,#fff);color:var(--text,#222);border:1px solid var(--line,#bbb);border-radius:6px}
+table.spec{width:100%;border-collapse:collapse} table.spec th,table.spec td{border:1px solid var(--line,#ddd);padding:8px;text-align:left;vertical-align:top} table.spec th{width:32%;background:var(--card2,#f6f6f6);color:var(--text,#222)}
+.sub{color:var(--sub,#888)}
+table.cmp{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;font-size:14px}
+table.cmp td:first-child{min-width:190px}
+table.cmp td:nth-child(2){min-width:150px}
+table.cmp td:nth-child(3),table.cmp td:nth-child(4),table.cmp td:nth-child(5){white-space:nowrap}
+table.cmp td:nth-child(6),table.cmp td:nth-child(7){white-space:nowrap}
+#stickybar{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--card2,#f6f6f6);color:var(--text,#222);border-bottom:1px solid var(--line,#ccc);font-size:12px;padding:7px 10px;display:none;white-space:nowrap;overflow-x:auto}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line,#ddd);padding:10px 8px;text-align:left;vertical-align:top}
+table.cmp thead th{position:sticky;top:0;background:var(--card2,#f6f6f6);color:var(--text,#222);z-index:2;font-size:13px;white-space:nowrap}
+table.cmp tbody tr:nth-child(even){background:var(--card2,#fafafa)}
+.cmp-name{font-size:16px;font-weight:700;line-height:1.4}
+.bigbtn{display:inline-block;background:#2b6cb0;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:700;margin:12px 0}
+
+.camp-card{border:1px solid var(--line,#ddd);border-radius:10px;padding:12px;margin:10px 0;background:var(--card,#fff)}
+.camp-card h3{margin:0 0 4px;font-size:17px}
+.badge{display:inline-block;font-size:11px;border:1px solid var(--line,#bbb);border-radius:20px;padding:1px 8px;margin:2px 2px 2px 0;color:var(--sub,#666)}
+.fee-big{font-size:19px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+#stickybar{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--card2,#f6f6f6);color:var(--text,#222);border-bottom:1px solid var(--line,#ccc);font-size:12px;padding:7px 10px;display:none;white-space:nowrap;overflow-x:auto}
+table.cmp{width:100%;min-width:720px;border-collapse:separate;border-spacing:0;font-size:14px}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line,#ddd);padding:10px 8px;text-align:left;vertical-align:top}
+table.cmp td:first-child{min-width:180px}
+table.cmp tbody tr:nth-child(even){background:var(--card2,#fafafa)}
+.cmp-name{font-size:16px;font-weight:700;line-height:1.4}
+main a{color:#0b5ed7;text-decoration:underline}
+@media (prefers-color-scheme: dark){main a{color:#6db3ff}}
+.btn{display:block;width:100%;box-sizing:border-box;background:var(--accent,#ff6a00);color:#fff !important;border:none;border-radius:10px;padding:13px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none !important}
+a.offbtn{display:inline-block;border:1.5px solid #0b5ed7;color:#0b5ed7 !important;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:700;text-decoration:none !important;white-space:nowrap;margin-top:6px}
+@media (prefers-color-scheme: dark){a.offbtn{border-color:#6db3ff;color:#6db3ff !important}}
+
+.warn{border:1px solid var(--bad,#c0392b);border-radius:10px;padding:12px;margin:10px 0}
+.badge-bad{border-color:var(--bad,#c0392b);color:var(--bad,#c0392b);font-weight:700}
+</style></head><body><main>
+<p><a href="../">← 潮干狩り場さがしに戻る</a></p>
+<h1>潮干狩り場 一覧比較表（愛知・三重）</h1>
+<p class='warn'>このページの期間・料金は<strong>2026年年シーズンの実績</strong>です。2027年分は例年2〜3月に漁協・自治体から発表されるので、発表され次第ここを更新します。行く前に必ず公式サイトで最新情報を確認してください。</p>
+<h2>行ける場所（21か所）</h2><div style='overflow-x:auto'><table class='cmp'><thead><tr><th>場所</th><th>大人料金</th><th>2026年年の期間</th><th>制限量など</th><th>採れる貝</th><th>公式</th></tr></thead><tbody><tr><td><a class='cmp-name' href='../gotemba/'>御殿場海岸</a><br><span class='sub' style='font-size:12px'>三重・津（津市）</span></td><td>無料</td><td>4月〜8月</td><td>重量の制限量は2026年も公式発表なし（無料開放のため採貝量の上限設定なし）。サイズ制限あり：殻長2cm以下のアサリ、殻長3cm以下のハマグリは採捕禁止</td><td>ハマグリ、アサリ、バカ貝、シオフキ、マテ貝（津市観光協会の2026年案内では「去年と比べてシオフキ、あさりが増え、はまぐりもまずまず採れる」としている）</td><td><a class='offbtn' href='https://tsukanko.jp/feature/feature-5804/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../takamatsu-kawagoe/'>高松海岸</a><br><span class='sub' style='font-size:12px'>三重・川越（三重郡川越町）／公式の開催案内が弱い場所</span></td><td>無料</td><td>―</td><td>公式で確認できず</td><td>公式で確認できず（町公式・観光三重の紹介ページに貝の種類の記載なし）</td><td><a class='offbtn' href='https://www.town.kawagoe.mie.jp/gyousei/town/1001943.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../kasugaura-katahara/'>春日浦海岸（形原海岸）</a><br><span class='sub' style='font-size:12px'>愛知・蒲郡（蒲郡市）</span></td><td>大人1,000円</td><td>2月〜7月</td><td>入漁袋（2kg）まで。超過分は没収され、追加採取はできない。入漁袋1袋の貝が採れなくても払い戻しなし。なお公式ページには「入漁券と引換でアサリ袋約4kg入れを渡します」という袋の容量表記も併存し、袋の大きさと採取上限の表記が食い違っている</td><td>アサリ</td><td><a class='offbtn' href='https://aichinow.pref.aichi.jp/events/detail/1152/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../miya/'>三谷海岸（三谷温泉海岸）</a><br><span class='sub' style='font-size:12px'>愛知・蒲郡（蒲郡市）</span></td><td>大人1,200円</td><td>3月〜6月</td><td>大人3kgまで、子ども1.5kgまで。追加採取はできない。上限まで採取できなくても払い戻し・採取券の交換は一切なし</td><td>アサリ</td><td><a class='offbtn' href='https://aichinow.pref.aichi.jp/events/detail/1155/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../mikawa-oshima/'>三河大島海岸</a><br><span class='sub' style='font-size:12px'>愛知・蒲郡（蒲郡市）</span></td><td>大人1,200円</td><td>―</td><td>大人3kgまで、子ども1.5kgまで（三谷漁協表の共通注記による）。追加採取の可否は公式で確認できず</td><td>アサリ</td><td><a class='offbtn' href='http://miyaf.sakura.ne.jp' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../suijin/'>水神海岸</a><br><span class='sub' style='font-size:12px'>愛知・蒲郡（蒲郡市）</span></td><td>大人1,200円</td><td>3月〜6月</td><td>大人3kgまで、子ども1.5kgまで。追加採取はできない。規定量が採れなくても払い戻しなし</td><td>アサリ</td><td><a class='offbtn' href='https://aichinow.pref.aichi.jp/events/detail/1154/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../takeshima/'>竹島海岸</a><br><span class='sub' style='font-size:12px'>愛知・蒲郡（蒲郡市）</span></td><td>大人1,500円</td><td>4月〜6月</td><td>入漁袋2kgまで。入漁袋以外は1kgにつき800円追加。2kgに満たない場合も払い戻しなし</td><td>アサリ</td><td><a class='offbtn' href='https://aichinow.pref.aichi.jp/events/detail/1153/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../higashihazu/'>東幡豆海岸（東はず・前島）</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）</span></td><td>大人1,500円</td><td>3月〜8月</td><td>入漁袋1袋・2kgまで。追加は1kg増すごとに1,000円（質量にはハマグリ等アサリ以外の貝類も含む）。入漁袋は1日1回のみ購入可能、当日1回限り有効、払い戻しなし</td><td>アサリ（島アサリ）、ハマグリ、バカガイ、カガミガイ、シオフキ、サルボウガイ、ツメタガイ、マテガイ、アカニシ、カキなど</td><td><a class='offbtn' href='https://higasihazu-gk.wixsite.com/higashihazu' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../nishihazu-toba/'>西はず鳥羽海岸（西幡豆・鳥羽海岸）</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）</span></td><td>大人1,500円</td><td>3月〜6月</td><td>入漁袋1杯まで（1人1袋まで）。入場者1名につき入漁袋1枚の購入が必須、購入は1人1枚のみ。追加は1kg増すごとに1,000円。入漁袋は再発行不可・当日限り有効で、袋いっぱいに採れなくても払い戻しなし</td><td>アサリ</td><td><a class='offbtn' href='https://nishiokanko.com/list/special/shiohigari/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../yamada-minamichita/'>山田海岸</a><br><span class='sub' style='font-size:12px'>愛知・南知多（南知多町）</span></td><td>大人1,500円</td><td>―</td><td>1名につき指定の網袋1枚。網袋の容量（kg）の2026年公式明記は確認できず。採集量の保証なし。追加料金は2026年は公式で確認できず</td><td>アサリ</td><td><a class='offbtn' href='http://minamichita-kk.com/clam/%e6%bd%ae%e5%b9%b2%e7%8b%a9%e3%82%8a%e3%80%90%e5%b1%b1%e7%94%b0%e6%b5%b7%e5%b2%b8%e3%80%91' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../nishiura/'>西浦海岸（前ノ尻海岸・松島漁場）</a><br><span class='sub' style='font-size:12px'>愛知・蒲郡（蒲郡市）</span></td><td>大人2,000円</td><td>3月〜5月</td><td>入漁バケツ2kgまで。制限を超える追加採取はできない。規定の量が取れなくても払い戻しなし</td><td>アサリ</td><td><a class='offbtn' href='http://www.gamagori-gyokyo.com/asaricalendar.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../isshiki/'>一色海岸（一色さかな広場西海岸）</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）</span></td><td>大人2,000円</td><td>3月〜5月</td><td>入漁袋1袋のみ。追加料金は2026年は公式で確認できず。チケットの返金不可。入漁袋は紛失時の保証なし、当日限り有効で、既定量採れなくても払い戻しなし</td><td>ハマグリ、バカガイ、カガミガイ等（アサリ資源は回復傾向にあるが資源量は豊富ではない旨が公式に記載されている）</td><td><a class='offbtn' href='http://www.nishimikawagyokyou.com/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../koromozaki/'>衣崎海岸（ころもざき潮干狩り場）</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）</span></td><td>大人2,000円</td><td>4月〜5月</td><td>大人・子供とも入漁袋1袋まで（約3kg）。追加料金は2026年は公式で確認できず</td><td>ハマグリ（主体。アサリ資源の減少のため）</td><td><a class='offbtn' href='https://aichinow.pref.aichi.jp/events/detail/1144/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../kajishima/'>梶島（吉良の潮干狩り）</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）</span></td><td>大人3,500円</td><td>3月〜5月</td><td>1袋まで。追加料金は2026年は公式で確認できず</td><td>アサリ（大あさり）</td><td><a class='offbtn' href='https://www.kira-asari.com/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../konakayama/'>小中山地区海岸（小中山海岸）</a><br><span class='sub' style='font-size:12px'>愛知・田原（田原市）</span></td><td>カゴ制：組合指定カゴ 1カゴ3,000円（大人・小人の別料金設定なし）。2025年と同額</td><td>3月〜5月</td><td>組合指定カゴすり切り1杯まで。超過分は持ち帰り不可。ただしカゴの追加購入は可能（追加1カゴの金額明記は2026年の公式ページになく、金額は公式で確認できず）。購入後の返金不可。2025年の県表にあった「約4kg」という重量表記は2026年の公式ページでは確認できず</td><td>アサリ（渥美のあさり）</td><td><a class='offbtn' href='https://konakayamagyokyo.com/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../tarumi/'>樽水海岸</a><br><span class='sub' style='font-size:12px'>愛知・常滑（常滑市）</span></td><td>袋制（2026年に料金体系が変更）：あさり1袋（約1kg）1,000円、はまぐり1袋2,000円。大人・小人の区分はない（袋単位制）。2025年の従量制（700円/kg）は2026年は廃止された</td><td>4月〜5月</td><td>あさり1人2袋まで（上限2,000円）、はまぐり1人1袋まで（上限2,000円）。追加料金は2026年は公式で確認できず（袋制の上限を超える追加販売の明記なし）</td><td>あさり、はまぐり</td><td><a class='offbtn' href='https://www.city.tokoname.aichi.jp/shisei/guide/1002804/1001262.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../nishiano/'>西阿野海岸</a><br><span class='sub' style='font-size:12px'>愛知・常滑（常滑市）</span></td><td>袋制（2026年に料金体系が変更）：あさり1袋（約1kg）1,000円、はまぐり1袋2,000円。大人・小人の区分はない（袋単位制）。2025年の従量制（700円/kg）は2026年は廃止された</td><td>4月〜5月</td><td>あさり1人2袋まで、はまぐり1人1袋まで。追加料金は2026年は公式で確認できず</td><td>あさり、はまぐり</td><td><a class='offbtn' href='https://www.city.tokoname.aichi.jp/shisei/guide/1002804/1001262.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../furuba/'>古場海岸</a><br><span class='sub' style='font-size:12px'>愛知・常滑（常滑市）</span></td><td>袋制（2026年に料金体系が変更）：あさり1袋（約1kg）1,000円、はまぐり1袋2,000円。大人・小人の区分はない（袋単位制）。2025年の従量制（700円/kg）は2026年は廃止された</td><td>4月〜5月</td><td>あさり1人2袋まで、はまぐり1人1袋まで。追加料金は2026年は公式で確認できず</td><td>はまぐりのみ（2026年は古場地区ではあさりは対象外／終了。常滑市公式に「古場地区：はまぐりのみ可（あさり終了）」と明記）</td><td><a class='offbtn' href='https://www.city.tokoname.aichi.jp/shisei/guide/1002804/1001262.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../karasu/'>香良洲海岸</a><br><span class='sub' style='font-size:12px'>三重・津（津市）／条件付きで可</span></td><td>採貝料の設定は公式で確認できず。海の家「なお屋」（休憩所）の利用料は大人600円・小人400円（津市観光協会特集ページの現行表記、2025年と同額）</td><td>―</td><td>2026年は公式で確認できず</td><td>2026年は公式で確認できず</td><td><a class='offbtn' href='https://tsukanko.jp/feature/feature-5804/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../oyodo/'>大淀海岸</a><br><span class='sub' style='font-size:12px'>三重・明和（多気郡明和町）／公式の開催案内が弱い場所</span></td><td>採貝料は2026年は公式で確認できず</td><td>―</td><td>公式で確認できず</td><td>バカ貝（キャンプ場公式・観光三重の取材記事）。その他は公式で確認できず</td><td><a class='offbtn' href='https://moon-beach.com/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../yoshizaki/'>吉崎海岸</a><br><span class='sub' style='font-size:12px'>三重・四日市（四日市市）／公式の開催案内が弱い場所</span></td><td>公式で確認できず</td><td>―</td><td>公式で確認できず</td><td>公式で確認できず</td><td><a class='offbtn' href='https://www.city.yokkaichi.lg.jp/www/contents/1715755236494/index.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr></tbody></table></div><h2>2026年年中止・採貝禁止（11か所）</h2><div style='overflow-x:auto'><table class='cmp'><thead><tr><th>場所</th><th>大人料金</th><th>2026年年の期間</th><th>制限量など</th><th>採れる貝</th><th>公式</th></tr></thead><tbody><tr><td><a class='cmp-name' href='../sakushima-oura/'>佐久島大浦海岸</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）／2026年年は中止</span></td><td>2026年は開催中止のため、2026年に適用された料金はない（中止ページに残る「大人・子供同一料金1,500円、1人1袋まで（約3kg）」は例年の参考表示であり、2026年の料金として採用しない）</td><td>―</td><td></td><td>アサリ（島アサリ）</td><td><a class='offbtn' href='https://sakushima.com/sight/%e6%bd%ae%e5%b9%b2%e7%8b%a9%e3%82%8a/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../yoshida/'>吉田海岸</a><br><span class='sub' style='font-size:12px'>愛知・西尾（西尾市）／2026年年は中止</span></td><td>2026年は開催中止のため、2026年に適用された料金はない（公式サイトに残る大人2,000円・子供1,000円・小学生未満無料等の料金は常設記載であり、2026年には適用されなかったため採用しない）</td><td>―</td><td></td><td>アサリ、ハマグリ、バカガイ、カガミガイ、シオフキ、アカニシ、サルボウガイ（公式サイトの常設記載。2026年は採取できなかった）</td><td><a class='offbtn' href='https://yoshida-gk.com/clamming.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../shiroya-tahara/'>白谷海岸</a><br><span class='sub' style='font-size:12px'>愛知・田原（田原市）／2026年年は中止</span></td><td>2026年は開催なしのため、2026年の料金は存在しない</td><td>―</td><td></td><td></td><td><a class='offbtn' href='https://www.taharakankou.gr.jp/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../sakai-tokoname/'>坂井海岸</a><br><span class='sub' style='font-size:12px'>愛知・常滑（常滑市）／2026年年は中止</span></td><td>2026年は開催なしのため、2026年の料金は存在しない</td><td>―</td><td></td><td></td><td><a class='offbtn' href='http://sakaikaigan.com/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../ooi-tobigasaki/'>大井潮干狩り場（鳶ヶ崎）</a><br><span class='sub' style='font-size:12px'>愛知・南知多（南知多町）／2026年年は中止</span></td><td>2026年は開催中止のため、2026年の料金は存在しない</td><td>―</td><td></td><td>アサリ</td><td><a class='offbtn' href='http://ooimachidukuri.web.fc2.com/' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../mihama/'>美浜町の各潮干狩り場</a><br><span class='sub' style='font-size:12px'>愛知・美浜（美浜町）／2026年年は中止</span></td><td>2026年は開催なしのため、2026年の料金は存在しない</td><td>―</td><td></td><td></td><td><a class='offbtn' href='' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../matsunase/'>松名瀬海岸</a><br><span class='sub' style='font-size:12px'>三重・松阪（松阪市）／採貝禁止</span></td><td>開催していないため対象外（禁止前の料金は転記しない）</td><td>―</td><td>開催していないため対象外</td><td></td><td><a class='offbtn' href='https://www.city.matsusaka.mie.jp/soshiki/32/shiohigarikinshi.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../goushi/'>五主海岸</a><br><span class='sub' style='font-size:12px'>三重・松阪（松阪市）／採貝禁止</span></td><td>開催していないため対象外</td><td>―</td><td>開催していないため対象外</td><td></td><td><a class='offbtn' href='https://www.city.matsusaka.mie.jp/soshiki/32/shiohigarikinshi.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../kisosaki/'>木曽岬町沿岸（木曽川・揖斐川河口の干潟）</a><br><span class='sub' style='font-size:12px'>三重・木曽岬（桑名郡木曽岬町）／採貝禁止</span></td><td>潮干狩り場の設置なし</td><td>―</td><td></td><td></td><td><a class='offbtn' href='https://www.town.kisosaki.lg.jp/0000002954.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../kuwana/'>桑名市の干潟（城南干潟・長島干潟など）</a><br><span class='sub' style='font-size:12px'>三重・桑名（桑名市）／採貝禁止</span></td><td>潮干狩り場としての一般開放はなし</td><td>―</td><td></td><td></td><td><a class='offbtn' href='https://www.city.kuwana.lg.jp/norin/shigoto/sangyou/26-11412-281-630.html' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr><tr><td><a class='cmp-name' href='../shiratsuka-kawagi/'>白塚・河芸の河口（安濃川・志登茂川河口）</a><br><span class='sub' style='font-size:12px'>三重・津（津市）／採貝禁止</span></td><td>一般開放なし</td><td>―</td><td></td><td></td><td><a class='offbtn' href='https://www.pref.mie.lg.jp/SUISAN/HP/38851033605.htm' target='_blank' rel='noopener'>公式を見る ↗</a></td></tr></tbody></table></div>
+<p><a href="../">条件（日付・料金）を入れて探す</a> ／ <a href="/tools/">ツール一覧へ戻る</a></p>
+</main>
+<div id="stickybar">場所 ｜ 大人料金 ｜ 期間 ｜ 制限量など ｜ 採れる貝 ｜ 公式</div>
+<script>
+(function(){{
+  var bar = document.getElementById('stickybar');
+  var tables = document.querySelectorAll('table.cmp');
+  if(!tables.length) return;
+  function onScroll(){{
+    var first = tables[0].getBoundingClientRect();
+    var last = tables[tables.length-1].getBoundingClientRect();
+    bar.style.display = (first.top < 0 && last.bottom > 40) ? 'block' : 'none';
+  }}
+  document.addEventListener('scroll', onScroll, {{passive:true}});
+  onScroll();
+}})();
+</script>
+</body></html>
