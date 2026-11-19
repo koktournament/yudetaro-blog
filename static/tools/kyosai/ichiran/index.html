@@ -137,7 +137,9 @@ table.mini{width:100%;border-collapse:collapse;font-size:13px} table.mini th,tab
 select,input[type=number]{font-size:16px;padding:6px;background:var(--card,#fff);color:var(--text,#222);border:1px solid var(--line,#bbb);border-radius:6px}
 table.spec{width:100%;border-collapse:collapse} table.spec th,table.spec td{border:1px solid var(--line,#ddd);padding:8px;text-align:left;vertical-align:top} table.spec th{width:32%;background:var(--card2,#f6f6f6);color:var(--text,#222)}
 .sub{color:var(--sub,#888)}
-table.cmp{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+table.cmp{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;font-size:14px}
+table.cmp td:first-child{min-width:190px}
+#stickybar{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--card2,#f6f6f6);color:var(--text,#222);border-bottom:1px solid var(--line,#ccc);font-size:12px;padding:7px 10px;display:none;white-space:nowrap;overflow-x:auto}
 table.cmp th,table.cmp td{border-bottom:1px solid var(--line,#ddd);padding:10px 8px;text-align:left;vertical-align:top}
 table.cmp thead th{position:sticky;top:0;background:var(--card2,#f6f6f6);color:var(--text,#222);z-index:2;font-size:13px;white-space:nowrap}
 table.cmp tbody tr:nth-child(even){background:var(--card2,#fafafa)}
@@ -152,4 +154,20 @@ table.cmp tbody tr:nth-child(even){background:var(--card2,#fafafa)}
 <h2>職域共済（数字が公開されていない団体）</h2>
 <p>警生協・全国電力生協連・全水道共済・森林労連共済は公式に掛金表が公開されていないため、<a href="../shokui-directory/">職域共済の名簿</a>にまとめています。</p>
 <p><a href="../">条件を入れて比べる（本体ツール）</a> ／ <a href="/tools/">ツール一覧へ戻る</a></p>
-</main></body></html>
+</main>
+<div id="stickybar">商品 ｜ 月掛金 ｜ 病気入院/日 ｜ 事故入院/日 ｜ 通院/日 ｜ 病気死亡 ｜ 事故死亡 ｜ 保障期間 ｜ 60歳以降の変化</div>
+<script>
+(function(){
+  var bar = document.getElementById('stickybar');
+  var tables = document.querySelectorAll('table.cmp');
+  if(!tables.length) return;
+  function onScroll(){
+    var first = tables[0].getBoundingClientRect();
+    var last = tables[tables.length-1].getBoundingClientRect();
+    bar.style.display = (first.top < 0 && last.bottom > 40) ? 'block' : 'none';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body></html>
