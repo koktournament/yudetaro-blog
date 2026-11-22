@@ -10,7 +10,7 @@ categories: ["食", "日常", "レビュー"]
 <ul>
 <li>丼丸（ササフネ）は存続し、店舗数は約300店。価格帯は500〜700円と報じられている</li>
 <li>税込540円（税別500円）を維持する店も残る一方、600円・690円・780円・800円の店もあり、価格は店ごとに分かれた。「どこでも大体500円」ではなくなっている</li>
-<li>犬山の「わさび丼丸 犬山店」は丼丸公式の愛知県店舗一覧に掲載がなく、現在の営業は未確認</li>
+<li>犬山の「わさび丼丸 犬山店」は閉店している（地元在住の管理人の確認による）</li>
 </ul>
 <p><a href="http://d.hatena.ne.jp/asin/B00BSICUJC/udonyudetaro-22" class="asin"><img class="asin" title="焼津船元・まぐろ家福坊 海鮮セット 本マグロ大トロ200g うに100g いくら100g" src="https://images-fe.ssl-images-amazon.com/images/I/51PCTXb%2BhEL.jpg" alt="焼津船元・まぐろ家福坊 海鮮セット 本マグロ大トロ200g うに100g いくら100g" /></a></p>
 <ul class="table-of-contents">
