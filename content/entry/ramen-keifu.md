@@ -8,6 +8,8 @@ description: "チェーン店ではなく、暖簾分けや弟子の独立とい
 cover:
   image: "/images/ramen-keifu-cover.webp"
   alt: "ラーメン鉢の前で箸を持つジト目ネコ"
+showToc: true
+tocopen: true
 ---
 
 愛知と岐阜のラーメン屋を、チェーン店の系列ではなく「人のつながり」でまとめてみた。

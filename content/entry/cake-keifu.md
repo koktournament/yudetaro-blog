@@ -8,6 +8,8 @@ description: "愛知・岐阜のケーキ屋を、平成正義の会の会員店
 cover:
   image: "/images/cake-keifu-cover.webp"
   alt: "ケーキ屋のショーケースの前に立つジト目ネコ"
+showToc: true
+tocopen: true
 ---
 
 愛知と岐阜のケーキ屋を、チェーン店の系列ではなく「人のつながり」でまとめてみた。
