@@ -6,6 +6,7 @@ draft: false
 url: "/entry/ozland/"
 categories: ["食", "レビュー"]
 ---
+<p><strong>【閉店】</strong>このお店は閉店しました（地元在住の管理人の確認によるもの。店舗掲載サイトには営業中のまま残っている場合があります）。以下は営業当時の記録です。</p>
 <ul class="table-of-contents">
     <li><a href="#店の詳細">店の詳細</a></li>
     <li><a href="#店の外見">店の外見</a></li>

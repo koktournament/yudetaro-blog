@@ -6,6 +6,7 @@ draft: false
 url: "/entry/kissaBIG/"
 categories: ["食", "日常", "旅行", "レビュー"]
 ---
+<p><strong>【閉店】</strong>このお店は2019年11月末で閉店しました。以下は営業当時の記録です。</p>
 <p><img class="hatena-fotolife" title="f:id:udonyudetaro:20180924171323j:plain" src="/images/fotolife/u/udonyudetaro/20180924/20180924171323.jpg" alt="f:id:udonyudetaro:20180924171323j:plain" /></p>
 <ul class="table-of-contents">
     <li><a href="#ちょっとおかしい喫茶店がある">ちょっとおかしい喫茶店がある</a></li>
