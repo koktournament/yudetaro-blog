@@ -8,6 +8,7 @@ aliases:
   - "/entry/2018/02/27/225202/"
 categories: ["日常"]
 ---
+<p><strong>【2026年11月22日更新】</strong>価格まわりの現況は「その1」の記事冒頭の更新メモを見てください。</p>
 <p>はてなブログの機能であるアクセス解析を見て驚いた。</p>
 <p>このブログに来た人は砂利の記事を見に来る人がほとんどだった。</p>
 <p><iframe class="embed-card embed-blogcard" style="display: block; width: 100%; height: 190px; max-width: 500px; margin: 10px 0px;" title="砂利は地元の建材屋で買え！その1 - ダメなのは知ってるけど" src="https://hatenablog-parts.com/embed?url=http%3A%2F%2Fwww.yudetaro.com%2Fentry%2F2017%2F09%2F03%2F131236" frameborder="0" scrolling="no"></iframe><cite class="hatena-citation"><a href="http://www.yudetaro.com/entry/2017/09/03/131236">www.yudetaro.com</a></cite></p>

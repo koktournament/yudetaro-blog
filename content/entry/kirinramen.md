@@ -6,6 +6,12 @@ draft: false
 url: "/entry/kirinramen/"
 categories: ["ネット", "日常", "食"]
 ---
+<p><strong>【2026年11月22日更新】</strong>その後です。</p>
+<ul>
+<li>新名称は「キリマルラーメン」に決まった（2018年8月1日発表、同年12月に移行）。公募の投票で約6,670票を集めた名前</li>
+<li>小笠原製粉は存続・営業中。2019年に4代目社長が承継し、売上は沈滞期の約3億円から約9億円に回復したと報じられている</li>
+<li>現在も干支ラーメンなどの新商品やイベントを展開している</li>
+</ul>
 <p><span style="text-decoration: underline;"><span style="color: #dd830c; text-decoration: underline;">キリンラーメン</span>発売元の<span style="color: #1464b3; text-decoration: underline;">小笠原製粉</span>の公式ツイッターからこんなメッセージが</span></p>
 <blockquote>
 <p><blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">突然ですが、<br><br>弊社商品の「キリンラーメン」シリーズは<br><br>商品名を変更することになりました。<br><br>５０年間ありがとうございました！<br>そこで、新たな商品名を募集します<br>採用者には御礼の品をプレゼント☆<br>↓詳しくは以下から注意点を読んで、応募フォームより送ってね！<a href="https://t.co/vb51bUoYQO">https://t.co/vb51bUoYQO</a> <a href="https://t.co/4ROGkDKCzu">pic.twitter.com/4ROGkDKCzu</a></p>&mdash; 小笠原製粉(株) (@Kirin_Ramen) <a href="https://twitter.com/Kirin_Ramen/status/1000905447002419201?ref_src=twsrc%5Etfw">2018年5月28日</a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>

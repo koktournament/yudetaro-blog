@@ -6,6 +6,13 @@ draft: false
 url: "/entry/cya-hannjijii/"
 categories: ["食"]
 ---
+<p><strong>【2026年11月22日更新】</strong>港区店は営業中です（2026年もテレビ紹介や訪問口コミあり）。</p>
+<ul>
+<li>名物のたまり炒飯は935円（2022年のテレビ紹介では825円）</li>
+<li>蟹江店が2023年にオープンしている</li>
+<li>浜松の店は2023年5月から就労継続支援B型事業所「中華グレース（チャーハンじじい）」として運営されている</li>
+<li>原島店の現在の営業は未確認</li>
+</ul>
 <p>時刻は昼時、いざ昼メシ！そんなときに目に飛び込んできたのがコレだ。</p>
 <p> </p>
 <p><img src="/images/fotolife/u/udonyudetaro/20200130/20200130145214.jpg" alt="f:id:udonyudetaro:20200130145214j:plain" title="f:id:udonyudetaro:20200130145214j:plain" class="hatena-fotolife" itemprop="image" /></p>

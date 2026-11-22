@@ -6,6 +6,12 @@ draft: false
 url: "/entry/fukenaoru/"
 categories: ["美容", "日常"]
 ---
+<p><strong>【2026年11月22日更新】</strong>エイトザタラソは2025年7月にリニューアルしました。</p>
+<ul>
+<li>モイストは「MOIST N」になり、処方も変更された（石油系洗浄成分の除去など）</li>
+<li>現在のシャンプーは5種（MOIST N／SMOOTH／U／SR／HOMME）。MOIST N本体475mLは1,595円（2026年10月確認）</li>
+<li>2026年6月に新ライン「SR シルキー＆リファイン」が追加された</li>
+</ul>
 <ul class="table-of-contents">
     <li><a href="#若い頃からフケ症だった">若い頃からフケ症だった</a></li>
     <li><a href="#最近フケが治った">最近フケが治った</a></li>
