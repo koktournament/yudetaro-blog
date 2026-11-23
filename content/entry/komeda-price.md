@@ -5,6 +5,9 @@ draft: false
 url: "/entry/komeda-price/"
 categories: ["食"]
 description: "コメダ珈琲店は店舗ごとに価格が違う。公式サイトの店舗別メニューから全1,050店の価格を集め、コメダブレンドの最安値店・最高値店、価格分布、都道府県別の平均価格を調べた。2026年11月23日取得。"
+cover:
+  image: "/images/komeda-cover.webp"
+  alt: "喫茶店のテーブルで、460円と700円の値札を見比べるジト目ネコ"
 showToc: true
 tocopen: true
 ---
