@@ -1,12 +1,14 @@
 baseURL = 'https://yudetaro.com/'
 locale = 'ja'
-languageCode = 'ja-JP'
-defaultContentLanguage = 'ja'
 title = 'yudetaro.com'
 theme = 'PaperMod'
 [params]
   disableSpecial1stPost = true
-  comments = true
+  [params.assets]
+    favicon = "/favicon.ico"
+    favicon16 = "/favicon-16x16.png"
+    favicon32 = "/favicon-32x32.png"
+    apple_touch_icon = "/apple-touch-icon.png"
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
