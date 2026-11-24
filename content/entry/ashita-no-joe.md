@@ -20,6 +20,10 @@ cover:
 
 この記事の問いはそこにある。『あしたのジョー』の男たちは、ほぼ全員が「正体不明者」だ。そしてこの作品への熱狂は、キャラクターへの「共感」からは生まれていない。共感ではない別の回路が、あの熱狂を作っていた。
 
+[![『あしたのジョー』全12巻セット（講談社漫画文庫）](https://images-na.ssl-images-amazon.com/images/P/4069348670.09.LZZZZZZZ.jpg)](https://www.amazon.co.jp/dp/4069348670?tag=udonyudetaro-22)
+
+[『あしたのジョー』全12巻セット（講談社漫画文庫）をAmazonで見る](https://www.amazon.co.jp/dp/4069348670?tag=udonyudetaro-22)
+
 ## 正体不明者たち
 
 まず、主要人物の「分からなさ」を並べてみる。
