@@ -49,6 +49,10 @@ h1{font-size:26px;font-weight:900;margin:6px 0 8px;line-height:1.25}
 .tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--sub)}
 .tag.year{background:#fdf0e4;color:#9a4a12;border:1px solid #f3d3ae}
 @media(prefers-color-scheme:dark){.tag.year{background:#2b1d0f;color:#ffb37a;border-color:#4a2f14}}
+.people{margin-top:10px}
+.people summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--sub)}
+.pgname{font-weight:900;font-size:13px;margin:10px 0 2px}
+.pchip{font-size:12px;padding:5px 10px}
 .vnote{font-size:13.5px;line-height:1.65}
 .gdesc{font-size:13.5px;line-height:1.7;color:var(--sub);margin:8px 0 0}
 .vbio{font-size:12.5px;line-height:1.6;color:var(--sub)}
@@ -72,6 +76,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 16px 34px;font-size:13px;color:v
 <div class="controls">
   <div class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="人物・流派・タイトルで探す（例：三船久蔵、八極拳、サンボ）" aria-label="検索"></div>
   <div class="pills" id="pills"></div>
+  <details class="people" id="people"><summary>人物・流派の一覧から選ぶ</summary><div id="peopleList"></div></details>
   <div class="sortrow"><label>並び順 <select id="sort">
     <option value="default">区分・古い順</option>
     <option value="old">撮影年が古い順</option>
@@ -102,6 +107,7 @@ const sortSel = document.getElementById('sort');
 const countEl = document.getElementById('count');
 const emptyEl = document.getElementById('empty');
 let genre = 'すべて';
+let personFilter = '';
 
 function esc(s){return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
@@ -109,7 +115,7 @@ function pill(label, n){
   const b = document.createElement('button');
   b.className = 'pill' + (genre === label ? ' active' : '');
   b.innerHTML = esc(label) + '<small>' + n + '</small>';
-  b.onclick = () => { genre = label; render(); };
+  b.onclick = () => { genre = label; personFilter = ''; render(); };
   return b;
 }
 
@@ -118,6 +124,29 @@ function renderPills(){
   pills.appendChild(pill('すべて', VIDEOS.length));
   for (const g of GENRES){
     pills.appendChild(pill(g, VIDEOS.filter(v => v.genre === g).length));
+  }
+}
+
+function renderPeople(){
+  const wrap = document.getElementById('peopleList');
+  wrap.innerHTML = '';
+  for (const g of GENRES){
+    const persons = [...new Set(VIDEOS.filter(v => v.genre === g).map(v => v.person))];
+    if (!persons.length) continue;
+    const h = document.createElement('div');
+    h.className = 'pgname';
+    h.textContent = g;
+    wrap.appendChild(h);
+    const row = document.createElement('div');
+    row.className = 'pills';
+    for (const p of persons){
+      const b = document.createElement('button');
+      b.className = 'pill pchip' + (personFilter === p ? ' active' : '');
+      b.innerHTML = esc(p) + '<small>' + VIDEOS.filter(v => v.person === p).length + '</small>';
+      b.onclick = () => { personFilter = (personFilter === p ? '' : p); render(); };
+      row.appendChild(b);
+    }
+    wrap.appendChild(row);
   }
 }
 
@@ -152,8 +181,9 @@ function card(v){
 function render(){
   renderPills();
   const word = q.value.trim().toLowerCase();
+  renderPeople();
   let list = VIDEOS.filter(v =>
-    (genre === 'すべて' || v.genre === genre) &&
+    (personFilter ? v.person === personFilter : (genre === 'すべて' || v.genre === genre)) &&
     (!word || (v.person + ' ' + v.title + ' ' + v.note + ' ' + v.genre + ' ' + v.channel).toLowerCase().includes(word))
   );
   if (sortSel.value === 'old') list = [...list].sort((a,b) => (a.yearKey ?? 9999) - (b.yearKey ?? 9999));
