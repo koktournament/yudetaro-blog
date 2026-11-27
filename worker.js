@@ -580,6 +580,7 @@ async function routeApi(req, env, prefix, binding, words) {
 function legacyRedirect(u) {
   const p = u.pathname;
   let m;
+  if (p === '/tools/kojo/' || p === '/tools/kojo') return u.origin + '/entry/kojo-chokubai/';
   if (p === '/archive') return u.origin + '/';
   if ((m = p.match(/^\/archive\/category\/(.+?)\/?$/))) {
     let name = m[1];
