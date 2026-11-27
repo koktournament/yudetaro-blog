@@ -1,6 +1,6 @@
 ---
 title: "愛知・岐阜の工場直売所まとめ｜工場で直接買える31件"
-date: 2026-11-27T10:00:00+09:00
+date: 2026-11-27T09:40:00+09:00
 draft: false
 url: "/entry/kojo-chokubai/"
 categories: ["食"]
