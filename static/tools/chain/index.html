@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>愛知・岐阜のご当地ローカルチェーン図鑑｜愛知・岐阜発祥の飲食チェーン130件</title>
+<meta name="description" content="愛知県・岐阜県発祥の飲食チェーン130件をジャンル別にまとめた図鑑。各チェーンの簡単な紹介、発祥地、創業年、店舗数、展開地域、公式サイトへのリンクつき。">
+<style>
+:root{--bg:#faf8f5;--card:#fff;--ink:#222;--sub:#666;--line:#e3ddd4;--accent:#b3541e}
+@media (prefers-color-scheme:dark){:root{--bg:#171512;--card:#221f1b;--ink:#eee;--sub:#aaa;--line:#3a352e;--accent:#e08a4c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7}
+.wrap{max-width:1020px;margin:0 auto;padding:20px 16px 60px}
+header.top{border-bottom:2px solid var(--accent);padding-bottom:12px;margin-bottom:16px}
+header.top .crumb{font-size:.85em;color:var(--sub)}
+header.top .crumb a{color:var(--accent)}
+h1{font-size:1.55em;margin:.3em 0 .2em}
+.lead{color:var(--sub);font-size:.95em}
+.controls{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
+.controls input{width:100%;padding:10px 12px;font-size:1em;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 12px;font-size:.85em;cursor:pointer}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.genre h2{font-size:1.25em;border-left:5px solid var(--accent);padding-left:10px;margin:34px 0 14px}
+.genre h2 .count{font-size:.7em;color:var(--sub);margin-left:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card h3{margin:0 0 6px;font-size:1.08em}
+.card .intro{margin:0 0 10px;font-size:.92em}
+.specs{margin:0 0 8px;font-size:.83em}
+.specs div{display:flex;gap:8px;padding:2px 0;border-top:1px dashed var(--line)}
+.specs dt{flex:0 0 5.2em;color:var(--sub)}
+.specs dd{margin:0}
+.relation{font-size:.8em;color:var(--sub);margin:4px 0}
+.official{margin:6px 0 0;font-size:.88em}
+.official a{color:var(--accent);font-weight:600}
+.official.none{color:var(--sub)}
+.hidden{display:none}
+footer{margin-top:44px;border-top:1px solid var(--line);padding-top:12px;color:var(--sub);font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<p class="crumb"><a href="/">yudetaro.com</a> ／ <a href="/tools/">ツール一覧</a></p>
+<h1>愛知・岐阜のご当地ローカルチェーン図鑑</h1>
+<p class="lead">愛知県・岐阜県発祥で、3店舗以上ある飲食チェーン130件をジャンル別にまとめた。各チェーンの簡単な紹介と、発祥地・創業年・店舗数・展開地域・公式サイトへのリンクつき。店舗数などのデータは2026年11月27日に各公式情報で確認した。</p>
+</header>
+<div class="controls">
+<input id="q" type="search" placeholder="チェーン名で検索（例：コメダ、味噌煮込み、豊橋）">
+<div class="chips"><button class="chip active" data-genre="all">すべて</button><button class="chip" data-genre="麺類（うどん・そば・きしめん等）">麺類（12）</button><button class="chip" data-genre="ラーメン">ラーメン（21）</button><button class="chip" data-genre="あんかけスパゲッティ">あんかけスパゲッティ（8）</button><button class="chip" data-genre="中華・台湾">中華・台湾（1）</button><button class="chip" data-genre="カレー">カレー（1）</button><button class="chip" data-genre="焼肉・ステーキ">焼肉・ステーキ（13）</button><button class="chip" data-genre="とんかつ">とんかつ（6）</button><button class="chip" data-genre="うなぎ">うなぎ（9）</button><button class="chip" data-genre="手羽先・居酒屋">手羽先・居酒屋（10）</button><button class="chip" data-genre="回転寿司">回転寿司（7）</button><button class="chip" data-genre="ハンバーガー・ファストフード">ハンバーガー・ファストフード（2）</button><button class="chip" data-genre="ファミレス系">ファミレス系（3）</button><button class="chip" data-genre="喫茶店・カフェ">喫茶店・カフェ（25）</button><button class="chip" data-genre="パン・スイーツ（和菓子老舗を含む）">パン・スイーツ（12）</button></div>
+</div>
+<main id="main"><section class="genre" data-genre="麺類（うどん・そば・きしめん等）">
+<h2>麺類（うどん・そば・きしめん等）<span class="count">12件</span></h2>
+<div class="grid"><article class="card" data-name="和食麺処サガミ" data-text="和食麺処サガミ 愛知県名古屋市中村区大門町発祥、1970年創業。和食、そば・うどん、味噌煮込みなど。 愛知県名古屋市中村区大門町 東海・関東・関西・北陸など。公式店舗検索で群馬・東京・神奈川・埼玉・千葉・栃木・山梨、大阪・滋賀・京都・奈良、静岡などを確認できる。">
+<h3>和食麺処サガミ</h3>
+<p class="intro">愛知県名古屋市中村区大門町発祥、1970年創業。和食、そば・うどん、味噌煮込みなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中村区大門町</dd></div><div><dt>創業</dt><dd>1970年（1970年3月4日、名古屋市中村区大門町にサガミチェーン株式会社を設立）</dd></div><div><dt>店舗数</dt><dd>和食麺処サガミ170店舗（公式店舗検索ページの店舗数表示、2026-11-27確認）。</dd></div><div><dt>展開地域</dt><dd>東海・関東・関西・北陸など。公式店舗検索で群馬・東京・神奈川・埼玉・千葉・栃木・山梨、大阪・滋賀・京都・奈良、静岡などを確認できる。</dd></div><div><dt>本店・1号店</dt><dd>創業地は名古屋市中村区大門町。自社店舗第一号店はサガミ池下店（1974年12月、名古屋市千種区覚王山通り）。#16 の記述と公式沿革が一致する。</dd></div></dl>
+<p class="relation">どんどん庵、味の民芸など。</p>
+<p class="official"><a href="https://www.sagami.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="若鯱家" data-text="若鯱家 愛知県名古屋市北区黒川発祥、1976年創業。カレーうどん（名物カレーうどん）。現在は41店。 愛知県名古屋市北区黒川 東海（愛知・岐阜・三重）・関東（東京・埼玉・神奈川）。">
+<h3>若鯱家</h3>
+<p class="intro">愛知県名古屋市北区黒川発祥、1976年創業。カレーうどん（名物カレーうどん）。現在は41店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市北区黒川</dd></div><div><dt>創業</dt><dd>1976年（起源店）／1987年（チェーン運営会社設立）</dd></div><div><dt>店舗数</dt><dd>41店舗（公式店舗情報ページから数えた数、2026-11-27確認。内訳：名古屋市12、愛知県内その他13、岐阜県4、三重県4、東京都5、埼玉県2、神奈川県1）。同ページに別ブランド「麺家たいが亭」1店舗の掲載があるが、上記41店舗には含めていない。</dd></div><div><dt>展開地域</dt><dd>東海（愛知・岐阜・三重）・関東（東京・埼玉・神奈川）。</dd></div><div><dt>本店・1号店</dt><dd>起源は名古屋市北区黒川。現在の起源店は「本店 鯱乃家」として別経営で残る。</dd></div></dl>
+<p class="relation">本店 鯱乃家とは別経営。チェーンは若鯱家の商標を巡る経緯で広がったため、鯱乃家の暖簾分けとは書かない。麺家たいが亭は同一公式店舗情報内に掲載される別ブランド。</p>
+<p class="official"><a href="https://www.wakashachiya.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="どんどん庵" data-text="どんどん庵 愛知県名古屋市発祥、1978年創業。セルフ式うどん。うどん、そば、天ぷら等。店舗により「あんスパ実施店」としてあんかけスパゲッティも扱う。 愛知県名古屋市 愛知・岐阜・三重。">
+<h3>どんどん庵</h3>
+<p class="intro">愛知県名古屋市発祥、1978年創業。セルフ式うどん。うどん、そば、天ぷら等。店舗により「あんスパ実施店」としてあんかけスパゲッティも扱う。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1978年</dd></div><div><dt>店舗数</dt><dd>26店（サガミレストランツの発表を引く情報）。公式店舗一覧では名和店が休業中として扱われ、休業中を除くと26店と整合する。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重。</dd></div><div><dt>本店・1号店</dt><dd>郊外型1号店とされる砂田橋店（名古屋市）。詳細住所は確認できず。</dd></div></dl>
+<p class="relation">サガミレストランツのブランド。#16では和食麺処サガミの関連ブランドとして名が挙がるにとどまり、独立したチェーン項目になっていなかった。初代長助の岩倉店・名駅西店は、どんどん庵からの業態転換で生まれた。</p>
+<p class="official"><a href="https://www.sagami.co.jp/dondonan" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="どんきゅう" data-text="どんきゅう 愛知県あま市（旧甚目寺町）発祥、1997年創業。うどん・そばの専門店。桜海老かき揚げ丼等のセットもの。 愛知県あま市（旧甚目寺町） 愛知・岐阜・三重">
+<h3>どんきゅう</h3>
+<p class="intro">愛知県あま市（旧甚目寺町）発祥、1997年創業。うどん・そばの専門店。桜海老かき揚げ丼等のセットもの。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県あま市（旧甚目寺町）</dd></div><div><dt>創業</dt><dd>1997年</dd></div><div><dt>店舗数</dt><dd>18店（食べログのチェーン一覧掲載数。公式沿革の開店累計は19店で、1号店の閉店分を引いた18店と整合する）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重</dd></div><div><dt>本店・1号店</dt><dd>1号店はどんきゅう甚目寺坂牧店（愛知県あま市坂牧北浦4、1997年12月開店）。1号店は現在閉店している。</dd></div></dl>
+<p class="relation">株式会社中部デリカの運営。#16・#17では独立項目になっていなかった。</p>
+<p class="official"><a href="https://c-delica.com/donkyu/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="山本屋本店" data-text="山本屋本店 愛知県名古屋市大須発祥。味噌煮込みうどん。 愛知県名古屋市大須 愛知中心。三重への県外進出あり。">
+<h3>山本屋本店</h3>
+<p class="intro">愛知県名古屋市大須発祥。味噌煮込みうどん。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市大須</dd></div><div><dt>創業</dt><dd>会社は1907年創業を掲げる。直系の店舗展開は1952〜1953年ごろの太閤通の店が軸になる。</dd></div><div><dt>店舗数</dt><dd>飲食13店（公式年末年始営業案内に挙がる飲食店舗を数えた数。お土産専門店・姉妹店は除く）。</dd></div><div><dt>展開地域</dt><dd>愛知中心。三重への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>大門本店は名古屋市中村区太閤通6-5。</dd></div></dl>
+<p class="relation">山本屋総本家とは別会社。カレー煮込みの鯱市は関連業態として扱われる。</p>
+<p class="official"><a href="https://yamamotoyahonten.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="讃岐製麺" data-text="讃岐製麺 愛知県名古屋市昭和区発祥、2008年創業。店内製麺のうどん専門店。おむすび・天ぷら・おでん等。 愛知県名古屋市昭和区 愛知・大阪中心（中部・関西）">
+<h3>讃岐製麺</h3>
+<p class="intro">愛知県名古屋市昭和区発祥、2008年創業。店内製麺のうどん専門店。おむすび・天ぷら・おでん等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市昭和区</dd></div><div><dt>創業</dt><dd>2008年（業態開始年）</dd></div><div><dt>店舗数</dt><dd>12店（2026年2月期の業態別店舗数）</dd></div><div><dt>展開地域</dt><dd>愛知・大阪中心（中部・関西）</dd></div><div><dt>本店・1号店</dt><dd>1号店は滝子通店（愛知県名古屋市昭和区滝子通2-14）。ザめしや滝子通店からの業態転換で開店した。</dd></div></dl>
+<p class="relation">株式会社ライフフーズの運営。運営会社自体は奈良発祥・大阪本社だが、讃岐製麺業態の1号店は名古屋市内であり、業態単位では愛知発祥に該当する。関連ブランドはザめしや、街かど屋、めしや食堂。</p>
+<p class="official"><a href="https://www.meshiya.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="勢川" data-text="勢川 愛知県豊橋市発祥、1914年創業。うどん・そば専門店。豊橋カレーうどん等。現在は11店。 愛知県豊橋市 愛知県東三河（豊橋市・豊川市）">
+<h3>勢川</h3>
+<p class="intro">愛知県豊橋市発祥、1914年創業。うどん・そば専門店。豊橋カレーうどん等。現在は11店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県豊橋市</dd></div><div><dt>創業</dt><dd>1914年（割烹旅館「勢河」として開業。1951年頃に「勢川」へ改称）</dd></div><div><dt>店舗数</dt><dd>11店（公式サイト掲載数。公式も「東三河に11店舗」と明示）</dd></div><div><dt>展開地域</dt><dd>愛知県東三河（豊橋市・豊川市）</dd></div><div><dt>本店・1号店</dt><dd>本店は豊橋市松葉町3丁目88番地</dd></div></dl>
+<p class="relation">暖簾分けで展開。#16・#17では独立項目になっていなかった。</p>
+<p class="official"><a href="http://www.segawaudon.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="十割そば 二代目長助" data-text="十割そば 二代目長助 愛知県丹羽郡扶桑町発祥、2021年創業。セルフ式の十割そば専門店。天ぷら、天むす等を自分で選ぶ形式。 愛知県丹羽郡扶桑町 愛知・岐阜。">
+<h3>十割そば 二代目長助</h3>
+<p class="intro">愛知県丹羽郡扶桑町発祥、2021年創業。セルフ式の十割そば専門店。天ぷら、天むす等を自分で選ぶ形式。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県丹羽郡扶桑町</dd></div><div><dt>創業</dt><dd>2021年</dd></div><div><dt>店舗数</dt><dd>10店（公式店舗一覧）。内訳は愛知6店（扶桑、稲沢、岡崎美合、知立、日進、江南）、岐阜4店（岐阜岩滝、岐阜北方、大垣、岐阜本巣）。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜。</dd></div><div><dt>本店・1号店</dt><dd>1号店は扶桑店（愛知県丹羽郡扶桑町大字高木字吉山851番地）。</dd></div></dl>
+<p class="relation">サガミレストランツのブランド。2021年10月に始まった「かき揚げ十割そば 長助」の味を引き継ぎ、天ぷら等を選べる形式にした業態として発表されている。#16ではサガミ系ブランドとして独立項目化されていなかった。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="長命うどん" data-text="長命うどん 愛知県名古屋市中村区発祥、1913年創業。麺類食堂。うどん・そば・中華そば・きしめんを1杯に合盛りする注文方式で知られる。 愛知県名古屋市中村区 愛知・東京">
+<h3>長命うどん</h3>
+<p class="intro">愛知県名古屋市中村区発祥、1913年創業。麺類食堂。うどん・そば・中華そば・きしめんを1杯に合盛りする注文方式で知られる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中村区</dd></div><div><dt>創業</dt><dd>1913年（大正2年）</dd></div><div><dt>店舗数</dt><dd>10店（公式店舗ページ掲載数）</dd></div><div><dt>展開地域</dt><dd>愛知・東京</dd></div><div><dt>本店・1号店</dt><dd>本店は愛知県名古屋市中村区下中村町1-3</dd></div></dl>
+<p class="relation">暖簾分け店が中心。岐阜県可児市の旧店舗は別屋号（長麺うどん）になっており数に入れていない。</p>
+<p class="official"><a href="https://www.chomeiudonhonten.co.jp/shop.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="宮きしめん" data-text="宮きしめん 愛知県名古屋市熱田区発祥。きしめん専門店。熱田神宮参拝客向けの店舗を軸に、名古屋市内へ展開する。 愛知県名古屋市熱田区 愛知県内（名古屋市中心）。">
+<h3>宮きしめん</h3>
+<p class="intro">愛知県名古屋市熱田区発祥。きしめん専門店。熱田神宮参拝客向けの店舗を軸に、名古屋市内へ展開する。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市熱田区</dd></div><div><dt>創業</dt><dd>宮商事株式会社は1923年創業。飲食店としての宮きしめん開始は1970年とする二次情報がある。</dd></div><div><dt>店舗数</dt><dd>7店。2026年10月31日に伊兵衛 栄店が開業した後の数として、神宮店、伊兵衛、神宮東店、四代目鍵三郎 宮きしめん、フジタモール店、つしま店、伊兵衛 栄店を数えた。土岐店は2026年5月6日に閉店している。</dd></div><div><dt>展開地域</dt><dd>愛知県内（名古屋市中心）。</dd></div><div><dt>本店・1号店</dt><dd>起源店は熱田神宮境内の神宮店。会社本店所在地は名古屋市熱田区沢上二丁目5番24号。</dd></div></dl>
+<p class="relation">宮商事株式会社の運営。公式ニュースで伊兵衛、伊兵衛 栄店、フジタモール店等の営業・開業情報が確認でき、複数店営業が裏付けられる。#16・#17では味噌煮込みや喫茶が中心で、きしめん専門の宮商事系が独立項目になっていなかった。</p>
+<p class="official"><a href="https://www.miyakishimen.co.jp/news/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="山本屋総本家" data-text="山本屋総本家 愛知県名古屋市大須発祥、1925年創業。味噌煮込みうどん。 愛知県名古屋市大須 名古屋市内中心。県外進出は確認できず。">
+<h3>山本屋総本家</h3>
+<p class="intro">愛知県名古屋市大須発祥、1925年創業。味噌煮込みうどん。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市大須</dd></div><div><dt>創業</dt><dd>1925年</dd></div><div><dt>店舗数</dt><dd>飲食4店（公式サイトで「名古屋に4店舗」と案内）。</dd></div><div><dt>展開地域</dt><dd>名古屋市内中心。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>本家は名古屋市中区栄・矢場町周辺。大須の山本煮込みを引き継いだのが起源とされる。</dd></div></dl>
+<p class="relation">山本屋本店・山本屋（大久手系）とは別系統。</p>
+<p class="official"><a href="https://yamamotoya.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="山本屋（大久手系）" data-text="山本屋（大久手系） 愛知県名古屋市大須発祥、1925年創業。味噌煮込みうどん専門店。現在は3店。 愛知県名古屋市大須 名古屋市内。">
+<h3>山本屋（大久手系）</h3>
+<p class="intro">愛知県名古屋市大須発祥、1925年創業。味噌煮込みうどん専門店。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市大須</dd></div><div><dt>創業</dt><dd>1925年</dd></div><div><dt>店舗数</dt><dd>3店（公式サイト掲載の大久手本店、桜通大津店、神宮前店。名古屋市の公式発表でも市内3店舗）。</dd></div><div><dt>展開地域</dt><dd>名古屋市内。</dd></div><div><dt>本店・1号店</dt><dd>本店は山本屋 大久手本店（名古屋市千種区大久手5丁目9-2）。創業地は名古屋市大須とされるが、1号店の所在地は確認できず。</dd></div></dl>
+<p class="relation">有限会社山本屋が運営。総本家の2代目・町田守一の長女 昭代が浅井仲治と結婚し、浅井の店を山本屋と改称して出店した系統で、総本家から正式にのれん分けされた店と紹介される。島本万吉・きぬを初代、町田夫妻を2代目と数え、現在は5代目。山本屋本店・山本屋総本家とは別系統で、山本屋の3系統の一つ。</p>
+<p class="official"><a href="https://a-yamamotoya.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="ラーメン">
+<h2>ラーメン<span class="count">21件</span></h2>
+<div class="grid"><article class="card" data-name="スガキヤ" data-text="スガキヤ 愛知県名古屋市栄発祥、1946年創業。ラーメン、甘味。ショッピングセンター内のフードコート店舗が多い。 愛知県名古屋市栄 愛知・岐阜・三重・静岡・滋賀・大阪・京都・奈良・兵庫・神奈川。海外はインドネシア進出が確認できる。">
+<h3>スガキヤ</h3>
+<p class="intro">愛知県名古屋市栄発祥、1946年創業。ラーメン、甘味。ショッピングセンター内のフードコート店舗が多い。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市栄</dd></div><div><dt>創業</dt><dd>1946年</dd></div><div><dt>店舗数</dt><dd>262店（2026年10月18日時点の二次集計、オープン予定2店含む）。公式店舗検索では総数の明示は確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重・静岡・滋賀・大阪・京都・奈良・兵庫・神奈川。海外はインドネシア進出が確認できる。</dd></div><div><dt>本店・1号店</dt><dd>創業地は名古屋市栄の「甘党の店」。現本社は名古屋市中区丸の内。</dd></div></dl>
+<p class="relation">寿がきや、たこ寿、スーちゃんハウス、博多うどん木村屋、鍋焼うどん一得庵、らー麺金ことぶき等。店舗系譜とは分けて扱う。</p>
+<p class="official"><a href="https://www.sugakico.co.jp/company/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="丸源ラーメン" data-text="丸源ラーメン 愛知県安城市発祥、2001年創業。熟成醤油肉そばを看板とするラーメン専門店。 愛知県安城市 全国">
+<h3>丸源ラーメン</h3>
+<p class="intro">愛知県安城市発祥、2001年創業。熟成醤油肉そばを看板とするラーメン専門店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県安城市</dd></div><div><dt>創業</dt><dd>2001年</dd></div><div><dt>店舗数</dt><dd>238店（2026年2月時点）</dd></div><div><dt>展開地域</dt><dd>全国</dd></div><div><dt>本店・1号店</dt><dd>三河安城店（愛知県安城市、2001年6月開店）</dd></div></dl>
+<p class="relation">物語コーポレーションのラーメン事業。operators.md の判定（新規発見・基準を満たす）と同一で、運営会社の公式沿革でも1号店が愛知県安城市であることを確認した。</p>
+<p class="official"><a href="https://www.monogatari.co.jp/company/history/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="油そば専門店 歌志軒" data-text="油そば専門店 歌志軒 愛知県名古屋市昭和区発祥、2010年創業。油そば専門店（スープのないラーメン）。トッピング組み合わせ型の油そば各種。 愛知県名古屋市昭和区 愛知県中心に全国。海外展開あり（米国・豪州・中国等）。">
+<h3>油そば専門店 歌志軒</h3>
+<p class="intro">愛知県名古屋市昭和区発祥、2010年創業。油そば専門店（スープのないラーメン）。トッピング組み合わせ型の油そば各種。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市昭和区</dd></div><div><dt>創業</dt><dd>2010年</dd></div><div><dt>店舗数</dt><dd>国内60店・海外63店（公式店舗一覧の掲載数。国内はデリバリー専門店を含む）</dd></div><div><dt>展開地域</dt><dd>愛知県中心に全国。海外展開あり（米国・豪州・中国等）。</dd></div><div><dt>本店・1号店</dt><dd>本店は愛知県名古屋市昭和区福江1丁目17-8（2010年12月12日開店）</dd></div></dl>
+<p class="relation">株式会社KAJIKENの運営。#16・#17では独立項目になっていなかった。</p>
+<p class="official"><a href="https://www.kajiken.biz/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="一刻魁堂" data-text="一刻魁堂 愛知県知多郡東浦町発祥。ラーメン。JBイレブン系の主力ラーメン業態。 愛知県知多郡東浦町 東海中心。県外進出あり。">
+<h3>一刻魁堂</h3>
+<p class="intro">愛知県知多郡東浦町発祥。ラーメン。JBイレブン系の主力ラーメン業態。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県知多郡東浦町</dd></div><div><dt>創業</dt><dd>グループ創業は1971年。一刻魁堂の業態は2003年に一刻堂として始まり、2005年に一刻魁堂へ改称した。</dd></div><div><dt>店舗数</dt><dd>44店（公式店舗ページ。JBイレブンの開示でも2026年9月30日時点で直営41店・FC3店の合計44店と整合）</dd></div><div><dt>展開地域</dt><dd>東海中心。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>グループ1号店は東浦町大字藤江字三丁12番地の「サッポロラーメン11番」。一刻魁堂業態の転換元は11ばん朝日店だが、所在地は確認できず。</dd></div></dl>
+<p class="relation">JBイレブン系。genre-noodles.md の判定と同一。</p>
+<p class="official"><a href="https://www.ikkoku-sakigake.jp/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="麺屋はなび" data-text="麺屋はなび 愛知県名古屋市中川区高畑発祥、2008年創業。台湾まぜそば、ラーメン。 愛知県名古屋市中川区高畑 国内各地。海外展開あり。">
+<h3>麺屋はなび</h3>
+<p class="intro">愛知県名古屋市中川区高畑発祥、2008年創業。台湾まぜそば、ラーメン。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中川区高畑</dd></div><div><dt>創業</dt><dd>2008年</dd></div><div><dt>店舗数</dt><dd>公式トップの店舗一覧リンクから数えた国内店舗は39店舗（麺屋はなび6、中華食堂はなび1、担々麺はなび2、台湾まぜそばはなび30。2026-11-27確認）。公式サイトは統一した総数を明記しておらず、フードコート内出店・デリバリー専門エクスプレス店は別枠で案内されるため、それらを含めた正確な総数は確認できず。海外店舗（韓国・マレーシア・アメリカ・スリランカ・インドネシア・ベトナム・台湾）の掲載も別途ある。</dd></div><div><dt>展開地域</dt><dd>国内各地。海外展開あり。</dd></div><div><dt>本店・1号店</dt><dd>高畑本店は名古屋市中川区高畑1-170。公式サイトは台湾まぜそばの発祥を「名古屋の麺屋はなび高畑本店」と案内する。</dd></div></dl>
+<p class="relation">台湾まぜそば はなび、担々麺はなび、中華食堂はなび。姉妹店として麺屋はるか、麺屋らくだ、元祖台湾カレーが公式トップに紹介される。創業者が台湾ラーメン店で修行したという二次情報はあるが、系譜として断定しない。</p>
+<p class="official"><a href="https://www.menya-hanabi.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="豚旨うま屋ラーメン" data-text="豚旨うま屋ラーメン 愛知県春日井市発祥、1998年創業。とんこく醤油ラーメン。名物チャーハンとの組み合わせで知られる。 愛知県春日井市 愛知・岐阜・三重・滋賀">
+<h3>豚旨うま屋ラーメン</h3>
+<p class="intro">愛知県春日井市発祥、1998年創業。とんこく醤油ラーメン。名物チャーハンとの組み合わせで知られる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県春日井市</dd></div><div><dt>創業</dt><dd>1998年</dd></div><div><dt>店舗数</dt><dd>33店（直営12店＋FC加盟店21店、公式会社概要の掲載数）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重・滋賀</dd></div><div><dt>本店・1号店</dt><dd>春日井本店は愛知県春日井市下条町1147番地4（1998年10月1日オープン。2012年に移転リニューアル）</dd></div></dl>
+<p class="relation">株式会社ディ・エー・アイの運営。1997年に小規模店を開いたとする二次情報があるが、公式沿革は1998年10月1日の春日井本店オープンを起点とするため公式に合わせた。</p>
+<p class="official"><a href="https://www.umaya.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="フジヤマ55" data-text="フジヤマ55 愛知県名古屋市中区大須発祥。つけ麺、ラーメン。モトヤマ55、カナヤマ55、RAMEN STAND等の派生表記がある。 愛知県名古屋市中区大須 東海中心。海外展開あり。">
+<h3>フジヤマ55</h3>
+<p class="intro">愛知県名古屋市中区大須発祥。つけ麺、ラーメン。モトヤマ55、カナヤマ55、RAMEN STAND等の派生表記がある。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中区大須</dd></div><div><dt>創業</dt><dd>フジヤマ55としては2009年。運営会社の源流は1997年とされる。</dd></div><div><dt>店舗数</dt><dd>国内29店・海外2店。公式店舗一覧を本稿の数え方で集計した数で、中華そば一刻屋とらーめん王子は除き、モトヤマ55・カナヤマ55・RAMEN STAND系とゴーゴーカレーxフジヤマ55は含めた。JBイレブンの開示にある「フジヤマ55等」とは集計範囲が違うため、混ぜていない。</dd></div><div><dt>展開地域</dt><dd>東海中心。海外展開あり。</dd></div><div><dt>本店・1号店</dt><dd>大須総本店は愛知県名古屋市中区大須3-11-16。</dd></div></dl>
+<p class="relation">JBイレブン系。公式店舗一覧で大須総本店を起点に多数の店舗が確認できる。#16では一刻魁堂・フジヤマ55のいずれも独立項目になっていなかった。</p>
+<p class="official"><a href="https://fujiyama55.co.jp/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="岐阜タンメン" data-text="岐阜タンメン 愛知県稲沢市発祥、2009年創業。タンメン。 愛知県稲沢市 岐阜・愛知中心。長野・富山・静岡・三重への県外進出あり。福井・石川への進出も二次情報で確認できる（石川県1号店は2025年11月に野々市市で開業とされる）。">
+<h3>岐阜タンメン</h3>
+<p class="intro">愛知県稲沢市発祥、2009年創業。タンメン。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県稲沢市</dd></div><div><dt>創業</dt><dd>2009年（タンメン専門店 板谷）。運営会社のルーツは2004年のばりばり軒。</dd></div><div><dt>店舗数</dt><dd>公式サイトで店舗一覧の総数は確認できず。二次情報の店舗表を集計すると岐阜タンメン屋号で29店（岐阜9・愛知13・長野1・富山1・静岡1・三重2・福井1・石川1、2026-11-27確認）だが、同じ二次情報の概要文は27店舗と記しており、総数は確認できずとして扱う。いずれにせよ3店舗以上であることは確実。</dd></div><div><dt>展開地域</dt><dd>岐阜・愛知中心。長野・富山・静岡・三重への県外進出あり。福井・石川への進出も二次情報で確認できる（石川県1号店は2025年11月に野々市市で開業とされる）。</dd></div><div><dt>本店・1号店</dt><dd>起源は愛知県稲沢市の「タンメン専門店 板谷」（後の岐阜タンメン 稲沢・板谷店、2020年8月31日に閉業）。現在の岐阜本店は岐阜県岐阜市手力町38-1。</dd></div></dl>
+<p class="relation">カプサイメン、ばりばり軒、特別岐阜タンメン、みそ一番（2026年9月に岐阜市で開店とされる）、油そば専門店こいけなど。名称は岐阜発祥ではなく、稲沢の板谷の存続危機に岐阜県から来店してくれた客への感謝から全店名を「岐阜タンメン」に改めたとされる。名称と発祥地がずれるため、記事では「岐阜発祥ではない」点を明記すること。</p>
+<p class="official"><a href="https://gifutanmen-bbc.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="藤一番" data-text="藤一番 愛知県発祥、1984年創業。ラーメン。台湾らーめん、しょうゆ、塩、とんこつ、カレー等。 愛知県 東海中心。海外展開あり。">
+<h3>藤一番</h3>
+<p class="intro">愛知県発祥、1984年創業。ラーメン。台湾らーめん、しょうゆ、塩、とんこつ、カレー等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県</dd></div><div><dt>創業</dt><dd>1984年</dd></div><div><dt>店舗数</dt><dd>国内29店・海外2店（株式会社アドバンスの発表を引く情報）</dd></div><div><dt>展開地域</dt><dd>東海中心。海外展開あり。</dd></div><div><dt>本店・1号店</dt><dd>確認できず。名古屋市内、栄瓦町を1号店とする二次情報がある。本社は愛知県小牧市。</dd></div></dl>
+<p class="relation">株式会社アドバンスの運営。関連ブランドとして総本家しなとらがあるが、そちらは発祥地・1号店・現在の公式店舗一覧を十分に確認できず、本稿では項目化していない。genre-noodles.md の判定と同一。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="一番軒" data-text="一番軒 愛知県尾張旭市発祥、2000年創業。豚骨ラーメン専門店（長浜系）。白豚骨ラーメン等。 愛知県尾張旭市 愛知・岐阜中心、関西進出あり。ベトナム展開あり。">
+<h3>一番軒</h3>
+<p class="intro">愛知県尾張旭市発祥、2000年創業。豚骨ラーメン専門店（長浜系）。白豚骨ラーメン等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県尾張旭市</dd></div><div><dt>創業</dt><dd>2000年（2000年1月に第1号店オープン。2002年に総本家がオープン）</dd></div><div><dt>店舗数</dt><dd>国内22店（2026年3月公表の一覧：愛知17店・岐阜3店・大阪1店・兵庫1店）＋ベトナム10店。同公表の本文には国内24店とする表記もあり、一覧と食い違うため一覧の数を採用した。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜中心、関西進出あり。ベトナム展開あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は愛知県尾張旭市（詳細住所は確認できず）。現総本家の所在地は確認できず。本社は愛知県名古屋市北区黒川本通3-40-1。</dd></div></dl>
+<p class="relation">株式会社ベスト・モアの運営。operators.md にあるエスワイフードの「一番軒＋世界の山ちゃん」（2店、基準割れ）は別運営の複合業態であり、本件のベスト・モア運営「一番軒」とは別物として扱う。</p>
+<p class="official"><a href="https://www.bestmore.jp/conpany" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="寿がきや（高級志向業態）" data-text="寿がきや（高級志向業態） 愛知県名古屋市発祥。ラーメン・甘味（スガキヤの高級志向業態）。 愛知県名古屋市 東海・近畿中心">
+<h3>寿がきや（高級志向業態）</h3>
+<p class="intro">愛知県名古屋市発祥。ラーメン・甘味（スガキヤの高級志向業態）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>確認できず（高級志向業態としての開始年）</dd></div><div><dt>店舗数</dt><dd>16店舗（2026年10月18日時点）</dd></div><div><dt>展開地域</dt><dd>東海・近畿中心</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">スガキコシステムズ運営。スガキヤの源流屋号を用いた別業態</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="ラーメン福" data-text="ラーメン福 愛知県名古屋市港区発祥、1978年創業。背油醤油ラーメン。もやしを多く盛る形式、餃子等。 愛知県名古屋市港区。ただし前身は京都の「ラーメン藤」のFCとして始まったため、純粋な愛知発祥とは言い切れない。 愛知県内（名古屋市、北名古屋市、知立市、尾張旭市）">
+<h3>ラーメン福</h3>
+<p class="intro">愛知県名古屋市港区発祥、1978年創業。背油醤油ラーメン。もやしを多く盛る形式、餃子等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市港区。ただし前身は京都の「ラーメン藤」のFCとして始まったため、純粋な愛知発祥とは言い切れない。</dd></div><div><dt>創業</dt><dd>1978年</dd></div><div><dt>店舗数</dt><dd>12店（直営11店＋暖簾分け1店。尾張旭店が2024年8月1日に開業。10店とする二次情報もあり厳密な現在数は公式店舗一覧の直接確認が望ましいが、3店以上であることは確実）</dd></div><div><dt>展開地域</dt><dd>愛知県内（名古屋市、北名古屋市、知立市、尾張旭市）</dd></div><div><dt>本店・1号店</dt><dd>1号店は十一屋店（名古屋市港区）。本部は土古店（名古屋市港区川西通3丁目9番地）に併設される。</dd></div></dl>
+<p class="relation">株式会社アライの運営。1978年4月28日に「アライグループ ラーメン藤」1号店（十一屋店）として始まり、後にグループを離れて「福」へ改称したとされる。改称・独立の年は1989年法人設立説と1994年独立説があり、公式で一本化できず。genre-noodles.md の判定と同一で、京都FC由来の注記を付ける。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="ラの壱" data-text="ラの壱 愛知県発祥、2003年創業。とんこつラーメン専門店。とんこつもとあじ等。 愛知県 愛知県中心、岐阜県（養老SA）進出あり">
+<h3>ラの壱</h3>
+<p class="intro">愛知県発祥、2003年創業。とんこつラーメン専門店。とんこつもとあじ等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県</dd></div><div><dt>創業</dt><dd>2003年（とんこつラーメン「ラの壱」一号店オープン）</dd></div><div><dt>店舗数</dt><dd>10店（ラの壱9店＋ハイウェイラの壱1店。食べログのチェーン一覧も全10件）</dd></div><div><dt>展開地域</dt><dd>愛知県中心、岐阜県（養老SA）進出あり</dd></div><div><dt>本店・1号店</dt><dd>確認できず。公式沿革に1号店の所在地明記がなく、瀬戸店を1号店とする二次情報がある。一宮店は2008年開店で1号店ではない。</dd></div></dl>
+<p class="relation">名鉄グループの株式会社メイフーズが展開し、2023年4月に株式会社名鉄ミライートへ商号変更・統合した。関連業態にハイウェイラの壱（SA店舗）。</p>
+<p class="official"><a href="https://www.ranoichi.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="博多ラーメン鶴亀堂" data-text="博多ラーメン鶴亀堂 愛知県日進市発祥、2000年創業。博多ラーメン（濃厚とんこつ、超極細麺）。博多ラーメン、全部のせ等。 愛知県日進市 愛知県内">
+<h3>博多ラーメン鶴亀堂</h3>
+<p class="intro">愛知県日進市発祥、2000年創業。博多ラーメン（濃厚とんこつ、超極細麺）。博多ラーメン、全部のせ等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県日進市</dd></div><div><dt>創業</dt><dd>2000年</dd></div><div><dt>店舗数</dt><dd>10店（公式サイトの店舗一覧掲載数）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>日進本店は愛知県日進市岩崎町大廻間2-1</dd></div></dl>
+<p class="relation">運営会社本社は日進本店所在地と同一。ヴィア・ホールディングスの2017年リリースでも「名古屋生まれ」とされている。</p>
+<p class="official"><a href="https://tsurukamedo.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="くねくねラーメン" data-text="くねくねラーメン 愛知県名古屋市中区発祥。とんこつラーメン専門店。しょうゆとんこつ、しおとんこつ、黒とんこつ等。「くねそば」が看板。 愛知県名古屋市中区 愛知・岐阜（滋賀進出とする情報あり）">
+<h3>くねくねラーメン</h3>
+<p class="intro">愛知県名古屋市中区発祥。とんこつラーメン専門店。しょうゆとんこつ、しおとんこつ、黒とんこつ等。「くねそば」が看板。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中区</dd></div><div><dt>創業</dt><dd>確認できず（創業者が1975年からラーメン研究を始め1990年代に1号店を作ったとする求人情報があるが、公式の創業年は確認できず）</dd></div><div><dt>店舗数</dt><dd>9店（食べログのチェーン一覧掲載数：愛知1店・岐阜8店。求人情報では愛知・岐阜・滋賀に10店展開とする表記もあり、厳密な現在総数は公式で確認できず）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜（滋賀進出とする情報あり）</dd></div><div><dt>本店・1号店</dt><dd>伏見本店は愛知県名古屋市中区栄1-4-4</dd></div></dl>
+<p class="relation">岐阜県側に店舗が集中する。公式サイトは確認できず。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="熟成醤油ラーメン きゃべとん" data-text="熟成醤油ラーメン きゃべとん 愛知県豊橋市発祥、2017年創業。熟成醤油ラーメン専門店。看板は熟成醤油きゃべとん。 愛知県豊橋市 愛知・静岡・神奈川">
+<h3>熟成醤油ラーメン きゃべとん</h3>
+<p class="intro">愛知県豊橋市発祥、2017年創業。熟成醤油ラーメン専門店。看板は熟成醤油きゃべとん。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県豊橋市</dd></div><div><dt>創業</dt><dd>2017年</dd></div><div><dt>店舗数</dt><dd>7店（2026年掲載件数。公式UberEats対応一覧では愛知・静岡・神奈川の5店を確認）</dd></div><div><dt>展開地域</dt><dd>愛知・静岡・神奈川</dd></div><div><dt>本店・1号店</dt><dd>豊橋草間本店は愛知県豊橋市草間町字平東50-5（2017年7月開店）</dd></div></dl>
+<p class="relation">物語コーポレーションのラーメン事業。丸源ラーメンのコンセプトを継承。operators.md の判定（新規発見・基準を満たす）と同一。展開地域は operators.md では「確認できず」だったが、公式UberEats対応一覧で愛知・静岡・神奈川の出店を確認できたため更新した。</p>
+<p class="official"><a href="https://www.cabbaton.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="まぜそば専門店 てっぺん" data-text="まぜそば専門店 てっぺん 愛知県名古屋市北区発祥、2010年創業。台湾まぜそば・ラーメン専門店。台湾まぜそば、カレー台湾まぜそば等。 愛知県名古屋市北区 愛知県内（名古屋市・一宮市）">
+<h3>まぜそば専門店 てっぺん</h3>
+<p class="intro">愛知県名古屋市北区発祥、2010年創業。台湾まぜそば・ラーメン専門店。台湾まぜそば、カレー台湾まぜそば等。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市北区</dd></div><div><dt>創業</dt><dd>2010年（名古屋本店は2010年8月開店とする情報）</dd></div><div><dt>店舗数</dt><dd>5店（公式店舗紹介の掲載数：名古屋本店、野並北分店、一宮分店、名古屋西 上小田井分店、中川分店）</dd></div><div><dt>展開地域</dt><dd>愛知県内（名古屋市・一宮市）</dd></div><div><dt>本店・1号店</dt><dd>らーめん まぜそば てっぺん 名古屋本店は愛知県名古屋市北区金城町4丁目41番6 グリーンタウン3-1F</dd></div></dl>
+<p class="relation">同名の別系統「てっぺん頂天」（春日井本店・勝川店・ナゴヤドーム前店等、麺屋はなび出身の林鉄兵系）が存在する。名古屋本店系とは別系統とされるため店舗数を合算せず、本項目は名古屋本店系のみで判定した。頂天系も愛知発祥で3店以上あるが、図鑑では別項目として分けるのが妥当。</p>
+<p class="official"><a href="https://teppen.hp4u.jp/access" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="らーめん本郷亭" data-text="らーめん本郷亭 愛知県名古屋市名東区発祥。ラーメン。名古屋市内と近郊に複数店を置く。 愛知県名古屋市名東区 愛知県内（名古屋市、長久手市）。">
+<h3>らーめん本郷亭</h3>
+<p class="intro">愛知県名古屋市名東区発祥。ラーメン。名古屋市内と近郊に複数店を置く。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市名東区</dd></div><div><dt>創業</dt><dd>確認できず。2000年前後、または2026年時点で創業26年とする二次情報がある。</dd></div><div><dt>店舗数</dt><dd>5店。本郷店、名駅店、千種店、焼山店、長久手店が確認できる。</dd></div><div><dt>展開地域</dt><dd>愛知県内（名古屋市、長久手市）。</dd></div><div><dt>本店・1号店</dt><dd>本郷店は愛知県名古屋市名東区本郷2-225第2かわもとビル1Fとする二次情報がある。公式で確認できず。</dd></div></dl>
+<p class="relation">関連ブランドは確認できず。公式サイトの索引が弱く、店舗数と現存は複数の二次情報と直近の口コミで確認した。#16では地元ラーメン店として独立項目になっていなかった。</p>
+<p class="official"><a href="http://hongotei.com/index.html（二次情報で公式HPとして掲載。内容は確認できず）" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="カプサイメン" data-text="カプサイメン 愛知県一宮市発祥、2020年創業。唐辛子と卵を使った辛いラーメン。岐阜タンメンの姉妹業態。 愛知県一宮市 愛知・岐阜・静岡。">
+<h3>カプサイメン</h3>
+<p class="intro">愛知県一宮市発祥、2020年創業。唐辛子と卵を使った辛いラーメン。岐阜タンメンの姉妹業態。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県一宮市</dd></div><div><dt>創業</dt><dd>2020年</dd></div><div><dt>店舗数</dt><dd>5店。一宮本店、名古屋守山店、岡崎店、岐阜店、浜松店が確認できる。岡崎店は2025年9月19日に5店目として開業したとされる。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・静岡。</dd></div><div><dt>本店・1号店</dt><dd>1号店は一宮本店（愛知県一宮市）。詳細住所は確認できず。</dd></div></dl>
+<p class="relation">岐阜タンメンBBCの運営。#16では岐阜タンメンの関連ブランドとして名が挙がるにとどまり、3店以上の独立チェーンとして項目化されていなかった。ばりばり軒は同系だが2店で基準割れ。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="ベトコンラーメン新京（新京系）" data-text="ベトコンラーメン新京（新京系） 愛知県一宮市発祥、1969年創業。ベトコンラーメン（ニンニク・唐辛子・ニラ・もやしを使うスタミナ系ラーメン）を看板にする中華・ラーメン店。 愛知県一宮市 愛知・岐阜中心。大阪・岡山などへの県外進出あり。">
+<h3>ベトコンラーメン新京（新京系）</h3>
+<p class="intro">愛知県一宮市発祥、1969年創業。ベトコンラーメン（ニンニク・唐辛子・ニラ・もやしを使うスタミナ系ラーメン）を看板にする中華・ラーメン店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県一宮市</dd></div><div><dt>創業</dt><dd>1969年（新京本店開業）</dd></div><div><dt>店舗数</dt><dd>公式で正確な現在総数は確認できず。暖簾分け店舗は16軒あるとする情報があるが、時点と現存範囲は確認できず。現存が確認できた店として名古屋伏見店、守山店、各務ヶ原新京、倉敷新京があり、少なくとも3店以上の営業が確認できる。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜中心。大阪・岡山などへの県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>新京本店は愛知県一宮市松島町5。本店は現在営業中とは確認できず、閉店・掲載保留とする情報がある。本店の閉店時期は公式で確認できず。</dd></div></dl>
+<p class="relation">新京本店からの暖簾分け店が中心で、統一したチェーン運営ではない。岐阜市の香楽は1975年からベトコンラーメンを提供する別系統の元祖説があり、新京とは別に扱う。本件は #16候補の再判定であり、existing16.md の再判定（主リスト・基準適合）と同一。genre-noodles.md では「#16候補のまま新規には数えない」とされているが、本partialは再判定として主リスト入りを明記する。</p>
+<p class="official"><a href="https://www.k-betokon.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="豆天狗" data-text="豆天狗 岐阜県高山市発祥、1948年創業。飛騨高山中華そば。現在は3店。 岐阜県高山市 岐阜県内のみ（高山市2店、下呂市1店）。baselineにあった名古屋金山店は屋号を「ナカムラ荘」に変更しており、現行の豆天狗店舗には含めないため、愛知進出はなしに修正する。">
+<h3>豆天狗</h3>
+<p class="intro">岐阜県高山市発祥、1948年創業。飛騨高山中華そば。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県高山市</dd></div><div><dt>創業</dt><dd>1948年</dd></div><div><dt>店舗数</dt><dd>3店（公式サイトが「3店舗 高山・新宮・下呂」と明記。2026-11-27確認）。内訳は高山本店、三代目豆天狗（2025年8月25日に高山市新宮町にオープン）、下呂温泉店。</dd></div><div><dt>展開地域</dt><dd>岐阜県内のみ（高山市2店、下呂市1店）。baselineにあった名古屋金山店は屋号を「ナカムラ荘」に変更しており、現行の豆天狗店舗には含めないため、愛知進出はなしに修正する。</dd></div><div><dt>本店・1号店</dt><dd>高山本店は岐阜県高山市下一之町3-3（2020年5月20日に八軒町から移転し新装オープン）。創業時の正確な所在地は公式で確認できず（公式沿革では初代が荷車で商売を始めたとされる）。</dd></div></dl>
+<p class="relation">旧・名古屋金山店は暖簾分け店として営業していたが、屋号変更してナカムラ荘となった（二次情報）。公式オンラインショップの販売者は有限会社 麺の清水屋と記載されるが、事業承継の詳細は公式で確認できず。</p>
+<p class="official"><a href="https://mametengu.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="あんかけスパゲッティ">
+<h2>あんかけスパゲッティ<span class="count">8件</span></h2>
+<div class="grid"><article class="card" data-name="パスタ・デ・ココ" data-text="パスタ・デ・ココ 愛知県（運営会社の株式会社壱番屋は愛知県一宮市）発祥、2003年創業。あんかけスパゲッティ専門店。トッピングの組み合わせが特徴。 愛知県（運営会社の株式会社壱番屋は愛知県一宮市） 愛知・岐阜・三重。県外進出あり。">
+<h3>パスタ・デ・ココ</h3>
+<p class="intro">愛知県（運営会社の株式会社壱番屋は愛知県一宮市）発祥、2003年創業。あんかけスパゲッティ専門店。トッピングの組み合わせが特徴。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県（運営会社の株式会社壱番屋は愛知県一宮市）</dd></div><div><dt>創業</dt><dd>2003年</dd></div><div><dt>店舗数</dt><dd>28店（公式店舗一覧の掲載数。愛知24店・岐阜2店・三重2店）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店の所在地は確認できず。</dd></div></dl>
+<p class="relation">カレーハウスCoCo壱番屋と同じ株式会社壱番屋のブランド。</p>
+<p class="official"><a href="https://www.ichibanya.co.jp/pasta/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="スパゲティハウス チャオ（名古屋）" data-text="スパゲティハウス チャオ（名古屋） 愛知県名古屋市名駅周辺発祥、1979年創業。あんかけスパゲッティ。現在は7店。 愛知県名古屋市名駅周辺 愛知県内中心。県外進出は確認できず。">
+<h3>スパゲティハウス チャオ（名古屋）</h3>
+<p class="intro">愛知県名古屋市名駅周辺発祥、1979年創業。あんかけスパゲッティ。現在は7店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市名駅周辺</dd></div><div><dt>創業</dt><dd>1979年</dd></div><div><dt>店舗数</dt><dd>7店（2026-11-27に公式サイトの店舗情報を数えたもの。スパゲティハウス チャオ5店＝錦通伏見交差点店、名古屋JRゲートタワー店、JR名古屋駅太閤通口店、アピタ稲沢店、BINO栄店、フードコート型のチャオニーノ2店＝イオンモール大高店、エアポートウォーク名古屋店）。</dd></div><div><dt>展開地域</dt><dd>愛知県内中心。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>名古屋駅近くで創業（1号店の正確な住所は公式で確認できず）。運営会社の本社は愛知県豊明市。</dd></div></dl>
+<p class="relation">チャオニーノ（フードコート型店舗）。ひつまぶし稲生。豊橋のスパゲッ亭チャオとは別系統として扱う。</p>
+<p class="official"><a href="https://www.ciao-nagoya.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="あんかけ太郎" data-text="あんかけ太郎 愛知県名古屋市発祥。あんかけスパゲッティ専門店。あんかけスパのほかインディアン（カレー）、ナポリタン&amp;イタリアン、ジャポネーズを提供する。 愛知県名古屋市 名古屋市内のみ。県外進出は確認できず。">
+<h3>あんかけ太郎</h3>
+<p class="intro">愛知県名古屋市発祥。あんかけスパゲッティ専門店。あんかけスパのほかインディアン（カレー）、ナポリタン&amp;イタリアン、ジャポネーズを提供する。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>公式で確認できず。2011年から展開とする二次情報がある。</dd></div><div><dt>店舗数</dt><dd>5店（名古屋市内。公式サイトの表示）</dd></div><div><dt>展開地域</dt><dd>名古屋市内のみ。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>1号店の所在地は確認できず。</dd></div></dl>
+<p class="relation">運営は株式会社ヒライワとされる二次情報がある。</p>
+<p class="official"><a href="https://ankake-taro.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="からめ亭" data-text="からめ亭 愛知県名古屋市発祥、1979年創業。あんかけスパゲッティ専門店。「あんかけスパ」名付け親とされる。 愛知県名古屋市 愛知県内（名古屋市、岡崎市）。">
+<h3>からめ亭</h3>
+<p class="intro">愛知県名古屋市発祥、1979年創業。あんかけスパゲッティ専門店。「あんかけスパ」名付け親とされる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1979年</dd></div><div><dt>店舗数</dt><dd>5店。公式サイト掲載は丸の内店・本店・徳川店の3店だが、食べログの現行チェーン一覧と直近情報では岡崎康生店・楠店も営業中として確認できるため、本稿では5店として扱う。</dd></div><div><dt>展開地域</dt><dd>愛知県内（名古屋市、岡崎市）。</dd></div><div><dt>本店・1号店</dt><dd>現本店は愛知県名古屋市名東区高社1-191 サンローヤル東山1Ｆ。1号店の所在地は公式で確認できず。</dd></div></dl>
+<p class="relation">公式サイトの運営名義は有限会社からめ亭。現存店として数えたのは、丸の内店（名古屋市中区丸の内2-14-4 EXE丸の内ビル1階）、本店（名古屋市名東区高社1-191 サンローヤル東山1Ｆ）、徳川店（名古屋市東区徳川2-11-5岡本ビル1Ｆ）、岡崎康生店（岡崎市本町通3-41）、楠店（名古屋市北区三軒町189）。楠店はFC店とする直近情報がある。池下店・碧南店・瀬戸店・岡崎上地店・豊田店は閉店扱いで数に入れていない。滝ノ水店は掲載情報は残るが、公式サイトと現行チェーン一覧に無く、現存を確認できずとして数に入れていない。#17では単独店扱いになっていたが、現行店を1軒ずつ確認すると3店以上ある。</p>
+<p class="official"><a href="https://karametei-ankake.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="スパゲッ亭チャオ（豊橋）" data-text="スパゲッ亭チャオ（豊橋） 愛知県豊橋市発祥、1965年創業。あんかけスパゲッティ専門店。鉄板での提供も特徴。 愛知県豊橋市 愛知県内（豊橋市・豊川市）。県外進出は現在確認できず。">
+<h3>スパゲッ亭チャオ（豊橋）</h3>
+<p class="intro">愛知県豊橋市発祥、1965年創業。あんかけスパゲッティ専門店。鉄板での提供も特徴。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県豊橋市</dd></div><div><dt>創業</dt><dd>1965年</dd></div><div><dt>店舗数</dt><dd>5店（2026年11月23日のJr. MEGAドン・キホーテ豊橋店閉店後。本店、アピタ向山店、みゆき店、イオンモール豊川店、豊川開運通店）</dd></div><div><dt>展開地域</dt><dd>愛知県内（豊橋市・豊川市）。県外進出は現在確認できず。</dd></div><div><dt>本店・1号店</dt><dd>1号店は豊橋駅前の地下。本店は1979年に現在の豊橋市広小路1-45へ移転。</dd></div></dl>
+<p class="relation">開業前に名古屋のヨコイで指導を受けたとされる。名古屋のスパゲッティハウス チャオとは別系統。運営は大木家（オーギヤグループ）。</p>
+<p class="official"><a href="https://ogi-ya.co.jp/restaurant/mukaiyama/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ユウゼン" data-text="ユウゼン 愛知県名古屋市中区（栄・住吉エリア）発祥、1972年創業。あんかけスパゲッティ専門店。マイルドなソースが特徴とされる。 愛知県名古屋市中区（栄・住吉エリア） 名古屋市内のみ。県外進出は確認できず。">
+<h3>ユウゼン</h3>
+<p class="intro">愛知県名古屋市中区（栄・住吉エリア）発祥、1972年創業。あんかけスパゲッティ専門店。マイルドなソースが特徴とされる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中区（栄・住吉エリア）</dd></div><div><dt>創業</dt><dd>1972年</dd></div><div><dt>店舗数</dt><dd>4店（栄店、金山店、西大須店、中日ビル店）</dd></div><div><dt>展開地域</dt><dd>名古屋市内のみ。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>創業地は栄の飲食街・住吉エリア。現在の栄店は名古屋市中区新栄町3-13。1号店の正確な所在地は確認できず。</dd></div></dl>
+<p class="relation">創業者は「そ〜れ」や「ヨコイ」の味に魅了されて開業したとされる二次情報がある。公式な師弟関係は確認できず。</p>
+<p class="official"><a href="https://ankake-yuuzen.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="あんかけ家" data-text="あんかけ家 愛知県名古屋市発祥。あんかけスパゲッティ専門店。麺・ソース・トッピングの量を選べる。 愛知県名古屋市 名古屋市内のみ。県外進出は確認できず。">
+<h3>あんかけ家</h3>
+<p class="intro">愛知県名古屋市発祥。あんかけスパゲッティ専門店。麺・ソース・トッピングの量を選べる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>公式で確認できず</dd></div><div><dt>店舗数</dt><dd>3店（藤が丘本店、植田店、千種駅前店）</dd></div><div><dt>展開地域</dt><dd>名古屋市内のみ。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>藤が丘本店は名古屋市名東区藤が丘162。1号店かどうかは公式で確認できず。</dd></div></dl>
+<p class="relation">運営は神田印刷工業株式会社とされる二次情報がある。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="スパゲッティハウス ヨコイ" data-text="スパゲッティハウス ヨコイ 愛知県名古屋市発祥、1963年創業。あんかけスパゲッティ。現在は3店。 愛知県名古屋市 名古屋市内のみ。県外進出は確認できず。">
+<h3>スパゲッティハウス ヨコイ</h3>
+<p class="intro">愛知県名古屋市発祥、1963年創業。あんかけスパゲッティ。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1963年。あんかけスパゲッティを最初に出した店は1961年開業のそーれとされる。</dd></div><div><dt>店舗数</dt><dd>3店舗（住吉本店、錦店、KITTE名古屋店。公式トップが「名古屋で3店舗を展開中」と明記、2026-11-27確認）。2021年の会社発表にあった県内FC1店舗の現在の存続は公式トップでは確認できず、上記3店舗には含めていない。</dd></div><div><dt>展開地域</dt><dd>名古屋市内のみ。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>住吉本店は名古屋市中区栄3-10-11。</dd></div></dl>
+<p class="relation">そーれは創業者が共同出資して開いた発祥店として扱われる。からめ亭は名称命名とされるが別店。</p>
+<p class="official"><a href="https://yokoi-anspa.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="中華・台湾">
+<h2>中華・台湾<span class="count">1件</span></h2>
+<div class="grid"><article class="card" data-name="味仙" data-text="味仙 愛知県名古屋市発祥、1960年創業。台湾料理、台湾ラーメン。 愛知県名古屋市 愛知中心。矢場味仙の東京進出（矢場味仙TOKYO、2025年10月7日開店とする情報）や東京の味仙店舗が確認できる。">
+<h3>味仙</h3>
+<p class="intro">愛知県名古屋市発祥、1960年創業。台湾料理、台湾ラーメン。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1960年（味仙本店公式サイトの創業表記として #16 が採用）／1962年3月27日（今池に店舗を構え再出発した年として扱われる）。前身の「万福」「大和食堂」から「味仙」への改名経緯があるため、創業年の一本化は確認できず、両表記を併記する。</dd></div><div><dt>店舗数</dt><dd>系列ごとに公式サイトと運営が分かれるため、統一した現在数は確認できず。確認できる範囲では、味仙本店系公式サイト（misen.ne.jp）対象がJR名古屋駅店・今池本店・名駅柳橋店・大名古屋ビルヂング店の4店舗、矢場味仙系が矢場店・中部国際空港セントレア店など、八事・焼山・日進竹の山系が3店舗、住吉店が1店舗、藤が丘店が1店舗と分かれる。全体では3店舗以上が営業中であることは確認できるが、合算した公式総数は確認できずと明記する。</dd></div><div><dt>展開地域</dt><dd>愛知中心。矢場味仙の東京進出（矢場味仙TOKYO、2025年10月7日開店とする情報）や東京の味仙店舗が確認できる。</dd></div><div><dt>本店・1号店</dt><dd>今池本店は名古屋市千種区今池1-12-10。</dd></div></dl>
+<p class="relation">創業者の家族・系統ごとに独立採算で運営する形で、味仙本店系、矢場味仙系、八事・焼山・日進竹の山系、住吉系、藤が丘店などに分かれる。公式サイトも系列ごとに分かれるため、同一チェーンとして単純合算しない。</p>
+<p class="official"><a href="https://www.misen.ne.jp/ramen（味仙本店系）" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="カレー">
+<h2>カレー<span class="count">1件</span></h2>
+<div class="grid"><article class="card" data-name="カレーハウスCoCo壱番屋" data-text="カレーハウスCoCo壱番屋 愛知県西枇杷島町（現・清須市）発祥、1978年創業。カレーライス専門店。 愛知県西枇杷島町（現・清須市） 全国展開。海外展開あり。">
+<h3>カレーハウスCoCo壱番屋</h3>
+<p class="intro">愛知県西枇杷島町（現・清須市）発祥、1978年創業。カレーライス専門店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県西枇杷島町（現・清須市）</dd></div><div><dt>創業</dt><dd>1978年</dd></div><div><dt>店舗数</dt><dd>壱番屋公式表示で国内1,285店・海外218店（2026年2月末）。国内数にはパスタ・デ・ココ等の他業態を含むため、CoCo壱番屋単体の厳密な現在数は確認できず（2026年10月末1,202店とする二次集計あり）。</dd></div><div><dt>展開地域</dt><dd>全国展開。海外展開あり。</dd></div><div><dt>本店・1号店</dt><dd>カレー専門店としての1号店は西枇杷島（現・清須市）。現本社は愛知県一宮市。</dd></div></dl>
+<p class="relation">パスタ・デ・ココ。暖簾分けに近い「ブルームシステム」が知られる。</p>
+<p class="official"><a href="https://www.ichibanya.co.jp/comp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="焼肉・ステーキ">
+<h2>焼肉・ステーキ<span class="count">13件</span></h2>
+<div class="grid"><article class="card" data-name="ブロンコビリー" data-text="ブロンコビリー 愛知県名古屋市北区発祥、1978年創業。ステーキ、ハンバーグ、サラダバー、大かまどご飯。 愛知県名古屋市北区 関東（東京・埼玉・神奈川・千葉・群馬）、東海（愛知・岐阜・三重・静岡）、関西（滋賀・京都・大阪・兵庫・奈良）、九州（福岡）。">
+<h3>ブロンコビリー</h3>
+<p class="intro">愛知県名古屋市北区発祥、1978年創業。ステーキ、ハンバーグ、サラダバー、大かまどご飯。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市北区</dd></div><div><dt>創業</dt><dd>1978年（ステーキハウス ブロンコ大曽根店）。前身の喫茶トミヤマは1969年。公式会社概要の「創業 1978年」と一致する。</dd></div><div><dt>店舗数</dt><dd>全店直営150店舗、グループ合計161店舗（2025年12月31日現在、公式会社概要）。</dd></div><div><dt>展開地域</dt><dd>関東（東京・埼玉・神奈川・千葉・群馬）、東海（愛知・岐阜・三重・静岡）、関西（滋賀・京都・大阪・兵庫・奈良）、九州（福岡）。</dd></div><div><dt>本店・1号店</dt><dd>第1号店は大曽根店（名古屋市北区、現存せず）。現本社は名古屋市中村区椿町1-5 BBビル。</dd></div></dl>
+<p class="relation">厚切りとんかつ手づくりおばんざい「かつひろ」、お酒とお肉とおばんざい「信貴や」など。グループ企業に松屋栄食品本舗、レ・ヴァン、朝日ミート。</p>
+<p class="official"><a href="https://www.bronco.co.jp/corporate/about/outline/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="あみやき亭" data-text="あみやき亭 愛知県春日井市発祥、1995年創業。焼肉（国産牛）。 愛知県春日井市 東海中心（愛知・岐阜・三重・静岡・滋賀）、関東（東京・神奈川・埼玉・千葉）など県外進出あり。">
+<h3>あみやき亭</h3>
+<p class="intro">愛知県春日井市発祥、1995年創業。焼肉（国産牛）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県春日井市</dd></div><div><dt>創業</dt><dd>1995年（1995年6月22日会社設立、同年7月に1号店を春日井市にオープン）</dd></div><div><dt>店舗数</dt><dd>「あみやき亭」87店舗＋「あみやき亭PLUS」7店舗＝94店舗（2025年9月30日現在、半期報告書の焼肉事業内訳）。グループ全体は同日312店舗。2026-11-27時点の公式店舗一覧による正確な現在数は確認できず、上記開示時点の数を明記する。</dd></div><div><dt>展開地域</dt><dd>東海中心（愛知・岐阜・三重・静岡・滋賀）、関東（東京・神奈川・埼玉・千葉）など県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は愛知県春日井市。現本社は愛知県春日井市如意申町5-12-8。</dd></div></dl>
+<p class="relation">元祖やきとり家美濃路、感動の肉と米、焼肉食べ放題どんどん、スエヒロ館、ほるたん屋など。</p>
+<p class="official"><a href="http://www.amiyakitei.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="あさくま" data-text="あさくま 愛知県日進市（旧・愛知郡日進町赤池）発祥、1948年創業。ステーキ、ハンバーグ、サラダバー。 愛知県日進市（旧・愛知郡日進町赤池） 愛知・岐阜・三重・静岡、千葉・茨城・埼玉・東京・神奈川、大阪・京都、岡山（FC）。">
+<h3>あさくま</h3>
+<p class="intro">愛知県日進市（旧・愛知郡日進町赤池）発祥、1948年創業。ステーキ、ハンバーグ、サラダバー。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県日進市（旧・愛知郡日進町赤池）</dd></div><div><dt>創業</dt><dd>1948年12月10日（会社設立／創業表記）／1962年3月（ステーキレストラン1号店「ドライバーズコーナー・キッチンあさくま」開店）</dd></div><div><dt>店舗数</dt><dd>あさくま73店舗（直営69店舗、フランチャイズ4店舗。公式会社情報ページの店舗一覧、2026年8月の新店まで反映されたページを2026-11-27に確認）。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重・静岡、千葉・茨城・埼玉・東京・神奈川、大阪・京都、岡山（FC）。</dd></div><div><dt>本店・1号店</dt><dd>1号店は現・ステーキのあさくま本店（愛知県日進市赤池町西組32番地）。#16 の「本店所在地は公式で確認できず」を修正する。本社は名古屋市天白区植田西二丁目1410番地。</dd></div></dl>
+<p class="relation">カレーのあさくま、モツ焼きエビス参（公式トップで店舗一覧8店舗と案内）など。親会社はテンポスホールディングス系。</p>
+<p class="official"><a href="https://www.asakuma.co.jp/company.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="感動の肉と米" data-text="感動の肉と米 愛知県春日井市発祥、2021年創業。ステーキ定食専門店。現在は52店。 愛知県春日井市 全国">
+<h3>感動の肉と米</h3>
+<p class="intro">愛知県春日井市発祥、2021年創業。ステーキ定食専門店。現在は52店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県春日井市</dd></div><div><dt>創業</dt><dd>2021年</dd></div><div><dt>店舗数</dt><dd>52店（2026年3月期第3四半期末、会社開示）</dd></div><div><dt>展開地域</dt><dd>全国</dd></div><div><dt>本店・1号店</dt><dd>1号店の春日井店（愛知県春日井市如意申町6-17-10）</dd></div></dl>
+<p class="relation">既存リストのあみやき亭（株式会社あみやき亭）の別ブランド</p>
+<p class="official"><a href="http://www.amiyakitei.co.jp/niku_kome/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="焼きたてのかるび" data-text="焼きたてのかるび 愛知県豊橋市発祥、2021年創業。カルビ丼・焼肉定食のファストカジュアル業態。 愛知県豊橋市 全国">
+<h3>焼きたてのかるび</h3>
+<p class="intro">愛知県豊橋市発祥、2021年創業。カルビ丼・焼肉定食のファストカジュアル業態。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県豊橋市</dd></div><div><dt>創業</dt><dd>2021年</dd></div><div><dt>店舗数</dt><dd>39店（2026年9月の会社発表）</dd></div><div><dt>展開地域</dt><dd>全国</dd></div><div><dt>本店・1号店</dt><dd>豊橋北山本店（愛知県豊橋市、2021年8月開店）</dd></div></dl>
+<p class="relation">運営は物語コーポレーション（本社豊橋市）。公式沿革に「2021年8月 愛知県豊橋市に『焼きたてのかるび』1号店を開店」とある</p>
+<p class="official"><a href="https://www.yakitateno-karubi.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="肉のよいち" data-text="肉のよいち 愛知県名古屋市発祥、2018年創業。焼肉専門店（釜炊きごはんが看板）。現在は27店。 愛知県名古屋市 東海・関西・首都圏を中心に全国">
+<h3>肉のよいち</h3>
+<p class="intro">愛知県名古屋市発祥、2018年創業。焼肉専門店（釜炊きごはんが看板）。現在は27店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2018年（1号店の開店年による。運営の株式会社アクトコミュニティは2016年3月設立）</dd></div><div><dt>店舗数</dt><dd>27店（直営3店・FC24店、2025年10月の会社発表。2026-11-27時点の公式の正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>東海・関西・首都圏を中心に全国</dd></div><div><dt>本店・1号店</dt><dd>名駅本店（愛知県名古屋市中村区名駅4-23-10、2018年10月26日開店）</dd></div></dl>
+<p class="relation">運営は株式会社アクトコミュニティ（本社名古屋市中区栄）。昼だけうなぎ屋、炭焼鰻と特選和牛 ふじさん、馬肉専門タテガミも同社の運営</p>
+<p class="official"><a href="https://www.nikunoyoichi.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ほるたん屋" data-text="ほるたん屋 愛知県名古屋市発祥。ホルモン・タンを中心とする焼肉専門店。現在は12店。 愛知県名古屋市（株式会社あみやき亭の直営ブランド） 愛知を中心">
+<h3>ほるたん屋</h3>
+<p class="intro">愛知県名古屋市発祥。ホルモン・タンを中心とする焼肉専門店。現在は12店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（株式会社あみやき亭の直営ブランド）</dd></div><div><dt>創業</dt><dd>確認できず</dd></div><div><dt>店舗数</dt><dd>12店（2026年3月期の開示による。2026-11-27時点の公式一覧での正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>愛知を中心</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">既存リストのあみやき亭（株式会社あみやき亭）の別ブランド</p>
+<p class="official"><a href="http://www.amiyakitei.co.jp/index.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ステーキハウス インディアンズ" data-text="ステーキハウス インディアンズ 愛知県名古屋市発祥、2017年創業。ステーキ・ハンバーグ専門店。現在は10店。 愛知県名古屋市 愛知・岐阜">
+<h3>ステーキハウス インディアンズ</h3>
+<p class="intro">愛知県名古屋市発祥、2017年創業。ステーキ・ハンバーグ専門店。現在は10店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2017年（名古屋本店の開店年による。公式では確認できず）</dd></div><div><dt>店舗数</dt><dd>10店（公式店舗ページ：Steak House Indian&#x27;s 3店、MEGA Indian&#x27;s 7店）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜</dd></div><div><dt>本店・1号店</dt><dd>名古屋本店（愛知県名古屋市西区名駅2-10-12）</dd></div></dl>
+<p class="relation">MEGA Indian&#x27;s は同ブランドの大型店業態として店舗数に含めた</p>
+<p class="official"><a href="https://steakhouse-indians.com/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="雪月花" data-text="雪月花 岐阜県揖斐郡発祥、1996年創業。高級焼肉・肉料理。店舗ごとに業態が異なる。 岐阜県揖斐郡 岐阜・愛知・東京・滋賀">
+<h3>雪月花</h3>
+<p class="intro">岐阜県揖斐郡発祥、1996年創業。高級焼肉・肉料理。店舗ごとに業態が異なる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県揖斐郡</dd></div><div><dt>創業</dt><dd>1996年（雪月花本店の開店年による）</dd></div><div><dt>店舗数</dt><dd>8店（運営会社の店舗紹介で確認できた「雪月花」名義の店舗：肉屋雪月花NAGOYA、雪月花たなかさとる、SALON雪月花、THE雪月花、雪月花ながら、雪月花大野店、近江牛雪月花、雪月花銀座）</dd></div><div><dt>展開地域</dt><dd>岐阜・愛知・東京・滋賀</dd></div><div><dt>本店・1号店</dt><dd>雪月花本店（岐阜県揖斐郡内。詳細な所在地は公式で確認できず）</dd></div></dl>
+<p class="relation">運営は田中屋FOOD SERVICE。焼肉二郎、焼肉三郎、とんかつ田なか屋も同社の運営</p>
+<p class="official"><a href="https://tanakayafoodservice.jp" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="飛騨牛一頭家 馬喰一代" data-text="飛騨牛一頭家 馬喰一代 岐阜県岐阜市発祥。飛騨牛の焼肉・すき焼き・しゃぶしゃぶ。現在は7店。 岐阜県岐阜市 岐阜・愛知・東京・大阪">
+<h3>飛騨牛一頭家 馬喰一代</h3>
+<p class="intro">岐阜県岐阜市発祥。飛騨牛の焼肉・すき焼き・しゃぶしゃぶ。現在は7店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市</dd></div><div><dt>創業</dt><dd>確認できず（運営の深尾食品株式会社は1969年設立）</dd></div><div><dt>店舗数</dt><dd>7店（公式店舗紹介で確認できた「飛騨牛一頭家 馬喰一代」名義の店舗：長良本家、岐阜神田、各務原、名古屋WEST、名古屋栄、銀座、KITTE大阪）</dd></div><div><dt>展開地域</dt><dd>岐阜・愛知・東京・大阪</dd></div><div><dt>本店・1号店</dt><dd>長良本家（岐阜県岐阜市八代2-7-10）。グループの発祥とされるが開店年は公式で確認できず</dd></div></dl>
+<p class="relation">最飛び飛騨牛 しゃぶすき家 馬喰一代、飛騨牛グリルばくろ等は別業態として店舗数に含めていない</p>
+<p class="official"><a href="https://tsuhan.bakuroichidai.co.jp/user_data/shoplist" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="焼肉食べ放題 どんどん" data-text="焼肉食べ放題 どんどん 愛知県（あみやき亭直営業態）発祥、2015年創業。焼肉食べ放題。現在は6店。 愛知県（あみやき亭直営業態） 中部地区・関東地区・滋賀県">
+<h3>焼肉食べ放題 どんどん</h3>
+<p class="intro">愛知県（あみやき亭直営業態）発祥、2015年創業。焼肉食べ放題。現在は6店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県（あみやき亭直営業態）</dd></div><div><dt>創業</dt><dd>2015年</dd></div><div><dt>店舗数</dt><dd>6店舗（2026年3月期）</dd></div><div><dt>展開地域</dt><dd>中部地区・関東地区・滋賀県</dd></div><div><dt>本店・1号店</dt><dd>確認できず（2015年8月にあみやき亭120号店として開店）</dd></div></dl>
+<p class="relation">株式会社あみやき亭の焼肉事業</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="焼肉二郎" data-text="焼肉二郎 愛知県名古屋市発祥。焼肉・冷麺専門店。現在は4店。 愛知県名古屋市 名古屋市内">
+<h3>焼肉二郎</h3>
+<p class="intro">愛知県名古屋市発祥。焼肉・冷麺専門店。現在は4店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>確認できず（柳橋店の2015年12月9日開店が最古として確認できる）</dd></div><div><dt>店舗数</dt><dd>4店（2025年6月の会社発表：柳橋店、金山店、錦3店、椿町店）。ただし椿町店は2026年10月に焼肉三郎椿町店が同住所で開店しており、現在の正確な店舗数は公式で確認できず。柳橋・金山・錦3の3店は確認できる</dd></div><div><dt>展開地域</dt><dd>名古屋市内</dd></div><div><dt>本店・1号店</dt><dd>柳橋店が最古として確認できるが、1号店かどうかは公式で確認できず</dd></div></dl>
+<p class="relation">運営は田中屋FOOD SERVICE。雪月花、焼肉三郎、とんかつ田なか屋も同社の運営</p>
+<p class="official"><a href="https://tanakayafoodservice.jp" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="焼肉三郎" data-text="焼肉三郎 愛知県名古屋市発祥、2026年創業。焼肉専門店。現在は3店。 愛知県名古屋市 名古屋市内">
+<h3>焼肉三郎</h3>
+<p class="intro">愛知県名古屋市発祥、2026年創業。焼肉専門店。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2026年</dd></div><div><dt>店舗数</dt><dd>3店（原店、椿町店、名駅西口店）。名駅西口店は2026年11月6日開店予定と発表され、開店後の発信で営業が確認できる</dd></div><div><dt>展開地域</dt><dd>名古屋市内</dd></div><div><dt>本店・1号店</dt><dd>1号店の原店（愛知県名古屋市天白区原1-1401、2026年8月29日開店）</dd></div></dl>
+<p class="relation">運営は田中屋FOOD SERVICE。雪月花、焼肉二郎、とんかつ田なか屋も同社の運営</p>
+<p class="official"><a href="https://tanakayafoodservice.jp" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="とんかつ">
+<h2>とんかつ<span class="count">6件</span></h2>
+<div class="grid"><article class="card" data-name="かつさと" data-text="かつさと 愛知県田原市発祥。とんかつ・かつ丼専門店。 愛知県田原市（運営のヴィレッジフーズ株式会社の本社所在地による。「1969年、愛知県田原市発祥」とする二次情報もある） 愛知・岐阜・静岡・関東・東北・関西・中国・四国・沖縄・マカオ">
+<h3>かつさと</h3>
+<p class="intro">愛知県田原市発祥。とんかつ・かつ丼専門店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県田原市（運営のヴィレッジフーズ株式会社の本社所在地による。「1969年、愛知県田原市発祥」とする二次情報もある）</dd></div><div><dt>創業</dt><dd>確認できず（会社の設立は1969年とされるが、ブランドの開始年は公式で確認できず）</dd></div><div><dt>店舗数</dt><dd>公式店舗ページでかつさと名義47店を確認（2026-11-27に数えた）。ただし同ページには牟呂店など会社発表で確認できる店舗の記載漏れがあり、正確な現在数は確認できず</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・静岡・関東・東北・関西・中国・四国・沖縄・マカオ</dd></div><div><dt>本店・1号店</dt><dd>確認できず（牟呂店＝愛知県豊橋市牟呂中村町19-1が初期の店舗とされるが、1号店かどうかは公式で確認できず）</dd></div></dl>
+<p class="relation">運営はヴィレッジフーズ株式会社（本社田原市）。みかわの郷、六壱珈琲、店内ブランド「ごち天」も同社の運営</p>
+<p class="official"><a href="http://katsusato.com/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="矢場とん" data-text="矢場とん 愛知県名古屋市矢場町・大須発祥、1947年創業。味噌かつ専門店。現在は30拠点。 愛知県名古屋市矢場町・大須 愛知中心。三重・富山・大阪・東京への県外進出あり。">
+<h3>矢場とん</h3>
+<p class="intro">愛知県名古屋市矢場町・大須発祥、1947年創業。味噌かつ専門店。現在は30拠点。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市矢場町・大須</dd></div><div><dt>創業</dt><dd>1947年</dd></div><div><dt>店舗数</dt><dd>30拠点（2026-11-27に公式店舗一覧で数えた数。お持ち帰り専門店・昔の矢場とん等を含む）。</dd></div><div><dt>展開地域</dt><dd>愛知中心。三重・富山・大阪・東京への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>矢場町本店は名古屋市中区大須3-6-18。</dd></div></dl>
+<p class="relation">昔の矢場とん、ぶーちゃんハウス、YABATON SHOP、矢場とん市場（マルシェ）等が公式店舗一覧に含まれる。</p>
+<p class="official"><a href="https://www.yabaton.com/stores" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="マ・メゾン" data-text="マ・メゾン 愛知県名古屋市千種区星が丘発祥、1981年創業。洋食、とんかつ、カフェ、パティスリーなど複合業態。 愛知県名古屋市千種区星が丘 愛知中心。県外進出あり。海外店舗（シンガポール、マレーシア、バンコクなど）の開店歴が公式沿革にあるが、現況は確認できず。">
+<h3>マ・メゾン</h3>
+<p class="intro">愛知県名古屋市千種区星が丘発祥、1981年創業。洋食、とんかつ、カフェ、パティスリーなど複合業態。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市千種区星が丘</dd></div><div><dt>創業</dt><dd>1981年</dd></div><div><dt>店舗数</dt><dd>公式で正確な現在数は確認できず。公式会社ページの「今や25店舗」という表記は、社長挨拶の文面（「33年たった今」）から旧時点のものとみられ、現行数として使えない。求人系二次情報では現在33店舗を運営するとされる（2026-11-27確認）。いずれにせよ3店舗以上であることは確実。</dd></div><div><dt>展開地域</dt><dd>愛知中心。県外進出あり。海外店舗（シンガポール、マレーシア、バンコクなど）の開店歴が公式沿革にあるが、現況は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>星ヶ丘本店は名古屋市千種区星が丘元町1-15（1981年6月にレストランMA・MAISON星ヶ丘本店としてオープン）。</dd></div></dl>
+<p class="relation">洋食、とんかつマ・メゾン、Cafe MA MAISON、パティスリー ランファン、ビアバル、MEAT FACTORYなど複数業態を持つ。</p>
+<p class="official"><a href="https://ma-maison.co.jp/company/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="かつ雅" data-text="かつ雅 愛知県名古屋市発祥。とんかつ専門店。現在は13店。 愛知県名古屋市 愛知県内">
+<h3>かつ雅</h3>
+<p class="intro">愛知県名古屋市発祥。とんかつ専門店。現在は13店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>確認できず（運営の株式会社レ・ヴァンは1984年11月設立）</dd></div><div><dt>店舗数</dt><dd>13店（公式サイトの店舗一覧を2026-11-27に数えた：小幡、尾張旭、扶桑、豊田美里、春日井、大府、小牧、豊田吉原、伏見、神の倉、一宮、津島、稲沢）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営は株式会社レ・ヴァン（本社名古屋市守山区）。2024年4月からブロンコビリーグループ</p>
+<p class="official"><a href="https://www.katumasa.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="とんかつ かつひろ" data-text="とんかつ かつひろ 愛知県豊田市発祥、2021年創業。厚切りとんかつと京風おばんざいBARの専門店。 愛知県豊田市 愛知県内">
+<h3>とんかつ かつひろ</h3>
+<p class="intro">愛知県豊田市発祥、2021年創業。厚切りとんかつと京風おばんざいBARの専門店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県豊田市</dd></div><div><dt>創業</dt><dd>2021年</dd></div><div><dt>店舗数</dt><dd>3店（2026年11月5日現在、会社発表：中小田井店、豊田小坂本町店、豊明前後店）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>1号店の豊田小坂本町店（愛知県豊田市、2021年9月13日開店）</dd></div></dl>
+<p class="relation">既存リストのブロンコビリー（株式会社ブロンコビリー）の別ブランド</p>
+<p class="official"><a href="https://tonkatsu-obanzai-katsuhiro.jp/5142/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="とんかつ田なか屋" data-text="とんかつ田なか屋 岐阜県揖斐郡発祥、1997年創業。とんかつ専門店。現在は3店。 岐阜県揖斐郡 岐阜県内">
+<h3>とんかつ田なか屋</h3>
+<p class="intro">岐阜県揖斐郡発祥、1997年創業。とんかつ専門店。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県揖斐郡</dd></div><div><dt>創業</dt><dd>1997年</dd></div><div><dt>店舗数</dt><dd>3店（岐阜県内）</dd></div><div><dt>展開地域</dt><dd>岐阜県内</dd></div><div><dt>本店・1号店</dt><dd>初代店舗は岐阜県揖斐郡内（1997年7月開店、2002年閉店）。現行店舗は岐阜店、LCワールド店、モレラ岐阜店</dd></div></dl>
+<p class="relation">運営は田中屋FOOD SERVICE。雪月花、焼肉二郎、焼肉三郎も同社の運営。東京・赤坂の店舗は2026年12月開店予定とされ、確認日時点では店舗数に含めていない</p>
+<p class="official"><a href="https://tanakayafoodservice.jp/shop/tonkatsugifu.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="うなぎ">
+<h2>うなぎ<span class="count">9件</span></h2>
+<div class="grid"><article class="card" data-name="炭焼 うな富士" data-text="炭焼 うな富士 愛知県名古屋市昭和区発祥、1995年創業。うなぎ料理、ひつまぶし。 愛知県名古屋市昭和区 名古屋中心。東京・大阪・京都・福岡への県外進出あり（baselineに九州がなかったため追加）。">
+<h3>炭焼 うな富士</h3>
+<p class="intro">愛知県名古屋市昭和区発祥、1995年創業。うなぎ料理、ひつまぶし。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市昭和区</dd></div><div><dt>創業</dt><dd>1995年</dd></div><div><dt>店舗数</dt><dd>公式店舗一覧に18件掲載（2026-11-27に公式一覧を数えたもの。内訳は炭焼うな富士の飲食店15店、お弁当うな富士2店（栄三越店、東武池袋店）、姉妹店の鰻う おか冨士1店）。栄HAERA店は開業済みで一覧に含まれ、東武池袋店は2026年11月19日に開店したとされる。</dd></div><div><dt>展開地域</dt><dd>名古屋中心。東京・大阪・京都・福岡への県外進出あり（baselineに九州がなかったため追加）。</dd></div><div><dt>本店・1号店</dt><dd>本店は名古屋市昭和区白金1-1-4。</dd></div></dl>
+<p class="relation">鰻う おか冨士（姉妹店）。2018年に創業者からかぶらやグループへ事業承継された。</p>
+<p class="official"><a href="https://sumiyaki-unafuji.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ひつまぶし備長" data-text="ひつまぶし備長 愛知県丹羽郡大口町発祥、1992年創業。ひつまぶし専門店。現在は13店。 愛知県丹羽郡大口町 愛知・東京・大阪・福岡">
+<h3>ひつまぶし備長</h3>
+<p class="intro">愛知県丹羽郡大口町発祥、1992年創業。ひつまぶし専門店。現在は13店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県丹羽郡大口町</dd></div><div><dt>創業</dt><dd>1992年（株式会社備長は1992年9月設立、同年11月に大口町で「備長」を開店）</dd></div><div><dt>店舗数</dt><dd>13店（2026年10月時点、公式会社ページ）</dd></div><div><dt>展開地域</dt><dd>愛知・東京・大阪・福岡</dd></div><div><dt>本店・1号店</dt><dd>本店（愛知県丹羽郡大口町下小口5-176-1）</dd></div></dl>
+<p class="relation">運営は株式会社備長。関連会社に備長ホールディングス、備長フードサービス</p>
+<p class="official"><a href="https://hitsumabushi.co.jp/company/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="うなぎ四代目菊川" data-text="うなぎ四代目菊川 愛知県名古屋市発祥、2017年創業。うなぎ・ひつまぶし専門店（一本鰻が看板）。 愛知県名古屋市 全国・海外">
+<h3>うなぎ四代目菊川</h3>
+<p class="intro">愛知県名古屋市発祥、2017年創業。うなぎ・ひつまぶし専門店（一本鰻が看板）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2017年（ブランド1号店の開店年による。母体は1932年創業とされるうなぎ卸・中庄商店の系譜）</dd></div><div><dt>店舗数</dt><dd>公式店舗一覧で関東12店・中部9店・関西7店・中国／九州2店を確認。ただし2026年12月開店予定の店舗が含まれるため、2026-11-27現在の正確な総数は確認できず（3店以上は満たす）</dd></div><div><dt>展開地域</dt><dd>全国・海外</dd></div><div><dt>本店・1号店</dt><dd>グローバルゲート店（愛知県名古屋市中村区平池町4丁目60番12号 グローバルゲート3F、2017年10月5日開店）</dd></div></dl>
+<p class="relation">運営は株式会社パッションギークス（本社北名古屋市）。うなぎ卸・中庄商店の四代目が設立した会社とされる</p>
+<p class="official"><a href="https://www.yondaimekikukawa.com/shop" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="まるや本店" data-text="まるや本店 愛知県名古屋市天白区発祥、2001年創業。ひつまぶし専門店。現在は8店。 愛知県名古屋市天白区 愛知・東京・大阪">
+<h3>まるや本店</h3>
+<p class="intro">愛知県名古屋市天白区発祥、2001年創業。ひつまぶし専門店。現在は8店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市天白区</dd></div><div><dt>創業</dt><dd>2001年</dd></div><div><dt>店舗数</dt><dd>8店（会社発表の店舗一覧9店から、2026年2月28日に閉店した名駅店を除いた数。愛知5店、東京2店、大阪1店）</dd></div><div><dt>展開地域</dt><dd>愛知・東京・大阪</dd></div><div><dt>本店・1号店</dt><dd>天白本店（愛知県名古屋市天白区植田西3-1212）</dd></div></dl>
+<p class="relation">運営は有限会社まるや本店（本社名古屋市天白区）</p>
+<p class="official"><a href="https://www.maruya-honten.com" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="昼だけうなぎ屋" data-text="昼だけうなぎ屋 愛知県名古屋市発祥。昼営業のうなぎ専門店（ひつまぶし・うな丼）。 愛知県名古屋市 愛知・福島">
+<h3>昼だけうなぎ屋</h3>
+<p class="intro">愛知県名古屋市発祥。昼営業のうなぎ専門店（ひつまぶし・うな丼）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>確認できず</dd></div><div><dt>店舗数</dt><dd>6店（2025年3月の会社発表：栄本店、大須店、名駅店、今池店、安城店、福島郡山店）</dd></div><div><dt>展開地域</dt><dd>愛知・福島</dd></div><div><dt>本店・1号店</dt><dd>栄本店（愛知県名古屋市中区栄3-13-6）</dd></div></dl>
+<p class="relation">運営は株式会社アクトコミュニティ。肉のよいちも同社の運営</p>
+<p class="official"><a href="https://www.unagihirudake.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="うなぎ和食 しら河" data-text="うなぎ和食 しら河 愛知県名古屋市西区発祥、1948年創業。うなぎ・ひつまぶし・和食。現在は5店。 愛知県名古屋市西区 名古屋市内">
+<h3>うなぎ和食 しら河</h3>
+<p class="intro">愛知県名古屋市西区発祥、1948年創業。うなぎ・ひつまぶし・和食。現在は5店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市西区</dd></div><div><dt>創業</dt><dd>1948年（浄心公設市場で天ぷら店として創業。うなぎ店は1966年に併設、1979年に「大森の店しら河」を開店）</dd></div><div><dt>店舗数</dt><dd>5店（公式会社ページ：浄心本店、今池店、ジェイアール名古屋高島屋店、栄ガスビル店、名駅店）</dd></div><div><dt>展開地域</dt><dd>名古屋市内</dd></div><div><dt>本店・1号店</dt><dd>浄心本店（愛知県名古屋市西区城西4-20-12）</dd></div></dl>
+<p class="relation">なし（単独運営）</p>
+<p class="official"><a href="https://hitsumabushi.jp/company" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="あつた蓬莱軒" data-text="あつた蓬莱軒 愛知県名古屋市熱田区発祥、1873年創業。ひつまぶしの老舗（ひつまぶしは同店の登録商標）。 愛知県名古屋市熱田区 名古屋市内">
+<h3>あつた蓬莱軒</h3>
+<p class="intro">愛知県名古屋市熱田区発祥、1873年創業。ひつまぶしの老舗（ひつまぶしは同店の登録商標）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市熱田区</dd></div><div><dt>創業</dt><dd>1873年</dd></div><div><dt>店舗数</dt><dd>3店（本店、神宮店、松坂屋店）。ほかに持ち帰り専門の松坂屋地下店がある</dd></div><div><dt>展開地域</dt><dd>名古屋市内</dd></div><div><dt>本店・1号店</dt><dd>本店（愛知県名古屋市熱田区神戸町503）</dd></div></dl>
+<p class="relation">運営は株式会社蓬萊軒</p>
+<p class="official"><a href="https://www.houraiken.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="うなぎの兼光" data-text="うなぎの兼光 愛知県西尾市一色町発祥、2014年創業。うなぎ専門店（炭火手焼き。三河一色のうなぎ卸直営とされる）。 愛知県西尾市一色町 愛知県内">
+<h3>うなぎの兼光</h3>
+<p class="intro">愛知県西尾市一色町発祥、2014年創業。うなぎ専門店（炭火手焼き。三河一色のうなぎ卸直営とされる）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県西尾市一色町</dd></div><div><dt>創業</dt><dd>2014年（本店の開店年による）</dd></div><div><dt>店舗数</dt><dd>3店（一色本店、中日ビル店、東岡崎店。公式サイトの店舗ページでもこの3店が確認できる）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>本店（愛知県西尾市一色町藤江蛇池30-3、2014年7月26日開店とされる）</dd></div></dl>
+<p class="relation">確認できず</p>
+<p class="official"><a href="https://unaginokanemitsu.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ひつまぶし稲生" data-text="ひつまぶし稲生 愛知県名古屋市発祥、1991年創業。ひつまぶし専門店。現在は3店。 愛知県名古屋市 愛知県内">
+<h3>ひつまぶし稲生</h3>
+<p class="intro">愛知県名古屋市発祥、1991年創業。ひつまぶし専門店。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1991年（ブランド開始年による会社情報）</dd></div><div><dt>店舗数</dt><dd>3店（エスカ店、一号線豊明前後店、小牧小針店）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営はチャオニーノ。既存リストのスパゲッティハウス チャオ（名古屋）と同じ会社の運営</p>
+<p class="official"><a href="https://www.inou-hitsumabushi.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="手羽先・居酒屋">
+<h2>手羽先・居酒屋<span class="count">10件</span></h2>
+<div class="grid"><article class="card" data-name="新時代" data-text="新時代 愛知県刈谷市発祥、2010年創業。居酒屋（揚げ皮串「伝串」が看板）。 愛知県刈谷市 全国">
+<h3>新時代</h3>
+<p class="intro">愛知県刈谷市発祥、2010年創業。居酒屋（揚げ皮串「伝串」が看板）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県刈谷市</dd></div><div><dt>創業</dt><dd>2010年</dd></div><div><dt>店舗数</dt><dd>グループ全体で200店（2026年9月の会社発表）。新時代単体の正確な現在数は公式で確認できず（3店以上は満たす）</dd></div><div><dt>展開地域</dt><dd>全国</dd></div><div><dt>本店・1号店</dt><dd>新時代刈谷丸田町店（現・新時代刈谷1号記念店、愛知県刈谷市、2010年9月15日開店）</dd></div></dl>
+<p class="relation">運営は株式会社ファッズ。新時代44、鴨と豚料理とんぺら屋、生串打ち塩焼鳥 鳥ぶら、タイ王国政府認定レストラン スコンターも同社の運営</p>
+<p class="official"><a href="https://www.phads.jp" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="赤から" data-text="赤から 愛知県名古屋市発祥、2003年創業。辛味噌鍋を中心とする鍋居酒屋（郊外店では焼肉も扱う）。 愛知県名古屋市 全国">
+<h3>赤から</h3>
+<p class="intro">愛知県名古屋市発祥、2003年創業。辛味噌鍋を中心とする鍋居酒屋（郊外店では焼肉も扱う）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2003年（運営の株式会社甲羅は1974年4月設立）</dd></div><div><dt>店舗数</dt><dd>153店（2026年の会社発表）</dd></div><div><dt>展開地域</dt><dd>全国</dd></div><div><dt>本店・1号店</dt><dd>1号店は名古屋市内（2003年8月開店。詳細な所在地は公式で確認できず）</dd></div></dl>
+<p class="relation">運営は株式会社甲羅（本社豊橋市）。甲羅本店なども同社の運営</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="世界の山ちゃん" data-text="世界の山ちゃん 愛知県名古屋市新栄発祥、1981年創業。手羽先唐揚げを看板にする居酒屋。 愛知県名古屋市新栄 全国展開。海外展開あり。">
+<h3>世界の山ちゃん</h3>
+<p class="intro">愛知県名古屋市新栄発祥、1981年創業。手羽先唐揚げを看板にする居酒屋。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市新栄</dd></div><div><dt>創業</dt><dd>1981年</dd></div><div><dt>店舗数</dt><dd>国内外約90店（2026年、会社発表系情報）。</dd></div><div><dt>展開地域</dt><dd>全国展開。海外展開あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は名古屋市新栄。現本社は名古屋市。</dd></div></dl>
+<p class="relation">上位業態として「山」が知られる。風来坊との師弟関係は確認できず。</p>
+<p class="official"><a href="https://syfood-japan.com" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="風来坊" data-text="風来坊 愛知県名古屋市熱田区日比野発祥、1963年創業。手羽先唐揚げ、居酒屋。現在は57店。 愛知県名古屋市熱田区日比野 愛知中心。岐阜・三重・静内（北海道）・埼玉・東京・富山・大阪・京都・佐賀など県外進出あり、海外進出あり。">
+<h3>風来坊</h3>
+<p class="intro">愛知県名古屋市熱田区日比野発祥、1963年創業。手羽先唐揚げ、居酒屋。現在は57店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市熱田区日比野</dd></div><div><dt>創業</dt><dd>1963年</dd></div><div><dt>店舗数</dt><dd>57店（2026-11-27に公式店舗案内で重複掲載を除いて数えた数。米国ガーディナ店を含む）。</dd></div><div><dt>展開地域</dt><dd>愛知中心。岐阜・三重・静内（北海道）・埼玉・東京・富山・大阪・京都・佐賀など県外進出あり、海外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は名古屋市熱田区日比野（2019年閉店）。</dd></div></dl>
+<p class="relation">弟子・親族による暖簾分け店が中心で、一般的なFC展開ではないとされる。世界の山ちゃん創業者が通って研究したという記事はあるが、師弟関係は確認できず。</p>
+<p class="official"><a href="https://furaibou.com/tenpo/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="がブリチキン。" data-text="がブリチキン。 愛知県名古屋市発祥、2011年創業。からあげ・骨付鳥・漬け込みハイボールを看板とするからあげバル（居酒屋）。 愛知県名古屋市 全国・海外">
+<h3>がブリチキン。</h3>
+<p class="intro">愛知県名古屋市発祥、2011年創業。からあげ・骨付鳥・漬け込みハイボールを看板とするからあげバル（居酒屋）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2011年</dd></div><div><dt>店舗数</dt><dd>55店（2025年2月の会社発表の実施店舗数。ブランド全体では「約60店舗」とされる。2026-11-27時点の公式の正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>全国・海外</dd></div><div><dt>本店・1号店</dt><dd>金山本店（名古屋市内。2011年2月に名古屋市に1号店を出店したと会社発表にある）</dd></div></dl>
+<p class="relation">運営は株式会社ブルームダイニングサービス（所在地名古屋市中村区）</p>
+<p class="official"><a href="https://gabuchiki.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="元祖やきとり家美濃路" data-text="元祖やきとり家美濃路 愛知県春日井市発祥、2000年創業。焼き鳥居酒屋。現在は35店。 愛知県春日井市 東海を中心">
+<h3>元祖やきとり家美濃路</h3>
+<p class="intro">愛知県春日井市発祥、2000年創業。焼き鳥居酒屋。現在は35店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県春日井市</dd></div><div><dt>創業</dt><dd>2000年</dd></div><div><dt>店舗数</dt><dd>35店（2026年3月期決算短信）</dd></div><div><dt>展開地域</dt><dd>東海を中心</dd></div><div><dt>本店・1号店</dt><dd>1号店は春日井市内（2000年1月開店。詳細な所在地は公式で確認できず）</dd></div></dl>
+<p class="relation">既存リストのあみやき亭（株式会社あみやき亭）の別ブランド。「みの路」は美濃路の一部店舗の業態転換であり、別チェーンとして数えていない</p>
+<p class="official"><a href="http://www.amiyakitei.co.jp/index.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="鳥開総本家" data-text="鳥開総本家 愛知県名古屋市発祥、2000年創業。名古屋コーチン料理専門店（親子丼、手羽先唐揚げ）。 愛知県名古屋市 愛知・岐阜・東京・千葉・埼玉ほか">
+<h3>鳥開総本家</h3>
+<p class="intro">愛知県名古屋市発祥、2000年創業。名古屋コーチン料理専門店（親子丼、手羽先唐揚げ）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2000年（名古屋駅西口で居酒屋「鳥開」として開始。鳥開総本家への業態転換は2007年）</dd></div><div><dt>店舗数</dt><dd>14店（求人掲載の会社データによる。公式の正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・東京・千葉・埼玉ほか</dd></div><div><dt>本店・1号店</dt><dd>鳥開名駅西口店（愛知県名古屋市中村区則武1-7-15、2000年5月29日開店）。鳥開総本家の1号店は名駅南店（2007年8月23日開店、公式沿革）と、栄ラシック店とする取材記事があり、公式では確認できず</dd></div></dl>
+<p class="relation">運営は株式会社プログレ。鳥椀、FC・姉妹店の鳥開金山店・名駅3丁目店、海外FCもある</p>
+<p class="official"><a href="https://www.tori-kai.com/company/outline" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="つばさや" data-text="つばさや 愛知県名古屋市発祥とされる、1982年創業。居酒屋（手羽先唐揚げ、名古屋めし）。現在は11店。 愛知県名古屋市（「名古屋生まれの居酒屋」とされる） 愛知県内">
+<h3>つばさや</h3>
+<p class="intro">愛知県名古屋市発祥とされる、1982年創業。居酒屋（手羽先唐揚げ、名古屋めし）。現在は11店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（「名古屋生まれの居酒屋」とされる）</dd></div><div><dt>創業</dt><dd>1982年（昭和57年とされる）</dd></div><div><dt>店舗数</dt><dd>11店（2026年3月取材時点。店舗一覧でも11店を確認）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営会社は確認できず（株式会社つばさやの存在は確認できるが、公式の会社情報は確認できず）</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="やぶ屋" data-text="やぶ屋 愛知県名古屋市発祥、1994年創業。居酒屋（とんちゃん等のホルモン焼きが看板）。 愛知県名古屋市 愛知県内">
+<h3>やぶ屋</h3>
+<p class="intro">愛知県名古屋市発祥、1994年創業。居酒屋（とんちゃん等のホルモン焼きが看板）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1994年</dd></div><div><dt>店舗数</dt><dd>やぶ屋名義6店（今池本店、名駅西店、大須店、大曽根オズワンビル店、塩釜口店、豊浜店。店舗一覧で2026-11-27に確認。公式の正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>やぶ屋今池本店（愛知県名古屋市千種区今池5-10-11、1994年6月開店。現店舗は2015年に新築移転）</dd></div></dl>
+<p class="relation">運営は株式会社やぶやグループ（本社名古屋市千種区）。どて煮の、尾毛多セコ代、イザカヤヤスイ等も同社の運営</p>
+<p class="official"><a href="https://www.yabuya.com/aboutus" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="伍味酉" data-text="伍味酉 愛知県名古屋市中区栄発祥、1956年創業。名古屋めし居酒屋（手羽先、味噌串カツ等）。 愛知県名古屋市中区栄 名古屋市内">
+<h3>伍味酉</h3>
+<p class="intro">愛知県名古屋市中区栄発祥、1956年創業。名古屋めし居酒屋（手羽先、味噌串カツ等）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中区栄</dd></div><div><dt>創業</dt><dd>1956年</dd></div><div><dt>店舗数</dt><dd>3店（本店、栄町店、なごのみせ）</dd></div><div><dt>展開地域</dt><dd>名古屋市内</dd></div><div><dt>本店・1号店</dt><dd>本店（愛知県名古屋市中区栄3-9-13）</dd></div></dl>
+<p class="relation">運営は味ネット</p>
+<p class="official"><a href="https://taste-net.co.jp/%e6%b2%bf%e9%9d%a9%e3%80%80%e4%bd%9c%e6%a5%ad%e4%b8%ad/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="回転寿司">
+<h2>回転寿司<span class="count">7件</span></h2>
+<div class="grid"><article class="card" data-name="にぎりの徳兵衛" data-text="にぎりの徳兵衛 愛知県東海市発祥、2002年創業。回転寿司。現在は43店。 愛知県東海市 東海を中心">
+<h3>にぎりの徳兵衛</h3>
+<p class="intro">愛知県東海市発祥、2002年創業。回転寿司。現在は43店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県東海市</dd></div><div><dt>創業</dt><dd>2002年</dd></div><div><dt>店舗数</dt><dd>43店（2026年の会社発表）</dd></div><div><dt>展開地域</dt><dd>東海を中心</dd></div><div><dt>本店・1号店</dt><dd>1号店は東海市内（2002年8月開始。詳細な所在地は公式で確認できず）</dd></div></dl>
+<p class="relation">運営は株式会社アトム（コロワイドグループ、本社横浜市）</p>
+<p class="official"><a href="https://www.nigirinotokubei.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="魚魚丸" data-text="魚魚丸 愛知県三河地域（知立本店を本店とする）発祥。回転寿司（グルメ系回転寿司）。現在は30店。 愛知県三河地域（知立本店を本店とする） 愛知・岐阜・静岡">
+<h3>魚魚丸</h3>
+<p class="intro">愛知県三河地域（知立本店を本店とする）発祥。回転寿司（グルメ系回転寿司）。現在は30店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県三河地域（知立本店を本店とする）</dd></div><div><dt>創業</dt><dd>確認できず（運営の株式会社コムラインは1990年11月設立。ブランドの開始年は確認できず）</dd></div><div><dt>店舗数</dt><dd>30店（2026年10月の求人掲載による。非公式集計では29店、2026-11-25時点）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・静岡</dd></div><div><dt>本店・1号店</dt><dd>知立本店（愛知県知立市宝3-14-2）。1号店は確認できず</dd></div></dl>
+<p class="relation">運営は株式会社コムライン。金の魚魚丸、新握一番、和食酒家縁等も同社の運営</p>
+<p class="official"><a href="https://www.comline.co.jp/totomaru/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="海転寿司 丸忠" data-text="海転寿司 丸忠 愛知県名古屋市発祥。回転寿司。現在は28店。 愛知県名古屋市 愛知・岐阜・三重・静岡・長野・奈良・京都・兵庫">
+<h3>海転寿司 丸忠</h3>
+<p class="intro">愛知県名古屋市発祥。回転寿司。現在は28店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>確認できず（回転寿司の開始は1984年、1号店は豊田とされるが、公式では確認できず）</dd></div><div><dt>店舗数</dt><dd>28店（公式グループページ）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重・静岡・長野・奈良・京都・兵庫</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営は株式会社丸忠（本社名古屋市熱田区）。寿司丸忠（持ち帰り）、すしプラザ丸忠は別業態として店舗数に含めていない</p>
+<p class="official"><a href="https://www.maruchu-sushi.com" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="魚が旨い丸忠" data-text="魚が旨い丸忠 愛知県発祥。回転寿司（主力ブランドは「海転寿司丸忠」）。 愛知県（運営の株式会社丸忠の本社は名古屋市熱田区。回転寿司1号店は豊田市とされるが、公式では確認できず） 愛知・岐阜・三重・静岡・長野・奈良・京都・兵庫">
+<h3>魚が旨い丸忠</h3>
+<p class="intro">愛知県発祥。回転寿司（主力ブランドは「海転寿司丸忠」）。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県（運営の株式会社丸忠の本社は名古屋市熱田区。回転寿司1号店は豊田市とされるが、公式では確認できず）</dd></div><div><dt>創業</dt><dd>確認できず（運営会社は1961年創業、回転寿司の開始は1984年とされるが、公式では確認できず）</dd></div><div><dt>店舗数</dt><dd>23店（2026-11-25時点の非公式集計。公式の正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重・静岡・長野・奈良・京都・兵庫</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営は株式会社丸忠。魚河岸、ABRIも同社の回転寿司ブランド。寿司丸忠（持ち帰り）、すしプラザ丸忠は別業態</p>
+<p class="official"><a href="https://www.maruchu-sushi.com" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="魚錠" data-text="魚錠 愛知県犬山市発祥、1907年創業。回転寿司（「魚屋の回転寿司 魚錠」）。現在は7店。 愛知県犬山市（運営の中部魚錠株式会社の本社所在地による） 愛知・岐阜">
+<h3>魚錠</h3>
+<p class="intro">愛知県犬山市発祥、1907年創業。回転寿司（「魚屋の回転寿司 魚錠」）。現在は7店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県犬山市（運営の中部魚錠株式会社の本社所在地による）</dd></div><div><dt>創業</dt><dd>1907年（運営会社は明治40年創業。回転寿司ブランドの開始年は確認できず）</dd></div><div><dt>店舗数</dt><dd>7店（公式店舗ページ：愛知5店＝星が丘テラス、名東、春日井、北名古屋、江南、岐阜2店＝多治見、可児）</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営は中部魚錠株式会社（本社犬山市）。持ち帰り寿司、居酒屋、丼の業態も同社の運営</p>
+<p class="official"><a href="https://www.uojo.co.jp/service-01" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="まぐろや石亭" data-text="まぐろや石亭 愛知県名古屋市発祥。回転寿司（まぐろを主役とする寿司）。現在は6店。 愛知県名古屋市（運営の株式会社共和フーズの本社は名古屋市名東区） 愛知県内">
+<h3>まぐろや石亭</h3>
+<p class="intro">愛知県名古屋市発祥。回転寿司（まぐろを主役とする寿司）。現在は6店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（運営の株式会社共和フーズの本社は名古屋市名東区）</dd></div><div><dt>創業</dt><dd>確認できず（運営会社の設立は1999年12月とされる）</dd></div><div><dt>店舗数</dt><dd>6店（瑞穂本店、御器所店、緑店、知立店、八熊通店、則武新町店。二次情報の店舗列挙による。公式の正確な現在数は確認できず）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>瑞穂本店（愛知県名古屋市瑞穂区田辺通6-32）。1号店かどうかは公式で確認できず</dd></div></dl>
+<p class="relation">運営は株式会社共和フーズ。持ち帰り寿司専門店 漁船丸も同社の運営とされる</p>
+<p class="official"><a href="https://kyowafuzu.com/sekitei.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="魚忠" data-text="魚忠 愛知県尾張旭市発祥とされる、1953年創業。回転寿司（「回転さかなや寿司 魚忠」）。鮮魚店・持ち帰り寿司も運営。 愛知県尾張旭市（会社の沿革は1953年に尾張旭で始まったとされる） 名古屋市内">
+<h3>魚忠</h3>
+<p class="intro">愛知県尾張旭市発祥とされる、1953年創業。回転寿司（「回転さかなや寿司 魚忠」）。鮮魚店・持ち帰り寿司も運営。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県尾張旭市（会社の沿革は1953年に尾張旭で始まったとされる）</dd></div><div><dt>創業</dt><dd>1953年（運営会社の沿革による。回転寿司の開始年は確認できず）</dd></div><div><dt>店舗数</dt><dd>回転寿司4店（則武本通り店、太平通り店、熱田店、名古屋西店）。持ち帰り対応一覧にある今池店は回転寿司店として数えていない</dd></div><div><dt>展開地域</dt><dd>名古屋市内</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">運営は株式会社魚忠。鮮魚店、持ち帰り寿司も同社の運営</p>
+<p class="official"><a href="http://www.uochu.net/susi.htm" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="ハンバーガー・ファストフード">
+<h2>ハンバーガー・ファストフード<span class="count">2件</span></h2>
+<div class="grid"><article class="card" data-name="澤屋" data-text="澤屋 愛知県海部郡蟹江町発祥。たい焼き、みたらし団子、たこ焼き、お好み焼き、焼きそば、五平餅などを扱う焼物・甘味のファストフード系業態。 愛知県海部郡蟹江町 愛知県内のみ。">
+<h3>澤屋</h3>
+<p class="intro">愛知県海部郡蟹江町発祥。たい焼き、みたらし団子、たこ焼き、お好み焼き、焼きそば、五平餅などを扱う焼物・甘味のファストフード系業態。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県海部郡蟹江町</dd></div><div><dt>創業</dt><dd>天保年間（株式会社設立は1980年。みたらし・鯛焼き専門店の直営1号店は1960年）。</dd></div><div><dt>店舗数</dt><dd>14店舗（公式店舗一覧で確認。名古屋市内12店、東海市1店、稲沢市1店）。</dd></div><div><dt>展開地域</dt><dd>愛知県内のみ。</dd></div><div><dt>本店・1号店</dt><dd>本社・工場は愛知県海部郡蟹江町須成西五本田2148-2。直営1号店の所在地は公式で確認できず。</dd></div></dl>
+<p class="relation">同じ公式店舗一覧に「鯛福茶庵 八代目澤屋」「いっぷく八田茶屋」が含まれる。</p>
+<p class="official"><a href="https://www.sawa-ya.co.jp/theme11.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="からしげ" data-text="からしげ 愛知県名古屋市緑区発祥、2018年創業。からあげ専門店。からあげ定食、味噌から定食など、店内飲食と持ち帰りを扱うファストフード系業態。 愛知県名古屋市緑区 愛知県内のみ（名古屋市3店、瀬戸市1店）。">
+<h3>からしげ</h3>
+<p class="intro">愛知県名古屋市緑区発祥、2018年創業。からあげ専門店。からあげ定食、味噌から定食など、店内飲食と持ち帰りを扱うファストフード系業態。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市緑区</dd></div><div><dt>創業</dt><dd>2018年</dd></div><div><dt>店舗数</dt><dd>4店舗（公式会社概要、2026年9月30日現在。公式店舗案内でも鳴子店・高針台店・妙音通店・瀬戸店の4店が確認できる）。</dd></div><div><dt>展開地域</dt><dd>愛知県内のみ（名古屋市3店、瀬戸市1店）。</dd></div><div><dt>本店・1号店</dt><dd>1号店は鳴子店（愛知県名古屋市緑区鳴子町1丁目54番1）。</dd></div></dl>
+<p class="relation">株式会社木曽路のブランド。木曽路、鈴のれんなどと同じグループ。</p>
+<p class="official"><a href="https://karashige.kisoji.co.jp/location/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="ファミレス系">
+<h2>ファミレス系<span class="count">3件</span></h2>
+<div class="grid"><article class="card" data-name="木曽路" data-text="木曽路 愛知県名古屋市発祥、1950年創業。しゃぶしゃぶ、日本料理、会席などを提供する和食レストラン。 愛知県名古屋市 東海・関東・関西・九州。">
+<h3>木曽路</h3>
+<p class="intro">愛知県名古屋市発祥、1950年創業。しゃぶしゃぶ、日本料理、会席などを提供する和食レストラン。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1950年（名古屋大須赤門通りの喫茶「まつば」創業。しゃぶしゃぶ「木曽路」の開業は1966年）</dd></div><div><dt>店舗数</dt><dd>125店舗（公式会社概要、2026年9月30日現在）。</dd></div><div><dt>展開地域</dt><dd>東海・関東・関西・九州。</dd></div><div><dt>本店・1号店</dt><dd>木曽路1号店は瓦町店（名古屋市中区新栄1-27-17）。</dd></div></dl>
+<p class="relation">鈴のれん、からしげ、大将軍、くいどん、とりかく、大穴などと同じ木曽路グループ。</p>
+<p class="official"><a href="https://www.kisoji.co.jp/company/profile.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="まるは食堂" data-text="まるは食堂 愛知県南知多町豊浜発祥、1950年創業。海鮮料理、ジャンボエビフライ。 愛知県南知多町豊浜 愛知県内中心。県外進出は確認できず。">
+<h3>まるは食堂</h3>
+<p class="intro">愛知県南知多町豊浜発祥、1950年創業。海鮮料理、ジャンボエビフライ。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県南知多町豊浜</dd></div><div><dt>創業</dt><dd>1950年（魚屋創業）／1957年（まるは食堂誕生）</dd></div><div><dt>店舗数</dt><dd>統一した現在数は公式で確認できず。公式会社概要の支店一覧には本店以外に7件（中部国際空港店、りんくう常滑店、ラシック店、チカマチラウンジ店、回転まるは、イオンモール大高店、まるはドライブイン内海店）が掲載され、公式沿革では「まるは食堂」屋号の開店が本店を含め10店分（中部国際空港店、ラシック店、りんくう常滑店、チカマチラウンジ店、イオンモール大高店、JR名古屋駅店、ごんぎつねの湯店、三河安城店、柳橋はなれ店）確認できる。2026年1月に柳橋はなれ店がオープンしたとされる。</dd></div><div><dt>展開地域</dt><dd>愛知県内中心。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>本店・本社は愛知県知多郡南知多町豊浜峠8。</dd></div></dl>
+<p class="relation">回転まるは、まるはドライブイン、マルハリゾート、まるは食堂 ごんぎつねの湯店などの派生店舗がある。</p>
+<p class="official"><a href="https://www.maruha-net.co.jp/about" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="鈴のれん" data-text="鈴のれん 愛知県名古屋市天白区発祥、2007年創業。和食、しゃぶしゃぶ、旬彩料理を提供する和食レストラン。 愛知県名古屋市天白区 愛知県と三重県四日市市。">
+<h3>鈴のれん</h3>
+<p class="intro">愛知県名古屋市天白区発祥、2007年創業。和食、しゃぶしゃぶ、旬彩料理を提供する和食レストラン。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市天白区</dd></div><div><dt>創業</dt><dd>2007年</dd></div><div><dt>店舗数</dt><dd>5店舗（公式会社概要、2026年9月30日現在。公式店舗案内でも畑江通店・春日井店・瀬戸店・長久手店・四日市店の5店が確認できる）。</dd></div><div><dt>展開地域</dt><dd>愛知県と三重県四日市市。</dd></div><div><dt>本店・1号店</dt><dd>1号店は相生山店（名古屋市天白区久方3-15）。相生山店は現在の公式店舗案内に無く、現行店ではない。</dd></div></dl>
+<p class="relation">株式会社木曽路のブランド。木曽路、からしげなどと同じグループ。</p>
+<p class="official"><a href="https://suzunoren.kisoji.co.jp/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section><section class="genre" data-genre="喫茶店・カフェ">
+<h2>喫茶店・カフェ<span class="count">25件</span></h2>
+<div class="grid"><article class="card" data-name="コメダ珈琲店" data-text="コメダ珈琲店 愛知県名古屋市西区発祥、1968年創業。喫茶店。ブレンドコーヒー、モーニング、シロノワールなど。 愛知県名古屋市西区 全国展開。海外展開あり。">
+<h3>コメダ珈琲店</h3>
+<p class="intro">愛知県名古屋市西区発祥、1968年創業。喫茶店。ブレンドコーヒー、モーニング、シロノワールなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市西区</dd></div><div><dt>創業</dt><dd>1968年</dd></div><div><dt>店舗数</dt><dd>コメダ珈琲店1,079店（2026年2月末、公式会社概要）。</dd></div><div><dt>展開地域</dt><dd>全国展開。海外展開あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は名古屋市西区那古野の菊井店（2014年閉店）。現本社は名古屋市東区。</dd></div></dl>
+<p class="relation">おかげ庵、BAKERY ADEMOK、KOMEDA is □など。</p>
+<p class="official"><a href="https://www.komeda.co.jp/company/outline.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="カフェ・ド・クリエ" data-text="カフェ・ド・クリエ 愛知県名古屋市（伏見）発祥、1994年創業。カフェ。コーヒー、軽食、スイーツなど。現在は171店。 愛知県名古屋市（伏見） 全国展開。県外進出あり。">
+<h3>カフェ・ド・クリエ</h3>
+<p class="intro">愛知県名古屋市（伏見）発祥、1994年創業。カフェ。コーヒー、軽食、スイーツなど。現在は171店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（伏見）</dd></div><div><dt>創業</dt><dd>1994年（1号店開店）</dd></div><div><dt>店舗数</dt><dd>171店（2026年10月末時点、会社発表）</dd></div><div><dt>展開地域</dt><dd>全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は1994年11月に名古屋・伏見で開店。現在の運営会社C-Unitedの本社は東京都。</dd></div></dl>
+<p class="relation">当初の運営は名古屋の株式会社ポッカクリエイトとされる。現在はC-Unitedが運営する。</p>
+<p class="official"><a href="https://c-united.co.jp/crie/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="セルフカフェ" data-text="セルフカフェ 愛知県名古屋市発祥、2022年創業。無人カフェ。ドリンク1杯で時間無制限、全席電源・Wi-Fi完備の作業・勉強向けカフェ。 愛知県名古屋市 愛知中心に全国展開。県外進出あり。">
+<h3>セルフカフェ</h3>
+<p class="intro">愛知県名古屋市発祥、2022年創業。無人カフェ。ドリンク1杯で時間無制限、全席電源・Wi-Fi完備の作業・勉強向けカフェ。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2022年（第1号店を名古屋駅前で期間限定オープン。常設の1号店は2022年9月のささしまライブ店とされる）</dd></div><div><dt>店舗数</dt><dd>全国70店舗以上（2026年10月の会社発表）。正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知中心に全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>ささしまライブ店は名古屋市中村区。期間限定の第1号店は名古屋駅前。</dd></div></dl>
+<p class="relation">ウッドデザインパーク株式会社（本社・愛知県岡崎市）が運営。FC展開を含む。</p>
+<p class="official"><a href="https://selfcafe.jp" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="さかい珈琲" data-text="さかい珈琲 岐阜県岐阜市発祥、2007年創業。喫茶店。コーヒー、モーニング、軽食など。現在は44店。 岐阜県岐阜市 岐阜・愛知を含む全国展開。県外進出あり。">
+<h3>さかい珈琲</h3>
+<p class="intro">岐阜県岐阜市発祥、2007年創業。喫茶店。コーヒー、モーニング、軽食など。現在は44店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市</dd></div><div><dt>創業</dt><dd>2007年（1号店開店）</dd></div><div><dt>店舗数</dt><dd>44店以上（2026年11月18日の開店が44店目とされる。公式トップの店舗名の数え上げとは1店の差があり、正確な現在数は公式で確認できず）</dd></div><div><dt>展開地域</dt><dd>岐阜・愛知を含む全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は2007年4月に岐阜市で開店。本店は岐阜市入舟町1-3-1。運営会社の本社は岐阜県各務原市蘇原東島町4丁目61番地。</dd></div></dl>
+<p class="relation">運営は株式会社J・ART。</p>
+<p class="official"><a href="https://sakaicoffee.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="支留比亜珈琲店" data-text="支留比亜珈琲店 愛知県名古屋市発祥、1972年創業。喫茶店。コーヒー、サンドイッチ、モーニングなど。 愛知県名古屋市 愛知中心（公式一覧41店中33店が愛知県内）。岐阜3店、三重2店、長野2店、静岡1店への県外進出あり。">
+<h3>支留比亜珈琲店</h3>
+<p class="intro">愛知県名古屋市発祥、1972年創業。喫茶店。コーヒー、サンドイッチ、モーニングなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1972年</dd></div><div><dt>店舗数</dt><dd>41店（2026-11-27に公式店舗案内5ページ分を数えたもの。1〜4ページ目各10店、5ページ目1店）。</dd></div><div><dt>展開地域</dt><dd>愛知中心（公式一覧41店中33店が愛知県内）。岐阜3店、三重2店、長野2店、静岡1店への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>徳川本店は名古屋市東区徳川2-12-8。1号店とされる。</dd></div></dl>
+<p class="relation">公式で確認できず。</p>
+<p class="official"><a href="https://silviacoffee.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="HARBS" data-text="HARBS 愛知県名古屋市栄発祥、1976年創業。フレッシュケーキとドリンクを提供するカフェ。ケーキの店内飲食と持ち帰りを扱う。 愛知県名古屋市栄 東海・関西・関東、米国ニューヨーク。">
+<h3>HARBS</h3>
+<p class="intro">愛知県名古屋市栄発祥、1976年創業。フレッシュケーキとドリンクを提供するカフェ。ケーキの店内飲食と持ち帰りを扱う。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市栄</dd></div><div><dt>創業</dt><dd>1976年（喫茶「メルローズ」が原点。HARBSの第一号店は1981年）。</dd></div><div><dt>店舗数</dt><dd>38店舗（公式会社概要。東海8店、関西11店、関東18店、USA1店）。</dd></div><div><dt>展開地域</dt><dd>東海・関西・関東、米国ニューヨーク。</dd></div><div><dt>本店・1号店</dt><dd>第一号店は現在の栄本店。栄本店は名古屋市中区錦3-6-17 セントラルパークビル2F。</dd></div></dl>
+<p class="relation">株式会社重光が運営。同じ会社にANTICO CAFFE AL AVISがあるが、そちらは発祥地を愛知・岐阜と断定できないため後段に分けた。</p>
+<p class="official"><a href="https://www.harbs.co.jp/company" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="cafeRob（カフェロブ）" data-text="cafeRob（カフェロブ） 愛知県岡崎市発祥、2008年創業。台湾パンケーキを中心とするカフェ。イートイン店舗とテイクアウト店舗でパンケーキのスタイルが異なる。 愛知県岡崎市 全国展開。県外進出あり。">
+<h3>cafeRob（カフェロブ）</h3>
+<p class="intro">愛知県岡崎市発祥、2008年創業。台湾パンケーキを中心とするカフェ。イートイン店舗とテイクアウト店舗でパンケーキのスタイルが異なる。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県岡崎市</dd></div><div><dt>創業</dt><dd>2008年</dd></div><div><dt>店舗数</dt><dd>36店（公式店舗一覧の掲載38件からchocolate Rob 2店を除いた数。愛知県内8店、岐阜県内3店）</dd></div><div><dt>展開地域</dt><dd>全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>岡崎市の小さなカフェから始まったとされる。1号店の正確な所在地は公式で確認できず。現在の浜松本店は静岡県浜松市中央区高丘北3丁目22-20。</dd></div></dl>
+<p class="relation">chocolate Rob（ショコロブ）2店は公式店舗一覧に載るが、cafeRobの店舗数には含めていない。</p>
+<p class="official"><a href="https://caferob.com/shoplist/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="珈琲屋らんぷ" data-text="珈琲屋らんぷ 愛知県津島市発祥、2003年創業。喫茶店。コーヒー、モーニング、軽食など。 愛知県津島市 愛知・岐阜・三重・静岡・近畿・中国地方。県外進出あり。">
+<h3>珈琲屋らんぷ</h3>
+<p class="intro">愛知県津島市発祥、2003年創業。喫茶店。コーヒー、モーニング、軽食など。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県津島市</dd></div><div><dt>創業</dt><dd>2003年</dd></div><div><dt>店舗数</dt><dd>公式で正確な総数は確認できず。公式ニュース（2026-09-30）では一部店舗を除く35店舗で特別メニューを提供するとされ、少なくとも35店以上の営業が確認できる。baselineの「53店」は2025年9月時点の特別メニュー提供店舗数であり、現行総数ではない。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重・静岡・近畿・中国地方。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は愛知県津島市（具体的な店舗名は公式で確認できず）。本社は愛知県稲沢市とされる（プレスリリース系二次情報）。</dd></div></dl>
+<p class="relation">明楽時運創業者の坪内洋一氏が設立したコーヒー豆焙煎・販売会社の事業部が前身とされる（プレスリリース系二次情報。baselineでは公式確認できずだったが、関係の説明としてこの二次情報を採用する）。</p>
+<p class="official"><a href="http://www.ranpu.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="元町珈琲" data-text="元町珈琲 岐阜県岐阜市発祥、2004年創業。喫茶店。コーヒー、モーニング、軽食など。ブランドのイメージは港・元町だが、1号店は岐阜。 岐阜県岐阜市 岐阜・愛知を含む全国展開。県外進出あり。">
+<h3>元町珈琲</h3>
+<p class="intro">岐阜県岐阜市発祥、2004年創業。喫茶店。コーヒー、モーニング、軽食など。ブランドのイメージは港・元町だが、1号店は岐阜。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市</dd></div><div><dt>創業</dt><dd>2004年（1号店「岐阜北一色の離れ」開店とする二次情報）。2020年に1号店15周年とする運営側発表もあり、開店年は2004〜2005年で情報が割れる。</dd></div><div><dt>店舗数</dt><dd>22店（公式店舗一覧の掲載23件から、営業終了告知のある愛知長久手の離れを除いた数）</dd></div><div><dt>展開地域</dt><dd>岐阜・愛知を含む全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>岐阜北一色の離れは岐阜市北一色4-13-5。</dd></div></dl>
+<p class="relation">運営は株式会社スイートスタイルから株式会社元町珈琲を経て、現在は株式会社ミツウロコパートナーズとされる。</p>
+<p class="official"><a href="https://motomachi-coffee.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="コメダ和喫茶 おかげ庵" data-text="コメダ和喫茶 おかげ庵 愛知県名古屋市発祥、1999年創業。和喫茶。抹茶・甘味・おだんご・食事、モーニング。 愛知県名古屋市 愛知県・東京都・神奈川県・埼玉県・広島県">
+<h3>コメダ和喫茶 おかげ庵</h3>
+<p class="intro">愛知県名古屋市発祥、1999年創業。和喫茶。抹茶・甘味・おだんご・食事、モーニング。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1999年</dd></div><div><dt>店舗数</dt><dd>20店舗（2026年8月時点）</dd></div><div><dt>展開地域</dt><dd>愛知県・東京都・神奈川県・埼玉県・広島県</dd></div><div><dt>本店・1号店</dt><dd>茶屋ヶ坂店（名古屋市。1号店名は二次情報による）</dd></div></dl>
+<p class="relation">株式会社コメダ運営。コメダ珈琲店の姉妹ブランド</p>
+<p class="official"><a href="https://www.komeda.co.jp/okagean/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="カフェヨシノ" data-text="カフェヨシノ 愛知県名古屋市発祥、1980年創業。喫茶店。コーヒー、モーニング、軽食など。現在は18店。 愛知県名古屋市 愛知県内中心。県外進出は確認できず。">
+<h3>カフェヨシノ</h3>
+<p class="intro">愛知県名古屋市発祥、1980年創業。喫茶店。コーヒー、モーニング、軽食など。現在は18店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1980年（株式会社カフェヨシノ設立、会社発表系情報）</dd></div><div><dt>店舗数</dt><dd>18店（公式店舗ページの掲載数。カフェヨシノロースタリーを含む）</dd></div><div><dt>展開地域</dt><dd>愛知県内中心。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>1号店の所在地は確認できず。本社は名古屋市港区宝神3-1311。</dd></div></dl>
+<p class="relation">ヨシノベーカリー（新業態）。名駅店は2026年6月2日付で閉店告知が出ている。</p>
+<p class="official"><a href="http://cafeyoshino.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="KANNON COFFEE" data-text="KANNON COFFEE 愛知県名古屋市中区大須発祥、2014年創業。カフェ。コーヒー、スイーツ、軽食など。現在は11店。 愛知県名古屋市中区大須 名古屋中心。鎌倉・東京への県外進出あり。">
+<h3>KANNON COFFEE</h3>
+<p class="intro">愛知県名古屋市中区大須発祥、2014年創業。カフェ。コーヒー、スイーツ、軽食など。現在は11店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中区大須</dd></div><div><dt>創業</dt><dd>2014年</dd></div><div><dt>店舗数</dt><dd>11店（公式サイトの表示）</dd></div><div><dt>展開地域</dt><dd>名古屋中心。鎌倉・東京への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>大須店は名古屋市中区大須2-17-25。</dd></div></dl>
+<p class="relation">公式で確認できず。</p>
+<p class="official"><a href="https://www.kannoncoffee.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ボルサ" data-text="ボルサ 愛知県名古屋市発祥。コーヒーショップ。コーヒー、軽食など。商業施設内の店舗が多い。 愛知県名古屋市（運営会社の本社・工場は名古屋市千種区） 愛知中心。岐阜・三重への県外進出あり。">
+<h3>ボルサ</h3>
+<p class="intro">愛知県名古屋市発祥。コーヒーショップ。コーヒー、軽食など。商業施設内の店舗が多い。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（運営会社の本社・工場は名古屋市千種区）</dd></div><div><dt>創業</dt><dd>ブランドの開始年は公式で確認できず。運営会社のシーシーエスコーヒー株式会社は1953年創業。</dd></div><div><dt>店舗数</dt><dd>10店（愛知7店・岐阜2店・三重1店）</dd></div><div><dt>展開地域</dt><dd>愛知中心。岐阜・三重への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店の所在地は確認できず。運営会社は名古屋市千種区千種2-16-17。</dd></div></dl>
+<p class="relation">同じ運営会社のブランドにプロスペール、アビアンカ、ファゼンダがある。ボルサの店舗数には含めていない。</p>
+<p class="official"><a href="https://ccscoffee.co.jp/shops/bolsa/bolsa.htm" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="明楽時運（あらじん）" data-text="明楽時運（あらじん） 愛知県一宮市発祥とされる、1978年創業。喫茶店。各店が「志風館」「蔵也」「結心館」「掌福」のような個別の館名を持ち、モーニングとコーヒーが中心。 愛知県一宮市とされる二次情報がある。公式で確認できず。 愛知・岐阜・三重。県外進出あり（三重県）。">
+<h3>明楽時運（あらじん）</h3>
+<p class="intro">愛知県一宮市発祥とされる、1978年創業。喫茶店。各店が「志風館」「蔵也」「結心館」「掌福」のような個別の館名を持ち、モーニングとコーヒーが中心。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県一宮市とされる二次情報がある。公式で確認できず。</dd></div><div><dt>創業</dt><dd>1978年とされる二次情報がある。公式で確認できず。</dd></div><div><dt>店舗数</dt><dd>現存が確認できたのは10店（蔵也（日進市）、志風館（春日井市）、付々院（名古屋市緑区）、西流亭（豊田市）、吉創（岩倉市）、是故（江南市）、昭和店・萩原店（一宮市）、掌福（各務原市）、結心館（桑名市））。正確な総数は確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知・岐阜・三重。県外進出あり（三重県）。</dd></div><div><dt>本店・1号店</dt><dd>1号店は確認できず。日進市の蔵也が総本山とされる二次情報がある。</dd></div></dl>
+<p class="relation">珈琲屋らんぷとの公式な関係は確認できず。離脱店（如水舎・かどや・南喜堂など）と閉店店（吉備）は数に含めていない。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="珈琲元年" data-text="珈琲元年 愛知県清須市（ブランド1号店）発祥。喫茶店。コーヒー、モーニング、軽食など。 愛知県清須市（ブランド1号店） 愛知県中心。静岡県への進出が店舗情報で確認できる。">
+<h3>珈琲元年</h3>
+<p class="intro">愛知県清須市（ブランド1号店）発祥。喫茶店。コーヒー、モーニング、軽食など。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県清須市（ブランド1号店）</dd></div><div><dt>創業</dt><dd>ブランド1号店は2013年。運営会社の富士コーヒー株式会社は1948年創業。</dd></div><div><dt>店舗数</dt><dd>公式沿革で2022年までに9店の開店が確認できる。正確な現在数は公式で確認できず（二次情報では11店とするものがある）。</dd></div><div><dt>展開地域</dt><dd>愛知県中心。静岡県への進出が店舗情報で確認できる。</dd></div><div><dt>本店・1号店</dt><dd>1号店は清須市西田中長堀101（清須店）。中川本店は名古屋市中川区広川町5-8で、2016年11月に開店し本店と位置付けられた。</dd></div></dl>
+<p class="relation">富士コーヒー株式会社のブランド。直営とFCの混在が公式沿革で確認できる。</p>
+<p class="official"><a href="https://www.fujicoffee.co.jp/history/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="珈琲家暖香" data-text="珈琲家暖香 愛知県発祥。喫茶店。コーヒー、モーニング、軽食など。現在は8店。 愛知県（岡崎・豊田中心）。1号店の所在地は確認できず。 愛知県内（豊田市・岡崎市・刈谷市）。県外進出は公式で確認できず。">
+<h3>珈琲家暖香</h3>
+<p class="intro">愛知県発祥。喫茶店。コーヒー、モーニング、軽食など。現在は8店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県（岡崎・豊田中心）。1号店の所在地は確認できず。</dd></div><div><dt>創業</dt><dd>確認できず</dd></div><div><dt>店舗数</dt><dd>8店（豊田逢妻店、豊田秋葉店、豊田若林店、豊田畝部店、岡崎福岡店、岡崎筒針店、刈谷港店、岡崎本店）</dd></div><div><dt>展開地域</dt><dd>愛知県内（豊田市・岡崎市・刈谷市）。県外進出は公式で確認できず。</dd></div><div><dt>本店・1号店</dt><dd>岡崎本店は岡崎市百々西町6-10。1号店の所在地は確認できず。</dd></div></dl>
+<p class="relation">同じ運営会社（株式会社デイリーカフェ＆フーズ）が珈琲家 牧歌、さくらざか庵を運営する。暖香の店舗数には含めていない。</p>
+<p class="official"><a href="https://dailycf.com/store/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="コンパル" data-text="コンパル 愛知県名古屋市中区発祥、1947年創業。喫茶店。エビフライサンド、アイスコーヒー、モーニングなど。 愛知県名古屋市中区 名古屋市内のみ。県外進出は確認できず。">
+<h3>コンパル</h3>
+<p class="intro">愛知県名古屋市中区発祥、1947年創業。喫茶店。エビフライサンド、アイスコーヒー、モーニングなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中区</dd></div><div><dt>創業</dt><dd>1947年</dd></div><div><dt>店舗数</dt><dd>7店（2026-11-27に公式サイトの店舗掲載を数えたもの。大須本店、サンロード店、栄西店、栄東店、金山店、御器所店、今池店）。うち今池店は元社員による個人営業店舗とされるため、直営として数えると6店＋個人営業1店。今池店を除いても3店舗以上を満たす。</dd></div><div><dt>展開地域</dt><dd>名古屋市内のみ。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>大須本店は名古屋市中区大須3-20-19。1948年に現在の大須本店所在地へ移転。</dd></div></dl>
+<p class="relation">公式で確認できず。</p>
+<p class="official"><a href="https://www.konparu.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="プロスペール" data-text="プロスペール 愛知県発祥。カフェ（コーヒー・軽食・パスタ）。現在は7店。 愛知県（シーシーエスコーヒー直営業態。1号店は確認できず） 愛知県内">
+<h3>プロスペール</h3>
+<p class="intro">愛知県発祥。カフェ（コーヒー・軽食・パスタ）。現在は7店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県（シーシーエスコーヒー直営業態。1号店は確認できず）</dd></div><div><dt>創業</dt><dd>確認できず</dd></div><div><dt>店舗数</dt><dd>7店舗（公式店舗一覧の掲載数）</dd></div><div><dt>展開地域</dt><dd>愛知県内</dd></div><div><dt>本店・1号店</dt><dd>確認できず</dd></div></dl>
+<p class="relation">シーシーエスコーヒー株式会社運営。ボルサの姉妹ブランド</p>
+<p class="official"><a href="https://www.ccscoffee.co.jp/shops/prospere/prospere.htm" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="サンモリッツ" data-text="サンモリッツ 愛知県名古屋市発祥、1962年創業。喫茶店。コーヒー、モーニング、軽食、スイーツなど。 愛知県名古屋市 名古屋市内中心。県外進出は確認できず。">
+<h3>サンモリッツ</h3>
+<p class="intro">愛知県名古屋市発祥、1962年創業。喫茶店。コーヒー、モーニング、軽食、スイーツなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1962年</dd></div><div><dt>店舗数</dt><dd>5店（名古屋市内。会社発表系情報）</dd></div><div><dt>展開地域</dt><dd>名古屋市内中心。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>1号店の所在地は確認できず。運営会社は名古屋市中区松原2-10-7。</dd></div></dl>
+<p class="relation">LEMOTTO、AOI cafeは関連業態で、サンモリッツの店舗数には含めていない。</p>
+<p class="official"><a href="https://stmoritz.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="井ノ口珈琲" data-text="井ノ口珈琲 岐阜県岐阜市発祥、2015年創業。自家焙煎コーヒー、モーニング、ランチ、コーヒー豆販売。 岐阜県岐阜市 岐阜市内中心。県外進出は確認できず。">
+<h3>井ノ口珈琲</h3>
+<p class="intro">岐阜県岐阜市発祥、2015年創業。自家焙煎コーヒー、モーニング、ランチ、コーヒー豆販売。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市</dd></div><div><dt>創業</dt><dd>2015年（六条店オープン）</dd></div><div><dt>店舗数</dt><dd>公式のあゆみで4店の開店が確認できる（六条店2015年、井ノ口珈琲STAND 金公園前店2021年、ASTY岐阜店2025年3月、岐阜公園店2025年4月）。金公園前店の現在の営業は公式で確認できず、正確な現在数は確認できず。</dd></div><div><dt>展開地域</dt><dd>岐阜市内中心。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>六条店は岐阜市六条片田1-15-1。</dd></div></dl>
+<p class="relation">姉妹店としてうずらベーカリー（2020年オープン）がある。</p>
+<p class="official"><a href="https://inokuchi-coffee.jp/inokuchi-baisen" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="珈琲工房ひぐち" data-text="珈琲工房ひぐち 岐阜県（各務原市・岐阜市中心）発祥。自家焙煎コーヒー、モーニング、ランチ、コーヒー豆販売。 岐阜県（各務原市・岐阜市中心） 岐阜県内のみ（各務原市・岐阜市）。県外進出は確認できず。">
+<h3>珈琲工房ひぐち</h3>
+<p class="intro">岐阜県（各務原市・岐阜市中心）発祥。自家焙煎コーヒー、モーニング、ランチ、コーヒー豆販売。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県（各務原市・岐阜市中心）</dd></div><div><dt>創業</dt><dd>公式で確認できず</dd></div><div><dt>店舗数</dt><dd>4店（桜町本店、アピタ各務原店、北一色店、マーサ21店）</dd></div><div><dt>展開地域</dt><dd>岐阜県内のみ（各務原市・岐阜市）。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>桜町本店は各務原市那加桜町1-72-1。1号店かどうかは公式で確認できず。</dd></div></dl>
+<p class="relation">運営は有限会社ひぐち。</p>
+<p class="official"><a href="http://www.cafe-higuchi.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="さくら珈琲" data-text="さくら珈琲 岐阜県岐阜市発祥。喫茶店。コーヒー、モーニング、軽食など。現在は3店。 岐阜県岐阜市 岐阜県内のみ（岐阜市・山県市）。県外進出は確認できず。">
+<h3>さくら珈琲</h3>
+<p class="intro">岐阜県岐阜市発祥。喫茶店。コーヒー、モーニング、軽食など。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市</dd></div><div><dt>創業</dt><dd>公式で確認できず。鏡島店は2011年3月1日オープンとされる。</dd></div><div><dt>店舗数</dt><dd>3店（鏡島店、岩地店、高富店）</dd></div><div><dt>展開地域</dt><dd>岐阜県内のみ（岐阜市・山県市）。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>鏡島店は岐阜市西荘3丁目1-12。</dd></div></dl>
+<p class="relation">公式で確認できず。</p>
+<p class="official"><a href="https://sakuracoffee.net/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="さざん珈琲" data-text="さざん珈琲 岐阜県岐阜市発祥。喫茶店。モーニング、ランチ、ケーキなど。現在は3店。 岐阜県岐阜市 岐阜県内のみ（岐阜市・岐南町）。県外進出は確認できず。">
+<h3>さざん珈琲</h3>
+<p class="intro">岐阜県岐阜市発祥。喫茶店。モーニング、ランチ、ケーキなど。現在は3店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市</dd></div><div><dt>創業</dt><dd>確認できず</dd></div><div><dt>店舗数</dt><dd>3店（茜部本店、岐阜駅北店、岐南店）。岐南店は2026年10月15日開店。</dd></div><div><dt>展開地域</dt><dd>岐阜県内のみ（岐阜市・岐南町）。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>茜部本店は岐阜市茜部菱野3-218。1号店かどうかは確認できず。</dd></div></dl>
+<p class="relation">確認できず。</p>
+<p class="official none">公式サイトは確認できず</p>
+</article><article class="card" data-name="カフェ しょぱん（江南系）" data-text="カフェ しょぱん（江南系） 岐阜県岐阜市（江南店は2018年に愛知へ出店）発祥、2017年創業。カフェ。自家製のサイコロ食パン「しょぱん」のモーニングが看板。FC展開で、店舗ごとにメニューや価格に差がある。 岐阜県岐阜市（江南店は2018年に愛知へ出店） 愛知・三重。県外進出あり（三重県津市）。">
+<h3>カフェ しょぱん（江南系）</h3>
+<p class="intro">岐阜県岐阜市（江南店は2018年に愛知へ出店）発祥、2017年創業。カフェ。自家製のサイコロ食パン「しょぱん」のモーニングが看板。FC展開で、店舗ごとにメニューや価格に差がある。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県岐阜市（江南店は2018年に愛知へ出店）</dd></div><div><dt>創業</dt><dd>2017年（しょぱん全体の最古店とみられる長良店の開店）。江南店は2018年開店。2系統に分かれた時期と経緯は確認できず。</dd></div><div><dt>店舗数</dt><dd>同系統として確認できたのは3店（江南店、一宮店、和流津店）。FCオーナー店とされる津島店・東浦店を含めた総数は、本部との関係が公式で確認できないため確認できず。大垣店は所属系統を確認できず店舗数に含めていない（2026年11月29日閉店予定を再確認）。</dd></div><div><dt>展開地域</dt><dd>愛知・三重。県外進出あり（三重県津市）。</dd></div><div><dt>本店・1号店</dt><dd>本部は江南店（愛知県江南市力長町若宮154-1）。江南店が1号店ではない。</dd></div></dl>
+<p class="relation">長良店・岐大前店は株式会社フードラインが運営する岐阜系で、別系統として候補に分けた。分裂・独立の経緯は確認できず。</p>
+<p class="official"><a href="https://cafeshopan.com/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ジェリコ堂" data-text="ジェリコ堂 愛知県名古屋市発祥、2025年創業。立ち飲み中心の喫茶店。コーヒージェリー入りドリンク「ジェリコ」専門。 愛知県名古屋市 確認できず">
+<h3>ジェリコ堂</h3>
+<p class="intro">愛知県名古屋市発祥、2025年創業。立ち飲み中心の喫茶店。コーヒージェリー入りドリンク「ジェリコ」専門。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>2025年</dd></div><div><dt>店舗数</dt><dd>3店舗（2026年2月末時点）</dd></div><div><dt>展開地域</dt><dd>確認できず</dd></div><div><dt>本店・1号店</dt><dd>名古屋市（2025年4月に国内1号店開店。店舗名は確認できず）</dd></div></dl>
+<p class="relation">株式会社コメダの新業態</p>
+<p class="official none">公式サイトは確認できず</p>
+</article></div>
+</section><section class="genre" data-genre="パン・スイーツ（和菓子老舗を含む）">
+<h2>パン・スイーツ（和菓子老舗を含む）<span class="count">12件</span></h2>
+<div class="grid"><article class="card" data-name="ハートブレッドアンティーク" data-text="ハートブレッドアンティーク 愛知県知多郡東浦町発祥、2002年創業。ベーカリー。マジカルチョコリング、あん食パンなど。モーニング食べ放題を実施する店舗もある。 愛知県知多郡東浦町 全国展開。県外進出あり。">
+<h3>ハートブレッドアンティーク</h3>
+<p class="intro">愛知県知多郡東浦町発祥、2002年創業。ベーカリー。マジカルチョコリング、あん食パンなど。モーニング食べ放題を実施する店舗もある。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県知多郡東浦町</dd></div><div><dt>創業</dt><dd>2002年（「パン厨房アンティーク」開店）</dd></div><div><dt>店舗数</dt><dd>85店舗（2022年11月時点の会社発表）。2026年1月の用賀店が86店舗目とされる。正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は愛知県知多郡東浦町。運営会社の本社は名古屋市中区栄2-4-18。</dd></div></dl>
+<p class="relation">株式会社オールハーツ・カンパニーが運営。ねこねこ食パン、パステル（デザート部門）などと同じ会社で、店内に併設展開されることが多い。</p>
+<p class="official"><a href="https://www.heart-bread.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ねこねこ食パン" data-text="ねこねこ食パン 岐阜県発祥、2019年創業。ねこの形の高級食パン専門店。プレーン、チョコ、あずき、チーズなど。 岐阜県（2019年に第一号店を岐阜県にオープン、会社発表） 全国展開。県外進出あり。">
+<h3>ねこねこ食パン</h3>
+<p class="intro">岐阜県発祥、2019年創業。ねこの形の高級食パン専門店。プレーン、チョコ、あずき、チーズなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県（2019年に第一号店を岐阜県にオープン、会社発表）</dd></div><div><dt>創業</dt><dd>2019年</dd></div><div><dt>店舗数</dt><dd>全国80店舗（2022年2月時点、会社発表）。多くはハートブレッドアンティーク店内での展開で、正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>全国展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店の所在地は確認できず（岐阜県内とされる）。</dd></div></dl>
+<p class="relation">株式会社オールハーツ・カンパニーのブランド。ハートブレッドアンティーク店内に併設される形態が多いため、店舗数は同店の展開と重なる。</p>
+<p class="official"><a href="https://nekoshoku.jp/shops" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="パステル" data-text="パステル 愛知県名古屋市発祥、1984年創業。スイーツブランド。なめらかプリン、ケーキ、焼き菓子。レストラン「パステルイタリアーナ」は別会社が運営する。 愛知県名古屋市（名古屋駅地下街ユニモールのイタリアンレストランとして誕生） 東北・関東・中部・関西・中国地方。県外進出あり。">
+<h3>パステル</h3>
+<p class="intro">愛知県名古屋市発祥、1984年創業。スイーツブランド。なめらかプリン、ケーキ、焼き菓子。レストラン「パステルイタリアーナ」は別会社が運営する。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（名古屋駅地下街ユニモールのイタリアンレストランとして誕生）</dd></div><div><dt>創業</dt><dd>1984年。看板商品「なめらかプリン」は1993年発売。</dd></div><div><dt>店舗数</dt><dd>デザート店舗41店舗（2025年4月時点とする二次情報）。公式で正確な現在数は確認できず。</dd></div><div><dt>展開地域</dt><dd>東北・関東・中部・関西・中国地方。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は名古屋市中村区のユニモール地下街。現在の店舗ではない。</dd></div></dl>
+<p class="relation">創業はチタカ・インターナショナル・フーズ（愛知県北名古屋市）。2015年にレストラン部門がヴィア・ホールディングス系へ、2018年にデザート部門が株式会社オールハーツ・カンパニーへ譲渡され、現在はレストランとデザートで運営会社が分かれる。</p>
+<p class="official"><a href="https://pastel-pudding.com/shops" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="恵那川上屋" data-text="恵那川上屋 岐阜県恵那市発祥、1964年創業。栗菓子。和菓子・洋菓子、栗きんとんなど。カフェ併設店もある。 岐阜県恵那市 岐阜中心。愛知・東京への県外進出あり。">
+<h3>恵那川上屋</h3>
+<p class="intro">岐阜県恵那市発祥、1964年創業。栗菓子。和菓子・洋菓子、栗きんとんなど。カフェ併設店もある。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県恵那市</dd></div><div><dt>創業</dt><dd>1964年</dd></div><div><dt>店舗数</dt><dd>主要店舗10店（恵那峡店、恵那中央店、瑞浪店、岐阜高島屋店、可児店、咲久舎・可児御嵩インター店、高山店、高山花筏店、星が丘店、二子玉川店）。里の菓工房は含めていない。正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>岐阜中心。愛知・東京への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>1号店は恵那中央店（1981年10月開店）。本社は岐阜県恵那市。</dd></div></dl>
+<p class="relation">中津川市の川上屋とは別会社（創業者は川上屋の工場長だった人物）。おかしな大地 from farm to spoon、栗市栗座、栗ここんなどの関連業態がある。</p>
+<p class="official"><a href="https://www.enakawakamiya.co.jp/com/outline.html" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="パンのトラ" data-text="パンのトラ 愛知県安城市発祥、2011年創業。ベーカリー。スペイン窯で焼く食パン、カレーパンなど。 愛知県安城市 愛知県内のみ。県外進出は確認できず。">
+<h3>パンのトラ</h3>
+<p class="intro">愛知県安城市発祥、2011年創業。ベーカリー。スペイン窯で焼く食パン、カレーパンなど。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県安城市</dd></div><div><dt>創業</dt><dd>2011年（安城店開店）</dd></div><div><dt>店舗数</dt><dd>7店舗（2025年4月18日のららぽーと安城店開店時点、会社発表）。正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知県内のみ。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>安城店は愛知県安城市安城町東広畔5-3。運営会社の本社は愛知県安城市福釜町蓬野2-11。</dd></div></dl>
+<p class="relation">株式会社トラムスコープが運営。</p>
+<p class="official"><a href="https://pannotora.com/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="ベーカリーピカソ" data-text="ベーカリーピカソ 愛知県名古屋市中村区烏森発祥、2010年創業。ベーカリー。牛肉ゴロゴロカレーパンなど。現在は6店。 愛知県名古屋市中村区烏森 愛知県内のみ（名古屋市・豊明市）。県外進出は確認できず。">
+<h3>ベーカリーピカソ</h3>
+<p class="intro">愛知県名古屋市中村区烏森発祥、2010年創業。ベーカリー。牛肉ゴロゴロカレーパンなど。現在は6店。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市中村区烏森</dd></div><div><dt>創業</dt><dd>2010年（烏森本店開店）</dd></div><div><dt>店舗数</dt><dd>6店舗（2024年6月の豊明店開店時点。烏森本店、名古屋栄三越店、ASTY鶴舞店、μPLAT大曽根店、ベーカリーピカソミニ名鉄名古屋駅店、豊明店）。正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知県内のみ（名古屋市・豊明市）。県外進出は確認できず。</dd></div><div><dt>本店・1号店</dt><dd>烏森本店は名古屋市中村区烏森町8-1211。</dd></div></dl>
+<p class="relation">株式会社アートブレッドが運営。</p>
+<p class="official"><a href="https://www.artbread.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="シェ・シバタ" data-text="シェ・シバタ 岐阜県多治見市発祥、1995年創業。フランス菓子、ケーキ、焼き菓子。多治見店と名古屋店はカフェとして扱える店舗で、百貨店内店舗は販売中心。 岐阜県多治見市 岐阜県、愛知県、東京都、海外。">
+<h3>シェ・シバタ</h3>
+<p class="intro">岐阜県多治見市発祥、1995年創業。フランス菓子、ケーキ、焼き菓子。多治見店と名古屋店はカフェとして扱える店舗で、百貨店内店舗は販売中心。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県多治見市</dd></div><div><dt>創業</dt><dd>1995年</dd></div><div><dt>店舗数</dt><dd>国内5店舗（公式店舗案内で多治見、名古屋、名古屋栄三越、ジェイアール名古屋タカシマヤ、西武池袋が確認できる）。海外店舗の正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>岐阜県、愛知県、東京都、海外。</dd></div><div><dt>本店・1号店</dt><dd>多治見店は岐阜県多治見市太平町5-10-3。1995年に多治見で開業した店が発祥とされる。</dd></div></dl>
+<p class="relation">株式会社オー・デリス・ドゥ・シバタが運営。海外事業がある。</p>
+<p class="official"><a href="https://chez-shibata.com/shop/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="レニエ" data-text="レニエ 愛知県名古屋市発祥、1992年創業。フランス菓子、ケーキ、焼き菓子。本店にはカフェ「ブールジョン」とショコラトリーが併設され、岐阜県下呂市にはスイーツカフェがあるため、物販のみの店とは分けて飲食チェーンとして扱った。 愛知県名古屋市 名古屋市内と岐阜県下呂市。">
+<h3>レニエ</h3>
+<p class="intro">愛知県名古屋市発祥、1992年創業。フランス菓子、ケーキ、焼き菓子。本店にはカフェ「ブールジョン」とショコラトリーが併設され、岐阜県下呂市にはスイーツカフェがあるため、物販のみの店とは分けて飲食チェーンとして扱った。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市</dd></div><div><dt>創業</dt><dd>1992年</dd></div><div><dt>店舗数</dt><dd>5店舗（公式店舗案内でグランメゾン本店、デュノール、リヴゴーシュ、オレッグカフェ、ビアンヴニュが確認できる）。</dd></div><div><dt>展開地域</dt><dd>名古屋市内と岐阜県下呂市。</dd></div><div><dt>本店・1号店</dt><dd>本店「レニエ・グランメゾン」は名古屋市西区五才美18-2。1992年創業時の1号店所在地は公式で確認できず。</dd></div></dl>
+<p class="relation">カフェ・ブールジョン、ショコラトリー・セヌフォ、レニエ・オレッグカフェ。</p>
+<p class="official"><a href="https://www.regnie.jp/about/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="グルマンヴィタル" data-text="グルマンヴィタル 岐阜県不破郡垂井町発祥、1968年創業。石窯パン、調理パン、洋菓子の製造販売。垂井本店にはカフェがあり、飲食できる店舗として扱える。 岐阜県不破郡垂井町 岐阜県と愛知県。">
+<h3>グルマンヴィタル</h3>
+<p class="intro">岐阜県不破郡垂井町発祥、1968年創業。石窯パン、調理パン、洋菓子の製造販売。垂井本店にはカフェがあり、飲食できる店舗として扱える。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>岐阜県不破郡垂井町</dd></div><div><dt>創業</dt><dd>1968年（会社設立）。小売ベーカリーの開業年は1981年とする資料と、1982年に前身「ベーカリーグルマン」を開業したとする採用サイトで割れる。</dd></div><div><dt>店舗数</dt><dd>4店舗（公式サイトの店舗案内で垂井本店・岐阜店・一宮店・名古屋店が確認できる。採用サイトでも岐阜・愛知に4店舗とされる）。</dd></div><div><dt>展開地域</dt><dd>岐阜県と愛知県。</dd></div><div><dt>本店・1号店</dt><dd>垂井本店は岐阜県不破郡垂井町宮代441。</dd></div></dl>
+<p class="relation">グルマンマルセ株式会社のベーカリー事業。垂井本店の案内では「グルニエ垂井店」も併記される。</p>
+<p class="official"><a href="https://guruman.co.jp/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="青柳総本家" data-text="青柳総本家 愛知県名古屋市大須発祥、1879年創業。和菓子。青柳ういろう、カエルまんじゅうなど。喫茶Willowsを併設展開する。 愛知県名古屋市大須 愛知中心。東京への県外進出あり。">
+<h3>青柳総本家</h3>
+<p class="intro">愛知県名古屋市大須発祥、1879年創業。和菓子。青柳ういろう、カエルまんじゅうなど。喫茶Willowsを併設展開する。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市大須</dd></div><div><dt>創業</dt><dd>1879年（明治12年）</dd></div><div><dt>店舗数</dt><dd>愛知県内の直営店4店（大須本店、守山直営店、KITTE名古屋店、エスカ店）が確認できる。このほかに百貨店内の専門売場と関東の店舗があるが、正確な総数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知中心。東京への県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>大須本店は名古屋市中区大須2-18-50。創業地は大須門前通り。本社は名古屋市守山区瀬古1-919。</dd></div></dl>
+<p class="relation">公式で確認できず。</p>
+<p class="official"><a href="https://www.aoyagiuirou.co.jp/about_us/history/" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="坂角総本舖" data-text="坂角総本舖 愛知県東海市横須賀町発祥、1889年創業。海老せんべい。代表商品は「ゆかり」。 愛知県東海市横須賀町 愛知中心に全国の百貨店へ展開。県外進出あり。">
+<h3>坂角総本舖</h3>
+<p class="intro">愛知県東海市横須賀町発祥、1889年創業。海老せんべい。代表商品は「ゆかり」。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県東海市横須賀町</dd></div><div><dt>創業</dt><dd>1889年（明治22年）</dd></div><div><dt>店舗数</dt><dd>直営店3店（本店、本社工場売店、葵店）が確認できる。このほかに全国の百貨店内に多数の売場があるが、正確な総数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>愛知中心に全国の百貨店へ展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>本店は愛知県東海市横須賀町三ノ割61。本社は愛知県東海市荒尾町甚造15-1。</dd></div></dl>
+<p class="relation">BANKAKU KITCHEN。</p>
+<p class="official"><a href="https://www.bankaku.co.jp/shop/pages/history.aspx" target="_blank" rel="noopener">公式サイト</a></p>
+</article><article class="card" data-name="両口屋是清" data-text="両口屋是清 愛知県名古屋市（那古野本町）発祥、1634年創業。和菓子。千なり、二人静、旅まくらなど。喫茶併設店もある。 愛知県名古屋市（那古野本町） 名古屋中心に全国の百貨店へ展開。県外進出あり。">
+<h3>両口屋是清</h3>
+<p class="intro">愛知県名古屋市（那古野本町）発祥、1634年創業。和菓子。千なり、二人静、旅まくらなど。喫茶併設店もある。</p>
+<dl class="specs"><div><dt>発祥地</dt><dd>愛知県名古屋市（那古野本町）</dd></div><div><dt>創業</dt><dd>1634年（寛永11年）</dd></div><div><dt>店舗数</dt><dd>名古屋、東京、大阪、その他に約85ヶ所（公式会社情報）。正確な現在数は公式で確認できず。</dd></div><div><dt>展開地域</dt><dd>名古屋中心に全国の百貨店へ展開。県外進出あり。</dd></div><div><dt>本店・1号店</dt><dd>創業地は名古屋の那古野本町。本社は名古屋市中区丸の内3-14-23。</dd></div></dl>
+<p class="relation">那古野茶屋、和菓子 結など。</p>
+<p class="official"><a href="https://ryoguchiya-korekiyo.co.jp/company/" target="_blank" rel="noopener">公式サイト</a></p>
+</article></div>
+</section></main>
+<p id="noresult" class="hidden">条件に合うチェーンがありません。</p>
+<footer>
+<p>収録基準：愛知・岐阜発祥／3店舗以上／現在営業中。山本屋は本店・総本家・大久手の3系統を別々に数えている。名古屋のチャオと豊橋のチャオ、カフェ しょぱんの江南系と岐阜系（岐阜系は2店舗のため未収録）など、同名でも系統が違うものは分けて扱った。店舗数は確認方法によって変わるため、各カードに確認した内容をそのまま書いている。</p>
+<p><a href="/tools/">ツール一覧へ戻る</a></p>
+</footer>
+</div>
+<script>
+(function(){
+  var q = document.getElementById('q');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.genre'));
+  var noresult = document.getElementById('noresult');
+  var genre = 'all';
+  function apply(){
+    var word = q.value.trim();
+    var anyVisible = false;
+    sections.forEach(function(sec){
+      var showGenre = (genre === 'all' || sec.getAttribute('data-genre') === genre);
+      var visible = 0;
+      Array.prototype.forEach.call(sec.querySelectorAll('.card'), function(card){
+        var hit = !word || card.getAttribute('data-text').indexOf(word) !== -1;
+        var show = showGenre && hit;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      sec.classList.toggle('hidden', visible === 0);
+      if (visible > 0) anyVisible = true;
+    });
+    noresult.classList.toggle('hidden', anyVisible);
+  }
+  q.addEventListener('input', apply);
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      genre = chip.getAttribute('data-genre');
+      apply();
+    });
+  });
+})();
+</script>
+</body>
+</html>
